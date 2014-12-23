@@ -9,7 +9,7 @@ public:
     Profilo profile;
     Rete* net;
     Username username;
-    Utente( Username un ) : username( un ) {}
+    Utente( Username );
     virtual ~Utente() {}
 };
 

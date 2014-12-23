@@ -6,8 +6,8 @@
 class Rete {
 public:
     vector<SmartUtente> net;
-    void add( Username us ) {}
-    void remove( Username us ) {}
+    void add( Username ) {}
+    void remove( Username ) {}
 };
 
 #endif

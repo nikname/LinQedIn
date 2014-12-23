@@ -1,6 +1,7 @@
 #ifndef SMART_UTENTE_H
 #define SMART_UTENTE_H
-#include "utente.h"
+
+class Utente;
 
 class SmartUtente {
 public:

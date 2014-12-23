@@ -26,6 +26,9 @@ HEADERS  += mainwindow.h \
     utente_pagante.h \
     utente_basic.h \
     utente_express.h \
-    utente_business.h
+    utente_business.h \
+    esperienza.h \
+    data.h \
+    titolo_studio.h
 
 FORMS    += mainwindow.ui

@@ -1,5 +1,9 @@
 #include "mainwindow.h"
 #include <QApplication>
+#include <iostream>
+#include <string>
+#include <vector>
+#include "utente.h"
 
 int main(int argc, char *argv[])
 {
