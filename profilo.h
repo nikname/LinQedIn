@@ -2,36 +2,23 @@
 #define PROFILO_H
 #include <string>
 #include "info.h"
-#include "esperienza.h"
-#include "data.h"
-#include "titolo_studio.h"
 
 class Profilo {
 private:
-    string name;
-    string surname;
-    Data birthday;
-    string maritialStatus;
-    std::vector<Esperienza> experiences;
-    std::vector<TitoloStudio> educations;
-    std::vector<string> interests;
+    Info info;
 public:
-    string getName() const;
-    string getSurname() const;
-    Data getBirthday() const;
-    string getMaritialStatus() const;
-    string getExperiences() const;
-    string getEducations() const;
-    string getInterests() const;
-    void setName( string );
-    void setSurname( string );
-    void setBirthday( Data );
-    void setMaritialStatus( bool );
-    void addExperiences( string );
-    void addEducations( string );
-    void addInterests( string );
-    void modificaProfilo();
-    Info* visualizzaProfilo() const;
+    /** Costruttore ad 1 parametro. Costruttore di default non disponibile.
+     *
+     * @param Info  Informazioni del profilo dell'utente.
+     */
+    Profilo( Info i ) : info( i ) {}
+    /** Modifica le informazioni del profilo. */
+    void modifyProfile();
+    /** Ritorna le informazioni associate al profilo dell'utente.
+     *
+     * @return Info*  Le informazioni del profilo associato all'utente.
+     */
+    Info* getProfile() const;
 };
 
 #endif

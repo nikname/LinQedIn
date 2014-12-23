@@ -3,10 +3,10 @@
 #include <iostream>
 #include <string>
 
-using namespace std;
+using std::string;
+using std::ostream;
 
 class Data {
-
 private:
     /** Giorno della data. */
     string day;
@@ -14,7 +14,6 @@ private:
     string month;
     /** Anno della data. */
     string year;
-
 public:
     /** Costruttore a 3 parametri. Nonostante comprenda il costruttore di default sono accettate solo le date che comprendono .
      *

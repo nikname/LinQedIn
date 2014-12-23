@@ -3,7 +3,7 @@
 #include <string>
 #include "data.h"
 
-using namespace std;
+using std::string;
 
 class Esperienza {
 private:

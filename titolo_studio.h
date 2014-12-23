@@ -1,7 +1,11 @@
 #ifndef TITOLO_STUDIO_H
 #define TITOLO_STUDIO_H
 #include <string>
+#include <vector>
 #include "data.h"
+
+using std::string;
+using std::vector;
 
 class TitoloStudio {
 private:
@@ -10,7 +14,7 @@ private:
     string degree;
     string fieldOfStudy;
     string grade;
-    std::vector<string> activities;
+    vector<string> activities;
     string Description;
 public:
     TitoloStudio( string, Data = Data(), string = "", string = "", string = "", string = "", string = "" );
