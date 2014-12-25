@@ -1,11 +1,19 @@
 #ifndef SMART_UTENTE_H
 #define SMART_UTENTE_H
 
-class Utente; //dichiarazione incompleta?
+class Utente;
 
 class SmartUtente {
-public:
+private:
     Utente* user;
+public:
+    Utente* getUser() const {
+        return user;
+    }
 };
+
+ostream& operator<< ( ostream& os, SmartUtente) {
+    return os;
+}
 
 #endif

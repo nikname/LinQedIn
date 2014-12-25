@@ -5,20 +5,30 @@
 
 class Profilo {
 private:
-    Info info;
+    Info* info;
 public:
-    /** Costruttore ad 1 parametro. Costruttore di default non disponibile.
+    /** Costruttore di default. Associa al profilo dei campi informazione vuoti. */
+    Profilo() : info( new Info() ) {}
+    /** Costruttore ad 1 parametro.
      *
      * @param Info  Informazioni del profilo dell'utente.
      */
-    Profilo( Info i ) : info( i ) {}
+    Profilo( Info* i ) : info( i ) {}
     /** Modifica le informazioni del profilo. */
-    void modifyProfile();
+    void setInfo( Info* i ) {
+        //TODO: ridefinizione di operator= (?)
+        info->setName( i->getName() );
+        info->setSurname( i->getSurname() );
+        info->setBirthday( i->getBirthday() );
+        info->setMaritialStatus( i->getMaritialStatus() );
+    }
     /** Ritorna le informazioni associate al profilo dell'utente.
      *
      * @return Info*  Le informazioni del profilo associato all'utente.
      */
-    Info* getProfile() const;
+    Info* getInfo() const {
+        return info;
+    }
 };
 
 #endif
