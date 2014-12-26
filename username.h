@@ -3,45 +3,31 @@
 #include <iostream>
 #include <string>
 
-using std::string;
 using std::ostream;
+using std::string;
 
 class Username {
 private:
     string login;
-    string email;
 public:
-    /** Costruttore ad 2 parametri con 1 parametro di default.
+    /** Costruttore ad 1 parametro.
      *  Costruttore di default non disponibile.
      *
      * @param string l  Login dell'utente.
-     * @param string e  Email dell'utente.
      */
-    Username( string l, string e = "" ) : login( l ), email( e ) {}
+    Username( string );
 
     /** Ritorna la login associata all'utente.
      *
      * @return string  Login associata all'utente.
      */
-    string getLogin() const {
-        return login;
-    }
+    string getLogin() const;
 
-    /** Ritorna l'email associata all'utente.
+    /** Modifica la login associata all'utente.
      *
-     * @return string  Email associata all'utente.
+     * @param string l  Login associata all'utente.
      */
-    string getEmail() const {
-        return email;
-    }
-
-    /** Modifica l'email associata all'utente.
-     *
-     * @param string e  Email associata all'utente.
-     */
-    void setEmail( string e ) {
-        email = e;
-    }
+    void changeLogin( string );
 };
 
 /** Overloading dell'operatore di output.
@@ -51,8 +37,6 @@ public:
  * @param Username un  Username del quale si stampano le informazioni.
  * @return ostream&  ostream passato per riferimento.
  */
-ostream& operator<< ( ostream& os, Username un ) {
-    return os << "LOGIN: " << un.getLogin() << "\nEMAIL: " << un.getEmail();
-}
+ostream& operator<< ( ostream&, Username );
 
 #endif

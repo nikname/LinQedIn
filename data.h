@@ -12,37 +12,34 @@ private:
     string month;
     string year;
 public:
-    /** Costruttore a 3 parametri. Nonostante comprenda il costruttore di default sono accettate solo le date che comprendono .
+    /** Costruttore di default. */
+    Data();
+
+    /** Costruttore a 3 parametri.
      *
      * @param string  Giorno della data. Valore di default "".
      * @param string  Mese della data. Valore di default "".
      * @param string  Anno della data. Valore di default "".
      */
-    Data( string d = "", string m = "", string y = "" ) : day(d), month(m), year(y) {}
+    Data( string, string, string );
 
     /** Ritorna il giorno del mese.
      *
      * @return string  Giorno della data.
      */
-    string getDay() const {
-        return day;
-    }
+    string getDay() const;
 
     /** Ritorna il mese della data.
      *
      * @return string  Mese della data.
      */
-    string getMonth() const {
-        return month;
-    }
+    string getMonth() const;
 
     /** Ritorna l'anno della data.
      *
      * @return string  Anno della data.
      */
-    string getYear() const {
-        return year;
-    }
+    string getYear() const;
 
     /** Imposta il giorno della data.
      *
@@ -62,13 +59,6 @@ public:
      */
     void setYear( string );
 
-    /** Confronta la data dell'oggetto di invocazione con quella passata come parametro.
-     *
-     * @param Data  Data da confrontare con quella dell'oggetto di invocazione.
-     * @return int  1 in caso la data dell'oggetto di invocazione sia maggiore di quella passata come parametro, 0 se uguali, -1 altrimenti.
-     */
-    int compare( Data ) const;
-
     string toString() const {
         string data;
         if( !getDay().empty() && !getMonth().empty() ) {
@@ -81,6 +71,27 @@ public:
         return data;
     }
 
+    /** Overloading dell'operatore <. Confronta due date.
+     *
+     * @param const Data&  Data da confrontare.
+     * @return bool  true se l'oggetto Data di invocazione è minore del parametro di tipo Data; false altrimenti.
+     */
+    bool operator <( const Data& ) const;
+
+    /** Overloading dell'operatore >. Confronta due date.
+     *
+     * @param const Data&  Data da confrontare.
+     * @return bool  true se l'oggetto Data di invocazione è maggiore del parametro di tipo Data; false altrimenti.
+     */
+    bool operator >( const Data& ) const;
+
+    /** Overloading dell'operatore ==. Contronta due date.
+     *
+     * @param const Data&  Data da confrontare.
+     * @return bool  true se l'oggetto Data di invocazione è uguale al parametro di tipo Data; false altrimenti.
+     */
+    bool operator ==( const Data& ) const;
+
     // Costruttore di copia di default. Non sono necessarie copie profonde.
 };
 
@@ -90,8 +101,6 @@ public:
  * @param Data  Istanza della classe Data da stampare su standard output.
  * @return ostream  ostream per riferimento.
  */
-ostream& operator<< ( ostream& os, const Data& d ) {
-    return os << d.getDay() << "/" << d.getMonth() << "/" << d.getYear();
-}
+ostream& operator <<( ostream&, const Data& );
 
 #endif // DATA_H

@@ -2,9 +2,9 @@
 #define UTENTE_H
 #include <iostream>
 #include <string>
+#include "username.h"
 #include "profilo.h"
 #include "rete.h"
-#include "username.h"
 
 using std::ostream;
 using std::string;
@@ -70,7 +70,8 @@ public:
     }
 };
 
-/** Oveloading operatore di output. Stampa su standard output tutte le informazioni associate all'utente.
+/** Oveloading operatore di output.
+ *  Stampa su standard output tutte le informazioni associate all'utente.
  *
  * @param ostream& os  ostream passato per riferimento.
  * @param Utente u  Utente del quale vengono stampate le informazioni.
@@ -79,7 +80,7 @@ public:
 ostream& operator<< ( ostream& os, Utente u ) {
     return os << "*** PROFILO UTENTE ***\n"
               << u.getUsername() << "\n"
-              << (u.getProfile()).getInfo() << "\n"
+              << u.getProfile() << "\n"
               << u.getNet();
 }
 

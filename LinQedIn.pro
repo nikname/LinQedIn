@@ -13,11 +13,13 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        mainwindow.cpp
+        mainwindow.cpp \
+    profilo.cpp \
+    username.cpp \
+    data.cpp
 
 HEADERS  += mainwindow.h \
     profilo.h \
-    info.h \
     rete.h \
     smart_utente.h \
     username.h \

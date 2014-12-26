@@ -1,34 +1,34 @@
 #ifndef PROFILO_H
 #define PROFILO_H
+#include <iostream>
 #include <string>
-#include "info.h"
+#include <vector>
+
+using std::ostream;
+using std::vector;
+
+class Info; //Dichiarazione incompleta
 
 class Profilo {
 private:
-    Info* info;
+    Info* info; //Information hiding!
 public:
     /** Costruttore di default. Associa al profilo dei campi informazione vuoti. */
-    Profilo() : info( new Info() ) {}
+    Profilo();
     /** Costruttore ad 1 parametro.
      *
-     * @param Info  Informazioni del profilo dell'utente.
+     * @param Info* i  Informazioni del profilo dell'utente.
      */
-    Profilo( Info* i ) : info( i ) {}
+    Profilo( Info* );
     /** Modifica le informazioni del profilo. */
-    void setInfo( Info* i ) {
-        //TODO: ridefinizione di operator= (?)
-        info->setName( i->getName() );
-        info->setSurname( i->getSurname() );
-        info->setBirthday( i->getBirthday() );
-        info->setMaritialStatus( i->getMaritialStatus() );
-    }
+    void setInfo( Info* );
     /** Ritorna le informazioni associate al profilo dell'utente.
      *
      * @return Info*  Le informazioni del profilo associato all'utente.
      */
-    Info* getInfo() const {
-        return info;
-    }
+    Info* getInfo() const;
 };
+
+ostream& operator<< ( ostream&, Profilo );
 
 #endif
