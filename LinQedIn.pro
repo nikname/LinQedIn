@@ -16,7 +16,8 @@ SOURCES += main.cpp\
         mainwindow.cpp \
     profilo.cpp \
     username.cpp \
-    data.cpp
+    data.cpp \
+    utente.cpp
 
 HEADERS  += mainwindow.h \
     profilo.h \

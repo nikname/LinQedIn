@@ -1,5 +1,6 @@
 #include "username.h"
 
+using std::ostream;
 using std::string;
 
 Username::Username( string l ) : login( l ) {}

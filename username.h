@@ -13,7 +13,7 @@ public:
     /** Costruttore ad 1 parametro.
      *  Costruttore di default non disponibile.
      *
-     * @param string l  Login dell'utente.
+     * @param string  Login dell'utente.
      */
     Username( string );
 
@@ -25,7 +25,7 @@ public:
 
     /** Modifica la login associata all'utente.
      *
-     * @param string l  Login associata all'utente.
+     * @param string  Login associata all'utente.
      */
     void changeLogin( string );
 };
@@ -33,9 +33,9 @@ public:
 /** Overloading dell'operatore di output.
  *  Mostra sullo standard output tutte le informazioni collegate all'username.
  *
- * @param ostream& os  ostream passato per riferimento.
- * @param Username un  Username del quale si stampano le informazioni.
- * @return ostream&  ostream passato per riferimento.
+ * @param ostream&  ostream passato per riferimento.
+ * @param Username  Username del quale si stampano le informazioni.
+ * @return ostream&  ostream per riferimento.
  */
 ostream& operator<< ( ostream&, Username );
 

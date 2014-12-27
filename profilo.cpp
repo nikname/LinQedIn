@@ -1,13 +1,10 @@
 #include "profilo.h"
-#include "esperienza.h"
-#include "data.h"
-#include "titolo_studio.h"
 
 using std::ostream;
 using std::string;
 using std::vector;
 
-class Info {
+class Profilo::Info {
 public:
     string name;
     string surname;
@@ -17,48 +14,60 @@ public:
     vector<TitoloStudio> educations;
     vector<string> interests;
 
-    /** Costruttore a 4 parametri con 4 parametri di default.
+    /** Costruttore a 4 parametri con 2 parametri di default.
+     *  Richiesti nome e cognome.
      *
      * @param string name  Nome dell'utente.
      * @param string surname  Cognome dell'utente.
      * @param Data  birthday  Data di nascita dell'utente.
      * @param string maritialStatus  Stato civile dell'utente.
      */
-    Info( string nome = "", string cognome = "", Data dataNascita = Data(), string statoCivile = "" ) :
-        name( nome ), surname( cognome ), birthday( dataNascita ), maritialStatus( statoCivile ) {}
+    Info( string nome = "", string cognome = "", Data compleanno = Data(), string statoCivile = "" ) :
+        name( nome ), surname( cognome ), birthday( compleanno ), maritialStatus( statoCivile ) {}
 };
-
-/** Overloading dell'operatore <<. Stampa su standard output le informazioni collegate all'utente.
- *
- * @param ostream& os  ostream passato per riferimento.
- * @param Info* i  Informazioni collegate all'utente.
- * @return ostream&  ostream passato per riferimento.
- */
-ostream& operator<< ( ostream& os, Info* i ) {
-    return os << "UTENTE: " << i->name << " " << i->surname
-              << "\nDATA NASCITA: " << i->birthday
-              << "\nSTATO CIVILE: " <<i->maritialStatus;
-}
 
 Profilo::Profilo() {
     info = new Info();
 }
 
-Profilo::Profilo( Info* i ) {
-    setInfo( i );
+Profilo::Profilo( string nome, string cognome, Data compleanno = Data(), string statoCivile = "" ) {
+    info = new Info( nome, cognome, compleanno, statoCivile );
 }
 
-void Profilo::setInfo( Info* i ) {
-    info->name = i->name;
-    info->surname = i->surname;
-    info->birthday = i->birthday;
-    info->maritialStatus = i->maritialStatus;
+string Profilo::getName() const {
+    return info->name;
 }
 
-Info* Profilo::getInfo() const {
-    return info;
+string Profilo::getSurname() const {
+    return info->surname;
 }
 
-ostream& operator<< ( ostream& os, Profilo p ) {
-    return os << p.getInfo();
+Data Profilo::getBirthday() const {
+    return info->birthday;
+}
+
+string Profilo::getMaritialStatus() const {
+    return info->maritialStatus;
+}
+
+void Profilo::setName( string n ) {
+    info->name = n;
+}
+
+void Profilo::setSurname( string s ) {
+    info->surname = s;
+}
+
+void Profilo::setBirthday( Data b ) {
+    info->birthday = b;
+}
+
+void Profilo::setMaritialStatus( string ms ) {
+    info->maritialStatus = ms;
+}
+
+ostream& operator <<( ostream& os, Profilo p ) {
+    return os << "UTENTE: " << p.info->name << " " << p.info->surname << "\n"
+              << "DATA NASCITA: " << p.info->birthday << "\n"
+              << "STATO CIVILE: " << p.info->maritialStatus;
 }

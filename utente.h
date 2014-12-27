@@ -15,73 +15,58 @@ private:
     Profilo profile;
     Rete* net;
 public:
-    /** Costruttore ad 3 parametri con 2 parametri di default.
+    /** Costruttore ad 3 parametri con due parametri di default.
      *  Costruttore di default non disponibile.
      *
-     * @param Username u  Username del contatto.
-     * @param Profilo p  Profilo dell'utente.
-     * @param Rete* r  Rete di utenti che compongono i contatti dell'utente.
+     * @param Username  Username dell'utente.
+     * @param Profilo  Profilo dell'utente.
+     * @param Rete*  Rete di utenti che compongono i contatti dell'utente.
      */
-    Utente( Username u, Profilo p = Profilo(), Rete* r = new Rete() )
-        : username( u ), profile( p ), net( r ) {}
+    Utente( Username, Profilo, Rete* );
 
-    /** Distruttore virtuale di Utente. */
-    virtual ~Utente() {}
+    /** Distruttore virtuale di Utente.
+     *  Ripulisce lo heap deallocando net.
+     */
+    virtual ~Utente();
 
     /** Ritorna l'username dell'utente.
      *
      * @return Username  Username dell'utente.
      */
-    Username getUsername() {
-        return username;
-    }
+    Username getUsername() const;
 
     /** Ritorna il profilo dell'utente.
      *
      * @return Profilo  Profilo dell'utente.
      */
-    Profilo getProfile() {
-        return profile;
-    }
+    Profilo getProfile() const;
 
     /** Ritorna la rete dei contatti dell'utente.
      *
      * @return Rete*  Rete dei contatti dell'utente.
      */
-    Rete* getNet() {
-        return net;
-    }
+    Rete* getNet() const;
 
     /** Aggiunge un contatto alla lista dei contatti.
      *
      * @param Username  Username dell'utente da aggiungere alla lista dei contatti.
      */
-    void addContact( Username u ) {
-        //TODO: controlla la presenza dell'utente nel database
-        net->add( u );
-    }
+    void addContact( Username );
 
     /** Rimuove (se esiste) un contatto dalla lista dei contatti.
      *
      * @param Username  Username dell'utente da rimuovere dalla lista dei contatti.
      */
-    void removeContact( Username u ) {
-        net->remove( u );
-    }
+    void removeContact( Username );
 };
 
 /** Oveloading operatore di output.
  *  Stampa su standard output tutte le informazioni associate all'utente.
  *
- * @param ostream& os  ostream passato per riferimento.
- * @param Utente u  Utente del quale vengono stampate le informazioni.
- * @return ostream&  ostream passato per riferimento.
+ * @param ostream&  ostream passato per riferimento.
+ * @param Utente  Utente del quale vengono stampate le informazioni.
+ * @return ostream&  ostream per riferimento.
  */
-ostream& operator<< ( ostream& os, Utente u ) {
-    return os << "*** PROFILO UTENTE ***\n"
-              << u.getUsername() << "\n"
-              << u.getProfile() << "\n"
-              << u.getNet();
-}
+ostream& operator <<( ostream&, Utente );
 
 #endif

@@ -14,15 +14,22 @@ class Rete {
 private:
     vector<SmartUtente> contacts;
 public:
-    /** */
-    vector<SmartUtente> getContacts() const {
-        return contacts;
-    }
+    /** Ritorna la lista dei contatti.
+     *
+     * @return vector<SmartUtente>  Lista dei contatti.
+     */
+    vector<SmartUtente> getContacts() const;
 
-    /** */
+    /** Aggiunge un contatto alla lista dei contatti.
+     *
+     * @param Username  Username del contatto da aggiungere.
+     */
     void add( Username );
 
-    /** */
+    /** Rimuove un contatto dalla lista dei contatti.
+     *
+     * @param Username  Username del contatto da rimuovere.
+     */
     void remove( Username );
 };
 

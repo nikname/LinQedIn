@@ -1,6 +1,10 @@
 #include "data.h"
 
-Data::Data() {}
+Data::Data() {
+    day = "";
+    month = "";
+    year = "";
+}
 
 Data::Data(string d, string m, string y ) : day(d), month(m), year(y) {}
 

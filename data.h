@@ -91,8 +91,6 @@ public:
      * @return bool  true se l'oggetto Data di invocazione è uguale al parametro di tipo Data; false altrimenti.
      */
     bool operator ==( const Data& ) const;
-
-    // Costruttore di copia di default. Non sono necessarie copie profonde.
 };
 
 /** Stampa su standard output la data nel formato dd/mm/yyyy.

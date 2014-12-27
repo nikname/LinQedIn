@@ -3,32 +3,54 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include "esperienza.h"
+#include "data.h"
+#include "titolo_studio.h"
 
 using std::ostream;
-using std::vector;
+using std::string;
 
-class Info; //Dichiarazione incompleta
 
 class Profilo {
 private:
+    class Info; //Dichiarazione incompleta
     Info* info; //Information hiding!
 public:
-    /** Costruttore di default. Associa al profilo dei campi informazione vuoti. */
+
     Profilo();
-    /** Costruttore ad 1 parametro.
+
+    /** Costruttore a 4 parametro con 2 parametri di default.
      *
-     * @param Info* i  Informazioni del profilo dell'utente.
+     * @param Info*  Informazioni del profilo dell'utente.
      */
-    Profilo( Info* );
-    /** Modifica le informazioni del profilo. */
-    void setInfo( Info* );
-    /** Ritorna le informazioni associate al profilo dell'utente.
-     *
-     * @return Info*  Le informazioni del profilo associato all'utente.
-     */
-    Info* getInfo() const;
+    Profilo( string, string, Data, string );
+
+    string getName() const;
+
+    string getSurname() const;
+
+    Data getBirthday() const;
+
+    string getMaritialStatus() const;
+
+    void setName( string );
+
+    void setSurname( string );
+
+    void setBirthday( Data );
+
+    void setMaritialStatus( string );
+
+    friend ostream& operator <<( ostream&, Profilo );
 };
 
-ostream& operator<< ( ostream&, Profilo );
+/** Overloading dell'operatore <<.
+ *  Stampa su standard output le informazioni associate al profilo.
+ *
+ * @param ostream&  ostream passato per riferimento.
+ * @param Profilo  Profilo dell'utente del quale verranno stampate le informazioni.
+ * @return ostream&  ostream per riferimento.
+ */
+ostream& operator <<( ostream&, Profilo );
 
 #endif
