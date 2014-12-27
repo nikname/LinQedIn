@@ -23,7 +23,6 @@ SOURCES += main.cpp\
 HEADERS  += mainwindow.h \
     profilo.h \
     rete.h \
-    smart_utente.h \
     username.h \
     utente.h \
     utente_gratis.h \
