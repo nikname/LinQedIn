@@ -32,18 +32,18 @@ public:
      */
     void remove( Username );
 };
-
+/*
 ostream& operator<< ( ostream& os, Rete* r ) {
     string out = "CONTATTI: ";
-    /*for( unsigned i = 0; i < (r->getContacts()).size(); i++ ) {
+    for( unsigned i = 0; i < (r->getContacts()).size(); i++ ) {
         if( i == (r->getContacts()).size()-1 )
             out += (r->getContacts())[i];
         else {
             out += ", ";
             out += ((r->getContacts())[i]);
         }
-    }*/
+    }
     return os << out;
-}
+}*/
 
 #endif

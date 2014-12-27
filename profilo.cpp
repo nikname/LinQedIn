@@ -14,23 +14,18 @@ public:
     vector<TitoloStudio> educations;
     vector<string> interests;
 
-    /** Costruttore a 4 parametri con 2 parametri di default.
-     *  Richiesti nome e cognome.
+    /** Costruttore a 4 parametri.
      *
      * @param string name  Nome dell'utente.
      * @param string surname  Cognome dell'utente.
      * @param Data  birthday  Data di nascita dell'utente.
      * @param string maritialStatus  Stato civile dell'utente.
      */
-    Info( string nome = "", string cognome = "", Data compleanno = Data(), string statoCivile = "" ) :
+    Info( const string& nome, const string& cognome, const Data& compleanno, const string& statoCivile ) :
         name( nome ), surname( cognome ), birthday( compleanno ), maritialStatus( statoCivile ) {}
 };
 
-Profilo::Profilo() {
-    info = new Info();
-}
-
-Profilo::Profilo( string nome, string cognome, Data compleanno = Data(), string statoCivile = "" ) {
+Profilo::Profilo( const string& nome, const string& cognome, const Data& compleanno, const string& statoCivile ) {
     info = new Info( nome, cognome, compleanno, statoCivile );
 }
 

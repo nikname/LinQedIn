@@ -2,7 +2,7 @@
 
 using std::ostream;
 
-Utente::Utente( Username u, Profilo p = Profilo(), Rete* r = new Rete() ) :
+Utente::Utente( Username u, Profilo p, Rete* r ) :
     username( u ), profile( p ), net( r ) {}
 
 Utente::~Utente() {
@@ -23,16 +23,16 @@ Rete* Utente::getNet() const {
 
 void Utente::addContact( Username u ) {
     //TODO: controlla la presenza dell'utente nel database
-    net->add( u );
+    //net->add( u );
 }
 
 void Utente::removeContact( Username u ) {
-    net->remove( u );
+    //net->remove( u );
 }
 
 ostream& operator<< ( ostream& os, Utente u ) {
     return os << "*** PROFILO UTENTE ***\n\n"
               << u.getUsername() << "\n"
-              << u.getProfile() << "\n"
-              << u.getNet();
+              << u.getProfile() << "\n";
+              //<< u.getNet();
 }

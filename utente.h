@@ -15,14 +15,14 @@ private:
     Profilo profile;
     Rete* net;
 public:
-    /** Costruttore ad 3 parametri con due parametri di default.
+    /** Costruttore ad 3 parametri con 2 parametri di default.
      *  Costruttore di default non disponibile.
      *
      * @param Username  Username dell'utente.
      * @param Profilo  Profilo dell'utente.
      * @param Rete*  Rete di utenti che compongono i contatti dell'utente.
      */
-    Utente( Username, Profilo, Rete* );
+    Utente( Username, Profilo = Profilo(), Rete* = new Rete() );
 
     /** Distruttore virtuale di Utente.
      *  Ripulisce lo heap deallocando net.

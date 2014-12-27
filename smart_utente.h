@@ -1,6 +1,10 @@
 #ifndef SMART_UTENTE_H
 #define SMART_UTENTE_H
 
+#include <iostream>
+
+using std::ostream;
+
 class Utente;
 
 class SmartUtente {
@@ -11,9 +15,9 @@ public:
         return user;
     }
 };
-
-ostream& operator<< ( ostream& os, SmartUtente) {
+/*
+ostream& operator<< ( ostream& os, SmartUtente su ) {
     return os;
 }
-
+*/
 #endif

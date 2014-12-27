@@ -3,7 +3,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
-#include "utente.cpp"
+#include "utente.h"
 
 using std::cout;
 using std::endl;
@@ -14,7 +14,8 @@ int main(int argc, char *argv[])
     MainWindow w;
     w.show();
 
-    Utente u( Username( "dalla.costa.nicola@gmail.com" ), Profilo( "Nicola", "Dalla Costa", Data( "01", "12", "1993" ), "Single" ) );
+    Profilo p( "Nicola", "Dalla Costa" );
+    Utente u( Username( "dalla.costa.nicola@gmail.com" ), p );
     cout << u << endl;
 
     return a.exec();
