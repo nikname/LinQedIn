@@ -8,10 +8,8 @@ public:
     Username username;
     SmartUtente* next;
 
-    /** Costruttore di default. */
-    SmartUtente() : username( "" ), next( 0 ) {}
-
     /** Costruttore a 2 parametri.
+     *  Costruttore di default non disponibile.
      *
      * @param Username  Username dell'utente da aggiungere alla lista.
      */
@@ -51,20 +49,16 @@ Rete::Iteratore& Rete::Iteratore::operator ++( int ) {
 Rete::Rete() : first( 0 ) {}
 
 void Rete::add( Username u ) {
-    first = new Rete::SmartUtente( u, first );
+    first = new SmartUtente( u, first );
+    std::cout << first->username.getLogin() << std::endl;
 }
 
 void Rete::remove( Username u ) {
     for( Rete::Iteratore it = begin(); it != end(); ++it ) {
-        //if( this[it] == u.getLogin() ) {
+        if( (*this)[it].getLogin() == u.getLogin() ) {
            //delete it;
-        //}
+        }
     }
-}
-
-string Rete::getContactsList() const {
-    //TODO: Creare la lista dei contatti separati da ","
-    return string();
 }
 
 Rete::Iteratore Rete::begin() const {
@@ -79,11 +73,17 @@ Rete::Iteratore Rete::end() const {
     return aux;
 }
 
-Username Rete::operator []( Rete::Iteratore it ) const {
-    //TODO: if( it.punt )
-    return ( it.punt )->username;
+Username& Rete::operator []( Rete::Iteratore it ) const {
+    return ( ( it.punt )->username );
 }
 
-ostream& operator <<( ostream& os, Rete* r ) {
-    return os << "CONTATTI: " << r->getContactsList();
+ostream& operator <<( ostream& os, Rete r ) {
+    string out;
+    for( Rete::Iteratore it = r.begin(); it != r.end(); ++it ) {
+        if( ( it.punt )->next ) {
+            out += r[it].getLogin();
+            out += ", ";
+        } else out += r[it].getLogin();
+    }
+    return os << "CONTATTI: " << out;
 }

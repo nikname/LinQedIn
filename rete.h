@@ -14,6 +14,7 @@ private:
 public:
     class Iteratore {
         friend class Rete;
+        friend ostream& operator <<( ostream&, Rete );
     private:
         Rete::SmartUtente* punt;
     public:
@@ -60,12 +61,6 @@ public:
      */
     void remove( Username );
 
-    /** Ritorna una lista dei contatti separati da ",".
-     *
-     * @return string  Lista dei contatti separati da ",".
-     */
-    string getContactsList() const;
-
     /** Ritorna un'iteratore al primo elemento della lista.
      *
      * @return Iteratore  Iteratore al primo elemento della lista.
@@ -83,18 +78,18 @@ public:
      * @param Iteratore  Iteratore ad un elemento della lista.
      * @return Username  Username dell'utente nella posizione dell'iteratore.
      */
-    Username operator []( Iteratore ) const;
+    Username& operator []( Iteratore ) const;
 
-    friend ostream& operator <<( ostream&, Rete* );
+    friend ostream& operator <<( ostream&, Rete );
 };
 
 /** Overloading dell'operatore <<.
  *  Stampa su standard output la lista dei contatti dell'utente.
  *
  * @param ostream&  ostream passato per riferimento.
- * @param Rete*  Rete dei contatti dell'utente.
+ * @param Rete  Rete dei contatti dell'utente.
  * @return ostream&  ostream per riferimento.
  */
-ostream& operator <<( ostream&, Rete* );
+ostream& operator <<( ostream&, Rete );
 
 #endif
