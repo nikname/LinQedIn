@@ -2,10 +2,7 @@
 #define PROFILO_H
 #include <iostream>
 #include <string>
-#include <vector>
-#include "esperienza.h"
 #include "data.h"
-#include "titolo_studio.h"
 
 using std::ostream;
 using std::string;
@@ -13,14 +10,20 @@ using std::string;
 
 class Profilo {
 private:
-    class Info; //Dichiarazione incompleta
-    Info* info; //Information hiding!
+    class InfoPersonali;
+    InfoPersonali* personalInfo;
 public:
     /** Costruttore a 4 parametro con 2 parametri di default.
      *
-     * @param Info*  Informazioni del profilo dell'utente.
+     * @param string  Nome dell'utente.
+     * @param string  Cognome dell'utente.
+     * @param Data()  Data di nascita dell'utente.
+     * @param string  Stato civile dell'utente.
      */
-    Profilo(const string& = "", const string& = "", const Data& = Data(), const string& = "");
+    Profilo( const string& = "",
+             const string& = "",
+             const Data& = Data(),
+             const string& = "" );
 
     /** Ritorna il nome dell'utente.
      *
@@ -77,7 +80,7 @@ public:
  *  Stampa su standard output le informazioni associate al profilo.
  *
  * @param ostream&  ostream passato per riferimento.
- * @param Profilo  Profilo dell'utente del quale verranno stampate le informazioni.
+ * @param Profilo  Profilo dell'utente.
  * @return ostream&  ostream per riferimento.
  */
 ostream& operator <<( ostream&, Profilo );

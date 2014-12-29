@@ -25,29 +25,6 @@ public:
     }
 };
 
-bool Rete::Iteratore::operator ==( Iteratore it ) const {
-    return punt == it.punt;
-}
-
-bool Rete::Iteratore::operator !=( Iteratore it ) const {
-    return punt != it.punt;
-}
-
-Rete::Iteratore& Rete::Iteratore::operator ++() {
-    if( punt )
-        punt = punt->next;
-    return *this;
-}
-
-Rete::Iteratore& Rete::Iteratore::operator ++( int ) {
-    Iteratore aux = *this;
-    if( punt )
-        punt = punt->next;
-    return aux;
-}
-
-Rete::Rete() : first( 0 ) {}
-
 void Rete::add( Username u ) {
     first = new SmartUtente( u, first );
     std::cout << first->username.getLogin() << std::endl;
@@ -61,29 +38,10 @@ void Rete::remove( Username u ) {
     }
 }
 
-Rete::Iteratore Rete::begin() const {
-    Iteratore aux;
-    aux.punt = first;
-    return aux;
-}
-
-Rete::Iteratore Rete::end() const {
-    Iteratore aux;
-    aux.punt = 0;
-    return aux;
-}
-
-Username& Rete::operator []( Rete::Iteratore it ) const {
-    return ( ( it.punt )->username );
-}
+Rete::Rete() : first( 0 ) {}
 
 ostream& operator <<( ostream& os, Rete r ) {
-    string out;
-    for( Rete::Iteratore it = r.begin(); it != r.end(); ++it ) {
-        if( ( it.punt )->next ) {
-            out += r[it].getLogin();
-            out += ", ";
-        } else out += r[it].getLogin();
-    }
+    string out = "";
+    // ...
     return os << "CONTATTI: " << out;
 }

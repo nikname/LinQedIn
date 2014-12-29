@@ -16,7 +16,6 @@ SOURCES += main.cpp\
         mainwindow.cpp \
     profilo.cpp \
     username.cpp \
-    data.cpp \
     utente.cpp \
     rete.cpp
 
@@ -31,7 +30,6 @@ HEADERS  += mainwindow.h \
     utente_express.h \
     utente_business.h \
     esperienza.h \
-    data.h \
-    titolo_studio.h
+    formazione.h
 
 FORMS    += mainwindow.ui

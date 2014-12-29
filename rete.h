@@ -8,77 +8,27 @@ using std::ostream;
 using std::string;
 
 class Rete {
+    friend class Utente; // necessario per addContact( Username ) e removeContact( Username )
 private:
     class SmartUtente;
     SmartUtente* first;
-public:
-    class Iteratore {
-        friend class Rete;
-        friend ostream& operator <<( ostream&, Rete );
-    private:
-        Rete::SmartUtente* punt;
-    public:
-        /** Controlla se i due iteratori puntano allo stesso SmartUtente.
-         *
-         * @param Iteratore  Iteratore sulla lista dei contatti.
-         * @return bool  true se puntano allo stesso SmartUtente, false altrimenti.
-         */
-        bool operator ==( Iteratore ) const;
-
-        /** Controlla se i due iteratori puntano a SmartUtenti diversi.
-         *
-         * @param Iteratore  Iteratore sulla lista dei contatti.
-         * @return bool  true se puntano ad istanze di SmartUtente diverse, false altrimenti.
-         */
-        bool operator !=( Iteratore ) const;
-
-        /** Incremento prefisso. Avanza l'iteratore sulla lista dei contatti.
-         *
-         * @return Iteratore&  Iteratore sull'elemento successivo (se esiste).
-         */
-        Iteratore& operator ++();
-
-        /** Incremento postfisso. Ritorna un'iteratore sull'elemento successivo.
-         *
-         * @param int  Parametro fittizio per distinguere incremento prefisso e postfisso.
-         * @return Iteratore&  Iteratore sull'elemento successivo (se esiste).
-         */
-        Iteratore& operator ++( int );
-    };
-
-    /** Codstruttore di default. */
-    Rete();
 
     /** Aggiunge un contatto alla lista dei contatti.
+     *  Metodo privato invocato da Utente::addContact( Username ).
      *
      * @param Username  Username del contatto da aggiungere.
      */
     void add( Username );
 
     /** Rimuove un contatto dalla lista dei contatti.
+     *  Metodo privato invocato da Utente::removeContact( Username ).
      *
      * @param Username  Username del contatto da rimuovere.
      */
     void remove( Username );
-
-    /** Ritorna un'iteratore al primo elemento della lista.
-     *
-     * @return Iteratore  Iteratore al primo elemento della lista.
-     */
-    Iteratore begin() const;
-
-    /** Ritorna un'iteratore all'ultimo elemento della lista (vuoto).
-     *
-     * @return Iteratore  Iteratore all'ultimo elemento della lista.
-     */
-    Iteratore end() const;
-
-    /** Ritorna l'username dell'utente nella posizione dell'iteratore nella lista.
-     *
-     * @param Iteratore  Iteratore ad un elemento della lista.
-     * @return Username  Username dell'utente nella posizione dell'iteratore.
-     */
-    Username& operator []( Iteratore ) const;
+public:
+    /** Codstruttore di default. */
+    Rete();
 
     friend ostream& operator <<( ostream&, Rete );
 };

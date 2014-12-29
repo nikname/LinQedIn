@@ -2,17 +2,15 @@
 
 using std::ostream;
 using std::string;
-using std::vector;
 
-class Profilo::Info {
+// PROFILO - INFOPERSONALI
+
+class Profilo::InfoPersonali {
 public:
     string name;
     string surname;
     Data birthday;
     string maritialStatus;
-    vector<Esperienza> experiences;
-    vector<TitoloStudio> educations;
-    vector<string> interests;
 
     /** Costruttore a 4 parametri.
      *
@@ -21,48 +19,61 @@ public:
      * @param Data  birthday  Data di nascita dell'utente.
      * @param string maritialStatus  Stato civile dell'utente.
      */
-    Info( const string& nome, const string& cognome, const Data& compleanno, const string& statoCivile ) :
-        name( nome ), surname( cognome ), birthday( compleanno ), maritialStatus( statoCivile ) {}
+    InfoPersonali( const string& nome,
+                   const string& cognome,
+                   const Data& compleanno,
+                   const string& statoCivile ) :
+        name( nome ),
+        surname( cognome ),
+        birthday( compleanno ),
+        maritialStatus( statoCivile ) {}
 };
 
-Profilo::Profilo( const string& nome, const string& cognome, const Data& compleanno, const string& statoCivile ) {
-    info = new Info( nome, cognome, compleanno, statoCivile );
-}
+// PROFILO
+
+Profilo::Profilo( const string& nome,
+                  const string& cognome,
+                  const Data& compleanno,
+                  const string& statoCivile ) :
+    personalInfo( new InfoPersonali( nome, cognome, compleanno, statoCivile ) ) {}
 
 string Profilo::getName() const {
-    return info->name;
+    return personalInfo->name;
 }
 
 string Profilo::getSurname() const {
-    return info->surname;
+    return personalInfo->surname;
 }
 
 Data Profilo::getBirthday() const {
-    return info->birthday;
+    return personalInfo->birthday;
 }
 
 string Profilo::getMaritialStatus() const {
-    return info->maritialStatus;
+    return personalInfo->maritialStatus;
 }
 
 void Profilo::setName( string n ) {
-    info->name = n;
+    personalInfo->name = n;
 }
 
 void Profilo::setSurname( string s ) {
-    info->surname = s;
+    personalInfo->surname = s;
 }
 
 void Profilo::setBirthday( Data b ) {
-    info->birthday = b;
+    personalInfo->birthday = b;
 }
 
 void Profilo::setMaritialStatus( string ms ) {
-    info->maritialStatus = ms;
+    personalInfo->maritialStatus = ms;
 }
 
+// Altro
+
 ostream& operator <<( ostream& os, Profilo p ) {
-    return os << "UTENTE: " << p.info->name << " " << p.info->surname << "\n"
-              << "DATA NASCITA: " << p.info->birthday << "\n"
-              << "STATO CIVILE: " << p.info->maritialStatus;
+    return os << "UTENTE: " << p.personalInfo->name << " "
+                            << p.personalInfo->surname << "\n"
+              << "DATA NASCITA: " << p.personalInfo->birthday << "\n"
+              << "STATO CIVILE: " << p.personalInfo->maritialStatus;
 }

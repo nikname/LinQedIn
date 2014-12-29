@@ -1,5 +1,5 @@
-#ifndef TITOLO_STUDIO_H
-#define TITOLO_STUDIO_H
+#ifndef FORMAZIONE_H
+#define FORMAZIONE_H
 #include <string>
 #include <vector>
 #include "data.h"
@@ -7,7 +7,7 @@
 using std::string;
 using std::vector;
 
-class TitoloStudio {
+class Formazione {
 private:
     string school;
     Data dateAttended;
@@ -17,7 +17,7 @@ private:
     vector<string> activities;
     string Description;
 public:
-    TitoloStudio( string, Data = Data(), string = "", string = "", string = "", string = "", string = "" );
+    Formazione( string, Data = Data(), string = "", string = "", string = "", string = "", string = "" );
     string getSchool() const;
     Data getDateAttended() const;
     string getDegree() const;

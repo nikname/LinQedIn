@@ -16,6 +16,7 @@ int main(int argc, char *argv[])
 
     Utente u( Username( "nikname" ), Profilo( "Nicola", "Dalla Costa" ), Rete() );
     u.addContact( Username( "dalla.costa.nicola@gmail.com" ) );
+    u.addContact( Username( "nik.dalla.costa@gmail.com" ) );
     cout << u << endl;
 
     return a.exec();

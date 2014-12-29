@@ -1,28 +1,34 @@
 #ifndef UTENTE_H
 #define UTENTE_H
 #include <iostream>
-#include <string>
+#include <QString>
+#include <QDate>
 #include "username.h"
 #include "profilo.h"
 #include "rete.h"
+#include "formazione.h"
+#include "esperienza.h"
 
 using std::ostream;
-using std::string;
 
 class Utente {
 private:
     Username username;
     Profilo profile;
     Rete net;
+    Formazione educations;
+    Esperienza experiences;
 public:
-    /** Costruttore ad 3 parametri con 2 parametri di default.
+    /** Costruttore ad 2 parametri con 1 parametro di default.
+     *  Associa un'username e delle informazioni personali all'utente.
+     *  Invoca i costruttori di default per net, educations ed experiences.
      *  Costruttore di default non disponibile.
      *
      * @param Username  Username dell'utente.
      * @param Profilo  Profilo dell'utente.
-     * @param Rete  Rete di utenti che compongono i contatti dell'utente.
      */
-    Utente( const Username&, const Profilo& = Profilo(), const Rete& = Rete() );
+    Utente( const Username&,
+            const Profilo& = Profilo() );
 
     /** Distruttore virtuale di Utente. */
     virtual ~Utente();
@@ -45,21 +51,22 @@ public:
      */
     Rete getNet() const;
 
-    /** Aggiunge un contatto alla lista dei contatti.
+    /** Ritorna la lista dei titoli di studio posseduti dall'utente.
      *
-     * @param Username  Username dell'utente da aggiungere alla lista dei contatti.
+     * @return Formazione*  Lista dei titoli di studio posseduti dall'utente.
      */
-    void addContact( Username );
+    Formazione* getEucations() const;
 
-    /** Rimuove (se esiste) un contatto dalla lista dei contatti.
+    /** Ritorna la lista delle esperienze lavorative dell'utente.
      *
-     * @param Username  Username dell'utente da rimuovere dalla lista dei contatti.
+     * @return Esperienza*  Lista delle esperienze lavorative possedute dall'utente.
      */
-    void removeContact( Username );
+    Esperienza* getExperiences() const;
 };
 
 /** Oveloading operatore di output.
- *  Stampa su standard output tutte le informazioni associate all'utente.
+ *  Stampa su standard output tutte le informazioni associate all'utente, quali: username,
+ *  profilo, rete di contatti, titoli di studio posseduti ed esperienze lavorative.
  *
  * @param ostream&  ostream passato per riferimento.
  * @param Utente  Utente del quale vengono stampate le informazioni.

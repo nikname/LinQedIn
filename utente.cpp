@@ -2,8 +2,10 @@
 
 using std::ostream;
 
-Utente::Utente( const Username& u, const Profilo& p, const Rete& r ) :
-    username( u ), profile( p ), net( r ) {}
+Utente::Utente( const Username& u,
+                const Profilo& p ) :
+    username( u ),
+    profile( p ) {}
 
 Utente::~Utente() {}
 
@@ -19,18 +21,19 @@ Rete Utente::getNet() const {
     return net;
 }
 
-void Utente::addContact( Username u ) {
-    //TODO: controlla la presenza dell'utente nel database
-    net.add( u );
+Formazione Utente::getEucations() const {
+    return educations;
 }
 
-void Utente::removeContact( Username u ) {
-    net.remove( u );
+Esperienza Utente::getExperiences() const {
+    return experiences;
 }
 
 ostream& operator<< ( ostream& os, Utente u ) {
     return os << "*** PROFILO UTENTE ***\n\n"
               << u.getUsername() << "\n"
               << u.getProfile() << "\n"
-              << u.getNet();
+              << u.getNet() << "\n"
+              << u.getEucations() << "\n"
+              << u.getExperiences();
 }
