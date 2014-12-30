@@ -1,37 +1,36 @@
 #ifndef FORMAZIONE_H
 #define FORMAZIONE_H
-#include <string>
+#include <QString>
+#include <QDate>
 #include <vector>
-#include "data.h"
 
-using std::string;
 using std::vector;
 
 class Formazione {
 private:
-    string school;
-    Data dateAttended;
-    string degree;
-    string fieldOfStudy;
-    string grade;
-    vector<string> activities;
-    string Description;
+    QString school;
+    QDate dateAttended;
+    QString degree;
+    QString fieldOfStudy;
+    QString grade;
+    vector<QString> activities;
+    QString Description;
 public:
-    Formazione( string, Data = Data(), string = "", string = "", string = "", string = "", string = "" );
-    string getSchool() const;
-    Data getDateAttended() const;
-    string getDegree() const;
-    string getFieldOfStudy() const;
-    string getGrade() const;
-    string getActivities() const;
-    string getDescription() const;
-    void setSchool( string );
-    void setDateAttended( Data );
-    void setDegree( string );
-    void setFieldOfStudy( string );
-    void setGrade( string );
-    void addActivity( string );
-    void setDescription( string );
+    Formazione( QString, QDate = QDate(), QString = "", QString = "", QString = "", QString = "", QString = "" );
+    QString getSchool() const;
+    QDate getDateAttended() const;
+    QString getDegree() const;
+    QString getFieldOfStudy() const;
+    QString getGrade() const;
+    QString getActivities() const;
+    QString getDescription() const;
+    void setSchool( QString );
+    void setDateAttended( QDate );
+    void setDegree( QString );
+    void setFieldOfStudy( QString );
+    void setGrade( QString );
+    void addActivity( QString );
+    void setDescription( QString );
 };
 
 #endif // TITOLO_STUDIO_H

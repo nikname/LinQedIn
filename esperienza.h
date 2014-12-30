@@ -1,30 +1,28 @@
 #ifndef ESPERIENZA_H
 #define ESPERIENZA_H
-#include <string>
-#include "data.h"
-
-using std::string;
+#include <QString>
+#include <QDate>
 
 class Esperienza {
 private:
-    string companyName;
-    string title;
-    string location;
-    Data begin;
-    Data end;
-    string description;
+    QString companyName;
+    QString title;
+    QString location;
+    QDate begin;
+    QDate end;
+    QString description;
 public:
-    string getCompanyName() const;
-    string getTitle() const;
-    string getLocation() const;
-    Data getPeriod() const;
-    Data getDescription() const;
-    void setCompanyName( string );
-    void setTitle( string );
-    void setLocation( string );
-    void setBegin( Data );
-    void setEnd( Data );
-    void setDescription( string );
+    QString getCompanyName() const;
+    QString getTitle() const;
+    QString getLocation() const;
+    QDate getPeriod() const;
+    QDate getDescription() const;
+    void setCompanyName( QString );
+    void setTitle( QString );
+    void setLocation( QString );
+    void setBegin( QDate );
+    void setEnd( QDate );
+    void setDescription( QString );
 };
 
 #endif // ESPERIENZA_H

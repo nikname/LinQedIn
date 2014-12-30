@@ -1,75 +1,69 @@
 #include "profilo.h"
 
 using std::ostream;
-using std::string;
-
-// PROFILO - INFOPERSONALI
 
 class Profilo::InfoPersonali {
 public:
-    string name;
-    string surname;
-    Data birthday;
-    string maritialStatus;
+    QString name;
+    QString surname;
+    QDate birthday;
+    QString maritialStatus;
 
     /** Costruttore a 4 parametri.
      *
-     * @param string name  Nome dell'utente.
-     * @param string surname  Cognome dell'utente.
-     * @param Data  birthday  Data di nascita dell'utente.
-     * @param string maritialStatus  Stato civile dell'utente.
+     * @param QString name  Nome dell'utente.
+     * @param QString surname  Cognome dell'utente.
+     * @param QDate  birthday  Data di nascita dell'utente.
+     * @param QString maritialStatus  Stato civile dell'utente.
      */
-    InfoPersonali( const string& nome,
-                   const string& cognome,
-                   const Data& compleanno,
-                   const string& statoCivile ) :
+    InfoPersonali( const QString& nome,
+                   const QString& cognome,
+                   const QDate& compleanno,
+                   const QString& statoCivile ) :
         name( nome ),
         surname( cognome ),
         birthday( compleanno ),
         maritialStatus( statoCivile ) {}
 };
 
-// PROFILO
-
-Profilo::Profilo( const string& nome,
-                  const string& cognome,
-                  const Data& compleanno,
-                  const string& statoCivile ) :
+Profilo::Profilo( const QString& nome,
+                  const QString& cognome,
+                  const QDate& compleanno,
+                  const QString& statoCivile ) :
     personalInfo( new InfoPersonali( nome, cognome, compleanno, statoCivile ) ) {}
 
-string Profilo::getName() const {
+QString Profilo::getName() const {
     return personalInfo->name;
 }
 
-string Profilo::getSurname() const {
+QString Profilo::getSurname() const {
     return personalInfo->surname;
 }
 
-Data Profilo::getBirthday() const {
+QDate Profilo::getBirthday() const {
     return personalInfo->birthday;
 }
 
-string Profilo::getMaritialStatus() const {
+QString Profilo::getMaritialStatus() const {
     return personalInfo->maritialStatus;
 }
 
-void Profilo::setName( string n ) {
+void Profilo::setName( QString n ) {
     personalInfo->name = n;
 }
 
-void Profilo::setSurname( string s ) {
+void Profilo::setSurname( QString s ) {
     personalInfo->surname = s;
 }
 
-void Profilo::setBirthday( Data b ) {
+void Profilo::setBirthday( QDate b ) {
     personalInfo->birthday = b;
 }
 
-void Profilo::setMaritialStatus( string ms ) {
+void Profilo::setMaritialStatus( QString ms ) {
     personalInfo->maritialStatus = ms;
 }
 
-// Altro
 
 ostream& operator <<( ostream& os, Profilo p ) {
     return os << "UTENTE: " << p.personalInfo->name << " "

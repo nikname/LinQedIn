@@ -1,47 +1,41 @@
 #include "rete.h"
 
 using std::ostream;
-using std::string;
 
-class Rete::SmartUtente {
+class Utente; // Dichiarazione incompleta
+
+class Rete::Contatti {
+    friend ostream& operator <<( ostream&, Rete );
 public:
-    Username username;
-    SmartUtente* next;
+    Utente* user; // Puntatore polimorfo
 
-    /** Costruttore a 2 parametri.
-     *  Costruttore di default non disponibile.
+    /* Costruttore ad 1 parametro.
+     * Costruttore di default non disponibile.
      *
-     * @param Username  Username dell'utente da aggiungere alla lista.
+     * @param Utente* u  Utente da aggiungere alla lista dei contatti.
      */
-    SmartUtente( const Username& un, SmartUtente* n ) : username( un ), next( n ) {}
-
-    void operator delete( void* p ) {
-        if( p ) {
-            SmartUtente* su = static_cast<SmartUtente*>( p );
-            if( su->next ) {
-
-            }
-        }
-    }
+    Contatti( Utente* u ) : user( u ) {}
 };
 
-void Rete::add( Username u ) {
-    first = new SmartUtente( u, first );
-    std::cout << first->username.getLogin() << std::endl;
+void Rete::addContact( Username u ) {
+    // Contatto su = Contatto( findOnDB( u ) )
+    // contactsList.append( su );
 }
 
-void Rete::remove( Username u ) {
-    for( Rete::Iteratore it = begin(); it != end(); ++it ) {
-        if( (*this)[it].getLogin() == u.getLogin() ) {
-           //delete it;
-        }
-    }
+void Rete::removeContact( Username u ) {
+    Contatti su( new Utente( u ) );
+    if( contactsList.contains( su ) )
+        contactsList.removeOne();
 }
-
-Rete::Rete() : first( 0 ) {}
 
 ostream& operator <<( ostream& os, Rete r ) {
-    string out = "";
-    // ...
+    QString out = "";
+    QListIterator<Rete::Contatti> it( r.contactsList );
+    while( it.hasNext() ) {
+        if( it.hasNext() ) {
+            out.append( it.next() );
+            out.append( ", " );
+        } else out.append( it.next() );
+    }
     return os << "CONTATTI: " << out;
 }

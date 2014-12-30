@@ -1,40 +1,40 @@
 #ifndef USERNAME_H
 #define USERNAME_H
 #include <iostream>
-#include <string>
+#include <QString>
 
 using std::ostream;
-using std::string;
 
 class Username {
 private:
-    string login;
+    QString login;
 public:
     /** Costruttore ad 1 parametro.
+     *  È richiesta una email da utilizzare come login.
      *  Costruttore di default non disponibile.
      *
-     * @param string  Login dell'utente.
+     * @param QString  Login dell'utente.
      */
-    Username( string );
+    Username( QString );
 
     /** Ritorna la login associata all'utente.
      *
-     * @return string  Login associata all'utente.
+     * @return QString  Login associata all'utente.
      */
-    string getLogin() const;
+    QString getLogin() const;
 
     /** Modifica la login associata all'utente.
      *
-     * @param string  Login associata all'utente.
+     * @param QString  Login associata all'utente.
      */
-    void changeLogin( string );
+    void changeLogin( QString );
 };
 
 /** Overloading dell'operatore di output.
- *  Mostra sullo standard output tutte le informazioni collegate all'username.
+ *  Mostra sullo standard output le informazioni collegate all'username.
  *
  * @param ostream&  ostream passato per riferimento.
- * @param Username  Username del quale si stampano le informazioni.
+ * @param Username  Username dell'utente.
  * @return ostream&  ostream per riferimento.
  */
 ostream& operator<< ( ostream&, Username );

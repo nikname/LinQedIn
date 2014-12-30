@@ -1,12 +1,10 @@
 #ifndef PROFILO_H
 #define PROFILO_H
 #include <iostream>
-#include <string>
-#include "data.h"
+#include <QString>
+#include <QDate>
 
 using std::ostream;
-using std::string;
-
 
 class Profilo {
 private:
@@ -14,69 +12,71 @@ private:
     InfoPersonali* personalInfo;
 public:
     /** Costruttore a 4 parametro con 2 parametri di default.
+     *  Per creare un profilo sono necessari nome e cognome.
+     *  Costruttore di default non disponibile.
      *
-     * @param string  Nome dell'utente.
-     * @param string  Cognome dell'utente.
-     * @param Data()  Data di nascita dell'utente.
-     * @param string  Stato civile dell'utente.
+     * @param QString  Nome dell'utente.
+     * @param QString  Cognome dell'utente.
+     * @param QDate()  Data di nascita dell'utente.
+     * @param QString  Stato civile dell'utente.
      */
-    Profilo( const string& = "",
-             const string& = "",
-             const Data& = Data(),
-             const string& = "" );
+    Profilo( const QString&,
+             const QString&,
+             const QDate& = QDate(),
+             const QString& = "" );
 
     /** Ritorna il nome dell'utente.
      *
-     * @return string  Nome dell'utente.
+     * @return QString  Nome dell'utente.
      */
-    string getName() const;
+    QString getName() const;
 
     /** Ritorna il cognome dell'utente.
      *
-     * @return string  Cognome dell'utente.
+     * @return QString  Cognome dell'utente.
      */
-    string getSurname() const;
+    QString getSurname() const;
 
     /** Ritorna la data di nascita dell'utente.
      *
-     * @return Data  Data di nascita dell'utente.
+     * @return QDate  Data di nascita dell'utente.
      */
-    Data getBirthday() const;
+    QDate getBirthday() const;
 
     /** Ritorna lo stato civile dell'utente.
      *
-     * @return string  Stato civile dell'utente.
+     * @return QString  Stato civile dell'utente.
      */
-    string getMaritialStatus() const;
+    QString getMaritialStatus() const;
 
     /** Modifica il nome dell'utente.
      *
-     * @param string  Nome dell'utente.
+     * @param QString  Nome dell'utente.
      */
-    void setName( string );
+    void setName( QString );
 
     /** Modifica il cognome dell'utente.
      *
-     * @param string  Cognome dell'utente.
+     * @param QString  Cognome dell'utente.
      */
-    void setSurname( string );
+    void setSurname( QString );
 
     /** Modifica la data di nascita dell'utente.
      *
-     * @param Data  Data di nascita dell'utente.
+     * @param QDate  Data di nascita dell'utente.
      */
-    void setBirthday( Data );
+    void setBirthday( QDate );
 
     /** Modifica lo stato civile dell'utente.
      *
-     * @param string  Stato civile dell'utente.
+     * @param QString  Stato civile dell'utente.
      */
-    void setMaritialStatus( string );
+    void setMaritialStatus( QString );
 
     friend ostream& operator <<( ostream&, Profilo );
 };
 
-/** Overloading dell'operatore <<.
+/** Overloading dell'operatore di output.
  *  Stampa su standard output le informazioni associate al profilo.
  *
  * @param ostream&  ostream passato per riferimento.
