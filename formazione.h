@@ -6,53 +6,32 @@
 
 class Formazione {
 private:
-    QString school;
-    QDate dateAttended;
-    QString degree;
-    QString fieldOfStudy;
-    QString grade;
-    QString activities;
-    QString description;
+    class TitoliStudio;
+    TitoliStudio* titles;
 public:
-    Formazione(); // Just for debug
 
-    Formazione( QString,
-                QDate = QDate(),
-                QString = "",
-                QString = "",
-                QString = "",
-                QString = "",
-                QString = "" );
+    Formazione();
 
-    QString getSchool() const;
+    /** Aggiunge un titolo di studio all'elenco dei titoli di studio.
+     *
+     * @param Education  Titolo di studio da aggiungere.
+     */
+    void addEducation( Formazione );
 
-    QDate getDateAttended() const;
-
-    QString getDegree() const;
-
-    QString getFieldOfStudy() const;
-
-    QString getGrade() const;
-
-    QString getActivities() const;
-
-    QString getDescription() const;
-
-    void setSchool( QString );
-
-    void setDateAttended( QDate );
-
-    void setDegree( QString );
-
-    void setFieldOfStudy( QString );
-
-    void setGrade( QString );
-
-    void setActivity( QString );
-
-    void setDescription( QString );
+    /** Rimuove un titolo di studio dall'elenco dei titoli di studio.
+     *
+     * @param Education  Titoli di studio da rimuovere.
+     */
+    void removeEducation( Formazione );
 };
 
-QDebug& operator <<( QDebug&, const Formazione& );
+/** Ridefinizione operatore di output di QDebug.
+ *  Stampa su standard output le informazioni di tutti i titoli di studio dell'utente.
+ *
+ * @param QDebug  QDebug.
+ * @param Formazione  Elenco dei titoli di studio dell'utente.
+ * @return QDebug  QDebug.
+ */
+QDebug operator <<( QDebug, const Formazione& );
 
 #endif // TITOLO_STUDIO_H

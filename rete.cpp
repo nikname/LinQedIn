@@ -7,8 +7,8 @@ class SmartUtente {
 public:
     Utente* user; // Puntatore polimorfo
 
-    /* Costruttore ad 1 parametro.
-     * Costruttore di default non disponibile.
+    /** Costruttore ad 1 parametro.
+     *  Costruttore di default non disponibile.
      *
      * @param Utente* u  Utente da aggiungere alla lista dei contatti.
      */
@@ -48,8 +48,7 @@ QDebug operator <<( QDebug qdbg, const Rete& r ) {
     qdbg << "CONTATTI: \n";
     QListIterator<SmartUtente> it( r.contacts->contactsList );
     while( it.hasNext() ) {
-        SmartUtente su = it.next();
-        qdbg << su;
+        qdbg << it.next();
         if( it.hasNext() )
             qdbg << ", ";
     }

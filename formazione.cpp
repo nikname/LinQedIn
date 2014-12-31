@@ -1,86 +1,56 @@
 #include "formazione.h"
+#include <QList>
 
-Formazione::Formazione() {}
+class Titolo {
+public:
+    QString school;
+    QDate dateAttended;
+    QString degree;
+    QString fieldOfStudy;
+    QString grade;
+    QString activities;
 
-Formazione::Formazione( QString scuola,
-                        QDate dataDiploma,
-                        QString laurea,
-                        QString corsoDiStudio,
-                        QString votazione,
-                        QString attivita,
-                        QString descrizione ) :
-    school( scuola ),
-    dateAttended( dataDiploma ),
-    degree( laurea ),
-    fieldOfStudy( corsoDiStudio ),
-    grade( votazione ),
-    activities( attivita ),
-    description( descrizione ) {}
+    /** Costruttore a 6 parametri con 5 parametri di default.
+     *  Costruttore di default non disponibile.
+     *
+     * @param QString scuola  Nome della scuola, collegio, università.
+     * @param QDate dataDiploma  Data del conseguimento del diploma.
+     * @param QString laurea  Titolo della laurea.
+     * @param QString corsoDiStudio  Nome del corso di studio.
+     * @param QString votazione  Giudizio finale.
+     * @param QString attivita  Attività svolte con la scuola, collegio, università.
+     */
+    Titolo( QString scuola,
+            QDate dataDiploma,
+            QString laurea,
+            QString corsoDiStudio,
+            QString votazione,
+            QString attivita ) :
+        school( scuola ),
+        dateAttended( dataDiploma ),
+        degree( laurea ),
+        fieldOfStudy( corsoDiStudio ),
+        grade( votazione ),
+        activities( attivita ) {}
+};
 
-QString Formazione::getSchool() const {
-    return school;
+QDebug operator <<( QDebug qdbg, const Titolo& t ) {
+    qdbg << "Scuola: " << t.school << "\n"
+         << "Data diploma: " << t.dateAttended.toString( "yyyy" ) << "\n"
+         << "Laurea: " << t.degree << "\n"
+         << "Campo di studio: " << t.fieldOfStudy << "\n"
+         << "Votazione: " << t.grade << "\n"
+         << "Attività svolte: " << t.activities << "\n";
 }
 
-QDate Formazione::getDateAttended() const {
-    return dateAttended;
-}
+class Formazione::TitoliStudio {
+    QList<Titolo> titlesList;
+};
 
-QString Formazione::getDegree() const {
-    return degree;
-}
+Formazione::Formazione() : titles( new TitoliStudio ) {}
 
-QString Formazione::getFieldOfStudy() const {
-    return fieldOfStudy;
-}
-
-QString Formazione::getGrade() const {
-    return grade;
-}
-
-QString Formazione::getActivities() const {
-    return activities;
-}
-
-QString Formazione::getDescription() const {
-    return description;
-}
-
-void Formazione::setSchool( QString s ) {
-    school = s;
-}
-
-void Formazione::setDateAttended( QDate d ) {
-    dateAttended = d;
-}
-
-void Formazione::setDegree( QString d ) {
-    degree = d;
-}
-
-void Formazione::setFieldOfStudy( QString f ) {
-    fieldOfStudy = f;
-}
-
-void Formazione::setGrade( QString g ) {
-    grade = g;
-}
-
-void Formazione::setActivity( QString a ) {
-    activities = a;
-}
-
-void Formazione::setDescription( QString d ) {
-    description = d;
-}
-
-QDebug& operator <<( QDebug& qdbg, const Formazione& f ) {
-    qdbg << "TITOLI DI STUDIO:\n"
-         << "Scuola: " << f.getSchool() << "\n"
-         << "Data diploma: " << f.getDateAttended().toString( "yyyy" ) << "\n"
-         << "Laurea: " << f.getDegree() << "\n"
-         << "Campo di studio: " << f.getFieldOfStudy() << "\n"
-         << "Votazione: " << f.getGrade() << "\n"
-         << "Attività svolte: " << f.getActivities() << "\n"
-         << "Descrizione: " << f.getDescription() << "\n";
+QDebug operator <<( QDebug qdbg, const Formazione& f ) {
+    qdbg << "TITOLI DI STUDIO:\n";
+    //TODO: aggiungere il resto
     return qdbg;
 }
