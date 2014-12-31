@@ -1,9 +1,7 @@
 #ifndef USERNAME_H
 #define USERNAME_H
-#include <iostream>
+#include <QDebug>
 #include <QString>
-
-using std::ostream;
 
 class Username {
 private:
@@ -37,6 +35,8 @@ public:
  * @param Username  Username dell'utente.
  * @return ostream&  ostream per riferimento.
  */
-ostream& operator<< ( ostream&, Username );
+//ostream& operator<< ( const ostream&, const Username& );
+
+QDebug& operator <<( QDebug&, const Username& );
 
 #endif

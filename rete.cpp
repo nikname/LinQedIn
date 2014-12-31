@@ -1,11 +1,8 @@
 #include "rete.h"
 
-using std::ostream;
-
 class Utente; // Dichiarazione incompleta
 
-class Rete::Contatti {
-    friend ostream& operator <<( ostream&, Rete );
+class SmartUtente {
 public:
     Utente* user; // Puntatore polimorfo
 
@@ -14,23 +11,28 @@ public:
      *
      * @param Utente* u  Utente da aggiungere alla lista dei contatti.
      */
-    Contatti( Utente* u ) : user( u ) {}
+    SmartUtente( Utente* u ) : user( u ) {}
+};
+
+class Rete::Contatti {
+public:
+    QList<SmartUtente> contactsList;
 };
 
 void Rete::addContact( Username u ) {
-    // Contatto su = Contatto( findOnDB( u ) )
-    // contactsList.append( su );
+    // SmartUtente = SmartUtente( findOnDB( u ) )
+    // contacts->contactsList.append( su );
 }
 
 void Rete::removeContact( Username u ) {
-    Contatti su( new Utente( u ) );
-    if( contactsList.contains( su ) )
-        contactsList.removeOne();
+    //SmartUtente su( new Utente( u ) );
+    //if( contacts->contactsList.contains( su ) )
+    //    contacts->contactsList.removeOne();
 }
-
+/*
 ostream& operator <<( ostream& os, Rete r ) {
     QString out = "";
-    QListIterator<Rete::Contatti> it( r.contactsList );
+    QListIterator<Rete::Contatti> it( r.contacts->contactsList );
     while( it.hasNext() ) {
         if( it.hasNext() ) {
             out.append( it.next() );
@@ -38,4 +40,11 @@ ostream& operator <<( ostream& os, Rete r ) {
         } else out.append( it.next() );
     }
     return os << "CONTATTI: " << out;
+}
+*/
+
+QDebug& operator <<( QDebug& qdbg, const Rete& r ) {
+    qdbg << "CONTATTI: \n"
+         << "Nome e cognome: \n";
+    return qdbg;
 }

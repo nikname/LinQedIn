@@ -1,6 +1,6 @@
 #ifndef UTENTE_H
 #define UTENTE_H
-#include <iostream>
+#include <QDebug>
 #include <QString>
 #include <QDate>
 #include "username.h"
@@ -8,8 +8,6 @@
 #include "rete.h"
 #include "formazione.h"
 #include "esperienza.h"
-
-using std::ostream;
 
 class Utente {
 private:
@@ -55,13 +53,13 @@ public:
      *
      * @return Formazione*  Lista dei titoli di studio posseduti dall'utente.
      */
-    Formazione* getEucations() const;
+    Formazione getEducations() const;
 
     /** Ritorna la lista delle esperienze lavorative dell'utente.
      *
      * @return Esperienza*  Lista delle esperienze lavorative possedute dall'utente.
      */
-    Esperienza* getExperiences() const;
+    Esperienza getExperiences() const;
 };
 
 /** Oveloading operatore di output.
@@ -72,6 +70,8 @@ public:
  * @param Utente  Utente del quale vengono stampate le informazioni.
  * @return ostream&  ostream per riferimento.
  */
-ostream& operator <<( ostream&, Utente );
+//ostream& operator <<( const ostream&, const Utente& );
+
+QDebug operator <<( QDebug, const Utente& );
 
 #endif

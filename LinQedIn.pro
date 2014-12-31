@@ -17,7 +17,9 @@ SOURCES += main.cpp\
     profilo.cpp \
     username.cpp \
     utente.cpp \
-    rete.cpp
+    rete.cpp \
+    esperienza.cpp \
+    formazione.cpp
 
 HEADERS  += mainwindow.h \
     profilo.h \

@@ -1,10 +1,8 @@
 #ifndef PROFILO_H
 #define PROFILO_H
-#include <iostream>
+#include <QDebug>
 #include <QString>
 #include <QDate>
-
-using std::ostream;
 
 class Profilo {
 private:
@@ -73,7 +71,8 @@ public:
      */
     void setMaritialStatus( QString );
 
-    friend ostream& operator <<( ostream&, Profilo );
+    //friend ostream& operator <<( ostream&, const Profilo& );
+    friend QDebug& operator <<( QDebug&, const Profilo& );
 };
 
 /** Overloading dell'operatore di output.
@@ -83,6 +82,8 @@ public:
  * @param Profilo  Profilo dell'utente.
  * @return ostream&  ostream per riferimento.
  */
-ostream& operator <<( ostream&, Profilo );
+//ostream& operator <<( ostream&, const Profilo& );
+
+QDebug& operator <<( QDebug&, const Profilo& );
 
 #endif

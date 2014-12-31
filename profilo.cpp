@@ -1,7 +1,5 @@
 #include "profilo.h"
 
-using std::ostream;
-
 class Profilo::InfoPersonali {
 public:
     QString name;
@@ -63,11 +61,17 @@ void Profilo::setBirthday( QDate b ) {
 void Profilo::setMaritialStatus( QString ms ) {
     personalInfo->maritialStatus = ms;
 }
-
-
-ostream& operator <<( ostream& os, Profilo p ) {
+/*
+ostream& operator <<( ostream& os, const Profilo& p ) {
     return os << "UTENTE: " << p.personalInfo->name << " "
                             << p.personalInfo->surname << "\n"
               << "DATA NASCITA: " << p.personalInfo->birthday << "\n"
               << "STATO CIVILE: " << p.personalInfo->maritialStatus;
+}
+*/
+QDebug& operator <<( QDebug& qdbg, const Profilo& p ) {
+    qdbg << "UTENTE: " << p.personalInfo->name + " " + p.personalInfo->surname << "\n"
+         << "DATA NASCITA: " << p.personalInfo->birthday.toString( "DD/MM/yyyy" ) << "\n"
+         << "STATO CIVILE: " << p.personalInfo->maritialStatus << "\n";
+    return qdbg;
 }

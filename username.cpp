@@ -1,7 +1,5 @@
 #include "username.h"
 
-using std::ostream;
-
 Username::Username( QString l ) : login( l ) {}
 
 QString Username::getLogin() const {
@@ -12,7 +10,12 @@ void Username::changeLogin( QString l ) {
     //TODO: controllare che la login non sia già utilizzata da qualcuno
     login = l;
 }
-
-ostream& operator<< ( ostream& os, Username un ) {
+/*
+ostream& operator<< ( const ostream& os, const Username& un ) {
     return os << "LOGIN: " << un.getLogin();
+}
+*/
+QDebug& operator <<( QDebug& qdbg, const Username& un ) {
+    qdbg << "LOGIN: " << un.getLogin();
+    return qdbg;
 }

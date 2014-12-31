@@ -1,5 +1,6 @@
 #ifndef ESPERIENZA_H
 #define ESPERIENZA_H
+#include <QDebug>
 #include <QString>
 #include <QDate>
 
@@ -15,8 +16,8 @@ public:
     QString getCompanyName() const;
     QString getTitle() const;
     QString getLocation() const;
-    QDate getPeriod() const;
-    QDate getDescription() const;
+    QString getPeriod() const;
+    QString getDescription() const;
     void setCompanyName( QString );
     void setTitle( QString );
     void setLocation( QString );
@@ -24,5 +25,7 @@ public:
     void setEnd( QDate );
     void setDescription( QString );
 };
+
+QDebug& operator <<( QDebug&, const Esperienza& );
 
 #endif // ESPERIENZA_H

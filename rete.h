@@ -1,16 +1,14 @@
 #ifndef RETE_H
 #define RETE_H
-#include <iostream>
+#include <QDebug>
 #include <QString>
 #include <QList>
 #include "username.h"
 
-using std::ostream;
-
 class Rete {
 private:
     class Contatti; // Classe privata
-    QList<Contatti> contactsList;
+    Contatti* contacts;
 public:
     /** Aggiunge un contatto alla lista dei contatti.
      *
@@ -24,7 +22,7 @@ public:
      */
     void removeContact( Username );
 
-    friend ostream& operator <<( ostream&, Rete );
+    //friend ostream& operator <<( ostream&, Rete );
 };
 
 /** Overloading dell'operatore di output.
@@ -34,6 +32,8 @@ public:
  * @param Rete  Lista dei contatti dell'utente.
  * @return ostream&  ostream per riferimento.
  */
-ostream& operator <<( ostream&, Rete );
+//ostream& operator <<( ostream&, Rete );
+
+QDebug& operator <<( QDebug&, const Rete& );
 
 #endif
