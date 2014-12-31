@@ -18,7 +18,7 @@ private:
     Esperienza experiences;
 public:
     /** Costruttore ad 2 parametri.
-     *  Associa un'username e delle informazioni personali (quali nome e cognome) all'utente.
+     *  Associa un'username e delle informazioni personali (nome e cognome) all'utente.
      *  Invoca i costruttori di default per net, educations ed experiences.
      *  Costruttore di default non disponibile.
      *
@@ -62,16 +62,14 @@ public:
     Esperienza getExperiences() const;
 };
 
-/** Oveloading operatore di output.
+/** Oveloading operatore di output di QDebug.
  *  Stampa su standard output tutte le informazioni associate all'utente, quali: username,
  *  profilo, rete di contatti, titoli di studio posseduti ed esperienze lavorative.
  *
- * @param ostream&  ostream passato per riferimento.
+ * @param QDebug  QDebug.
  * @param Utente  Utente del quale vengono stampate le informazioni.
- * @return ostream&  ostream per riferimento.
+ * @return QDebug  QDebug.
  */
-//ostream& operator <<( const ostream&, const Utente& );
-
 QDebug operator <<( QDebug, const Utente& );
 
 #endif

@@ -10,6 +10,11 @@ private:
     class Contatti; // Classe privata
     Contatti* contacts;
 public:
+    /** Costruttore di default ridefinito.
+     *  Crea una lista vuota di contatti.
+     */
+    Rete();
+
     /** Aggiunge un contatto alla lista dei contatti.
      *
      * @param Username  Username del contatto da aggiungere.
@@ -22,18 +27,16 @@ public:
      */
     void removeContact( Username );
 
-    //friend ostream& operator <<( ostream&, Rete );
+    friend QDebug operator <<( QDebug, const Rete& );
 };
 
-/** Overloading dell'operatore di output.
+/** Overloading dell'operatore di output di QDebug.
  *  Stampa su standard output nome e cognome dei contatti dell'utente separati da ",".
  *
- * @param ostream&  ostream passato per riferimento.
+ * @param QDebug  QDebug.
  * @param Rete  Lista dei contatti dell'utente.
- * @return ostream&  ostream per riferimento.
+ * @return QDebug  QDebug.
  */
-//ostream& operator <<( ostream&, Rete );
-
-QDebug& operator <<( QDebug&, const Rete& );
+QDebug operator <<( QDebug, const Rete& );
 
 #endif

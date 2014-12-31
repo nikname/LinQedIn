@@ -1,6 +1,7 @@
 #include "rete.h"
+#include <QListIterator>
 
-class Utente; // Dichiarazione incompleta
+class Utente;
 
 class SmartUtente {
 public:
@@ -14,37 +15,44 @@ public:
     SmartUtente( Utente* u ) : user( u ) {}
 };
 
+/** Overloading dell'operatore di output di QDebug.
+ *  Stampa su standard output nome e cognome del contatto.
+ *
+ * @param QDebug  QDebug.
+ * @param Utente  Utente nella lista dei contatti.
+ * @return QDebug  QDebug.
+ */
+QDebug operator <<( QDebug qdbg, const SmartUtente& su ) {
+    qdbg << su.user;
+    return qdbg;
+}
+
 class Rete::Contatti {
 public:
     QList<SmartUtente> contactsList;
 };
 
+Rete::Rete() : contacts( new Contatti ) {}
+
 void Rete::addContact( Username u ) {
-    // SmartUtente = SmartUtente( findOnDB( u ) )
+    // SmartUtente su( findOnDB( u ) );
     // contacts->contactsList.append( su );
 }
 
 void Rete::removeContact( Username u ) {
-    //SmartUtente su( new Utente( u ) );
-    //if( contacts->contactsList.contains( su ) )
-    //    contacts->contactsList.removeOne();
+    // SmartUtente su( findOnDB( u ) );
+    // contacts->contactsList.removeOne( su );
 }
-/*
-ostream& operator <<( ostream& os, Rete r ) {
-    QString out = "";
-    QListIterator<Rete::Contatti> it( r.contacts->contactsList );
-    while( it.hasNext() ) {
-        if( it.hasNext() ) {
-            out.append( it.next() );
-            out.append( ", " );
-        } else out.append( it.next() );
-    }
-    return os << "CONTATTI: " << out;
-}
-*/
 
-QDebug& operator <<( QDebug& qdbg, const Rete& r ) {
-    qdbg << "CONTATTI: \n"
-         << "Nome e cognome: \n";
+QDebug operator <<( QDebug qdbg, const Rete& r ) {
+    qdbg << "CONTATTI: \n";
+    QListIterator<SmartUtente> it( r.contacts->contactsList );
+    while( it.hasNext() ) {
+        SmartUtente su = it.next();
+        qdbg << su;
+        if( it.hasNext() )
+            qdbg << ", ";
+    }
+    qdbg << "\n";
     return qdbg;
 }

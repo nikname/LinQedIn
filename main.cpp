@@ -1,8 +1,6 @@
 #include "mainwindow.h"
 #include <QApplication>
-#include <iostream>
 #include <QDebug>
-#include <string>
 #include "utente.h"
 
 int main(int argc, char *argv[])
@@ -11,11 +9,11 @@ int main(int argc, char *argv[])
     MainWindow w;
     w.show();
 
-    Utente u( Username( "nikname" ), Profilo( "Nicola", "Dalla Costa" ) );
-    u.getNet().addContact( Username( "dalla.costa.nicola@gmail.com" ) );
-    u.getNet().addContact( Username( "nik.dalla.costa@gmail.com" ) );
+    Rete r;
+    //r.addContact( Username( "1" ) );
+    //r.addContact( Username( "2" ) );
 
-    qDebug() << u;
+    qDebug() << r;
 
     return a.exec();
 }

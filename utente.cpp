@@ -26,16 +26,7 @@ Formazione Utente::getEducations() const {
 Esperienza Utente::getExperiences() const {
     return experiences;
 }
-/*
-ostream& operator<< ( const ostream& os, const Utente& u ) {
-    return os << "*** PROFILO UTENTE ***\n\n"
-              << u.getUsername() << "\n"
-              << u.getProfile() << "\n"
-              << u.getNet() << "\n"
-              << u.getEucations() << "\n"
-              << u.getExperiences();
-}
-*/
+
 QDebug operator <<( QDebug qdbg, const Utente& u ) {
     qdbg << "*** PROFILO UTENTE ***\n\n"
          << u.getUsername() << "\n"

@@ -71,19 +71,16 @@ public:
      */
     void setMaritialStatus( QString );
 
-    //friend ostream& operator <<( ostream&, const Profilo& );
-    friend QDebug& operator <<( QDebug&, const Profilo& );
+    friend QDebug operator <<( QDebug, const Profilo& );
 };
 
-/** Overloading dell'operatore di output.
+/** Overloading dell'operatore di output di QDebug.
  *  Stampa su standard output le informazioni associate al profilo.
  *
- * @param ostream&  ostream passato per riferimento.
+ * @param QDebug  QDebug.
  * @param Profilo  Profilo dell'utente.
- * @return ostream&  ostream per riferimento.
+ * @return QDebug  QDebug.
  */
-//ostream& operator <<( ostream&, const Profilo& );
-
-QDebug& operator <<( QDebug&, const Profilo& );
+QDebug operator <<( QDebug, const Profilo& );
 
 #endif

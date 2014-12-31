@@ -28,15 +28,13 @@ public:
     void changeLogin( QString );
 };
 
-/** Overloading dell'operatore di output.
+/** Overloading dell'operatore di output di QDebug.
  *  Mostra sullo standard output le informazioni collegate all'username.
  *
- * @param ostream&  ostream passato per riferimento.
+ * @param QDebug  QDebug.
  * @param Username  Username dell'utente.
- * @return ostream&  ostream per riferimento.
+ * @return QDebug  QDebug.
  */
-//ostream& operator<< ( const ostream&, const Username& );
-
-QDebug& operator <<( QDebug&, const Username& );
+QDebug operator <<( QDebug, const Username& );
 
 #endif
