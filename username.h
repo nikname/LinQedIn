@@ -11,9 +11,9 @@ public:
      *  È richiesta una email da utilizzare come login.
      *  Costruttore di default non disponibile.
      *
-     * @param QString  Login dell'utente.
+     * @param QString l  Login dell'utente.
      */
-    Username( QString );
+    Username( const QString& l ) : login( l ) {}
 
     /** Ritorna la login associata all'utente.
      *

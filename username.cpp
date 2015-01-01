@@ -1,7 +1,5 @@
 #include "username.h"
 
-Username::Username( QString l ) : login( l ) {}
-
 QString Username::getLogin() const {
     return login;
 }

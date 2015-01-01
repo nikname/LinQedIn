@@ -1,10 +1,5 @@
 #include "utente.h"
 
-Utente::Utente( const Username& u,
-                const Profilo& p ) :
-    username( u ),
-    profile( p ) {}
-
 Utente::~Utente() {}
 
 Username Utente::getUsername() const {

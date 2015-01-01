@@ -2,53 +2,61 @@
 #include <QList>
 #include <QListIterator>
 
-class Titolo {
-public:
-    QString school;
-    QDate dateAttended;
-    QString degree;
-    QString fieldOfStudy;
-    QString grade;
-    QString activities;
+QString Formazione::Titolo::getSchool() const {
+    return school;
+}
 
-    /** Costruttore a 6 parametri con 5 parametri di default.
-     *  Costruttore di default non disponibile.
-     *
-     * @param QString scuola  Nome della scuola, collegio, università.
-     * @param QDate dataDiploma  Data del conseguimento del diploma.
-     * @param QString laurea  Titolo della laurea.
-     * @param QString corsoDiStudio  Nome del corso di studio.
-     * @param QString votazione  Giudizio finale.
-     * @param QString attivita  Attività svolte con la scuola, collegio, università.
-     */
-    Titolo( QString scuola,
-            QDate dataDiploma,
-            QString laurea,
-            QString corsoDiStudio,
-            QString votazione,
-            QString attivita ) :
-        school( scuola ),
-        dateAttended( dataDiploma ),
-        degree( laurea ),
-        fieldOfStudy( corsoDiStudio ),
-        grade( votazione ),
-        activities( attivita ) {}
-};
+QDate Formazione::Titolo::getDateAttended() const {
+    return dateAttended;
+}
 
-/** Overloading dell'operatore di output di QDebug.
- *  Stampa su standard output tutte le informazioni associate al titolo di studio.
- *
- * @param QDebug  QDebug.
- * @param Titolo  Titolo di studio.
- * @param QDebug  QDebug.
- */
-QDebug operator <<( QDebug qdbg, const Titolo& t ) {
-    qdbg << "Scuola: " << t.school << "\n"
-         << "Data diploma: " << t.dateAttended.toString( "yyyy" ) << "\n"
-         << "Laurea: " << t.degree << "\n"
-         << "Campo di studio: " << t.fieldOfStudy << "\n"
-         << "Votazione: " << t.grade << "\n"
-         << "Attività svolte: " << t.activities << "\n";
+QString Formazione::Titolo::getDegree() const {
+    return degree;
+}
+
+QString Formazione::Titolo::getFieldOfStudy() const {
+    return fieldOfStudy;
+}
+
+QString Formazione::Titolo::getGrade() const {
+    return grade;
+}
+
+QString Formazione::Titolo::getActivities() const {
+    return activities;
+}
+
+void Formazione::Titolo::setSchool( QString s ) {
+    school = s;
+}
+
+void Formazione::Titolo::setDateAttended( QDate d ) {
+    dateAttended = d;
+}
+
+void Formazione::Titolo::setDegree( QString d ) {
+    degree = d;
+}
+
+void Formazione::Titolo::setFieldOfStudy( QString f ) {
+    fieldOfStudy = f;
+}
+
+void Formazione::Titolo::setGrade( QString g ) {
+    grade = g;
+}
+
+void Formazione::Titolo::setActivity( QString a ) {
+    activities = a;
+}
+
+QDebug operator <<( QDebug qdbg, const Formazione::Titolo& t ) {
+    qdbg << "Scuola: " << t.getSchool() << "\n"
+         << "Data diploma: " << t.getDateAttended().toString( "yyyy" ) << "\n"
+         << "Laurea: " << t.getDegree() << "\n"
+         << "Campo di studio: " << t.getFieldOfStudy() << "\n"
+         << "Votazione: " << t.getGrade() << "\n"
+         << "Attività svolte: " << t.getActivities() << "\n";
     return qdbg;
 }
 
@@ -61,7 +69,7 @@ Formazione::Formazione() : titles( new TitoliStudio ) {}
 
 QDebug operator <<( QDebug qdbg, const Formazione& f ) {
     qdbg << "TITOLI DI STUDIO:\n";
-    QListIterator<Titolo> it( f.titles->titlesList );
+    QListIterator<Formazione::Titolo> it( f.titles->titlesList );
     while ( it.hasNext() )
         qdbg << it.next() << "\n";
     return qdbg;

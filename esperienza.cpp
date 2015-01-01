@@ -1,50 +1,50 @@
 #include "esperienza.h"
 #include <QList>
 
-class Lavoro {
-public:
-    QString companyName;
-    QString title;
-    QString location;
-    QDate begin;
-    QDate end;
+QString Esperienza::Lavoro::getCompanyName() const {
+    return companyName;
+}
 
-    /** Costruttore a 5 parametri.
-     *  Costruttore di default non disponibile.
-     *
-     * @param QString azienda  Nome dell'azienda.
-     * @param QString qualifica  Ruolo o posizione all'interno dell'azienda.
-     * @param QString posizione  Luogo in cui si trova l'azienda.
-     * @param QDate inizio  Data di inizio di tale occupazione.
-     * @param QDate fine  Data di fine di tale occupazione.
-     */
-    Lavoro( QString azienda,
-            QString qualifica,
-            QString posizione,
-            QDate inizio,
-            QDate fine ) :
-        companyName( azienda ),
-        title( qualifica ),
-        location( posizione ),
-        begin( inizio ),
-        end( fine ) {}
-};
+QString Esperienza::Lavoro::getTitle() const {
+    return title;
+}
 
-/** Overloading dell'operatore di output di QDebug.
- *  Stampa su standard output tutte le informazioni associate ad una esperienza lavorativa.
- *
- * @param QDebug  QDebug.
- * @param Lavoro  Esperienza lavorativa.
- * @param QDebug  QDebug.
- */
-QDebug operator <<( QDebug qdbg, const Lavoro& l ) {
+QString Esperienza::Lavoro::getLocation() const {
+    return location;
+}
+
+QString Esperienza::Lavoro::getPeriod() const {
+    // Da valutare QDate::getDate( int* year, int* month, int* day )
+    QString out( begin.toString( "dd.MM.yyyy" ) + " - " + end.toString( "dd.MM.yyyy" ) );
+    return out;
+}
+
+void Esperienza::Lavoro::setCompanyName( QString azienda ) {
+    companyName = azienda;
+}
+
+void Esperienza::Lavoro::setTitle( QString ruolo ) {
+    title = ruolo;
+}
+
+void Esperienza::Lavoro::setLocation( QString posizione ) {
+    location = posizione;
+}
+
+void Esperienza::Lavoro::setBegin( QDate inizio ) {
+    begin = inizio;
+}
+
+void Esperienza::Lavoro::setEnd( QDate fine ) {
+    end = fine;
+}
+
+QDebug operator <<( QDebug qdbg, const Esperienza::Lavoro& l ) {
     qdbg << "ESPERIENZE:\n"
-         << "Azienda: " << l.companyName << "\n"
-         << "Ruolo: " << l.title << "\n"
-         << "Luogo: " << l.location << "\n"
-         << "Periodo: " << l.begin.toString( "DD.MM.yyyy")
-                           + " - " +
-                           l.end.toString( "DD.MM.yyyy" ) << "\n";
+         << "Azienda: " << l.getCompanyName() << "\n"
+         << "Ruolo: " << l.getTitle() << "\n"
+         << "Luogo: " << l.getLocation() << "\n"
+         << "Periodo: " << l.getPeriod() << "\n";
     return qdbg;
 }
 
@@ -55,9 +55,32 @@ public:
 
 Esperienza::Esperienza() : expiriences( new EspLavorative ) {}
 
+void Esperienza::addExperience( const Lavoro& l ) {
+    expiriences->experiencesList.append( l );
+}
+
+void Esperienza::removeExperience( const Lavoro& l ) {
+    expiriences->experiencesList.removeAll( l );
+}
+
+/** Overloading dell'operatore di uguaglianza tra Esperienza::Lavoro.
+ *  Necessario per QList::removeAll( const Lavoro& ) in
+ *  void Esperienza::removeExperience( const Lavoro& ).
+ *
+ * @param Esperienza::Lavoro l1  Lavoro.
+ * @param Esperienza::Lavoro l2  Lavoro.
+ * @return bool  true se i due oggetti di tipo Lavoro coincidono; false altrimenti.
+ */
+bool operator ==( const Esperienza::Lavoro& l1, const Esperienza::Lavoro& l2 ) {
+    return ( l1.getCompanyName() == l2.getCompanyName() ) &&
+           ( l1.getLocation() == l2.getLocation() ) &&
+           ( l1.getPeriod() == l2.getPeriod() ) &&
+           ( l1.getTitle() == l2.getTitle() );
+}
+
 QDebug operator <<( QDebug qdbg, const Esperienza& e ) {
     qdbg << "ESPERIENZE:\n";
-    QListIterator<Lavoro> it( e.expiriences->experiencesList );
+    QListIterator<Esperienza::Lavoro> it( e.expiriences->experiencesList );
     while( it.hasNext() )
         qdbg << it.next() << "\n";
     return qdbg;

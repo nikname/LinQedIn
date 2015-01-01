@@ -22,11 +22,13 @@ public:
      *  Invoca i costruttori di default per net, educations ed experiences.
      *  Costruttore di default non disponibile.
      *
-     * @param Username  Username dell'utente.
-     * @param Profilo  Profilo dell'utente.
+     * @param Username u  Username dell'utente.
+     * @param Profilo p  Profilo dell'utente.
      */
-    Utente( const Username&,
-            const Profilo& );
+    Utente( const Username& u,
+            const Profilo& p ) :
+        username( u ),
+        profile( p ) {}
 
     /** Distruttore virtuale di Utente. */
     virtual ~Utente();
