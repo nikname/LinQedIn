@@ -1,5 +1,6 @@
 #include "formazione.h"
 #include <QList>
+#include <QListIterator>
 
 class Titolo {
 public:
@@ -34,6 +35,13 @@ public:
         activities( attivita ) {}
 };
 
+/** Overloading dell'operatore di output di QDebug.
+ *  Stampa su standard output tutte le informazioni associate al titolo di studio.
+ *
+ * @param QDebug  QDebug.
+ * @param Titolo  Titolo di studio.
+ * @param QDebug  QDebug.
+ */
 QDebug operator <<( QDebug qdbg, const Titolo& t ) {
     qdbg << "Scuola: " << t.school << "\n"
          << "Data diploma: " << t.dateAttended.toString( "yyyy" ) << "\n"
@@ -41,9 +49,11 @@ QDebug operator <<( QDebug qdbg, const Titolo& t ) {
          << "Campo di studio: " << t.fieldOfStudy << "\n"
          << "Votazione: " << t.grade << "\n"
          << "Attività svolte: " << t.activities << "\n";
+    return qdbg;
 }
 
 class Formazione::TitoliStudio {
+public:
     QList<Titolo> titlesList;
 };
 
@@ -51,6 +61,8 @@ Formazione::Formazione() : titles( new TitoliStudio ) {}
 
 QDebug operator <<( QDebug qdbg, const Formazione& f ) {
     qdbg << "TITOLI DI STUDIO:\n";
-    //TODO: aggiungere il resto
+    QListIterator<Titolo> it( f.titles->titlesList );
+    while ( it.hasNext() )
+        qdbg << it.next() << "\n";
     return qdbg;
 }

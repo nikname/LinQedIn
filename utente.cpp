@@ -36,3 +36,9 @@ QDebug operator <<( QDebug qdbg, const Utente& u ) {
          << u.getExperiences() << "\n";
     return qdbg;
 }
+
+/* Necessario per mostrare la lista dei contatti. */
+QDebug operator <<( QDebug qdbg, Utente* u ) {
+    qdbg << u->getProfile().getName() + u->getProfile().getSurname();
+    return qdbg;
+}

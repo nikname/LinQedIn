@@ -72,4 +72,13 @@ public:
  */
 QDebug operator <<( QDebug, const Utente& );
 
+/** Overloading operatori di output di QDebug.
+ *  Stampa su standard output nome e cognome dell'utente.
+ *
+ * @param QDebug  QDebug.
+ * @param Utente*  Puntatore all'oggetto utente.
+ * @param QDebug  QDebug.
+ */
+QDebug operator <<( QDebug, Utente* );
+
 #endif

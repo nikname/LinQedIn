@@ -1,4 +1,5 @@
 #include "rete.h"
+#include <QList>
 #include <QListIterator>
 
 class Utente;
@@ -19,7 +20,7 @@ public:
  *  Stampa su standard output nome e cognome del contatto.
  *
  * @param QDebug  QDebug.
- * @param Utente  Utente nella lista dei contatti.
+ * @param SmartUtente  Elemento nella lista dei contatti.
  * @return QDebug  QDebug.
  */
 QDebug operator <<( QDebug qdbg, const SmartUtente& su ) {

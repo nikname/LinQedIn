@@ -2,7 +2,6 @@
 #define RETE_H
 #include <QDebug>
 #include <QString>
-#include <QList>
 #include "username.h"
 
 class Rete {

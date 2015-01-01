@@ -9,7 +9,7 @@ private:
     class TitoliStudio;
     TitoliStudio* titles;
 public:
-
+    /** Costruttore di default ridefinito. */
     Formazione();
 
     /** Aggiunge un titolo di studio all'elenco dei titoli di studio.
@@ -23,6 +23,8 @@ public:
      * @param Education  Titoli di studio da rimuovere.
      */
     void removeEducation( Formazione );
+
+    friend QDebug operator <<( QDebug, const Formazione& );
 };
 
 /** Ridefinizione operatore di output di QDebug.

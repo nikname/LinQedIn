@@ -9,11 +9,9 @@ int main(int argc, char *argv[])
     MainWindow w;
     w.show();
 
-    Rete r;
-    //r.addContact( Username( "1" ) );
-    //r.addContact( Username( "2" ) );
+    Profilo p( "Nicola", "Dalla Costa", QDate( 1993, 12, 1 ) );
 
-    qDebug() << r;
+    qDebug() << p;
 
     return a.exec();
 }

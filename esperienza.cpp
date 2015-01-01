@@ -1,34 +1,65 @@
 #include "esperienza.h"
+#include <QList>
 
-QString Esperienza::getCompanyName() const {
-    return companyName;
-}
+class Lavoro {
+public:
+    QString companyName;
+    QString title;
+    QString location;
+    QDate begin;
+    QDate end;
 
-QString Esperienza::getTitle() const {
-    return title;
-}
+    /** Costruttore a 5 parametri.
+     *  Costruttore di default non disponibile.
+     *
+     * @param QString azienda  Nome dell'azienda.
+     * @param QString qualifica  Ruolo o posizione all'interno dell'azienda.
+     * @param QString posizione  Luogo in cui si trova l'azienda.
+     * @param QDate inizio  Data di inizio di tale occupazione.
+     * @param QDate fine  Data di fine di tale occupazione.
+     */
+    Lavoro( QString azienda,
+            QString qualifica,
+            QString posizione,
+            QDate inizio,
+            QDate fine ) :
+        companyName( azienda ),
+        title( qualifica ),
+        location( posizione ),
+        begin( inizio ),
+        end( fine ) {}
+};
 
-QString Esperienza::getLocation() const {
-    return location;
-}
-
-QString Esperienza::getPeriod() const {
-    // Da valutare QDate::getDate( int* year, int* month, int* day )
-    QString out( begin.toString( "dd.MM.yyyy" ) + " - " + end.toString( "dd.MM.yyyy" ) );
-    return out;
-}
-
-QString Esperienza::getDescription() const {
-    return description;
-}
-
-QDebug& operator <<( QDebug& qdbg, const Esperienza& e ) {
+/** Overloading dell'operatore di output di QDebug.
+ *  Stampa su standard output tutte le informazioni associate ad una esperienza lavorativa.
+ *
+ * @param QDebug  QDebug.
+ * @param Lavoro  Esperienza lavorativa.
+ * @param QDebug  QDebug.
+ */
+QDebug operator <<( QDebug qdbg, const Lavoro& l ) {
     qdbg << "ESPERIENZE:\n"
-        << "Azienda: " << e.getCompanyName() << "\n"
-        << "Ruolo: " << e.getTitle() << "\n"
-        << "Luogo: " << e.getLocation() << "\n"
-        << "Periodo: " << e.getPeriod() << "\n"
-        << "Descrizione: " << e.getDescription() << "\n";
+         << "Azienda: " << l.companyName << "\n"
+         << "Ruolo: " << l.title << "\n"
+         << "Luogo: " << l.location << "\n"
+         << "Periodo: " << l.begin.toString( "DD.MM.yyyy")
+                           + " - " +
+                           l.end.toString( "DD.MM.yyyy" ) << "\n";
+    return qdbg;
+}
+
+class Esperienza::EspLavorative {
+public:
+    QList<Lavoro> experiencesList;
+};
+
+Esperienza::Esperienza() : expiriences( new EspLavorative ) {}
+
+QDebug operator <<( QDebug qdbg, const Esperienza& e ) {
+    qdbg << "ESPERIENZE:\n";
+    QListIterator<Lavoro> it( e.expiriences->experiencesList );
+    while( it.hasNext() )
+        qdbg << it.next() << "\n";
     return qdbg;
 }
 

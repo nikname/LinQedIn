@@ -64,7 +64,7 @@ void Profilo::setMaritialStatus( QString ms ) {
 
 QDebug operator <<( QDebug qdbg, const Profilo& p ) {
     qdbg << "UTENTE: " << p.personalInfo->name + " " + p.personalInfo->surname << "\n"
-         << "DATA NASCITA: " << p.personalInfo->birthday.toString( "DD/MM/yyyy" ) << "\n"
+         << "DATA NASCITA: " << p.personalInfo->birthday.toString( "dd/MM/yyyy" ) << "\n"
          << "STATO CIVILE: " << p.personalInfo->maritialStatus << "\n";
     return qdbg;
 }
