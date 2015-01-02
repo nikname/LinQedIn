@@ -19,7 +19,9 @@ SOURCES += main.cpp\
     utente.cpp \
     rete.cpp \
     esperienza.cpp \
-    formazione.cpp
+    formazione.cpp \
+    smartutente.cpp \
+    database.cpp
 
 HEADERS  += mainwindow.h \
     profilo.h \
@@ -32,6 +34,8 @@ HEADERS  += mainwindow.h \
     utente_express.h \
     utente_business.h \
     esperienza.h \
-    formazione.h
+    formazione.h \
+    database.h \
+    smartutente.h
 
 FORMS    += mainwindow.ui
