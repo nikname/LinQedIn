@@ -17,7 +17,7 @@ private:
     Formazione educations;
     Esperienza experiences;
 public:
-    /** Costruttore ad 2 parametri.
+    /** Costruttore ad 2 parametri con 1 parametro di default.
      *  Associa un'username e delle informazioni personali (nome e cognome) all'utente.
      *  Invoca i costruttori di default per net, educations ed experiences.
      *  Costruttore di default non disponibile.
@@ -26,7 +26,7 @@ public:
      * @param Profilo p  Profilo dell'utente.
      */
     Utente( const Username& u,
-            const Profilo& p ) :
+            const Profilo& p = Profilo() ) :
         username( u ),
         profile( p ) {}
 

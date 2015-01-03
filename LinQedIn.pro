@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += core gui xml
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -21,7 +21,9 @@ SOURCES += main.cpp\
     esperienza.cpp \
     formazione.cpp \
     smartutente.cpp \
-    database.cpp
+    database.cpp \
+    linqedin_admin.cpp \
+    linqedin_client.cpp
 
 HEADERS  += mainwindow.h \
     profilo.h \
@@ -36,6 +38,8 @@ HEADERS  += mainwindow.h \
     esperienza.h \
     formazione.h \
     database.h \
-    smartutente.h
+    smartutente.h \
+    linqedin_admin.h \
+    linqedin_client.h
 
 FORMS    += mainwindow.ui

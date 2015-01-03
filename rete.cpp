@@ -1,4 +1,5 @@
 #include "rete.h"
+#include "database.h"
 #include "smartutente.h"
 #include <QList>
 #include <QListIterator>
@@ -11,7 +12,8 @@ public:
 Rete::Rete() : contacts( new Contatti ) {}
 
 void Rete::addContact( Username u ) {
-    // SmartUtente su( findOnDB( u ) );
+    // Utente* user = Database::find( u );
+    // SmartUtente su( user );
     // contacts->contactsList.append( su );
 }
 

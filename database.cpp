@@ -2,17 +2,70 @@
 #include "smartutente.h"
 #include <QList>
 #include <QListIterator>
+#include <QXmlStreamReader>
+#include <QXmlStreamWriter>
+#include <QFile>
 
 class Database::ListaUtenti {
 public:
     QList<SmartUtente> users;
 };
 
-void Database::load() {
+void Database::parseUser( QXmlStreamReader& xmlReader ) {
+
+    QString login = xmlReader.attributes().value( "login" ).toString();
+    Utente* u = new Utente( Username( login ) );
+    usersList->users.append( SmartUtente( u ) );
 
 }
 
-void Database::save() const {
+void Database::loadUsersList() {
+
+    QString path( "users.xml" );
+    QFile file( path );
+
+    if( !file.open( QIODevice::ReadOnly | QIODevice::Text ) ) {
+        qDebug() << "Cannot read file: " << file.errorString();
+        return;
+    }
+
+    QXmlStreamReader xmlReader( &file );
+
+    while( !xmlReader.atEnd() && !xmlReader.hasError() ) {
+        QXmlStreamReader::TokenType token = xmlReader.readNext();
+        if( token == QXmlStreamReader::StartDocument )
+            continue;
+        if( token == QXmlStreamReader::StartElement ) {
+            if( xmlReader.name() == "Utente" ) {
+                parseUser( xmlReader );
+            }
+        }
+        xmlReader.readNext();
+    }
+}
+
+void Database::saveUsersList() const {
+
+    QString path( "users.xml" );
+    QFile file( path );
+
+    file.open( QFile::WriteOnly );
+
+    QXmlStreamWriter xmlWriter( &file );
+    xmlWriter.setAutoFormatting(true);
+    xmlWriter.writeStartDocument();
+    xmlWriter.writeStartElement( "utenti" );
+
+    QListIterator<SmartUtente> it( usersList->users );
+    while( it.hasNext() ) {
+        Utente* u = it.next().getUser();
+        xmlWriter.writeStartElement( "utente" );
+        xmlWriter.writeAttribute( "login", u->getUsername().getLogin() );
+        xmlWriter.writeEndElement();
+    }
+
+    xmlWriter.writeEndElement();
+    xmlWriter.writeEndDocument();
 
 }
 

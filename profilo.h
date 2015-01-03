@@ -9,17 +9,15 @@ private:
     class InfoPersonali;
     InfoPersonali* personalInfo;
 public:
-    /** Costruttore a 4 parametro con 2 parametri di default.
-     *  Per creare un profilo sono necessari nome e cognome.
-     *  Costruttore di default non disponibile.
+    /** Costruttore a 4 parametro con 4 parametri di default.
      *
      * @param QString  Nome dell'utente.
      * @param QString  Cognome dell'utente.
      * @param QDate()  Data di nascita dell'utente.
      * @param QString  Stato civile dell'utente.
      */
-    Profilo( const QString&,
-             const QString&,
+    Profilo( const QString& = "",
+             const QString& = "",
              const QDate& = QDate(),
              const QString& = "" );
 
