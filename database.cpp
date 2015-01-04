@@ -14,10 +14,11 @@ public:
 void Database::parseUser( QXmlStreamReader& xmlReader ) {
 
     QString login = xmlReader.attributes().value( "login" ).toString();
-    Utente* u = new Utente( Username( login ) );
-    usersList->users.append( SmartUtente( u ) );
-
+    SmartUtente su( new Utente( Username( login ) ) );
+    usersList->users.append( su );
 }
+
+Database::Database() : usersList( new ListaUtenti ) {}
 
 void Database::loadUsersList() {
 
@@ -36,11 +37,10 @@ void Database::loadUsersList() {
         if( token == QXmlStreamReader::StartDocument )
             continue;
         if( token == QXmlStreamReader::StartElement ) {
-            if( xmlReader.name() == "Utente" ) {
+            if( xmlReader.name() == "utente" ) {
                 parseUser( xmlReader );
             }
         }
-        xmlReader.readNext();
     }
 }
 
@@ -48,7 +48,6 @@ void Database::saveUsersList() const {
 
     QString path( "users.xml" );
     QFile file( path );
-
     file.open( QFile::WriteOnly );
 
     QXmlStreamWriter xmlWriter( &file );

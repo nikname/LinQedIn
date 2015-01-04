@@ -16,6 +16,9 @@ private:
      */
     void parseUser( QXmlStreamReader& );
 public:
+
+    Database();
+
     /** Carica una lista di utenti da file. */
     void loadUsersList();
 
