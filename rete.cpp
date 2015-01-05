@@ -11,15 +11,42 @@ public:
 
 Rete::Rete() : contacts( new Contatti ) {}
 
-void Rete::addContact( Username u ) {
-    // Utente* user = Database::find( u );
-    // SmartUtente su( user );
-    // contacts->contactsList.append( su );
+void Rete::addContact( Username un, Database* db ) {
+    Utente* user = db->findUser( un );
+    if( user ) {
+        SmartUtente su( user );
+        contacts->contactsList.append( su );
+    }
 }
 
-void Rete::removeContact( Username u ) {
-    // SmartUtente su( findOnDB( u ) );
+void Rete::removeContact( Username un, Database* db ) {
+    // SmartUtente su( find( un ) );
     // contacts->contactsList.removeOne( su );
+}
+
+QString Rete::getContactsList() const {
+    QString users = "";
+    QListIterator<SmartUtente> it( contacts->contactsList );
+    while( it.hasNext() ) {
+        Utente* u = it.next().getUser();
+        users.append( u->getProfile().getName() );
+        users.append( u->getProfile().getSurname() );
+        if( it.hasNext() )
+            users.append( ", " );
+    }
+    return users;
+}
+
+QString Rete::getUsernamesList() const {
+    QString usernames = "";
+    QListIterator<SmartUtente> it( contacts->contactsList );
+    while( it.hasNext() ) {
+        Utente* u = it.next().getUser();
+        usernames.append( u->getUsername().getLogin() );
+        if( it.hasNext() )
+            usernames.append( ", ");
+    }
+    return usernames;
 }
 
 QDebug operator <<( QDebug qdbg, const Rete& r ) {

@@ -10,7 +10,11 @@ public:
     /** Costruttore di default ridefinito. */
     LinQedInAdmin();
 
-    void insert();
+    /** Inserisce un nuovo utente nel database.
+     *
+     * @param Utente*  Utente da inserire nel database.
+     */
+    void insertUser( Utente* );
 
     void find( Username ) const;
 
@@ -20,6 +24,8 @@ public:
     void changeSubscriptionType( Username );
 
     void save() const;
+
+    Database* getDB() const;
 };
 
 #endif // LINQEDIN_ADMIN_H

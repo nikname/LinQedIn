@@ -25,7 +25,7 @@ public:
      * @param Username u  Username dell'utente.
      * @param Profilo p  Profilo dell'utente.
      */
-    Utente( const Username& u,
+    Utente( const Username& u = Username(),
             const Profilo& p = Profilo() ) :
         username( u ),
         profile( p ) {}

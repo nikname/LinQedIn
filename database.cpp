@@ -13,8 +13,63 @@ public:
 
 void Database::parseUser( QXmlStreamReader& xmlReader ) {
 
-    QString login = xmlReader.attributes().value( "login" ).toString();
-    SmartUtente su( new Utente( Username( login ) ) );
+    if( xmlReader.tokenType() != QXmlStreamReader::StartElement &&
+        xmlReader.name() != "user" ) {
+        qDebug() << "Nessun elemento utente!";
+        return;
+    }
+
+    Utente* u = new Utente();
+
+    u->getUsername().changeLogin( xmlReader.attributes().value( "login" ).toString() );
+    xmlReader.readNext();
+
+    while( xmlReader.name() != "experiences" ||
+           xmlReader.tokenType() != QXmlStreamReader::EndElement ) {
+        if( xmlReader.name() == "profile" ) {
+            xmlReader.readNext();
+            while( xmlReader.name() != "profile" ||
+                   xmlReader.tokenType() != QXmlStreamReader::EndElement ) {
+                if( xmlReader.name() == "name" )
+                    u->getProfile().setName( xmlReader.readElementText() );
+                if( xmlReader.name() == "surname" )
+                    u->getProfile().setSurname( xmlReader.readElementText() );
+                if( xmlReader.name() == "birthday" ) {
+                    QString b = xmlReader.readElementText();
+                    QStringList list = b.split( "/" );
+                    u->getProfile().setBirthday( QDate( list[2].toInt(),
+                                                        list[1].toInt(),
+                                                        list[0].toInt() ) );
+                }
+                if( xmlReader.name() == "maritialStatus" )
+                    u->getProfile().setMaritialStatus( xmlReader.readElementText() );
+                xmlReader.readNext();
+            }
+        }
+        if( xmlReader.name() == "net" ) {
+            xmlReader.readNext();
+
+            while( xmlReader.name() != "net" ||
+                   xmlReader.tokenType() != QXmlStreamReader::EndElement ) {
+                if( xmlReader.name() == "contacts" ) {
+                    QString contacts = xmlReader.readElementText();
+                    QStringList list = contacts.split( "," );
+                    int i = 0;
+                    while( i < list.length() ) {
+                        qDebug() << list[i];
+                        u->getNet().addContact( list[i], this );
+                        i++;
+                    }
+                }
+                xmlReader.readNext();
+            }
+        }
+        if( xmlReader.name() == "educations" ) {}
+        if( xmlReader.name() == "experiences" ) {}
+        xmlReader.readNext();
+    }
+
+    SmartUtente su( u );
     usersList->users.append( su );
 }
 
@@ -31,13 +86,13 @@ void Database::loadUsersList() {
     }
 
     QXmlStreamReader xmlReader( &file );
-
     while( !xmlReader.atEnd() && !xmlReader.hasError() ) {
         QXmlStreamReader::TokenType token = xmlReader.readNext();
+        //qDebug() << xmlReader.name();
         if( token == QXmlStreamReader::StartDocument )
             continue;
         if( token == QXmlStreamReader::StartElement ) {
-            if( xmlReader.name() == "utente" ) {
+            if( xmlReader.name() == "user" ) {
                 parseUser( xmlReader );
             }
         }
@@ -53,23 +108,60 @@ void Database::saveUsersList() const {
     QXmlStreamWriter xmlWriter( &file );
     xmlWriter.setAutoFormatting(true);
     xmlWriter.writeStartDocument();
-    xmlWriter.writeStartElement( "utenti" );
+    xmlWriter.writeStartElement( "users" );
 
     QListIterator<SmartUtente> it( usersList->users );
     while( it.hasNext() ) {
         Utente* u = it.next().getUser();
-        xmlWriter.writeStartElement( "utente" );
-        xmlWriter.writeAttribute( "login", u->getUsername().getLogin() );
+        Username un = u->getUsername();
+        Profilo p = u->getProfile();
+        Rete n = u->getNet();
+        Formazione ed = u->getEducations();
+        Esperienza ex = u->getExperiences();
+
+        // <user>
+        xmlWriter.writeStartElement( "user" );
+        xmlWriter.writeAttribute( "login", un.getLogin() );
+
+        // <profile>
+        xmlWriter.writeStartElement( "profile" );
+        xmlWriter.writeTextElement( "name", p.getName() );
+        xmlWriter.writeTextElement( "surname", p.getSurname() );
+        xmlWriter.writeTextElement( "birthday", p.getBirthday().toString( "dd/MM/yyyy" ) );
+        xmlWriter.writeTextElement( "maritialStatus", p.getMaritialStatus() );
         xmlWriter.writeEndElement();
+        // </profile>
+
+        // <net>
+        xmlWriter.writeStartElement( "net" );
+        // <contacts>
+        xmlWriter.writeTextElement( "contacts", n.getUsernamesList() );
+        xmlWriter.writeEndElement();
+        // </contacts>
+
+        // <educations>
+        xmlWriter.writeStartElement( "educations" );
+        xmlWriter.writeEndElement();
+        // </educations>
+
+        // <experiences>
+        xmlWriter.writeStartElement( "experiences" );
+        xmlWriter.writeEndElement();
+        // </experiences>
+
+        xmlWriter.writeEndElement();
+        // </user>
     }
 
+    // </users>
     xmlWriter.writeEndElement();
     xmlWriter.writeEndDocument();
 
 }
 
-Utente* Database::find( Username un ) const {
-    Utente* u;
+Utente* Database::findUser( Username un ) const {
+    qDebug() << "*";
+    Utente* u = 0;
     QListIterator<SmartUtente> it( usersList->users );
     while( it.hasNext() ) {
         SmartUtente su = it.next();
@@ -77,4 +169,12 @@ Utente* Database::find( Username un ) const {
             u = su.getUser();
     }
     return u;
+}
+
+void Database::insert( Utente* u ) {
+    usersList->users.append( SmartUtente( u ) );
+}
+
+int Database::usersNumber() const {
+    return usersList->users.length();
 }

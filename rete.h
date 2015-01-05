@@ -4,6 +4,8 @@
 #include <QString>
 #include "username.h"
 
+class Database;
+
 class Rete {
 private:
     class Contatti; // Classe privata
@@ -18,13 +20,25 @@ public:
      *
      * @param Username  Username del contatto da aggiungere.
      */
-    void addContact( Username );
+    void addContact( Username, Database* );
 
     /** Rimuove un contatto dalla lista dei contatti.
      *
      * @param Username  Username del contatto da rimuovere.
      */
-    void removeContact( Username );
+    void removeContact( Username, Database* );
+
+    /** Ritorna la lista dei contatti (nome e cognome) separati da ",".
+     *
+     * @return QString  Lista dei contatti (nome e cognome) separati da ",".
+     */
+    QString getContactsList() const;
+
+    /** Ritorna la lista dei contatti (username) separati da ",".
+     *
+     * @return QString  Lista dei conatti (username) separati da ",".
+     */
+    QString getUsernamesList() const;
 
     friend QDebug operator <<( QDebug, const Rete& );
 };

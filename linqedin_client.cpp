@@ -2,7 +2,7 @@
 
 LinQedInClient::LinQedInClient( Username un ) {
     db->loadUsersList();
-    user = db->find( un );
+    user = db->findUser( un );
 }
 
 void LinQedInClient::aggiornaProfilo() {
@@ -21,9 +21,9 @@ void LinQedInClient::showProfilo() {
 }
 
 void LinQedInClient::insertRete( Username un ) {
-    user->getNet().addContact( un );
+    //user->getNet().addContact( un );
 }
 
 void LinQedInClient::removeRete( Username un ) {
-    user->getNet().removeContact( un );
+    //user->getNet().removeContact( un );
 }

@@ -4,7 +4,10 @@
 #include <QXmlStreamReader>
 #include "utente.h"
 
+class LinQedInAdmin;
+
 class Database {
+    friend class LinQedInAdmin;
 private:
     class ListaUtenti;
     ListaUtenti* usersList;
@@ -15,22 +18,34 @@ private:
      * @param QXmlStreamReader  Lettore di file xml passato per riferimento.
      */
     void parseUser( QXmlStreamReader& );
+
+    /** Inserisce un nuovo utente nella lista degli utenti del database.
+     *
+     * @param Utente*  Utende da inserire nella lista degli utenti del database.
+     */
+    void insert( Utente* );
 public:
-
+    /** Costruttore di default ridefinito. */
     Database();
-
-    /** Carica una lista di utenti da file. */
-    void loadUsersList();
-
-    /** Salva la lista degli utenti su file. */
-    void saveUsersList() const;
 
     /** Dato un'username, ricerca l'utente nel database.
      *
      * @param Username  Username dell'utente da ricercare.
      * @return Utente*  Utente ricercato.
      */
-    Utente* find( Username ) const;
+    Utente* findUser( Username ) const;
+
+    /** Carica una lista di utenti da file (XML). */
+    void loadUsersList();
+
+    /** Salva la lista degli utenti su file (XML). */
+    void saveUsersList() const;
+
+    /** Ritorna il numero di utenti presenti nel database.
+     *
+     * @return int  Numero di utenti presenti nel database.
+     */
+    int usersNumber() const; // *** JUST FOR DEBUG ***
 };
 
 #endif // DATABASE_H

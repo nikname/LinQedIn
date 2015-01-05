@@ -13,7 +13,7 @@ public:
      *
      * @param QString l  Login dell'utente.
      */
-    Username( const QString& l ) : login( l ) {}
+    Username( const QString& l = "" ) : login( l ) {}
 
     /** Ritorna la login associata all'utente.
      *
