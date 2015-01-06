@@ -18,8 +18,7 @@ public:
         QString grade;
         QString activities;
     public:
-        /** Costruttore a 6 parametri con 5 parametri di default.
-         *  Costruttore di default non disponibile.
+        /** Costruttore a 6 parametri con parametri di default.
          *
          * @param QString scuola  Nome della scuola, collegio, università.
          * @param QDate dataDiploma  Data del conseguimento del diploma.
@@ -28,12 +27,12 @@ public:
          * @param QString votazione  Giudizio finale.
          * @param QString attivita  Attività svolte con la scuola, collegio, università.
          */
-        Titolo( const QString& scuola,
-                const QDate& dataDiploma,
-                const QString& laurea,
-                const QString& corsoDiStudio,
-                const QString& votazione,
-                const QString& attivita ) :
+        Titolo( const QString& scuola = "",
+                const QDate& dataDiploma = QDate(),
+                const QString& laurea = "",
+                const QString& corsoDiStudio = "",
+                const QString& votazione = "",
+                const QString& attivita = "" ) :
             school( scuola ),
             dateAttended( dataDiploma ),
             degree( laurea ),
@@ -117,11 +116,24 @@ public:
     /** Costruttore di default ridefinito. */
     Formazione();
 
+    /** Ritorna un puntatore al titolo di studio in base all'indice.
+     *
+     * @param int  Indice del titolo di studio richiesto.
+     * @return Titolo*  Puntatore al prossimo titolo della lista dei titoli di studio.
+     */
+    Titolo getTitleByIndex( int ) const;
+
+    /** Ritorna il numero di titoli di studio dell'utente.
+     *
+     * @return int  Numero di titoli di studio dell'utente.
+     */
+    int titlesNumber() const;
+
     /** Aggiunge un titolo di studio all'elenco dei titoli di studio.
      *
      * @param Titolo  Titolo di studio da aggiungere.
      */
-    void addEducation( Titolo );
+    void addEducation( const Titolo& );
 
     /** Rimuove un titolo di studio dall'elenco dei titoli di studio.
      *
@@ -140,6 +152,15 @@ public:
  * @param QDebug  QDebug.
  */
 QDebug operator <<( QDebug, const Formazione::Titolo& );
+
+/** Overloading dell'operatore di uguaglianza di Titolo.
+ *  Confronta due oggetti della classe Titolo.
+ *
+ * @param Formazione::Titolo  Oggetto Titolo da confrontare.
+ * @param Formazione::Titolo  Oggetto Titolo da confrontare.
+ * @return bool  true se i due oggetti sono uguali; false altrimenti.
+ */
+bool operator ==( const Formazione::Titolo&, const Formazione::Titolo& );
 
 /** Ridefinizione operatore di output di QDebug.
  *  Stampa su standard output le informazioni di tutti i titoli di studio dell'utente.

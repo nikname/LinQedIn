@@ -60,12 +60,45 @@ QDebug operator <<( QDebug qdbg, const Formazione::Titolo& t ) {
     return qdbg;
 }
 
+bool operator ==( const Formazione::Titolo& t1, const Formazione::Titolo& t2 ) {
+    return t1.getSchool() == t2.getSchool() &&
+           t1.getDateAttended() == t2.getDateAttended() &&
+           t1.getDegree() == t2.getDegree() &&
+           t1.getFieldOfStudy() == t2.getFieldOfStudy() &&
+           t1.getGrade() == t2.getGrade() &&
+           t1.getActivities() == t2.getActivities();
+}
+
 class Formazione::TitoliStudio {
 public:
     QList<Titolo> titlesList;
 };
 
 Formazione::Formazione() : titles( new TitoliStudio ) {}
+
+Formazione::Titolo Formazione::getTitleByIndex( int index ) const {
+    QListIterator<Titolo> it( titles->titlesList );
+    Titolo t;
+    while( it.hasNext() && index ) {
+        t = it.next();
+        index--;
+    }
+    if( index )
+        qDebug() << "No title found at this index!";
+    return t;
+}
+
+int Formazione::titlesNumber() const {
+    return titles->titlesList.length();
+}
+
+void Formazione::addEducation( const Titolo& t ) {
+    titles->titlesList.append( t );
+}
+
+void Formazione::removeEducation( Titolo t ) {
+    titles->titlesList.removeOne( t );
+}
 
 QDebug operator <<( QDebug qdbg, const Formazione& f ) {
     qdbg << "TITOLI DI STUDIO:\n";

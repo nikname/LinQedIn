@@ -20,8 +20,11 @@ void Rete::addContact( Username un, Database* db ) {
 }
 
 void Rete::removeContact( Username un, Database* db ) {
-    // SmartUtente su( find( un ) );
-    // contacts->contactsList.removeOne( su );
+    Utente* user = db->findUser( un );
+    //if( user ) {
+        //SmartUtente su( user );
+        //contacts->contactsList.removeOne( su );
+    //}
 }
 
 QString Rete::getContactsList() const {

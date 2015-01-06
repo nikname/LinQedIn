@@ -17,8 +17,7 @@ public:
         QDate begin;
         QDate end;
     public:
-        /** Costruttore a 5 parametri.
-         *  Costruttore di default non disponibile.
+        /** Costruttore a 5 parametri con parametri di default.
          *
          * @param QString azienda  Nome dell'azienda.
          * @param QString ruolo  Ruolo o posizione all'interno dell'azienda.
@@ -26,7 +25,7 @@ public:
          * @param QDate inizio  Data di inizio di tale occupazione.
          * @param QDate fine  Data di fine di tale occupazione.
          */
-        Lavoro( const QString& azienda,
+        Lavoro( const QString& azienda = "",
                 const QString& ruolo = "",
                 const QString& posizione = "",
                 const QDate& inizio = QDate(),

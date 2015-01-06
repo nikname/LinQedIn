@@ -48,23 +48,41 @@ void Database::parseUser( QXmlStreamReader& xmlReader ) {
         }
         if( xmlReader.name() == "net" ) {
             xmlReader.readNext();
-
-            while( xmlReader.name() != "net" ||
-                   xmlReader.tokenType() != QXmlStreamReader::EndElement ) {
-                if( xmlReader.name() == "contacts" ) {
-                    QString contacts = xmlReader.readElementText();
-                    QStringList list = contacts.split( "," );
-                    int i = 0;
-                    while( i < list.length() ) {
-                        qDebug() << list[i];
-                        u->getNet().addContact( list[i], this );
-                        i++;
+            continue;
+        }
+        if( xmlReader.name() == "educations" ) {
+            xmlReader.readNext();
+            while( xmlReader.name() != "educations"
+                   || xmlReader.tokenType() != QXmlStreamReader::EndElement ) {
+                if( xmlReader.name() == "title" ) {
+                    Formazione::Titolo t = Formazione::Titolo();
+                    xmlReader.readNext();
+                    while( xmlReader.name() != "title"
+                           || xmlReader.tokenType() != QXmlStreamReader::EndElement ) {
+                        if( xmlReader.name() == "school" )
+                            t.setSchool( xmlReader.readElementText() );
+                        if( xmlReader.name() == "dateAttended" ) {
+                            QString d = xmlReader.readElementText();
+                            QStringList list = d.split( "/" );
+                            t.setDateAttended( QDate( list[2].toInt(),
+                                                      list[1].toInt(),
+                                                      list[0].toInt() ) );
+                        }
+                        if( xmlReader.name() == "degree" )
+                            t.setDegree( xmlReader.readElementText() );
+                        if( xmlReader.name() == "fieldOfStudy" )
+                            t.setFieldOfStudy( xmlReader.readElementText() );
+                        if( xmlReader.name() == "grade" )
+                            t.setGrade( xmlReader.readElementText() );
+                        if( xmlReader.name() == "activities" )
+                            t.setActivity( xmlReader.readElementText() );
+                        xmlReader.readNext();
                     }
+                    u->getEducations().addEducation( t );
                 }
                 xmlReader.readNext();
             }
         }
-        if( xmlReader.name() == "educations" ) {}
         if( xmlReader.name() == "experiences" ) {}
         xmlReader.readNext();
     }
@@ -92,9 +110,8 @@ void Database::loadUsersList() {
         if( token == QXmlStreamReader::StartDocument )
             continue;
         if( token == QXmlStreamReader::StartElement ) {
-            if( xmlReader.name() == "user" ) {
+            if( xmlReader.name() == "user" )
                 parseUser( xmlReader );
-            }
         }
     }
 }
@@ -106,7 +123,7 @@ void Database::saveUsersList() const {
     file.open( QFile::WriteOnly );
 
     QXmlStreamWriter xmlWriter( &file );
-    xmlWriter.setAutoFormatting(true);
+    xmlWriter.setAutoFormatting( true );
     xmlWriter.writeStartDocument();
     xmlWriter.writeStartElement( "users" );
 
@@ -141,6 +158,19 @@ void Database::saveUsersList() const {
 
         // <educations>
         xmlWriter.writeStartElement( "educations" );
+        for( int i = 1; i <= ed.titlesNumber(); i++ ) {
+            // <title>
+            Formazione::Titolo t = ed.getTitleByIndex( i );
+            xmlWriter.writeStartElement( "title" );
+            xmlWriter.writeTextElement( "school", t.getSchool());
+            xmlWriter.writeTextElement( "dateAttended", t.getDateAttended().toString("dd/MM/yyyy") );
+            xmlWriter.writeTextElement( "degree", t.getDegree() );
+            xmlWriter.writeTextElement( "fieldOfStudy", t.getFieldOfStudy());
+            xmlWriter.writeTextElement( "grade", t.getGrade() );
+            xmlWriter.writeTextElement( "activities", t.getActivities() );
+            xmlWriter.writeEndElement();
+            // </title>
+        }
         xmlWriter.writeEndElement();
         // </educations>
 
@@ -160,7 +190,6 @@ void Database::saveUsersList() const {
 }
 
 Utente* Database::findUser( Username un ) const {
-    qDebug() << "*";
     Utente* u = 0;
     QListIterator<SmartUtente> it( usersList->users );
     while( it.hasNext() ) {
