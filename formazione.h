@@ -116,10 +116,10 @@ public:
     /** Costruttore di default ridefinito. */
     Formazione();
 
-    /** Ritorna un puntatore al titolo di studio in base all'indice.
+    /** Ritorna il titolo di studio dell'utente in base all'indice.
      *
      * @param int  Indice del titolo di studio richiesto.
-     * @return Titolo*  Puntatore al prossimo titolo della lista dei titoli di studio.
+     * @return Titolo  Titolo della lista dei titoli di studio dell'utente.
      */
     Titolo getTitleByIndex( int ) const;
 
@@ -162,7 +162,7 @@ QDebug operator <<( QDebug, const Formazione::Titolo& );
  */
 bool operator ==( const Formazione::Titolo&, const Formazione::Titolo& );
 
-/** Ridefinizione operatore di output di QDebug.
+/** Overloading dell'operatore di output di QDebug.
  *  Stampa su standard output le informazioni di tutti i titoli di studio dell'utente.
  *
  * @param QDebug  QDebug.

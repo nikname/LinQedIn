@@ -24,7 +24,7 @@ void Database::parseUser( QXmlStreamReader& xmlReader ) {
     u->getUsername().changeLogin( xmlReader.attributes().value( "login" ).toString() );
     xmlReader.readNext();
 
-    while( xmlReader.name() != "experiences" ||
+    while( xmlReader.name() != "user" ||
            xmlReader.tokenType() != QXmlStreamReader::EndElement ) {
         if( xmlReader.name() == "profile" ) {
             xmlReader.readNext();
@@ -62,8 +62,7 @@ void Database::parseUser( QXmlStreamReader& xmlReader ) {
                         if( xmlReader.name() == "school" )
                             t.setSchool( xmlReader.readElementText() );
                         if( xmlReader.name() == "dateAttended" ) {
-                            QString d = xmlReader.readElementText();
-                            QStringList list = d.split( "/" );
+                            QStringList list = xmlReader.readElementText().split( "/" );
                             t.setDateAttended( QDate( list[2].toInt(),
                                                       list[1].toInt(),
                                                       list[0].toInt() ) );
@@ -83,7 +82,42 @@ void Database::parseUser( QXmlStreamReader& xmlReader ) {
                 xmlReader.readNext();
             }
         }
-        if( xmlReader.name() == "experiences" ) {}
+        if( xmlReader.name() == "experiences" ) {
+            xmlReader.readNext();
+            while( xmlReader.name() != "experiences"
+                   || xmlReader.tokenType() != QXmlStreamReader::EndElement ) {
+                if( xmlReader.name() == "job" ) {
+                    Esperienza::Lavoro j = Esperienza::Lavoro();
+                    xmlReader.readNext();
+                    while( xmlReader.name() != "job"
+                           || xmlReader.tokenType() != QXmlStreamReader::EndElement ) {
+                        if( xmlReader.name() == "companyName" )
+                            j.setCompanyName( xmlReader.readElementText() );
+                        if( xmlReader.name() == "title" )
+                            j.setTitle( xmlReader.readElementText() );
+                        if( xmlReader.name() == "location" )
+                            j.setLocation( xmlReader.readElementText() );
+                        if( xmlReader.name() == "begin" ) {
+                            QStringList list = xmlReader.readElementText().split( "/" );
+                            //j.setBegin( QDate( list[2].toInt(),
+                            //                   list[1].toInt(),
+                            //                   list[0].toInt() ) );
+                            qDebug() << list;
+                        }
+                        if( xmlReader.name() == "end" ) {
+                            QStringList list = xmlReader.readElementText().split( "/" );
+                            //j.setEnd( QDate( list[2].toInt(),
+                            //                 list[1].toInt(),
+                            //                 list[0].toInt() ) );
+                            qDebug() << list;
+                        }
+                        xmlReader.readNext();
+                    }
+                    u->getExperiences().addExperience( j );
+                }
+                xmlReader.readNext();
+            }
+        }
         xmlReader.readNext();
     }
 
@@ -106,7 +140,6 @@ void Database::loadUsersList() {
     QXmlStreamReader xmlReader( &file );
     while( !xmlReader.atEnd() && !xmlReader.hasError() ) {
         QXmlStreamReader::TokenType token = xmlReader.readNext();
-        //qDebug() << xmlReader.name();
         if( token == QXmlStreamReader::StartDocument )
             continue;
         if( token == QXmlStreamReader::StartElement ) {
@@ -176,6 +209,18 @@ void Database::saveUsersList() const {
 
         // <experiences>
         xmlWriter.writeStartElement( "experiences" );
+        for( int i = 1; i <= ex.experiencesNumber(); i++ ) {
+            // <job>
+            Esperienza::Lavoro j = ex.getJobByIndex( i );
+            xmlWriter.writeStartElement( "job" );
+            xmlWriter.writeTextElement( "companyName", j.getCompanyName() );
+            xmlWriter.writeTextElement( "title", j.getTitle() );
+            xmlWriter.writeTextElement( "location", j.getLocation() );
+            xmlWriter.writeTextElement( "begin", j.getBegin().toString( "dd/MM/yyyy" ) );
+            xmlWriter.writeTextElement( "end", j.getEnd().toString( "dd/MM/yyyy" ) );
+            xmlWriter.writeEndElement();
+            // </job>
+        }
         xmlWriter.writeEndElement();
         // </experiences>
 

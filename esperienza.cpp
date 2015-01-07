@@ -1,5 +1,6 @@
 #include "esperienza.h"
 #include <QList>
+#include <QListIterator>
 
 QString Esperienza::Lavoro::getCompanyName() const {
     return companyName;
@@ -13,10 +14,12 @@ QString Esperienza::Lavoro::getLocation() const {
     return location;
 }
 
-QString Esperienza::Lavoro::getPeriod() const {
-    // Da valutare QDate::getDate( int* year, int* month, int* day )
-    QString out( begin.toString( "dd.MM.yyyy" ) + " - " + end.toString( "dd.MM.yyyy" ) );
-    return out;
+QDate Esperienza::Lavoro::getBegin() const {
+    return begin;
+}
+
+QDate Esperienza::Lavoro::getEnd() const {
+    return end;
 }
 
 void Esperienza::Lavoro::setCompanyName( QString azienda ) {
@@ -40,20 +43,43 @@ void Esperienza::Lavoro::setEnd( QDate fine ) {
 }
 
 QDebug operator <<( QDebug qdbg, const Esperienza::Lavoro& l ) {
-    qdbg << "ESPERIENZE:\n"
-         << "Azienda: " << l.getCompanyName() << "\n"
+    qdbg << "Azienda: " << l.getCompanyName() << "\n"
          << "Ruolo: " << l.getTitle() << "\n"
          << "Luogo: " << l.getLocation() << "\n"
-         << "Periodo: " << l.getPeriod() << "\n";
+         << "Periodo: " << l.getBegin() << "-" << l.getEnd() << "\n";
     return qdbg;
+}
+
+bool operator ==( const Esperienza::Lavoro& l1, const Esperienza::Lavoro& l2 ) {
+    return ( l1.getCompanyName() == l2.getCompanyName() ) &&
+           ( l1.getLocation() == l2.getLocation() ) &&
+           ( l1.getBegin() == l2.getBegin() ) &&
+           ( l1.getEnd() == l2.getEnd() ) &&
+           ( l1.getTitle() == l2.getTitle() );
 }
 
 class Esperienza::EspLavorative {
 public:
-    QList<Lavoro> experiencesList;
+    QList<Esperienza::Lavoro> experiencesList;
 };
 
 Esperienza::Esperienza() : expiriences( new EspLavorative ) {}
+
+Esperienza::Lavoro Esperienza::getJobByIndex( int index ) const {
+    QListIterator<Lavoro> it( expiriences->experiencesList );
+    Lavoro j;
+    if( index > experiencesNumber() )
+        qDebug() << "No experience found at index" << index << "!";
+    else {
+        while( it.hasNext() )
+            j = it.next();
+    }
+    return j;
+}
+
+int Esperienza::experiencesNumber() const {
+    return expiriences->experiencesList.length();
+}
 
 void Esperienza::addExperience( const Lavoro& l ) {
     expiriences->experiencesList.append( l );
@@ -61,21 +87,6 @@ void Esperienza::addExperience( const Lavoro& l ) {
 
 void Esperienza::removeExperience( const Lavoro& l ) {
     expiriences->experiencesList.removeAll( l );
-}
-
-/** Overloading dell'operatore di uguaglianza tra Esperienza::Lavoro.
- *  Necessario per QList::removeAll( const Lavoro& ) in
- *  void Esperienza::removeExperience( const Lavoro& ).
- *
- * @param Esperienza::Lavoro l1  Lavoro.
- * @param Esperienza::Lavoro l2  Lavoro.
- * @return bool  true se i due oggetti di tipo Lavoro coincidono; false altrimenti.
- */
-bool operator ==( const Esperienza::Lavoro& l1, const Esperienza::Lavoro& l2 ) {
-    return ( l1.getCompanyName() == l2.getCompanyName() ) &&
-           ( l1.getLocation() == l2.getLocation() ) &&
-           ( l1.getPeriod() == l2.getPeriod() ) &&
-           ( l1.getTitle() == l2.getTitle() );
 }
 
 QDebug operator <<( QDebug qdbg, const Esperienza& e ) {

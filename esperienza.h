@@ -54,11 +54,17 @@ public:
          */
         QString getLocation() const;
 
-        /** Ritorna il periodo nel quale l'utente ha lavorato nell'azienda.
+        /** Ritorna la data nella quale l'utente ha iniziato l'esperienza lavorativa.
          *
-         * @return QString  Periodo nel quale l'utente ha lavorato nell'aziena.
+         * @return QDate  Data nella quale l'utente ha iniziato l'esperienza lavorativa.
          */
-        QString getPeriod() const;
+        QDate getBegin() const;
+
+        /** Ritorna la data nella quale l'utente ha terminato l'esperienza lavorativa.
+         *
+         * @return QDate  Data nellq quale l'utente ha terminato l'esperienza lavorativa.
+         */
+        QDate getEnd() const;
 
         /** Modifica il nome dell'azienda.
          *
@@ -94,6 +100,19 @@ public:
     /** Costruttore di default ridefinito. */
     Esperienza();
 
+    /** Ritorna l'esperienza dell'utente in base all'indice.
+     *
+     * @param int  Indice dell'esperienza dell'utente richiesta.
+     * @return Lavoro  Esperienza della lista delle esperienze dell'utente.
+     */
+    Lavoro getJobByIndex( int ) const;
+
+    /** Ritorna il numero di esperienze dell'utente.
+     *
+     * @return int  Numero delle esperienze dell'utente.
+     */
+    int experiencesNumber() const;
+
     /** Aggiunge un'esperienza alle esperienze lavorative.
      *
      * @param Lavoro  Esperienza da aggiungere alle esperienze lavorative.
@@ -117,6 +136,15 @@ public:
  * @param QDebug  QDebug.
  */
 QDebug operator <<( QDebug, const Esperienza::Lavoro& );
+
+/** Overloading dell'operatore di uguaglianza di Lavoro.
+ *  Confronta due oggetti della classe Lavoro.
+ *
+ * @param Esperienza::Lavoro  Oggetto di tipo Lavoro da confrontare.
+ * @param Esperienza::Lavoro  Oggetto di tipo Lavoro da confrontare.
+ * @return bool  true se i due oggetti sono uguali; false altrimenti.
+ */
+bool operator ==( const Esperienza::Lavoro&, const Esperienza::Lavoro& );
 
 /** Overloading dell'operatore di output di QDebug.
  *  Stampa su standard output tutte esperienza lavorative dell'utente.

@@ -26,28 +26,28 @@ QString Formazione::Titolo::getActivities() const {
     return activities;
 }
 
-void Formazione::Titolo::setSchool( QString s ) {
-    school = s;
+void Formazione::Titolo::setSchool( QString scuola ) {
+    school = scuola;
 }
 
-void Formazione::Titolo::setDateAttended( QDate d ) {
-    dateAttended = d;
+void Formazione::Titolo::setDateAttended( QDate dataDiploma ) {
+    dateAttended = dataDiploma;
 }
 
-void Formazione::Titolo::setDegree( QString d ) {
-    degree = d;
+void Formazione::Titolo::setDegree( QString laurea ) {
+    degree = laurea;
 }
 
-void Formazione::Titolo::setFieldOfStudy( QString f ) {
-    fieldOfStudy = f;
+void Formazione::Titolo::setFieldOfStudy( QString campoDiStudio ) {
+    fieldOfStudy = campoDiStudio;
 }
 
-void Formazione::Titolo::setGrade( QString g ) {
-    grade = g;
+void Formazione::Titolo::setGrade( QString valutazione ) {
+    grade = valutazione;
 }
 
-void Formazione::Titolo::setActivity( QString a ) {
-    activities = a;
+void Formazione::Titolo::setActivity( QString attivita ) {
+    activities = attivita;
 }
 
 QDebug operator <<( QDebug qdbg, const Formazione::Titolo& t ) {
@@ -61,17 +61,17 @@ QDebug operator <<( QDebug qdbg, const Formazione::Titolo& t ) {
 }
 
 bool operator ==( const Formazione::Titolo& t1, const Formazione::Titolo& t2 ) {
-    return t1.getSchool() == t2.getSchool() &&
-           t1.getDateAttended() == t2.getDateAttended() &&
-           t1.getDegree() == t2.getDegree() &&
-           t1.getFieldOfStudy() == t2.getFieldOfStudy() &&
-           t1.getGrade() == t2.getGrade() &&
-           t1.getActivities() == t2.getActivities();
+    return ( t1.getSchool() == t2.getSchool() ) &&
+           ( t1.getDateAttended() == t2.getDateAttended() ) &&
+           ( t1.getDegree() == t2.getDegree() ) &&
+           ( t1.getFieldOfStudy() == t2.getFieldOfStudy() ) &&
+           ( t1.getGrade() == t2.getGrade() ) &&
+           ( t1.getActivities() == t2.getActivities() );
 }
 
 class Formazione::TitoliStudio {
 public:
-    QList<Titolo> titlesList;
+    QList<Formazione::Titolo> titlesList;
 };
 
 Formazione::Formazione() : titles( new TitoliStudio ) {}
@@ -79,12 +79,12 @@ Formazione::Formazione() : titles( new TitoliStudio ) {}
 Formazione::Titolo Formazione::getTitleByIndex( int index ) const {
     QListIterator<Titolo> it( titles->titlesList );
     Titolo t;
-    while( it.hasNext() && index ) {
-        t = it.next();
-        index--;
+    if( index < titlesNumber() )
+        qDebug() << "No title found at index" << index << "!";
+    else {
+        while( it.hasNext() )
+            t = it.next();
     }
-    if( index )
-        qDebug() << "No title found at this index!";
     return t;
 }
 
