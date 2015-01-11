@@ -23,14 +23,16 @@ void Database::parseUser( QXmlStreamReader& xmlReader ) {
     }
 
     Utente* u;
-    if( xmlReader.attributes().value( "type ") == "basic" )
-        u = new UtenteBasic();
-    else if( xmlReader.attributes().value( "type ") == "express" )
-        u = new UtenteExpress();
-    else if( xmlReader.attributes().value( "type ") == "business" )
-        u = new UtenteBusiness();
+    QString type = xmlReader.attributes().value( "type" ).toString();
+    QString un = xmlReader.attributes().value( "login" ).toString();
+    if( type == "basic" )
+        u = new UtenteBasic( un );
+    else if( type == "express" )
+        u = new UtenteExpress( un );
+    else if( type == "business" )
+        u = new UtenteBusiness( un );
+    else qDebug() << "#"; // throw
 
-    u->getUsername().changeLogin( xmlReader.attributes().value( "login" ).toString() );
     xmlReader.readNext();
 
     while( xmlReader.name() != "user" ||
@@ -46,9 +48,11 @@ void Database::parseUser( QXmlStreamReader& xmlReader ) {
                 if( xmlReader.name() == "birthday" ) {
                     QString b = xmlReader.readElementText();
                     QStringList list = b.split( "/" );
-                    u->getProfile().setBirthday( QDate( list[2].toInt(),
-                                                        list[1].toInt(),
-                                                        list[0].toInt() ) );
+                    if( !list[0].isEmpty() && !list[1].isEmpty() && !list[2].isEmpty() )
+                        u->getProfile().setBirthday( QDate( list[2].toInt(),
+                                                            list[1].toInt(),
+                                                            list[0].toInt() ) );
+                    else u->getProfile().setBirthday( QDate() );
                 }
                 if( xmlReader.name() == "maritialStatus" )
                     u->getProfile().setMaritialStatus( xmlReader.readElementText() );
@@ -72,9 +76,11 @@ void Database::parseUser( QXmlStreamReader& xmlReader ) {
                             t.setSchool( xmlReader.readElementText() );
                         if( xmlReader.name() == "dateAttended" ) {
                             QStringList list = xmlReader.readElementText().split( "/" );
-                            t.setDateAttended( QDate( list[2].toInt(),
-                                                      list[1].toInt(),
-                                                      list[0].toInt() ) );
+                            if( !list[0].isEmpty() && !list[1].isEmpty() && !list[2].isEmpty() )
+                                u->getProfile().setBirthday( QDate( list[2].toInt(),
+                                                                    list[1].toInt(),
+                                                                    list[0].toInt() ) );
+                            else u->getProfile().setBirthday( QDate() );
                         }
                         if( xmlReader.name() == "degree" )
                             t.setDegree( xmlReader.readElementText() );
@@ -108,17 +114,19 @@ void Database::parseUser( QXmlStreamReader& xmlReader ) {
                             j.setLocation( xmlReader.readElementText() );
                         if( xmlReader.name() == "begin" ) {
                             QStringList list = xmlReader.readElementText().split( "/" );
-                            //j.setBegin( QDate( list[2].toInt(),
-                            //                   list[1].toInt(),
-                            //                   list[0].toInt() ) );
-                            qDebug() << list;
+                            if( !list[0].isEmpty() && !list[1].isEmpty() && !list[2].isEmpty() )
+                                u->getProfile().setBirthday( QDate( list[2].toInt(),
+                                                                    list[1].toInt(),
+                                                                    list[0].toInt() ) );
+                            else u->getProfile().setBirthday( QDate() );
                         }
                         if( xmlReader.name() == "end" ) {
                             QStringList list = xmlReader.readElementText().split( "/" );
-                            //j.setEnd( QDate( list[2].toInt(),
-                            //                 list[1].toInt(),
-                            //                 list[0].toInt() ) );
-                            qDebug() << list;
+                            if( !list[0].isEmpty() && !list[1].isEmpty() && !list[2].isEmpty() )
+                                u->getProfile().setBirthday( QDate( list[2].toInt(),
+                                                                    list[1].toInt(),
+                                                                    list[0].toInt() ) );
+                            else u->getProfile().setBirthday( QDate() );
                         }
                         xmlReader.readNext();
                     }
@@ -130,11 +138,14 @@ void Database::parseUser( QXmlStreamReader& xmlReader ) {
         xmlReader.readNext();
     }
 
-    SmartUtente su( u );
-    usersList->users.append( su );
+    this->insert( u );
 }
 
 Database::Database() : usersList( new ListaUtenti ) {}
+
+Database::~Database() {
+    delete usersList;
+}
 
 void Database::loadUsersList() {
 
@@ -247,7 +258,6 @@ void Database::saveUsersList() const {
     // </users>
     xmlWriter.writeEndElement();
     xmlWriter.writeEndDocument();
-
 }
 
 Utente* Database::findUser( Username un ) const {
@@ -262,7 +272,8 @@ Utente* Database::findUser( Username un ) const {
 }
 
 void Database::insert( Utente* u ) {
-    usersList->users.append( SmartUtente( u ) );
+    SmartUtente* su = new SmartUtente( u );
+    usersList->users.append( *su );
 }
 
 int Database::usersNumber() const {

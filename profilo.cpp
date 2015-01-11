@@ -30,6 +30,10 @@ Profilo::Profilo( const QString& nome,
                   const QString& statoCivile ) :
     personalInfo( new InfoPersonali( nome, cognome, compleanno, statoCivile ) ) {}
 
+//Profilo::~Profilo() {
+//    delete personalInfo;
+//}
+
 QString Profilo::getName() const {
     return personalInfo->name;
 }

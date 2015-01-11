@@ -116,6 +116,11 @@ public:
     /** Costruttore di default ridefinito. */
     Formazione();
 
+    /** Distruttore di Formazione.
+     *  Invoca il distruttore di TitoliStudio.
+     */
+    ~Formazione();
+
     /** Ritorna il titolo di studio dell'utente in base all'indice.
      *
      * @param int  Indice del titolo di studio richiesto.

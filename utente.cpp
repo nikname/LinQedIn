@@ -26,18 +26,12 @@ void Utente::FuntoreRicerca::operator ()( const SmartUtente& x ) const {
     qDebug() << x.getUser()->getProfile();
 }
 
-QDebug operator <<( QDebug qdbg, const Utente& u ) {
-    qdbg << "*** PROFILO UTENTE ***\n\n"
-         << u.getUsername() << "\n"
-         << u.getProfile() << "\n"
-         << u.getNet() << "\n"
-         << u.getEducations() << "\n"
-         << u.getExperiences() << "\n";
-    return qdbg;
-}
-
-// Necessario per mostrare i contatti.
 QDebug operator <<( QDebug qdbg, Utente* u ) {
-    qdbg << u->getProfile().getName() + u->getProfile().getSurname();
+    qdbg << "*** PROFILO UTENTE ***\n\n"
+         << u->getUsername() << "\n"
+         << u->getProfile() << "\n"
+         << u->getNet() << "\n"
+         << u->getEducations() << "\n"
+         << u->getExperiences() << "\n";
     return qdbg;
 }

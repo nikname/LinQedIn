@@ -63,10 +63,14 @@ public:
     QList<Esperienza::Lavoro> experiencesList;
 };
 
-Esperienza::Esperienza() : expiriences( new EspLavorative ) {}
+Esperienza::Esperienza() : experiences( new EspLavorative ) {}
+
+Esperienza::~Esperienza() {
+    delete experiences;
+}
 
 Esperienza::Lavoro Esperienza::getJobByIndex( int index ) const {
-    QListIterator<Lavoro> it( expiriences->experiencesList );
+    QListIterator<Lavoro> it( experiences->experiencesList );
     Lavoro j;
     if( index > experiencesNumber() )
         qDebug() << "No experience found at index" << index << "!";
@@ -78,20 +82,20 @@ Esperienza::Lavoro Esperienza::getJobByIndex( int index ) const {
 }
 
 int Esperienza::experiencesNumber() const {
-    return expiriences->experiencesList.length();
+    return experiences->experiencesList.length();
 }
 
 void Esperienza::addExperience( const Lavoro& l ) {
-    expiriences->experiencesList.append( l );
+    experiences->experiencesList.append( l );
 }
 
 void Esperienza::removeExperience( const Lavoro& l ) {
-    expiriences->experiencesList.removeAll( l );
+    experiences->experiencesList.removeAll( l );
 }
 
 QDebug operator <<( QDebug qdbg, const Esperienza& e ) {
     qdbg << "ESPERIENZE:\n";
-    QListIterator<Esperienza::Lavoro> it( e.expiriences->experiencesList );
+    QListIterator<Esperienza::Lavoro> it( e.experiences->experiencesList );
     while( it.hasNext() )
         qdbg << it.next() << "\n";
     return qdbg;

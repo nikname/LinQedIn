@@ -5,16 +5,16 @@
 class UtenteExpress : public UtentePagante {
 public:
     /** Costruttore a 2 parametri con 2 parametri di default.
-     *  Richiama il costruttore della classe base diretta.
+     *  Richiama il costruttore a 2 parametri della classe base diretta.
      *
-     * @param Username un  Username dell'utente da creare.
-     * @param Profilo p  Profilo dell'utente da creare.
+     * @param Username un  Username dell'utente express.
+     * @param Profilo p  Profilo dell'utente express.
      */
     UtenteExpress( const Username& un = Username(),
                    const Profilo& p = Profilo() ) :
         UtentePagante( un, p ) {}
 
-    /** Ricerca polimorfa, virtuale pura.
+    /** Ricerca polimorfa virtuale.
      *  Esegue la ricerca degli utenti nel database per utenti express.
      *
      * @param Database  Database nel quale verrà effettuata la ricerca.

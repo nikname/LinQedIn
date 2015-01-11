@@ -7,7 +7,7 @@
 class Esperienza {
 private:
     class EspLavorative;
-    EspLavorative* expiriences;
+    EspLavorative* experiences;
 public:
     class Lavoro {
     private:
@@ -99,6 +99,11 @@ public:
 
     /** Costruttore di default ridefinito. */
     Esperienza();
+
+    /** Distruttore di Esperienza.
+     *  Invoca il distruttore di EspLavorative.
+     */
+    ~Esperienza();
 
     /** Ritorna l'esperienza dell'utente in base all'indice.
      *

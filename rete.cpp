@@ -12,20 +12,23 @@ public:
 
 Rete::Rete() : contacts( new Contatti ) {}
 
+Rete::~Rete() {
+    delete contacts;
+}
+
 void Rete::addContact( Username un, Database* db ) {
     Utente* user = db->findUser( un );
     if( user ) {
-        SmartUtente su( user );
-        contacts->contactsList.append( su );
+        contacts->contactsList.append( SmartUtente( user ) );
     }
 }
 
 void Rete::removeContact( Username un, Database* db ) {
     Utente* user = db->findUser( un );
-    //if( user ) {
-        //SmartUtente su( user );
-        //contacts->contactsList.removeOne( su );
-    //}
+    if( user ) {
+        contacts->contactsList.removeOne( SmartUtente( user ) );
+        delete user;
+    }
 }
 
 QString Rete::getContactsList() const {
@@ -55,12 +58,13 @@ QString Rete::getUsernamesList() const {
 
 QDebug operator <<( QDebug qdbg, const Rete& r ) {
     qdbg << "CONTATTI: \n";
-    QListIterator<SmartUtente> it( r.contacts->contactsList );
+    r.getContactsList();
+    /*QListIterator<SmartUtente> it( r.contacts->contactsList );
     while( it.hasNext() ) {
         qdbg << it.next();
         if( it.hasNext() )
             qdbg << ", ";
     }
-    qdbg << "\n";
+    qdbg << "\n";*/
     return qdbg;
 }

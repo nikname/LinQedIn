@@ -21,6 +21,11 @@ public:
              const QDate& = QDate(),
              const QString& = "" );
 
+    /** Distruttore di Profilo.
+     *  Richiama il distruttore di InfoPersonali.
+     */
+    //~Profilo();
+
     /** Ritorna il nome dell'utente.
      *
      * @return QString  Nome dell'utente.

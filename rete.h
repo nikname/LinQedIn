@@ -16,6 +16,11 @@ public:
      */
     Rete();
 
+    /** Distruttore di Rete.
+     *  Invoca il distruttore di Contatti.
+     */
+    ~Rete();
+
     /** Aggiunge un contatto alla lista dei contatti.
      *
      * @param Username  Username del contatto da aggiungere.

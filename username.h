@@ -25,7 +25,7 @@ public:
      *
      * @param QString  Login associata all'utente.
      */
-    void changeLogin( QString );
+    void changeLogin( const QString& );
 };
 
 /** Overloading dell'operatore di output di QDebug.

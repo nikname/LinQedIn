@@ -92,16 +92,6 @@ protected:
     };
 };
 
-/** Oveloading operatore di output di QDebug.
- *  Stampa su standard output tutte le informazioni associate all'utente, quali: username,
- *  profilo, rete di contatti, titoli di studio posseduti ed esperienze lavorative.
- *
- * @param QDebug  QDebug.
- * @param Utente  Utente del quale vengono stampate le informazioni.
- * @return QDebug  QDebug.
- */
-QDebug operator <<( QDebug, const Utente& );
-
 /** Overloading operatori di output di QDebug.
  *  Stampa su standard output nome e cognome dell'utente.
  *

@@ -6,10 +6,10 @@ class UtenteBasic : public UtenteGratis {
 public:
 
     /** Costruttore a 2 parametri con 2 parametri di default.
-     *  Invoca il costruttore della classe base diretta passando i 2 parametri.
+     *  Invoca il costruttore a 2 parametri della classe base diretta.
      *
-     * @param Username un  Username dell'utente da creare.
-     * @param Profilo p  Profilo dell'utente da creare.
+     * @param Username un  Username dell'utente basic.
+     * @param Profilo p  Profilo dell'utente basic.
      */
     UtenteBasic( const Username& un = Username(),
                  const Profilo& p = Profilo() )

@@ -5,17 +5,17 @@
 class UtenteBusiness : public UtentePagante {
 public:
     /** Costruttore a 2 parametri con 2 parametri di default.
-     *  Richiama il costruttore a 2 parametri di UtentePagante.
+     *  Richiama il costruttore a 2 parametri della classe base diretta.
      *
-     * @param Username u  Username dell'utente express.
-     * @param Profilo p  Profilo dell'utente express.
+     * @param Username u  Username dell'utente business.
+     * @param Profilo p  Profilo dell'utente business.
      */
     UtenteBusiness( const Username& un = Username(),
                     const Profilo& p = Profilo() ) :
         UtentePagante( un, p ) {}
 
-    /** Ricerca polimorfa, virtuale pura.
-     *  Esegue la ricerca degli utenti nel database per utenti express.
+    /** Ricerca polimorfa virtuale.
+     *  Esegue la ricerca degli utenti nel database per utenti business.
      *
      * @param Database  Database nel quale verrà effettuata la ricerca.
      */

@@ -4,7 +4,7 @@ QString Username::getLogin() const {
     return login;
 }
 
-void Username::changeLogin( QString l ) {
+void Username::changeLogin( const QString& l ) {
     //TODO: controllare che la login non sia già utilizzata da qualcuno
     login = l;
 }

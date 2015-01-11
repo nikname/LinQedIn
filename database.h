@@ -28,6 +28,11 @@ public:
     /** Costruttore di default ridefinito. */
     Database();
 
+    /** Distruttore di Database.
+     *  Richiama il distruttore di ListaUtenti.
+     */
+    ~Database();
+
     /** Dato un'username, ricerca l'utente nel database.
      *
      * @param Username  Username dell'utente da ricercare.

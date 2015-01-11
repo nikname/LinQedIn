@@ -76,6 +76,10 @@ public:
 
 Formazione::Formazione() : titles( new TitoliStudio ) {}
 
+Formazione::~Formazione() {
+    delete titles;
+}
+
 Formazione::Titolo Formazione::getTitleByIndex( int index ) const {
     QListIterator<Titolo> it( titles->titlesList );
     Titolo t;

@@ -16,8 +16,21 @@ public:
      */
     SmartUtente( Utente* u ) : user( u ) {}
 
+    /** Distruttore di SmartUtente.
+     *  Richiama il distruttore di Utente.
+     */
+    ~SmartUtente();
+
+    /** Ritorna l'utente puntato dallo SmartUtente.
+     *
+     * @return Utente*  Utente puntato.
+     */
     Utente* getUser() const;
 
+    /** Modifica l'utente puntato dallo SmartUtente.
+     *
+     * @param Utente*  Utente che sarà puntato dallo SmartUtente.
+     */
     void setUser( Utente* );
 
     friend QDebug operator <<( QDebug, const SmartUtente& );
@@ -31,5 +44,14 @@ public:
  * @return QDebug  QDebug.
  */
 QDebug operator <<( QDebug, const SmartUtente& );
+
+/** Overloadine dell'operatore di uguaglianza tra SmartUtente.
+ *  Confronta due oggetti di tipo SmartUtente.
+ *
+ * @param SmartUtente  Oggetto di tipo SmartUtente da confrontare.
+ * @param SmartUtente  Oggetto di tipo SmartUtente da confrontare.
+ * @return bool  true se i due oggetti puntano allo stesso utente; false altrimenti.
+ */
+bool operator ==( const SmartUtente&, const SmartUtente& );
 
 #endif // SMARTUTENTE_H
