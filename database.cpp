@@ -5,6 +5,9 @@
 #include <QXmlStreamReader>
 #include <QXmlStreamWriter>
 #include <QFile>
+#include "utente_basic.h"
+#include "utente_express.h"
+#include "utente_business.h"
 
 class Database::ListaUtenti {
 public:
@@ -19,7 +22,13 @@ void Database::parseUser( QXmlStreamReader& xmlReader ) {
         return;
     }
 
-    Utente* u = new Utente();
+    Utente* u;
+    if( xmlReader.attributes().value( "type ") == "basic" )
+        u = new UtenteBasic();
+    else if( xmlReader.attributes().value( "type ") == "express" )
+        u = new UtenteExpress();
+    else if( xmlReader.attributes().value( "type ") == "business" )
+        u = new UtenteBusiness();
 
     u->getUsername().changeLogin( xmlReader.attributes().value( "login" ).toString() );
     xmlReader.readNext();
@@ -172,6 +181,13 @@ void Database::saveUsersList() const {
         // <user>
         xmlWriter.writeStartElement( "user" );
         xmlWriter.writeAttribute( "login", un.getLogin() );
+
+        if( UtenteBasic* ub = dynamic_cast<UtenteBasic*>( u ) )
+            xmlWriter.writeAttribute( "type", "basic" );
+        else if( UtenteExpress* ue = dynamic_cast<UtenteExpress*>( u ) )
+            xmlWriter.writeAttribute( "type", "express" );
+        else if( UtenteBusiness* ub = dynamic_cast<UtenteBusiness*>( u ) )
+            xmlWriter.writeAttribute( "type", "business" );
 
         // <profile>
         xmlWriter.writeStartElement( "profile" );

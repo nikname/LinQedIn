@@ -22,6 +22,10 @@ Esperienza Utente::getExperiences() const {
     return experiences;
 }
 
+void Utente::FuntoreRicerca::operator ()( const SmartUtente& x ) const {
+    qDebug() << x.getUser()->getProfile();
+}
+
 QDebug operator <<( QDebug qdbg, const Utente& u ) {
     qdbg << "*** PROFILO UTENTE ***\n\n"
          << u.getUsername() << "\n"
@@ -32,7 +36,7 @@ QDebug operator <<( QDebug qdbg, const Utente& u ) {
     return qdbg;
 }
 
-/* Necessario per mostrare la lista dei contatti. */
+// Necessario per mostrare i contatti.
 QDebug operator <<( QDebug qdbg, Utente* u ) {
     qdbg << u->getProfile().getName() + u->getProfile().getSurname();
     return qdbg;

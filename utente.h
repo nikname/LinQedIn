@@ -8,6 +8,7 @@
 #include "rete.h"
 #include "formazione.h"
 #include "esperienza.h"
+#include "smartutente.h"
 
 class Utente {
 private:
@@ -17,10 +18,9 @@ private:
     Formazione educations;
     Esperienza experiences;
 public:
-    /** Costruttore ad 2 parametri con 1 parametro di default.
+    /** Costruttore ad 2 parametri con 2 parametro di default.
      *  Associa un'username e delle informazioni personali (nome e cognome) all'utente.
      *  Invoca i costruttori di default per net, educations ed experiences.
-     *  Costruttore di default non disponibile.
      *
      * @param Username u  Username dell'utente.
      * @param Profilo p  Profilo dell'utente.
@@ -30,8 +30,10 @@ public:
         username( u ),
         profile( p ) {}
 
-    /** Distruttore virtuale di Utente. */
-    virtual ~Utente();
+    /** Distruttore virtuale puro di Utente.
+     *  Deve essere definito.
+     */
+    virtual ~Utente() = 0;
 
     /** Ritorna l'username dell'utente.
      *
@@ -62,6 +64,32 @@ public:
      * @return Esperienza*  Lista delle esperienze lavorative possedute dall'utente.
      */
     Esperienza getExperiences() const;
+
+    /** Ricerca polimorfa, virtuale pura.
+     *  Esegue la ricerca degli utenti nel database in base alla tipologia di account.
+     *
+     * @param Database  Database nel quale verrà effettuata la ricerca.
+     */
+    virtual void userSearch( const Database& ) const = 0;
+protected:
+    class FuntoreRicerca {
+    public:
+        int searchType;
+
+        /** Costruttore ad 1 parametro con 1 parametro di default.
+         *
+         * @param int x  Numero del tipo di ricerca.
+         */
+        FuntoreRicerca( int x = 0 ) : searchType( x ) {}
+
+        /** Overloading dell'operatore di "chiamata a funzione".
+         *  Invoca il funtore sull'oggetto SmartUtente.
+         *  L'effetto di questo varia in base al tipo di utente che lo invoca.
+         *
+         * @param SmartUtente  SmartUtente del quale si vogliono ottenere le informazioni.
+         */
+        void operator ()( const SmartUtente& ) const;
+    };
 };
 
 /** Oveloading operatore di output di QDebug.

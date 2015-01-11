@@ -1,5 +1,4 @@
 #include "linqedin_admin.h"
-#include "smartutente.h"
 
 LinQedInAdmin::LinQedInAdmin() : db( new Database ) {
     db->loadUsersList();

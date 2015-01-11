@@ -1,6 +1,5 @@
 #ifndef LINQEDIN_CLIENT_H
 #define LINQEDIN_CLIENT_H
-#include "utente.h"
 #include "database.h"
 
 class LinQedInClient {

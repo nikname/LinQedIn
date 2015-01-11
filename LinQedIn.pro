@@ -23,7 +23,12 @@ SOURCES += main.cpp\
     smartutente.cpp \
     database.cpp \
     linqedin_admin.cpp \
-    linqedin_client.cpp
+    linqedin_client.cpp \
+    utente_basic.cpp \
+    utente_business.cpp \
+    utente_express.cpp \
+    utente_gratis.cpp \
+    utente_pagante.cpp
 
 HEADERS  += mainwindow.h \
     profilo.h \

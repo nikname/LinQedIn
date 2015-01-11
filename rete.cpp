@@ -1,8 +1,9 @@
 #include "rete.h"
-#include "database.h"
-#include "smartutente.h"
 #include <QList>
 #include <QListIterator>
+#include "smartutente.h"
+#include "utente.h"
+#include "database.h"
 
 class Rete::Contatti {
 public:

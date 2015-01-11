@@ -2,6 +2,11 @@
 #include <QApplication>
 #include <QDebug>
 #include "utente.h"
+#include "utente_gratis.h"
+#include "utente_basic.h"
+#include "utente_pagante.h"
+#include "utente_express.h"
+#include "utente_business.h"
 #include "linqedin_admin.h"
 #include "linqedin_client.h"
 
@@ -11,7 +16,7 @@ int main(int argc, char *argv[])
     MainWindow w;
     w.show();
 
-    Utente u1( Username( "dalla.costa.nicola@gmail.com" ),
+    UtenteBasic u1( Username( "dalla.costa.nicola@gmail.com" ),
               Profilo( "Nicola", "Dalla Costa", QDate( 1993, 12, 1 ) ) );
     //Utente u2( Username( "matteo.dallacosta92@gmail.com" ),
               //Profilo( "Matteo", "Dalla Costa", QDate( 1992, 1, 8 ) ) );
@@ -29,8 +34,8 @@ int main(int argc, char *argv[])
     u1.getExperiences().addExperience( Esperienza::Lavoro( "Nessuna",
                                                            "Nessuno",
                                                            "Nessuna",
-                                                           QDate( 1, 1, 2015 ),
-                                                           QDate( 1, 1, 2015 )));
+                                                           QDate( 2015, 1, 1 ),
+                                                           QDate( 2015, 1, 1 ) ) );
 
     qDebug() << admin.getDB()->usersNumber();
 

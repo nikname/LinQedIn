@@ -1,7 +1,7 @@
 #ifndef LINQEDIN_ADMIN_H
 #define LINQEDIN_ADMIN_H
-#include "database.h"
 #include <QDebug>
+#include "database.h"
 
 class LinQedInAdmin {
 private:
