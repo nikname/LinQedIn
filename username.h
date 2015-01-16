@@ -7,9 +7,8 @@ class Username {
 private:
     QString login;
 public:
-    /** Costruttore ad 1 parametro.
+    /** Costruttore ad 1 parametro con 1 valore di default.
      *  È richiesta una email da utilizzare come login.
-     *  Costruttore di default non disponibile.
      *
      * @param QString l  Login dell'utente.
      */

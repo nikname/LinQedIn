@@ -18,21 +18,19 @@ private:
     Formazione educations;
     Esperienza experiences;
 public:
-    /** Costruttore ad 2 parametri con 2 parametro di default.
+    /** Costruttore ad 2 parametri con 2 parametri di default.
      *  Associa un'username e delle informazioni personali (nome e cognome) all'utente.
      *  Invoca i costruttori di default per net, educations ed experiences.
      *
-     * @param Username u  Username dell'utente.
+     * @param Username un  Username dell'utente.
      * @param Profilo p  Profilo dell'utente.
      */
-    Utente( const Username& u = Username(),
+    Utente( const Username& un = Username(),
             const Profilo& p = Profilo() ) :
-        username( u ),
+        username( un ),
         profile( p ) {}
 
-    /** Distruttore virtuale puro di Utente.
-     *  Deve essere definito.
-     */
+    /** Distruttore virtuale puro. */
     virtual ~Utente() = 0;
 
     /** Ritorna l'username dell'utente.
@@ -53,15 +51,15 @@ public:
      */
     Rete getNet() const;
 
-    /** Ritorna la lista dei titoli di studio posseduti dall'utente.
+    /** Ritorna i titoli di studio posseduti dall'utente.
      *
-     * @return Formazione*  Lista dei titoli di studio posseduti dall'utente.
+     * @return Formazione  Titoli di studio posseduti dall'utente.
      */
     Formazione getEducations() const;
 
-    /** Ritorna la lista delle esperienze lavorative dell'utente.
+    /** Ritorna le esperienze lavorative possedute dall'utente.
      *
-     * @return Esperienza*  Lista delle esperienze lavorative possedute dall'utente.
+     * @return Esperienza  Esperienze lavorative possedute dall'utente.
      */
     Esperienza getExperiences() const;
 
@@ -77,13 +75,15 @@ protected:
         int searchType;
 
         /** Costruttore ad 1 parametro con 1 parametro di default.
+         *  Imposta il tipo di ricerca che l'utente può effettuare nel database.
          *
-         * @param int x  Numero del tipo di ricerca.
+         * @param int x  Tipo di ricerca.
          */
         FuntoreRicerca( int x = 0 ) : searchType( x ) {}
 
         /** Overloading dell'operatore di "chiamata a funzione".
-         *  Invoca il funtore sull'oggetto SmartUtente.
+         *  Invoca il funtore passando come parametro un oggetto SmartUtente, del quale si
+         *  vogliono ottenere le informazioni.
          *  L'effetto di questo varia in base al tipo di utente che lo invoca.
          *
          * @param SmartUtente  SmartUtente del quale si vogliono ottenere le informazioni.
@@ -92,11 +92,11 @@ protected:
     };
 };
 
-/** Overloading operatori di output di QDebug.
+/** Overloading operatore di output di QDebug.
  *  Stampa su standard output nome e cognome dell'utente.
  *
  * @param QDebug  QDebug.
- * @param Utente*  Puntatore all'oggetto utente.
+ * @param Utente*  Puntatore all'oggetto Utente.
  * @param QDebug  QDebug.
  */
 QDebug operator <<( QDebug, Utente* );

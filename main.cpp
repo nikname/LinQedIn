@@ -17,11 +17,10 @@ int main(int argc, char *argv[])
     w.show();
 
     Utente* u1 = new UtenteBasic( Username( "nikname" ),
-                                  Profilo( "Nicola", "Dalla Costa", QDate( 1993, 12, 1 ) ) );
-
-    qDebug() << u1->getUsername();
-    u1->getUsername().changeLogin( "ciao" );
-    qDebug() << u1->getUsername();
+                                  Profilo( "Nicola",
+                                           "Dalla Costa",
+                                           QDate( 1993, 12, 1 ),
+                                           "Single" ) );
 
     LinQedInAdmin admin = LinQedInAdmin();
     admin.insertUser( u1 );

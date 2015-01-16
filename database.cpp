@@ -22,7 +22,7 @@ void Database::parseUser( QXmlStreamReader& xmlReader ) {
         return;
     }
 
-    Utente* u;
+    Utente* u = 0;
     QString type = xmlReader.attributes().value( "type" ).toString();
     QString un = xmlReader.attributes().value( "login" ).toString();
     if( type == "basic" )
@@ -215,6 +215,8 @@ void Database::saveUsersList() const {
         xmlWriter.writeTextElement( "contacts", n.getUsernamesList() );
         xmlWriter.writeEndElement();
         // </contacts>
+        xmlWriter.writeEndElement();
+        // </net>
 
         // <educations>
         xmlWriter.writeStartElement( "educations" );

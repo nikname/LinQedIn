@@ -1,5 +1,6 @@
 #include "utente.h"
 
+// Deve essere definito anche se classe astratta.
 Utente::~Utente() {}
 
 Username Utente::getUsername() const {
@@ -23,8 +24,11 @@ Esperienza Utente::getExperiences() const {
 }
 
 void Utente::FuntoreRicerca::operator ()( const SmartUtente& x ) const {
+    // Da definire.
     qDebug() << x.getUser()->getProfile();
 }
+
+// Nessuna definizione del metodo virtuale puro userSearch( const Database& )
 
 QDebug operator <<( QDebug qdbg, Utente* u ) {
     qdbg << "*** PROFILO UTENTE ***\n\n"

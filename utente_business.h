@@ -3,9 +3,10 @@
 #include "utente_pagante.h"
 
 class UtenteBusiness : public UtentePagante {
+    // Viene ereditata la classe interna RicercaFuntore.
 public:
     /** Costruttore a 2 parametri con 2 parametri di default.
-     *  Richiama il costruttore a 2 parametri della classe base diretta.
+     *  Invoca il costruttore a 2 parametri della classe base diretta.
      *
      * @param Username u  Username dell'utente business.
      * @param Profilo p  Profilo dell'utente business.
@@ -21,7 +22,8 @@ public:
      */
     virtual void userSearch( const Database& ) const;
 
-    ~UtenteBusiness() {}
+    /** Distruttore virtuale. */
+    virtual ~UtenteBusiness() {}
 };
 
 #endif
