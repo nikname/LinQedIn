@@ -6,10 +6,8 @@ public:
     QString surname;
     QDate birthday;
     QString maritialStatus;
-    int references; // Numero riferimenti all'oggetto InfoPersonali.
 
     /** Costruttore a 4 parametri con 4 parametri di default.
-     *  Inizializza il contatore di riferimenti a 0.
      *
      * @param QString name  Nome dell'utente.
      * @param QString surname  Cognome dell'utente.
@@ -23,78 +21,72 @@ public:
         name( nome ),
         surname( cognome ),
         birthday( compleanno ),
-        maritialStatus( statoCivile ),
-        references( 0 ) {}
+        maritialStatus( statoCivile ) {}
 
-    /** Overloading operatore di delete per InfoPersonali.
-     *  Decrementa il contatore di riferimenti all'oggetto di tipo InfoPersonali.
-     *  Nel caso references == 0 allora distrugge l'oggetto di tipo InfoPersonali.
+    /** Costruttore ad 1 parametro.
+     *  Inizializza i campi dati di personalInfo a partire da un'oggetto di tipo InfoPersonali.
      *
-     * @param void*  Puntatore all'oggetto di tipo InfoPersonali da cancellare.
+     * @param InfoPersonali*  Puntatore all'oggetto di tipo InfoPersonali da copiare.
      */
-    void operator delete( void* pi ) {
-        if( pi ) {
-            InfoPersonali* pi_aux = static_cast<InfoPersonali*>( pi );
-            pi_aux->references--;
-            if( pi_aux->references == 0 )
-                ::delete pi_aux;
-        }
-    }
+    InfoPersonali( InfoPersonali* pi ) :
+        name( pi->name ),
+        surname( pi->surname ),
+        birthday( pi->birthday ),
+        maritialStatus( pi->maritialStatus ) {}
 };
 
 Profilo::Profilo( const QString& nome,
                   const QString& cognome,
                   const QDate& compleanno,
                   const QString& statoCivile ) :
-    personalInfo( new InfoPersonali( nome, cognome, compleanno, statoCivile ) ) {
-    // Aumenta il contatore di riferimenti all'oggetto InfoPersonali.
-    // Poichè viene creato un nuovo oggetto InfoPersonali, equivale a fare references = 1.
-    personalInfo->references++;
-}
+    personalInfo( new InfoPersonali( nome, cognome, compleanno, statoCivile ) ) {}
 
 Profilo::~Profilo() {
     if( personalInfo )
-        // Richiama la delete ridefinita di InfoPersonali.
         delete personalInfo;
 }
 
-Profilo::Profilo( const Profilo& p ) : personalInfo( p.personalInfo ) {
-    // Memoria condivisa: aumenta il contatore di riferimenti all'oggetto InfoPersonali.
-    personalInfo->references++;
-}
+Profilo::Profilo( const Profilo& p ) :
+    personalInfo( new InfoPersonali( p.personalInfo ) ) {}
 
 QString Profilo::getName() const {
     return personalInfo->name;
 }
+
 QString Profilo::getSurname() const {
     return personalInfo->surname;
 }
+
 QDate Profilo::getBirthday() const {
     return personalInfo->birthday;
 }
+
 QString Profilo::getMaritialStatus() const {
     return personalInfo->maritialStatus;
 }
+
 void Profilo::setName( QString n ) {
     personalInfo->name = n;
 }
+
 void Profilo::setSurname( QString s ) {
     personalInfo->surname = s;
 }
+
 void Profilo::setBirthday( QDate b ) {
     personalInfo->birthday = b;
 }
+
 void Profilo::setMaritialStatus( QString ms ) {
     personalInfo->maritialStatus = ms;
 }
 
 Profilo& Profilo::operator =( const Profilo& p ) {
     if( this != &p ) {
-        if( personalInfo )
-            delete personalInfo;
-        personalInfo = p.personalInfo;
-        if( personalInfo)
-            personalInfo->references++;
+        personalInfo->name = p.getName();
+        personalInfo->surname = p.getSurname();
+        personalInfo->birthday = p.getBirthday();
+        personalInfo->maritialStatus = p.getMaritialStatus();
     }
     return *this;
 }

@@ -27,7 +27,7 @@ public:
     ~Profilo();
 
     /** Ridefinizione costruttore di copia.
-     *  Esegue una copia profonda del campo dati personalInfo.
+     *  Esegue una copia profonda di personalInfo. Nessuna condivisione di memoria.
      *
      * @param Profilo  Oggetto della classe Profilo dal quale creare il nuovo oggetto.
      */

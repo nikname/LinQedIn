@@ -11,6 +11,10 @@ private:
     class Contatti; // Classe privata
     Contatti* contacts;
 public:
+    class Iteratore {
+
+    };
+
     /** Costruttore di default ridefinito.
      *  Crea una lista vuota di contatti.
      */

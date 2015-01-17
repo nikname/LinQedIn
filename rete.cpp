@@ -59,12 +59,12 @@ QString Rete::getUsernamesList() const {
 QDebug operator <<( QDebug qdbg, const Rete& r ) {
     qdbg << "CONTATTI: \n";
     r.getContactsList();
-    /*QListIterator<SmartUtente> it( r.contacts->contactsList );
+    QListIterator<SmartUtente> it( r.contacts->contactsList );
     while( it.hasNext() ) {
         qdbg << it.next();
         if( it.hasNext() )
             qdbg << ", ";
     }
-    qdbg << "\n";*/
+    qdbg << "\n";
     return qdbg;
 }
