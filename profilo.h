@@ -24,7 +24,14 @@ public:
     /** Distruttore di Profilo.
      *  Richiama il distruttore di InfoPersonali.
      */
-    //~Profilo();
+    ~Profilo();
+
+    /** Ridefinizione costruttore di copia.
+     *  Esegue una copia profonda del campo dati personalInfo.
+     *
+     * @param Profilo  Oggetto della classe Profilo dal quale creare il nuovo oggetto.
+     */
+    Profilo( const Profilo& );
 
     /** Ritorna il nome dell'utente.
      *
@@ -73,6 +80,14 @@ public:
      * @param QString  Stato civile dell'utente.
      */
     void setMaritialStatus( QString );
+
+    /** Ridefinizione dell'operatore di assegnazione tra oggetti Profilo.
+     *  Effettua una copia profonda.
+     *
+     * @param Profilo  Oggetto di tipo Profilo dal quale ne verrà creato uno nuovo.
+     * @return Profilo  Oggetto Profilo creato ritornato per riferimento.
+     */
+    Profilo& operator =( const Profilo& );
 
     friend QDebug operator <<( QDebug, const Profilo& );
 };

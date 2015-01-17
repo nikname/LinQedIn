@@ -8,7 +8,7 @@ private:
     QString login;
 public:
     /** Costruttore ad 1 parametro con 1 valore di default.
-     *  È richiesta una email da utilizzare come login.
+     *  Associa all'utente una email da utilizzare come login.
      *
      * @param QString l  Login dell'utente.
      */
@@ -19,12 +19,6 @@ public:
      * @return QString  Login associata all'utente.
      */
     QString getLogin() const;
-
-    /** Modifica la login associata all'utente.
-     *
-     * @param QString  Login associata all'utente.
-     */
-    void changeLogin( const QString& );
 };
 
 /** Overloading dell'operatore di output di QDebug.

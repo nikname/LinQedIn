@@ -16,17 +16,7 @@ int main(int argc, char *argv[])
     MainWindow w;
     w.show();
 
-    Utente* u1 = new UtenteBasic( Username( "nikname" ),
-                                  Profilo( "Nicola",
-                                           "Dalla Costa",
-                                           QDate( 1993, 12, 1 ),
-                                           "Single" ) );
-
-    LinQedInAdmin admin = LinQedInAdmin();
-    admin.insertUser( u1 );
-    qDebug() << admin.getDB()->usersNumber();
-
-    admin.getDB()->saveUsersList();
+    Profilo p( "Nicola", "Dalla Costa", QDate( 1993, 12, 1 ), "Single" );
 
     return a.exec();
 }

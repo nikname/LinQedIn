@@ -13,7 +13,6 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        mainwindow.cpp \
     profilo.cpp \
     username.cpp \
     utente.cpp \
@@ -28,9 +27,10 @@ SOURCES += main.cpp\
     utente_business.cpp \
     utente_express.cpp \
     utente_gratis.cpp \
-    utente_pagante.cpp
+    utente_pagante.cpp \
+    mainwindow.cpp
 
-HEADERS  += mainwindow.h \
+HEADERS  += \
     profilo.h \
     rete.h \
     username.h \
@@ -45,6 +45,7 @@ HEADERS  += mainwindow.h \
     database.h \
     smartutente.h \
     linqedin_admin.h \
-    linqedin_client.h
+    linqedin_client.h \
+    mainwindow.h
 
 FORMS    += mainwindow.ui
