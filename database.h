@@ -38,7 +38,7 @@ public:
      * @param Username  Username dell'utente da ricercare.
      * @return Utente*  Utente ricercato.
      */
-    Utente* findUser( Username ) const;
+    Utente* findUser( const Username& ) const;
 
     /** Carica una lista di utenti da file (XML). */
     void loadUsersList();

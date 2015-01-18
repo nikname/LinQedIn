@@ -10,13 +10,16 @@
 #include "linqedin_admin.h"
 #include "linqedin_client.h"
 
-#include <iostream>
-
-int main(int argc, char *argv[])
-{
+int main( int argc, char *argv[] ) {
     QApplication a( argc, argv );
     MainWindow w;
     w.show();
+
+    Utente* u1 = new UtenteBasic( Username( "nikname" ),
+                                  Profilo( "Nicola", "Dalla Costa" ) );
+    qDebug() << u1;
+
+    delete u1;
 
     return a.exec();
 }

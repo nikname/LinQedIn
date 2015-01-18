@@ -92,7 +92,7 @@ void Database::parseUser( QXmlStreamReader& xmlReader ) {
                             t.setActivity( xmlReader.readElementText() );
                         xmlReader.readNext();
                     }
-                    u->getEducations().addEducation( t );
+                    u->getEducations()->addEducation( t );
                 }
                 xmlReader.readNext();
             }
@@ -130,7 +130,7 @@ void Database::parseUser( QXmlStreamReader& xmlReader ) {
                         }
                         xmlReader.readNext();
                     }
-                    u->getExperiences().addExperience( j );
+                    u->getExperiences()->addExperience( j );
                 }
                 xmlReader.readNext();
             }
@@ -185,9 +185,9 @@ void Database::saveUsersList() const {
         Utente* u = it.next().getUser();
         Username un = u->getUsername();
         Profilo p = u->getProfile();
-        Rete n = u->getNet();
-        Formazione ed = u->getEducations();
-        Esperienza ex = u->getExperiences();
+        Rete* n = u->getNet();
+        Formazione* ed = u->getEducations();
+        Esperienza* ex = u->getExperiences();
 
         // <user>
         xmlWriter.writeStartElement( "user" );
@@ -212,7 +212,7 @@ void Database::saveUsersList() const {
         // <net>
         xmlWriter.writeStartElement( "net" );
         // <contacts>
-        xmlWriter.writeTextElement( "contacts", n.getUsernamesList() );
+        xmlWriter.writeTextElement( "contacts", n->getUsernamesList() );
         xmlWriter.writeEndElement();
         // </contacts>
         xmlWriter.writeEndElement();
@@ -220,9 +220,9 @@ void Database::saveUsersList() const {
 
         // <educations>
         xmlWriter.writeStartElement( "educations" );
-        for( int i = 1; i <= ed.titlesNumber(); i++ ) {
+        for( int i = 1; i <= ed->titlesNumber(); i++ ) {
             // <title>
-            Formazione::Titolo t = ed.getTitleByIndex( i );
+            Formazione::Titolo t = ed->getTitleByIndex( i );
             xmlWriter.writeStartElement( "title" );
             xmlWriter.writeTextElement( "school", t.getSchool());
             xmlWriter.writeTextElement( "dateAttended", t.getDateAttended().toString("dd/MM/yyyy") );
@@ -238,9 +238,9 @@ void Database::saveUsersList() const {
 
         // <experiences>
         xmlWriter.writeStartElement( "experiences" );
-        for( int i = 1; i <= ex.experiencesNumber(); i++ ) {
+        for( int i = 1; i <= ex->experiencesNumber(); i++ ) {
             // <job>
-            Esperienza::Lavoro j = ex.getJobByIndex( i );
+            Esperienza::Lavoro j = ex->getJobByIndex( i );
             xmlWriter.writeStartElement( "job" );
             xmlWriter.writeTextElement( "companyName", j.getCompanyName() );
             xmlWriter.writeTextElement( "title", j.getTitle() );
@@ -262,13 +262,14 @@ void Database::saveUsersList() const {
     xmlWriter.writeEndDocument();
 }
 
-Utente* Database::findUser( Username un ) const {
+Utente* Database::findUser( const Username& un ) const {
+    qDebug() << "** findUser **";
     Utente* u = 0;
     QListIterator<SmartUtente> it( usersList->users );
     while( it.hasNext() ) {
-        SmartUtente su = it.next();
-        if( su.getUser()->getUsername().getLogin() == un.getLogin() )
-            u = su.getUser();
+        u = it.next().getUser();
+        if( u->getUsername().getLogin() != un.getLogin() )
+            u = 0;
     }
     return u;
 }

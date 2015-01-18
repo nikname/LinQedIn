@@ -4,17 +4,15 @@
 #include <QString>
 #include "username.h"
 
+class SmartUtente;
 class Database;
 
 class Rete {
+    friend class Iteratore;
 private:
-    class Contatti; // Classe privata
+    class Contatti;
     Contatti* contacts;
 public:
-    class Iteratore {
-
-    };
-
     /** Costruttore di default ridefinito.
      *  Crea una lista vuota di contatti.
      */
@@ -29,19 +27,13 @@ public:
      *
      * @param Username  Username del contatto da aggiungere.
      */
-    void addContact( Username, Database* );
+    void addContact( const Username&, Database* );
 
     /** Rimuove un contatto dalla lista dei contatti.
      *
      * @param Username  Username del contatto da rimuovere.
      */
-    void removeContact( Username, Database* );
-
-    /** Ritorna la lista dei contatti (nome e cognome) separati da ",".
-     *
-     * @return QString  Lista dei contatti (nome e cognome) separati da ",".
-     */
-    QString getContactsList() const;
+    void removeContact( const Username&, Database* );
 
     /** Ritorna la lista dei contatti (username) separati da ",".
      *

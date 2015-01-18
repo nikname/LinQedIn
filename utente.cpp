@@ -3,23 +3,23 @@
 // Deve essere definito anche se classe astratta.
 Utente::~Utente() {}
 
-Username Utente::getUsername() const {
+Username Utente::getUsername() {
     return username;
 }
 
-Profilo Utente::getProfile() const {
+Profilo Utente::getProfile() {
     return profile;
 }
 
-Rete Utente::getNet() const {
+Rete* Utente::getNet() {
     return net;
 }
 
-Formazione Utente::getEducations() const {
+Formazione* Utente::getEducations() {
     return educations;
 }
 
-Esperienza Utente::getExperiences() const {
+Esperienza* Utente::getExperiences() {
     return experiences;
 }
 

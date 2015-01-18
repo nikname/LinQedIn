@@ -14,13 +14,13 @@ class Utente {
 private:
     Username username;
     Profilo profile;
-    Rete net;
-    Formazione educations;
-    Esperienza experiences;
+    Rete* net;
+    Formazione* educations;
+    Esperienza* experiences;
 public:
     /** Costruttore ad 2 parametri con 2 parametri di default.
      *  Associa un'username e delle informazioni personali (nome e cognome) all'utente.
-     *  Invoca i costruttori di default per net, educations ed experiences.
+     *  Crea i campi net, educations ed experiences con l'operatore new.
      *
      * @param Username un  Username dell'utente.
      * @param Profilo p  Profilo dell'utente.
@@ -28,7 +28,10 @@ public:
     Utente( const Username& un = Username(),
             const Profilo& p = Profilo() ) :
         username( un ),
-        profile( p ) {}
+        profile( p ),
+        net( new Rete ),
+        educations( new Formazione ),
+        experiences( new Esperienza ) {}
 
     /** Distruttore virtuale puro. */
     virtual ~Utente() = 0;
@@ -37,31 +40,31 @@ public:
      *
      * @return Username  Username dell'utente.
      */
-    Username getUsername() const;
+    Username getUsername();
 
     /** Ritorna il profilo dell'utente.
      *
      * @return Profilo  Profilo dell'utente.
      */
-    Profilo getProfile() const;
+    Profilo getProfile();
 
-    /** Ritorna la rete dei contatti dell'utente.
+    /** Ritorna un puntatore alla rete dei contatti dell'utente.
      *
-     * @return Rete  Rete dei contatti dell'utente.
+     * @return Rete*  Rete dei contatti dell'utente.
      */
-    Rete getNet() const;
+    Rete* getNet();
 
-    /** Ritorna i titoli di studio posseduti dall'utente.
+    /** Ritorna un puntatore ai titoli di studio posseduti dall'utente.
      *
-     * @return Formazione  Titoli di studio posseduti dall'utente.
+     * @return Formazione*  Titoli di studio posseduti dall'utente.
      */
-    Formazione getEducations() const;
+    Formazione* getEducations();
 
-    /** Ritorna le esperienze lavorative possedute dall'utente.
+    /** Ritorna un puntatore alle esperienze lavorative possedute dall'utente.
      *
-     * @return Esperienza  Esperienze lavorative possedute dall'utente.
+     * @return Esperienza*  Esperienze lavorative possedute dall'utente.
      */
-    Esperienza getExperiences() const;
+    Esperienza* getExperiences();
 
     /** Ricerca polimorfa, virtuale pura.
      *  Esegue la ricerca degli utenti nel database in base alla tipologia di account.
