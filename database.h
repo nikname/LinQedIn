@@ -51,6 +51,8 @@ public:
      * @return int  Numero di utenti presenti nel database.
      */
     int usersNumber() const; // *** JUST FOR DEBUG ***
+
+    friend QDebug operator <<( QDebug, Database* ); // *** JUST FOR DEBUG ***
 };
 
 #endif // DATABASE_H

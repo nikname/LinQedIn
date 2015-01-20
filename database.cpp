@@ -263,7 +263,6 @@ void Database::saveUsersList() const {
 }
 
 Utente* Database::findUser( const Username& un ) const {
-    qDebug() << "** findUser **";
     Utente* u = 0;
     QListIterator<SmartUtente> it( usersList->users );
     while( it.hasNext() ) {
@@ -281,4 +280,13 @@ void Database::insert( Utente* u ) {
 
 int Database::usersNumber() const {
     return usersList->users.length();
+}
+
+QDebug operator <<( QDebug qdbg, Database* d ) {
+    if( d->usersList ) {
+        QListIterator<SmartUtente> it( d->usersList->users );
+        while( it.hasNext() )
+            qdbg << it.next().getUser()->getUsername().getLogin();
+    }
+    return qdbg;
 }

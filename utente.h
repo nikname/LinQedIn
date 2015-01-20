@@ -32,6 +32,13 @@ public:
         educations( new Formazione ),
         experiences( new Esperienza ) {}
 
+    /** Costruttore di copia di Utente.
+     *  Si limita a condividere la memoria di net, eductions ed experiences.
+     *
+     * @param  Utente  Utente da copiare.
+     */
+    //Utente( const Utente& );
+
     /** Distruttore virtuale puro.
      *  Invoca i distruttori di tutti i campi dati. */
     virtual ~Utente() = 0;

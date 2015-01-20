@@ -17,10 +17,21 @@ int main( int argc, char *argv[] ) {
 
     Utente* u1 = new UtenteBasic( Username( "nikname" ),
                                   Profilo( "Nicola", "Dalla Costa" ) );
+    Utente* u2 = new UtenteBasic( Username( "login" ),
+                                  Profilo( "Nome", "Cognome" ) );
 
+    LinQedInAdmin admin;
+
+    admin.insertUser( u1 );
+    admin.insertUser( u2 );
+
+    qDebug() << admin.getDB()->usersNumber();
+
+    u1->getNet()->addContact( u2->getUsername(), admin.getDB() );
+    qDebug() << *( u1->getNet() );
     qDebug() << u1;
 
-    delete u1;
+    //delete u1;
 
     return a.exec();
 }

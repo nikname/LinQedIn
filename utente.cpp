@@ -2,6 +2,7 @@
 
 // DISTRUTTORE Utente
 Utente::~Utente() {
+    qDebug() << "** DISTRUTTORE Utente **";
     delete net;
     delete educations;
     delete experiences;

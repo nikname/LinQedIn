@@ -12,6 +12,7 @@ class Rete {
 private:
     class Contatti;
     Contatti* contacts;
+    int references;
 public:
     /** Costruttore di default ridefinito.
      *  Crea una lista vuota di contatti.
@@ -40,6 +41,14 @@ public:
      * @return QString  Lista dei conatti (username) separati da ",".
      */
     QString getUsernamesList() const;
+
+    /** Ridefinizione distruttore Rete.
+     *  Se il campo references e` 0 invoca la delete standard su contacts,
+     *  altrimenti si limita a decrementare il contatore di riferimenti.
+     *
+     * @param void*  Puntatore all'oggetto Rete.
+     */
+    void operator delete( void* );
 
     friend QDebug operator <<( QDebug, const Rete& );
 };

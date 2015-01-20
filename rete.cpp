@@ -31,12 +31,10 @@ public:
 Rete::Rete() : contacts( new Contatti ) {}
 
 Rete::~Rete() {
-    if( contacts )
-        delete contacts;
+    qDebug() << "** DISTRUTTORE Rete **";
 }
 
 void Rete::addContact( const Username& un, Database* db ) {
-    qDebug() << "** addContact **";
     Utente* user = db->findUser( un );
     if( user ) {
         SmartUtente* su = new SmartUtente( user );
@@ -64,15 +62,27 @@ QString Rete::getUsernamesList() const {
     return usernames;
 }
 
-QDebug operator <<( QDebug qdbg, const Rete& r ) {
-    /*qdbg << "CONTATTI: \n";
-    r.getContactsList();
-    QListIterator<SmartUtente> it( r.contacts->contactsList );
-    while( it.hasNext() ) {
-        qdbg << it.next();
-        if( it.hasNext() )
-            qdbg << ", ";
+void Rete::operator delete( void* n ) {
+    if( n ) {
+        Rete* net = static_cast<Rete*>( n );
+        if( net->contacts ) {
+            if( net->references )
+                net->references--;
+            else delete net->contacts;
+        }
     }
-    qdbg << "\n";*/
+}
+
+QDebug operator <<( QDebug qdbg, const Rete& r ) {
+    qdbg << "CONTATTI: \n";
+    if( r.contacts && !r.contacts->contactsList.isEmpty()) {
+        QListIterator<SmartUtente> it( r.contacts->contactsList );
+        while( it.hasNext() ) {
+            qdbg << it.next().getUser()->getUsername().getLogin();
+            if( it.hasNext() )
+                qdbg << ", ";
+        }
+        qdbg << "\n";
+    } else qdbg << " ** No contacts found! **";
     return qdbg;
 }
