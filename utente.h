@@ -11,19 +11,18 @@
 #include "smartutente.h"
 
 class Utente {
-private:
+    // Classe astratta
+protected:
     Username username;
     Profilo profile;
     Rete* net;
     Formazione* educations;
     Esperienza* experiences;
 public:
-    /** Costruttore ad 2 parametri con 2 parametri di default.
-     *  Associa un'username e delle informazioni personali (nome e cognome) all'utente.
-     *  Crea i campi net, educations ed experiences con l'operatore new.
+    /** Costruttore a 2 parametri con 2 parametri di default.
      *
-     * @param Username un  Username dell'utente.
-     * @param Profilo p  Profilo dell'utente.
+     * @param Username un  Username dell'utente da creare.
+     * @param Profilo p  Profilo dell'utente da creare.
      */
     Utente( const Username& un = Username(),
             const Profilo& p = Profilo() ) :
@@ -33,16 +32,17 @@ public:
         educations( new Formazione ),
         experiences( new Esperienza ) {}
 
-    /** Distruttore virtuale puro. */
+    /** Distruttore virtuale puro.
+     *  Invoca i distruttori di tutti i campi dati. */
     virtual ~Utente() = 0;
 
-    /** Ritorna l'username dell'utente.
+    /** Ritorna l'Username dell'utente.
      *
      * @return Username  Username dell'utente.
      */
     Username getUsername();
 
-    /** Ritorna il profilo dell'utente.
+    /** Ritorna il Profilo dell'utente.
      *
      * @return Profilo  Profilo dell'utente.
      */
@@ -80,9 +80,9 @@ protected:
         /** Costruttore ad 1 parametro con 1 parametro di default.
          *  Imposta il tipo di ricerca che l'utente può effettuare nel database.
          *
-         * @param int x  Tipo di ricerca.
+         * @param int type  Tipo di ricerca.
          */
-        FuntoreRicerca( int x = 0 ) : searchType( x ) {}
+        FuntoreRicerca( int type = 0 ) : searchType( type ) {}
 
         /** Overloading dell'operatore di "chiamata a funzione".
          *  Invoca il funtore passando come parametro un oggetto SmartUtente, del quale si
@@ -96,7 +96,7 @@ protected:
 };
 
 /** Overloading operatore di output di QDebug.
- *  Stampa su standard output nome e cognome dell'utente.
+ *  Stampa su standard output tutte le informazioni associate all'utente.
  *
  * @param QDebug  QDebug.
  * @param Utente*  Puntatore all'oggetto Utente.

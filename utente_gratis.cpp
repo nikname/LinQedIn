@@ -1,6 +1,4 @@
 #include "utente_gratis.h"
 
-// Deve essere definito anche se classe astratta.
+// DISTRUTTORE UtenteGratis
 UtenteGratis::~UtenteGratis() {}
-
-// Nessuna definizione del metodo virtuale puro userSearch( const Database& )

@@ -3,7 +3,7 @@
 #include "utente_pagante.h"
 
 class UtenteExpress : public UtentePagante {
-    // Viene ereditata la classe interna FuntoreRicerca.
+    // Classe concreta
 public:
     /** Costruttore a 2 parametri con 2 parametri di default.
      *  Invoca il costruttore a 2 parametri della classe base diretta.
@@ -22,7 +22,8 @@ public:
      */
     virtual void userSearch( const Database& ) const;
 
-    /** Distruttore virtuale. */
+    /** Distruttore virtuale.
+     *  Invoca il distruttore della classe base diretta. */
     virtual ~UtenteExpress() {}
 };
 
