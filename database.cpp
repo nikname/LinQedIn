@@ -183,7 +183,7 @@ void Database::saveUsersList() const {
     QListIterator<SmartUtente> it( usersList->users );
     while( it.hasNext() ) {
         Utente* u = it.next().getUser();
-        Username un = u->getUsername();
+        QString un = u->getUsername();
         Profilo p = u->getProfile();
         Rete* n = u->getNet();
         Formazione* ed = u->getEducations();
@@ -191,7 +191,7 @@ void Database::saveUsersList() const {
 
         // <user>
         xmlWriter.writeStartElement( "user" );
-        xmlWriter.writeAttribute( "login", un.getLogin() );
+        xmlWriter.writeAttribute( "login", un );
 
         if( UtenteBasic* ub = dynamic_cast<UtenteBasic*>( u ) )
             xmlWriter.writeAttribute( "type", "basic" );
@@ -212,7 +212,13 @@ void Database::saveUsersList() const {
         // <net>
         xmlWriter.writeStartElement( "net" );
         // <contacts>
-        xmlWriter.writeTextElement( "contacts", n->getUsernamesList() );
+        xmlWriter.writeStartElement( "contacts" );
+        QVector<QString> v = n->getContactsList();
+        for( int i = 0; i < v.size(); i++ ) {
+            // <contact>
+            xmlWriter.writeTextElement( "contact", v[i] );
+            // </contact>
+        }
         xmlWriter.writeEndElement();
         // </contacts>
         xmlWriter.writeEndElement();
@@ -262,12 +268,12 @@ void Database::saveUsersList() const {
     xmlWriter.writeEndDocument();
 }
 
-Utente* Database::findUser( const Username& un ) const {
+Utente* Database::findUser( const QString& un ) const {
     Utente* u = 0;
     QListIterator<SmartUtente> it( usersList->users );
     while( it.hasNext() ) {
         u = it.next().getUser();
-        if( u->getUsername().getLogin() != un.getLogin() )
+        if( u->getUsername() != un )
             u = 0;
     }
     return u;
@@ -286,7 +292,7 @@ QDebug operator <<( QDebug qdbg, Database* d ) {
     if( d->usersList ) {
         QListIterator<SmartUtente> it( d->usersList->users );
         while( it.hasNext() )
-            qdbg << it.next().getUser()->getUsername().getLogin();
+            qdbg << it.next().getUser()->getUsername();
     }
     return qdbg;
 }

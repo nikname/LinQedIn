@@ -14,7 +14,6 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
     profilo.cpp \
-    username.cpp \
     utente.cpp \
     rete.cpp \
     esperienza.cpp \
@@ -33,7 +32,6 @@ SOURCES += main.cpp\
 HEADERS  += \
     profilo.h \
     rete.h \
-    username.h \
     utente.h \
     utente_gratis.h \
     utente_pagante.h \

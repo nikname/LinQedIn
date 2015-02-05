@@ -3,7 +3,6 @@
 #include <QDebug>
 #include <QString>
 #include <QDate>
-#include "username.h"
 #include "profilo.h"
 #include "rete.h"
 #include "formazione.h"
@@ -12,8 +11,8 @@
 
 class Utente {
     // Classe astratta
-protected:
-    Username username;
+private:
+    QString username;
     Profilo profile;
     Rete* net;
     Formazione* educations;
@@ -24,7 +23,7 @@ public:
      * @param Username un  Username dell'utente da creare.
      * @param Profilo p  Profilo dell'utente da creare.
      */
-    Utente( const Username& un = Username(),
+    Utente( const QString& un = "",
             const Profilo& p = Profilo() ) :
         username( un ),
         profile( p ),
@@ -33,21 +32,29 @@ public:
         experiences( new Esperienza ) {}
 
     /** Costruttore di copia di Utente.
-     *  Si limita a condividere la memoria di net, eductions ed experiences.
+     *  Utilizza la tecnica del references counting per i campi dati net, educations ed experiences.
      *
-     * @param  Utente  Utente da copiare.
+     * @param  const Utente&  Utente da copiare.
      */
-    //Utente( const Utente& );
+    Utente( const Utente& );
 
-    /** Distruttore virtuale puro.
-     *  Invoca i distruttori di tutti i campi dati. */
+    /** Distruttore virtuale puro. Un distruttore virtuale puro deve essere definito.
+     *  Decrementa i campi references di net, educations ed experiences.
+     *  Se i campi references valgono 0, invoca i distruttori di net, educations ed experiences.
+     */
     virtual ~Utente() = 0;
 
-    /** Ritorna l'Username dell'utente.
+    /** Ritorna l'username dell'utente.
      *
-     * @return Username  Username dell'utente.
+     * @return QString  Username dell'utente.
      */
-    Username getUsername();
+    QString getUsername();
+
+    /** Cambia l'username dell'Utente.
+     *
+     * @param QString  Nuovo username.
+     */
+    void setUsername( const QString& );
 
     /** Ritorna il Profilo dell'utente.
      *

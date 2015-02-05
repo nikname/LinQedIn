@@ -1,6 +1,6 @@
 #include "linqedin_client.h"
 
-LinQedInClient::LinQedInClient( Username un ) {
+LinQedInClient::LinQedInClient( QString un ) {
     db->loadUsersList();
     user = db->findUser( un );
 }
@@ -20,10 +20,10 @@ void LinQedInClient::showProfilo() {
     // user->getEducations();
 }
 
-void LinQedInClient::insertRete( Username un ) {
+void LinQedInClient::insertRete( QString un ) {
     //user->getNet().addContact( un );
 }
 
-void LinQedInClient::removeRete( Username un ) {
+void LinQedInClient::removeRete( QString un ) {
     //user->getNet().removeContact( un );
 }

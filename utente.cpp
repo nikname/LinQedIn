@@ -1,19 +1,43 @@
 #include "utente.h"
 
+// COSTRUTTORE DI COPIA di Utente
+Utente::Utente( const Utente& u ) :
+    username( u.username ),
+    profile( u.profile ),
+    net( u.net ), // memoria condivisa!
+    educations( u.educations ), // memoria condivisa!
+    experiences( u.experiences ) // memoria condivisa!
+{
+    net->references++;
+    //educations->references++;
+    //experiences->references++;
+}
+
 // DISTRUTTORE Utente
 Utente::~Utente() {
-    qDebug() << "** DISTRUTTORE Utente **";
-    delete net;
-    delete educations;
-    delete experiences;
+    net->references--;
+    if( !net->references )
+        delete net;
+    //educations->references--;
+    //if( !educations->references )
+        delete educations;
+    //experiences->references--;
+    //if( !experiences->references )
+        delete experiences;
 }
 
 // METODO getUsername Utente
-Username Utente::getUsername() {
+QString Utente::getUsername() {
     return username;
 }
 
-// METOD getProfile Utente
+// METODO setLogin Utente
+void Utente::setUsername( const QString& l ) {
+    //TODO: controlla che non sia già utilizzato
+    username = l;
+}
+
+// METODO getProfile Utente
 Profilo Utente::getProfile() {
     return profile;
 }

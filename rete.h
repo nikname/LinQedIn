@@ -2,13 +2,13 @@
 #define RETE_H
 #include <QDebug>
 #include <QString>
-#include "username.h"
 
 class SmartUtente;
 class Database;
+//class Utente;
 
 class Rete {
-    friend class Iteratore;
+    friend class Utente;
 private:
     class Contatti;
     Contatti* contacts;
@@ -26,24 +26,24 @@ public:
 
     /** Aggiunge un contatto alla lista dei contatti.
      *
-     * @param Username  Username del contatto da aggiungere.
+     * @param QString  Username del contatto da aggiungere.
      */
-    void addContact( const Username&, Database* );
+    void addContact( const QString&, Database* );
 
     /** Rimuove un contatto dalla lista dei contatti.
      *
-     * @param Username  Username del contatto da rimuovere.
+     * @param QString  Username del contatto da rimuovere.
      */
-    void removeContact( const Username&, Database* );
+    void removeContact( const QString&, Database* );
 
-    /** Ritorna la lista dei contatti (username) separati da ",".
+    /** Ritorna un QVector di QString contenente la login dei contatti nella rete dell'utente.
      *
-     * @return QString  Lista dei conatti (username) separati da ",".
+     * @return QVector<QString>  Login dei contatti nella rete dell'utente.
      */
-    QString getUsernamesList() const;
+    QVector<QString> getContactsList() const;
 
     /** Ridefinizione distruttore Rete.
-     *  Se il campo references e` 0 invoca la delete standard su contacts,
+     *  Se il campo references è 0 invoca la delete standard su contacts,
      *  altrimenti si limita a decrementare il contatore di riferimenti.
      *
      * @param void*  Puntatore all'oggetto Rete.

@@ -16,12 +16,12 @@ public:
      */
     void insertUser( Utente* );
 
-    void find( Username ) const;
+    void find( QString ) const;
 
-    void remove( Username );
+    void remove( QString );
 
     // cambia tra Basic, Business, Executive!
-    void changeSubscriptionType( Username );
+    void changeSubscriptionType( QString );
 
     void save() const;
 

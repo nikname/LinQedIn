@@ -8,15 +8,15 @@ void LinQedInAdmin::insertUser( Utente* u ) {
     db->insert( u );
 }
 
-void LinQedInAdmin::find( Username u ) const {
+void LinQedInAdmin::find( QString u ) const {
 
 }
 
-void LinQedInAdmin::remove( Username u ) {
+void LinQedInAdmin::remove( QString u ) {
 
 }
 
-void LinQedInAdmin::changeSubscriptionType( Username u ) {
+void LinQedInAdmin::changeSubscriptionType( QString u ) {
 
 }
 

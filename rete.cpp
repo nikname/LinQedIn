@@ -5,18 +5,19 @@
 #include "utente.h"
 #include "database.h"
 
+// CLASSE Contatti
 class Rete::Contatti {
 public:
     QList<SmartUtente> contactsList;
 
     /** Costruttore di default ridefinito.
-     *  Inizializza il campo contactsList con una QList vuota.
+     *  Inizializza il campo contactsList con una QList di SmartUtente vuota.
      */
     Contatti() : contactsList( QList<SmartUtente>() ) {}
 
     ~Contatti() {
         if( !contactsList.isEmpty() )
-        contactsList.clear();
+            contactsList.clear();
     }
 
     /** Aggiunge un nuovo SmartUtente alla lista dei contatti.
@@ -28,13 +29,14 @@ public:
     }
 };
 
+// COSTRUTTORE Rete
 Rete::Rete() : contacts( new Contatti ) {}
 
-Rete::~Rete() {
-    qDebug() << "** DISTRUTTORE Rete **";
-}
+// DISTRUTTORE Rete
+Rete::~Rete() {}
 
-void Rete::addContact( const Username& un, Database* db ) {
+// METODO addContact di Rete
+void Rete::addContact( const QString& un, Database* db ) {
     Utente* user = db->findUser( un );
     if( user ) {
         SmartUtente* su = new SmartUtente( user );
@@ -42,7 +44,8 @@ void Rete::addContact( const Username& un, Database* db ) {
     }
 }
 
-void Rete::removeContact( const Username& un, Database* db ) {
+// METODO removeContact di Rete
+void Rete::removeContact( const QString& un, Database* db ) {
     Utente* user = db->findUser( un );
     if( user ) {
         contacts->contactsList.removeOne( SmartUtente( user ) );
@@ -50,18 +53,16 @@ void Rete::removeContact( const Username& un, Database* db ) {
     }
 }
 
-QString Rete::getUsernamesList() const {
-    QString usernames = "";
+// METODO getContactsList di Rete
+QVector<QString> Rete::getContactsList() const {
+    QVector<QString> c;
     QListIterator<SmartUtente> it( contacts->contactsList );
-    while( it.hasNext() ) {
-        Utente* u = it.next().getUser();
-        usernames.append( u->getUsername().getLogin() );
-        if( it.hasNext() )
-            usernames.append( ", ");
-    }
-    return usernames;
+    while( it.hasNext() )
+        c.push_back( it.next().getUser()->getUsername() );
+    return c;
 }
 
+// OPERATOR delete di Rete
 void Rete::operator delete( void* n ) {
     if( n ) {
         Rete* net = static_cast<Rete*>( n );
@@ -73,13 +74,14 @@ void Rete::operator delete( void* n ) {
     }
 }
 
+// OPERATOR << di QDebug
 QDebug operator <<( QDebug qdbg, const Rete& r ) {
     qdbg << "CONTATTI: \n";
     if( r.contacts && !r.contacts->contactsList.isEmpty()) {
-        QListIterator<SmartUtente> it( r.contacts->contactsList );
-        while( it.hasNext() ) {
-            qdbg << it.next().getUser()->getUsername().getLogin();
-            if( it.hasNext() )
+        QVector<QString> c = r.getContactsList();
+        for( int i = 0; i < c.size(); i++ ) {
+            qdbg << c[i];
+            if( i < c.size() - 1 )
                 qdbg << ", ";
         }
         qdbg << "\n";

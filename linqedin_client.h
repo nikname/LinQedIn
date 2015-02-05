@@ -11,9 +11,9 @@ public:
      *  Esegue l'accesso dell'utente all'applicazione.
      *  Costruttore di default non disponibile.
      *
-     * @param Username  Username dell'utente che accede.
+     * @param QString  Username dell'utente che accede.
      */
-    LinQedInClient( Username );
+    LinQedInClient( QString );
 
     /** Permette di aggiornare le informazioni del profilo. */
     void aggiornaProfilo();
@@ -23,15 +23,15 @@ public:
 
     /** Aggiunge un contatto nella rete dell'utente.
      *
-     * @param Username  Username dell'utente da aggiungere alla lista dei contatti.
+     * @param QString  Username dell'utente da aggiungere alla lista dei contatti.
      */
-    void insertRete( Username );
+    void insertRete( QString );
 
     /** Rimuove un contatto dalla lista dei contatti.
      *
-     * @param Username  Username dell'utente da rimuovere dalla lista dei contatti.
+     * @param QString  Username dell'utente da rimuovere dalla lista dei contatti.
      */
-    void removeRete( Username );
+    void removeRete( QString );
 };
 
 #endif // LINQEDIN_CLIENT_H

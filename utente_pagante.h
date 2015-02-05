@@ -8,10 +8,10 @@ public:
     /** Costruttore a 2 parametri con 2 parametri di default.
      *  Invoca il costruttore a 2 parametri dalla classe base diretta.
      *
-     * @param Username un  Username dell'utente da creare.
+     * @param QString un  Username dell'utente da creare.
      * @param Profilo p  Profilo dell'utente da creare.
      */
-    UtentePagante( const Username& un = Username(),
+    UtentePagante( const QString& un = "",
                    const Profilo& p = Profilo() )
         : Utente( un, p ) {}
 
