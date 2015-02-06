@@ -6,8 +6,8 @@
 
 class Formazione {
 private:
-    class TitoliStudio;
-    TitoliStudio* titles;
+    class Titolo_rapp;
+    Titolo_rapp* titles;
 public:
     class Titolo {
     private:
@@ -16,29 +16,25 @@ public:
         QString degree;
         QString fieldOfStudy;
         QString grade;
-        QString activities;
     public:
-        /** Costruttore a 6 parametri con parametri di default.
+        /** Costruttore a 5 parametri con 5 parametri di default.
          *
          * @param QString scuola  Nome della scuola, collegio, università.
          * @param QDate dataDiploma  Data del conseguimento del diploma.
          * @param QString laurea  Titolo della laurea.
          * @param QString corsoDiStudio  Nome del corso di studio.
          * @param QString votazione  Giudizio finale.
-         * @param QString attivita  Attività svolte con la scuola, collegio, università.
          */
         Titolo( const QString& scuola = "",
                 const QDate& dataDiploma = QDate(),
                 const QString& laurea = "",
                 const QString& corsoDiStudio = "",
-                const QString& votazione = "",
-                const QString& attivita = "" ) :
+                const QString& votazione = "" ) :
             school( scuola ),
             dateAttended( dataDiploma ),
             degree( laurea ),
             fieldOfStudy( corsoDiStudio ),
-            grade( votazione ),
-            activities( attivita ) {}
+            grade( votazione ) {}
 
         /** Ritorna il nome della scuola, collegio, università.
          *
@@ -70,12 +66,6 @@ public:
          */
         QString getGrade() const;
 
-        /** Ritorna le attività svolte nella scuola, collegio, università.
-         *
-         * @return QString  Attività svolte nella scuola, collegio, università.
-         */
-        QString getActivities() const;
-
         /** Modifica il nome della scuola, collegio, università.
          *
          * @param QString  Nome della scuola, collegio, università.
@@ -106,33 +96,16 @@ public:
          */
         void setGrade( QString );
 
-        /** Imposta le attività svolte nella scuola, collegio, università.
-         *
-         * @param QString  Attività svolte nella scuola, collegio, università.
-         */
-        void setActivity( QString );
+        // bool operator ==( const Titolo& );
     };
 
     /** Costruttore di default ridefinito. */
     Formazione();
 
     /** Distruttore di Formazione.
-     *  Invoca il distruttore di TitoliStudio.
+     *  Invoca il distruttore di Titolo_rapp.
      */
     ~Formazione();
-
-    /** Ritorna il titolo di studio dell'utente in base all'indice.
-     *
-     * @param int  Indice del titolo di studio richiesto.
-     * @return Titolo  Titolo della lista dei titoli di studio dell'utente.
-     */
-    Titolo getTitleByIndex( int ) const;
-
-    /** Ritorna il numero di titoli di studio dell'utente.
-     *
-     * @return int  Numero di titoli di studio dell'utente.
-     */
-    int titlesNumber() const;
 
     /** Aggiunge un titolo di studio all'elenco dei titoli di studio.
      *

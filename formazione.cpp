@@ -22,10 +22,6 @@ QString Formazione::Titolo::getGrade() const {
     return grade;
 }
 
-QString Formazione::Titolo::getActivities() const {
-    return activities;
-}
-
 void Formazione::Titolo::setSchool( QString scuola ) {
     school = scuola;
 }
@@ -46,17 +42,12 @@ void Formazione::Titolo::setGrade( QString valutazione ) {
     grade = valutazione;
 }
 
-void Formazione::Titolo::setActivity( QString attivita ) {
-    activities = attivita;
-}
-
 QDebug operator <<( QDebug qdbg, const Formazione::Titolo& t ) {
     qdbg << "Scuola: " << t.getSchool() << "\n"
          << "Data diploma: " << t.getDateAttended().toString( "yyyy" ) << "\n"
          << "Laurea: " << t.getDegree() << "\n"
          << "Campo di studio: " << t.getFieldOfStudy() << "\n"
-         << "Votazione: " << t.getGrade() << "\n"
-         << "Attività svolte: " << t.getActivities() << "\n";
+         << "Votazione: " << t.getGrade() << "\n";
     return qdbg;
 }
 
@@ -65,35 +56,18 @@ bool operator ==( const Formazione::Titolo& t1, const Formazione::Titolo& t2 ) {
            ( t1.getDateAttended() == t2.getDateAttended() ) &&
            ( t1.getDegree() == t2.getDegree() ) &&
            ( t1.getFieldOfStudy() == t2.getFieldOfStudy() ) &&
-           ( t1.getGrade() == t2.getGrade() ) &&
-           ( t1.getActivities() == t2.getActivities() );
+           ( t1.getGrade() == t2.getGrade() );
 }
 
-class Formazione::TitoliStudio {
+class Formazione::Titolo_rapp {
 public:
     QList<Formazione::Titolo> titlesList;
 };
 
-Formazione::Formazione() : titles( new TitoliStudio ) {}
+Formazione::Formazione() : titles( new Titolo_rapp ) {}
 
 Formazione::~Formazione() {
     delete titles;
-}
-
-Formazione::Titolo Formazione::getTitleByIndex( int index ) const {
-    QListIterator<Titolo> it( titles->titlesList );
-    Titolo t;
-    if( index < titlesNumber() )
-        qDebug() << "No title found at index" << index << "!";
-    else {
-        while( it.hasNext() )
-            t = it.next();
-    }
-    return t;
-}
-
-int Formazione::titlesNumber() const {
-    return titles->titlesList.length();
 }
 
 void Formazione::addEducation( const Titolo& t ) {

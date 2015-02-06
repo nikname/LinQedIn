@@ -34,28 +34,71 @@ QString Utente::getUsername() {
 // METODO setLogin Utente
 void Utente::setUsername( const QString& l ) {
     //TODO: controlla che non sia già utilizzato
+    //try{
+    //    if( db.findUser( l ) )
+    //        throw new Exception( "Username non disponibile!" );
+    //}catch( Exception e ){
+    //    qDebug() << e;
+    //}
     username = l;
 }
 
-// METODO getProfile Utente
-Profilo Utente::getProfile() {
-    return profile;
+// METODO getName Utente
+QString Utente::getName() const {
+    return profile.getName();
 }
 
-// METODO getNet Utente
-Rete* Utente::getNet() {
-    return net;
+// METODO getSurname Utente
+QString Utente::getSurname() const {
+    return profile.getSurname();
 }
 
-// METODO getEducations Utente
-Formazione* Utente::getEducations() {
-    return educations;
+// METODO getBirthday Utente
+QString Utente::getBirthday() const {
+    return profile.getBirthday();
 }
 
-// METODO getExperiences Utente
-Esperienza* Utente::getExperiences() {
-    return experiences;
+// METODO getMaritialStatus Utente
+QString Utente::getMaritialStatus() const {
+    return profile.getMaritialStatus();
 }
+
+// METODO setName Utente
+void Utente::setName( const QString& n ) {
+    profile.setName( n );
+}
+
+// METODO setSurname Utente
+void Utente::setSurname( const QString& s ) {
+    profile.setSurname( s );
+}
+
+// METODO setBirthday Utente
+void Utente::setBirthday( const QDate& b ) {
+    profile.setBirthday( b );
+}
+
+// METODO setMaritialStatus Utente
+void Utente::setMaritialStatus( const QString& ms ) {
+    profile.setMaritialStatus( ms );
+}
+
+// METODO addContact Utente
+void Utente::addContact( const QString& un, Database* db ) {
+    net->addContact( un, db );
+}
+
+// METODO removeContact Utente
+void Utente::removeContact( const QString& un, Database* db ) {
+    net->removeContact( un, db );
+}
+
+// METODO getContactsList Utente
+QVector<QString> Utente::getContactsList() const {
+    return net->getContactsList();
+}
+
+
 
 // Overloading OPERATOR () Utente
 void Utente::FuntoreRicerca::operator ()( const SmartUtente& x ) const {

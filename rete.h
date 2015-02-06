@@ -24,15 +24,17 @@ public:
      */
     ~Rete();
 
-    /** Aggiunge un contatto alla lista dei contatti.
+    /** Aggiunge un contatto alla lista dei contatti dell'utente.
      *
      * @param QString  Username del contatto da aggiungere.
+     * @param Database*  Database sul quale ricercare l'username dell'utente da inserire.
      */
     void addContact( const QString&, Database* );
 
-    /** Rimuove un contatto dalla lista dei contatti.
+    /** Rimuove un contatto dalla lista dei contatti dell'utente.
      *
      * @param QString  Username del contatto da rimuovere.
+     * @param Database*  Database sul quale ricercare l'username dell'utente da rimuovere.
      */
     void removeContact( const QString&, Database* );
 
