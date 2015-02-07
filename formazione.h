@@ -5,9 +5,25 @@
 #include <QDate>
 
 class Formazione {
+
+    // NOTE:
+    // Solo creando un oggetto Utente è possibile creare un oggetto Formazione.
+    // Poichè un oggetto di tipo Formazione può venire creato solo tramite una new da un oggetto di
+    // tipo Utente, allora non sono necessari costruttore di copia e distruttore (nemmeno ridefiniti).
+    // L'aumento del contatore user_ref è lasciato al costruttore di copia di Utente.
+
+    friend class Utente; // Necessario per costruire e distruggere oggetti Formazione
+    friend class Iteratore;
 private:
-    class Titolo_rapp;
-    Titolo_rapp* titles;
+    class Formazione_rapp;
+    Formazione_rapp* titles;
+    int user_ref; // Numero di utenti che si riferiscono all'oggetto Formazione.
+
+    /** Costruttore privato di default.
+     *  Inizializza ad 1 il contatore di riferimenti user_ref.
+     *  Viene invocato solo dal costruttore di Utente.
+     */
+    Formazione();
 public:
     class Titolo {
     private:
@@ -96,16 +112,56 @@ public:
          */
         void setGrade( QString );
 
-        // bool operator ==( const Titolo& );
+        /** Overloading dell'operatore di uguaglianza di Titolo.
+         *  Confronta l'oggetto di invocazione con un oggetto della classe Titolo.
+         *
+         * @param Formazione::Titolo  Oggetto Titolo da confrontare.
+         * @return bool  true se i due oggetti sono uguali; false altrimenti.
+         */
+        bool operator ==( const Formazione::Titolo& );
     };
 
-    /** Costruttore di default ridefinito. */
-    Formazione();
+    class Iteratore {
+        friend class Formazione;
+    private:
+        Titolo* punt;
+    public:
+        /** Costruttore di default di Iteratore.
+         *  Iteratore sulla lista di titoli di studio dell'utente.
+         */
+        Iteratore();
 
-    /** Distruttore di Formazione.
-     *  Invoca il distruttore di Titolo_rapp.
-     */
-    ~Formazione();
+        /** Operatore di uguaglianza tra iteratori.
+         *  Confronta due oggetti Iteratore.
+         *
+         * @param Iteratore  Iteratore da confrontare con l'oggetto di invocazione.
+         * @return bool  true se i due iteratori puntano allo stesso oggetto, false altrimenti.
+         */
+        bool operator ==( Iteratore ) const;
+
+        /** Operatore di disuguaglianza tra iteratori.
+         *  Confronta due oggetti Iteratore.
+         *
+         * @param Iteratore  Iteratore da confrontare con l'oggetto di invocazione.
+         * @return bool  true se i due iteratori non puntano allo stesso oggetto, false altrimenti.
+         */
+        bool operator !=( Iteratore ) const;
+
+        /** Operatore di incremento prefisso dell'iteratore.
+         *  Ritorna l'iteratore all'elemento successivo.
+         *
+         * @return Iteratore  Iteratore all'elemento successivo.
+         */
+        Iteratore operator ++();
+
+        /** Operatore di incremento postfisso dell'iteratore.
+         *  Avanza l'iteratore. Ritorna l'Iteratore di invocazione.
+         *
+         * @param int  Parametro fittizzio necessario per distinguere operatore prefisso e postfisso.
+         * @return Iteratore  Iteratore di invocazione.
+         */
+        Iteratore operator ++( int );
+    };
 
     /** Aggiunge un titolo di studio all'elenco dei titoli di studio.
      *
@@ -119,6 +175,25 @@ public:
      */
     void removeEducation( Titolo );
 
+    /** Ritorna un iteratore al primo elemento della lista di titoli di studio.
+     *
+     * return Iteratore  Iteratore al primo elementeo della lista di titoli di studio.
+     */
+    Iteratore begin() const;
+
+    /** Ritorna un iteratore all'utlimo elemento della lista di titoli di studio.
+     *
+     * @return Iteratore  Iteratore all'ultimo elemento della lista dei titoli di studio.
+     */
+    Iteratore end() const;
+
+    // Titolo& operator []( Iteratore ) const;
+
+    /** Operatore delete ridefinito.
+     *  Decrementa user_ref di 1. Se user_ref vale 0 invoca il distruttore di Formazione_rapp.
+     */
+    void operator delete();
+
     friend QDebug operator <<( QDebug, const Formazione& );
 };
 
@@ -130,15 +205,6 @@ public:
  * @param QDebug  QDebug.
  */
 QDebug operator <<( QDebug, const Formazione::Titolo& );
-
-/** Overloading dell'operatore di uguaglianza di Titolo.
- *  Confronta due oggetti della classe Titolo.
- *
- * @param Formazione::Titolo  Oggetto Titolo da confrontare.
- * @param Formazione::Titolo  Oggetto Titolo da confrontare.
- * @return bool  true se i due oggetti sono uguali; false altrimenti.
- */
-bool operator ==( const Formazione::Titolo&, const Formazione::Titolo& );
 
 /** Overloading dell'operatore di output di QDebug.
  *  Stampa su standard output le informazioni di tutti i titoli di studio dell'utente.

@@ -9,20 +9,20 @@ Utente::Utente( const Utente& u ) :
     experiences( u.experiences ) // memoria condivisa!
 {
     net->references++;
-    //educations->references++;
+    educations->user_ref++;
     //experiences->references++;
 }
 
 // DISTRUTTORE Utente
 Utente::~Utente() {
     net->references--;
-    if( !net->references )
+    if( net->references == 0 )
         delete net;
-    //educations->references--;
-    //if( !educations->references )
+    educations->user_ref--;
+    if( educations->user_ref == 0 )
         delete educations;
     //experiences->references--;
-    //if( !experiences->references )
+    //if( experiences->references == 0 )
         delete experiences;
 }
 
@@ -100,19 +100,15 @@ QVector<QString> Utente::getContactsList() const {
 
 
 
-// Overloading OPERATOR () Utente
+// OPERATOR () Utente
 void Utente::FuntoreRicerca::operator ()( const SmartUtente& x ) const {
     // ...
     qDebug() << x.getUser()->getProfile();
 }
 
-// Overloading OPERATOR << QDebug
-QDebug operator <<( QDebug qdbg, Utente* u ) {
-    qdbg << "*** PROFILO UTENTE ***\n\n"
-         << u->getUsername() << "\n"
-         << u->getProfile() << "\n"
-         << *( u->getNet() ) << "\n"
-         << *( u->getEducations() ) << "\n"
-         << *( u->getExperiences() ) << "\n";
+// OPERATOR << Utente
+QDebug operator <<( QDebug qdbg, const Utente& u ) {
+    qdbg << "*** PROFILO UTENTE ***";
+    // ...
     return qdbg;
 }
