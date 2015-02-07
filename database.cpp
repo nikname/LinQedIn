@@ -42,20 +42,20 @@ void Database::parseUser( QXmlStreamReader& xmlReader ) {
             while( xmlReader.name() != "profile" ||
                    xmlReader.tokenType() != QXmlStreamReader::EndElement ) {
                 if( xmlReader.name() == "name" )
-                    u->getProfile().setName( xmlReader.readElementText() );
+                    u->setName( xmlReader.readElementText() );
                 if( xmlReader.name() == "surname" )
-                    u->getProfile().setSurname( xmlReader.readElementText() );
+                    u->setSurname( xmlReader.readElementText() );
                 if( xmlReader.name() == "birthday" ) {
                     QString b = xmlReader.readElementText();
                     QStringList list = b.split( "/" );
                     if( !list[0].isEmpty() && !list[1].isEmpty() && !list[2].isEmpty() )
-                        u->getProfile().setBirthday( QDate( list[2].toInt(),
+                        u->setBirthday( QDate( list[2].toInt(),
                                                             list[1].toInt(),
                                                             list[0].toInt() ) );
-                    else u->getProfile().setBirthday( QDate() );
+                    else u->setBirthday( QDate() );
                 }
                 if( xmlReader.name() == "maritialStatus" )
-                    u->getProfile().setMaritialStatus( xmlReader.readElementText() );
+                    u->setMaritialStatus( xmlReader.readElementText() );
                 xmlReader.readNext();
             }
         }
@@ -77,10 +77,10 @@ void Database::parseUser( QXmlStreamReader& xmlReader ) {
                         if( xmlReader.name() == "dateAttended" ) {
                             QStringList list = xmlReader.readElementText().split( "/" );
                             if( !list[0].isEmpty() && !list[1].isEmpty() && !list[2].isEmpty() )
-                                u->getProfile().setBirthday( QDate( list[2].toInt(),
+                                u->setBirthday( QDate( list[2].toInt(),
                                                                     list[1].toInt(),
                                                                     list[0].toInt() ) );
-                            else u->getProfile().setBirthday( QDate() );
+                            else u->setBirthday( QDate() );
                         }
                         if( xmlReader.name() == "degree" )
                             t.setDegree( xmlReader.readElementText() );
@@ -88,11 +88,9 @@ void Database::parseUser( QXmlStreamReader& xmlReader ) {
                             t.setFieldOfStudy( xmlReader.readElementText() );
                         if( xmlReader.name() == "grade" )
                             t.setGrade( xmlReader.readElementText() );
-                        if( xmlReader.name() == "activities" )
-                            t.setActivity( xmlReader.readElementText() );
                         xmlReader.readNext();
                     }
-                    u->getEducations()->addEducation( t );
+                    u->addEducation( t );
                 }
                 xmlReader.readNext();
             }
@@ -115,22 +113,22 @@ void Database::parseUser( QXmlStreamReader& xmlReader ) {
                         if( xmlReader.name() == "begin" ) {
                             QStringList list = xmlReader.readElementText().split( "/" );
                             if( !list[0].isEmpty() && !list[1].isEmpty() && !list[2].isEmpty() )
-                                u->getProfile().setBirthday( QDate( list[2].toInt(),
+                                u->setBirthday( QDate( list[2].toInt(),
                                                                     list[1].toInt(),
                                                                     list[0].toInt() ) );
-                            else u->getProfile().setBirthday( QDate() );
+                            else u->setBirthday( QDate() );
                         }
                         if( xmlReader.name() == "end" ) {
                             QStringList list = xmlReader.readElementText().split( "/" );
                             if( !list[0].isEmpty() && !list[1].isEmpty() && !list[2].isEmpty() )
-                                u->getProfile().setBirthday( QDate( list[2].toInt(),
+                                u->setBirthday( QDate( list[2].toInt(),
                                                                     list[1].toInt(),
                                                                     list[0].toInt() ) );
-                            else u->getProfile().setBirthday( QDate() );
+                            else u->setBirthday( QDate() );
                         }
                         xmlReader.readNext();
                     }
-                    u->getExperiences()->addExperience( j );
+                    u->addExperience( j );
                 }
                 xmlReader.readNext();
             }

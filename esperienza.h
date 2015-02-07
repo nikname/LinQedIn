@@ -5,9 +5,21 @@
 #include <QDate>
 
 class Esperienza {
+
+    // NOTE:
+    // Solo creando un oggetto Utente è possibile creare un oggetto Esperienza.
+    // Poichè un oggetto di tipo Esperienza può venire creato solo tramite una new da un oggetto di
+    // tipo Utente, allora non sono necessari costruttore di copia e distruttore (nemmeno ridefiniti).
+    // L'aumento del contatore user_ref è lasciato al costruttore di copia di Utente.
+
+    friend class Utente; // Necessario per costruire e distruggere oggetti Esperienza
 private:
-    class EspLavorative;
-    EspLavorative* experiences;
+    class Esperienza_rapp;
+    Esperienza_rapp* experiences;
+    int user_ref; // Numero di utenti che si riferiscono all'oggetto Esperienza.
+
+    /** Costruttore di default ridefinito. */
+    Esperienza();
 public:
     class Lavoro {
     private:
@@ -95,28 +107,15 @@ public:
          * @param QDate  Data di fine di tale occupazione.
          */
         void setEnd( QDate );
+
+        /** Overloading dell'operatore di uguaglianza di Lavoro.
+         *  Confronta l'oggetto di invocazione con un oggetto della classe Lavoro.
+         *
+         * @param Esperienza::Lavoro  Oggetto di tipo Lavoro da confrontare.
+         * @return bool  true se i due oggetti sono uguali; false altrimenti.
+         */
+        bool operator ==( const Esperienza::Lavoro& );
     };
-
-    /** Costruttore di default ridefinito. */
-    Esperienza();
-
-    /** Distruttore di Esperienza.
-     *  Invoca il distruttore di EspLavorative.
-     */
-    ~Esperienza();
-
-    /** Ritorna l'esperienza dell'utente in base all'indice.
-     *
-     * @param int  Indice dell'esperienza dell'utente richiesta.
-     * @return Lavoro  Esperienza della lista delle esperienze dell'utente.
-     */
-    Lavoro getJobByIndex( int ) const;
-
-    /** Ritorna il numero di esperienze dell'utente.
-     *
-     * @return int  Numero delle esperienze dell'utente.
-     */
-    int experiencesNumber() const;
 
     /** Aggiunge un'esperienza alle esperienze lavorative.
      *
@@ -126,9 +125,20 @@ public:
 
     /** Rimuove un'esperienza dalle esperienze lavorative.
      *
-     * @param Lavoro*  Esperienza da riumuovere dalle esperienze lavorative.
+     * @param Lavoro  Esperienza da riumuovere dalle esperienze lavorative.
      */
     void removeExperience( const Lavoro& );
+
+    /** Ritorna un vettore di puntatori ai titoli di studio dell'utente.
+     *
+     * @return QVector<Lavoro*>  Vettore di puntatori ai titoli di studio dell'utente.
+     */
+    QVector<Lavoro*> getExperiencesList() const;
+
+    /** Operatore delete ridefinito.
+     *  Decrementa user_ref di 1. Se user_ref vale 0 invoca il distuttore di Esperienza_rapp.
+     */
+    void operator delete( void* );
 
     friend QDebug operator <<( QDebug, const Esperienza& );
 };
@@ -141,15 +151,6 @@ public:
  * @param QDebug  QDebug.
  */
 QDebug operator <<( QDebug, const Esperienza::Lavoro& );
-
-/** Overloading dell'operatore di uguaglianza di Lavoro.
- *  Confronta due oggetti della classe Lavoro.
- *
- * @param Esperienza::Lavoro  Oggetto di tipo Lavoro da confrontare.
- * @param Esperienza::Lavoro  Oggetto di tipo Lavoro da confrontare.
- * @return bool  true se i due oggetti sono uguali; false altrimenti.
- */
-bool operator ==( const Esperienza::Lavoro&, const Esperienza::Lavoro& );
 
 /** Overloading dell'operatore di output di QDebug.
  *  Stampa su standard output tutte esperienza lavorative dell'utente.

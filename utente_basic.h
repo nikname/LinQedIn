@@ -12,8 +12,9 @@ public:
      * @param Profilo p  Profilo dell'utente basic.
      */
     UtenteBasic( const QString& un = "",
-                 const Profilo& p = Profilo() )
-        : UtenteGratis( un, p ) {}
+                 const QString& name = "",
+                 const QString& surname = "" )
+       : UtenteGratis( un, name, surname ) {}
 
     /** Ricerca polimorfa virtuale.
      *  Esegue la ricerca degli utenti nel database per utenti di tipo basic.

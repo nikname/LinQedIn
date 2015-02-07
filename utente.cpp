@@ -54,7 +54,7 @@ QString Utente::getSurname() const {
 }
 
 // METODO getBirthday Utente
-QString Utente::getBirthday() const {
+QDate Utente::getBirthday() const {
     return profile.getBirthday();
 }
 
@@ -103,7 +103,6 @@ QVector<QString> Utente::getContactsList() const {
 // OPERATOR () Utente
 void Utente::FuntoreRicerca::operator ()( const SmartUtente& x ) const {
     // ...
-    qDebug() << x.getUser()->getProfile();
 }
 
 // OPERATOR << Utente

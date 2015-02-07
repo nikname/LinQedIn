@@ -13,7 +13,6 @@ class Formazione {
     // L'aumento del contatore user_ref è lasciato al costruttore di copia di Utente.
 
     friend class Utente; // Necessario per costruire e distruggere oggetti Formazione
-    friend class Iteratore;
 private:
     class Formazione_rapp;
     Formazione_rapp* titles;
@@ -121,48 +120,6 @@ public:
         bool operator ==( const Formazione::Titolo& );
     };
 
-    class Iteratore {
-        friend class Formazione;
-    private:
-        Titolo* punt;
-    public:
-        /** Costruttore di default di Iteratore.
-         *  Iteratore sulla lista di titoli di studio dell'utente.
-         */
-        Iteratore();
-
-        /** Operatore di uguaglianza tra iteratori.
-         *  Confronta due oggetti Iteratore.
-         *
-         * @param Iteratore  Iteratore da confrontare con l'oggetto di invocazione.
-         * @return bool  true se i due iteratori puntano allo stesso oggetto, false altrimenti.
-         */
-        bool operator ==( Iteratore ) const;
-
-        /** Operatore di disuguaglianza tra iteratori.
-         *  Confronta due oggetti Iteratore.
-         *
-         * @param Iteratore  Iteratore da confrontare con l'oggetto di invocazione.
-         * @return bool  true se i due iteratori non puntano allo stesso oggetto, false altrimenti.
-         */
-        bool operator !=( Iteratore ) const;
-
-        /** Operatore di incremento prefisso dell'iteratore.
-         *  Ritorna l'iteratore all'elemento successivo.
-         *
-         * @return Iteratore  Iteratore all'elemento successivo.
-         */
-        Iteratore operator ++();
-
-        /** Operatore di incremento postfisso dell'iteratore.
-         *  Avanza l'iteratore. Ritorna l'Iteratore di invocazione.
-         *
-         * @param int  Parametro fittizzio necessario per distinguere operatore prefisso e postfisso.
-         * @return Iteratore  Iteratore di invocazione.
-         */
-        Iteratore operator ++( int );
-    };
-
     /** Aggiunge un titolo di studio all'elenco dei titoli di studio.
      *
      * @param Titolo  Titolo di studio da aggiungere.
@@ -173,26 +130,18 @@ public:
      *
      * @param Titolo  Titolo di studio da rimuovere.
      */
-    void removeEducation( Titolo );
+    void removeEducation( const Titolo& );
 
-    /** Ritorna un iteratore al primo elemento della lista di titoli di studio.
+    /** Ritorna un vettore di puntatori ai titoli di studio dell'utente.
      *
-     * return Iteratore  Iteratore al primo elementeo della lista di titoli di studio.
+     * @return QVector<Titolo*>  Vettore di puntatori ai titoli di studio dell'utente.
      */
-    Iteratore begin() const;
-
-    /** Ritorna un iteratore all'utlimo elemento della lista di titoli di studio.
-     *
-     * @return Iteratore  Iteratore all'ultimo elemento della lista dei titoli di studio.
-     */
-    Iteratore end() const;
-
-    // Titolo& operator []( Iteratore ) const;
+    QVector<Titolo*> getTitlesList() const;
 
     /** Operatore delete ridefinito.
      *  Decrementa user_ref di 1. Se user_ref vale 0 invoca il distruttore di Formazione_rapp.
      */
-    void operator delete();
+    void operator delete( void* );
 
     friend QDebug operator <<( QDebug, const Formazione& );
 };

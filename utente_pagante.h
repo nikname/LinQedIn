@@ -12,8 +12,9 @@ public:
      * @param Profilo p  Profilo dell'utente da creare.
      */
     UtentePagante( const QString& un = "",
-                   const Profilo& p = Profilo() )
-        : Utente( un, p ) {}
+                   const QString& name = "",
+                   const QString& surname = "" )
+         : Utente( un, name, surname ) {}
 
     /** Distruttore virtuale puro.
      *  Invoca il distruttore della classe base diretta. */

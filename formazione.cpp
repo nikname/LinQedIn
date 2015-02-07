@@ -9,13 +9,16 @@ public:
 
     /** Costruttore di default rifefinito. */
     Formazione_rapp() :
-        titlesList( new QList<Formazione::Titolo>() ) {}
+        titlesList( QList<Formazione::Titolo>() ) {}
 
     /** Distruttore Formazione_rapp.
      *  Invoca il metodo clear() sulla lista dei titoli di studio dell'utente.
      */
-    void operator delete() {
-        titlesList.clear();
+    void operator delete( void* p ) {
+        if( p ) {
+            Formazione_rapp* p_aux = static_cast<Formazione_rapp*>( p );
+            p_aux->titlesList.clear();
+        }
     }
 };
 
@@ -83,38 +86,33 @@ bool Formazione::Titolo::operator ==( const Formazione::Titolo& t ) {
         ( getGrade() == t.getGrade() );
 }
 
-// COSTRUTTORE Iteratore
-Formazione::Iteratore::Iteratore() : punt( begin() ) {}
-
-// OPERATOR == Iteratore
-bool Formazione::Iteratore::operator ==( Iteratore it ) const {
-    return punt == it.punt;
-}
-
-// OPERATOR == Iteratore
-bool Formazione::Iteratore::operator !=( Iteratore it ) const {
-    return punt != it.punt;
-}
-
-Formazione::Iteratore Formazione::Iteratore::operator ++() {
-
-}
-
 // METODO addEducation Formazione
 void Formazione::addEducation( const Titolo& t ) {
     titles->titlesList.append( t );
 }
 
 // METODO removeEducation Formazione
-void Formazione::removeEducation( Titolo t ) {
+void Formazione::removeEducation( const Titolo& t ) {
     titles->titlesList.removeOne( t );
 }
 
+// METODO getTitlesList Formazione
+QVector<Formazione::Titolo*> Formazione::getTitlesList() const {
+    QVector<Formazione::Titolo*> v;
+    //QListIterator<Formazione::Titolo*> it( titles->titlesList ); // QMutableListIterator ?
+    //while( it.hasNext() )
+        //v.push_back( it.next() );
+    return v;
+}
+
 // OPERATOR delete Formazione
-void Formazione::operator delete() {
-    user_ref--;
-    if( user_ref == 0 )
-        delete titles;
+void Formazione::operator delete( void* p ) {
+    if( p ) {
+        Formazione* p_aux = static_cast<Formazione*>( p );
+        p_aux->user_ref--;
+        if( p_aux->user_ref == 0 )
+            delete p_aux->titles;
+    }
 }
 
 // OPERATOR << Titolo

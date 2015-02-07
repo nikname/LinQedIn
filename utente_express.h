@@ -12,8 +12,9 @@ public:
      * @param Profilo p  Profilo dell'utente express.
      */
     UtenteExpress( const QString& un = "",
-                   const Profilo& p = Profilo() ) :
-        UtentePagante( un, p ) {}
+                   const QString& name = "",
+                   const QString& surname = "" )
+         : UtentePagante( un, name, surname ) {}
 
     /** Ricerca polimorfa virtuale.
      *  Esegue la ricerca degli utenti nel database per utenti express.

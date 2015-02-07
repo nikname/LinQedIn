@@ -92,28 +92,28 @@ public:
      *
      * @param QString  Nome dell'utente.
      */
-    void setName( QString );
+    void setName( const QString& );
 
     /** Imposta il cognome dell'utente.
      *  Invoca il metodo setSurname() del campo dati profile di tipo Profilo.
      *
      * @param QString  Cognome dell'utente.
      */
-    void setSurname( QString );
+    void setSurname( const QString& );
 
     /** Imposta la data di nascita dell'utente.
      *  Invoca il metodo setBirthday() del campo dati profile di tipo Profilo.
      *
      * @param QDate  Data di nascita dell'utente.
      */
-    void setBirthday( QDate );
+    void setBirthday( const QDate& );
 
     /** Modifica lo stato civile dell'utente.
      *  Invoca il metodo setMaritialStatus() del campo dati profile di tipo Profilo.
      *
      * @param QString  Stato civile dell'utente.
      */
-    void setMaritialStatus( QString );
+    void setMaritialStatus( const QString& );
 
     /** Aggiunge un contatto alla lista dei contatti dell'utente.
      *  Invoca il metodo addContact() del campo dati net di tipo Rete.
