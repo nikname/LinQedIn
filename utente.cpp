@@ -4,25 +4,25 @@
 Utente::Utente( const Utente& u ) :
     username( u.username ),
     profile( u.profile ),
-    net( u.net ), // memoria condivisa!
-    educations( u.educations ), // memoria condivisa!
-    experiences( u.experiences ) // memoria condivisa!
+    net( u.net ),
+    educations( u.educations ),
+    experiences( u.experiences )
 {
-    net->references++;
+    net->user_ref++;
     educations->user_ref++;
-    //experiences->references++;
+    experiences->user_ref++;
 }
 
 // DISTRUTTORE Utente
 Utente::~Utente() {
-    net->references--;
-    if( net->references == 0 )
+    net->user_ref--;
+    if( net->user_ref == 0 )
         delete net;
     educations->user_ref--;
     if( educations->user_ref == 0 )
         delete educations;
-    //experiences->references--;
-    //if( experiences->references == 0 )
+    experiences->user_ref--;
+    if( experiences->user_ref == 0 )
         delete experiences;
 }
 
@@ -94,7 +94,7 @@ void Utente::removeContact( const QString& un, Database* db ) {
 }
 
 // METODO getContactsList Utente
-QVector<QString> Utente::getContactsList() const {
+QVector<SmartUtente> Utente::getContactsList() const {
     return net->getContactsList();
 }
 

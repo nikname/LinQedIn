@@ -18,7 +18,11 @@ private:
     Esperienza_rapp* experiences;
     int user_ref; // Numero di utenti che si riferiscono all'oggetto Esperienza.
 
-    /** Costruttore di default ridefinito. */
+    /** Costruttore di default ridefinito.
+     *  Crea una lista vuota di esperienze lavorative.
+     *  Inizializza ad 1 il contatore di riferimenti user_ref.
+     *  Viene invocato solo dal costruttore di Utente.
+     */
     Esperienza();
 public:
     class Lavoro {

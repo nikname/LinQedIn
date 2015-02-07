@@ -19,6 +19,7 @@ private:
     int user_ref; // Numero di utenti che si riferiscono all'oggetto Formazione.
 
     /** Costruttore privato di default.
+     *  Crea una lista vuota di titoli di studio.
      *  Inizializza ad 1 il contatore di riferimenti user_ref.
      *  Viene invocato solo dal costruttore di Utente.
      */

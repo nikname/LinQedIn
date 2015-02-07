@@ -7,17 +7,22 @@ class Formazione::Formazione_rapp {
 public:
     QList<Formazione::Titolo> titlesList;
 
-    /** Costruttore di default rifefinito. */
+    /** Costruttore di default rifefinito.
+     *  Inizializza il campo titlesList con una QList di Titolo vuota.
+     */
     Formazione_rapp() :
         titlesList( QList<Formazione::Titolo>() ) {}
 
     /** Distruttore Formazione_rapp.
      *  Invoca il metodo clear() sulla lista dei titoli di studio dell'utente.
+     *
+     * @param void* p  Puntatore all'oggetto Formazione_rapp.
      */
     void operator delete( void* p ) {
         if( p ) {
             Formazione_rapp* p_aux = static_cast<Formazione_rapp*>( p );
-            p_aux->titlesList.clear();
+            if( !p_aux->titlesList.isEmpty() )
+                p_aux->titlesList.clear();
         }
     }
 };

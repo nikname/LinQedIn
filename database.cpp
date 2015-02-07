@@ -211,12 +211,12 @@ void Database::saveUsersList() const {
         xmlWriter.writeStartElement( "net" );
         // <contacts>
         xmlWriter.writeStartElement( "contacts" );
-        QVector<QString> v = n->getContactsList();
-        for( int i = 0; i < v.size(); i++ ) {
+        //QVector<QString> v = n->getContactsList();
+        //for( int i = 0; i < v.size(); i++ ) {
             // <contact>
-            xmlWriter.writeTextElement( "contact", v[i] );
+            //xmlWriter.writeTextElement( "contact", v[i] );
             // </contact>
-        }
+        //}
         xmlWriter.writeEndElement();
         // </contacts>
         xmlWriter.writeEndElement();
@@ -233,7 +233,6 @@ void Database::saveUsersList() const {
             xmlWriter.writeTextElement( "degree", t.getDegree() );
             xmlWriter.writeTextElement( "fieldOfStudy", t.getFieldOfStudy());
             xmlWriter.writeTextElement( "grade", t.getGrade() );
-            xmlWriter.writeTextElement( "activities", t.getActivities() );
             xmlWriter.writeEndElement();
             // </title>
         }

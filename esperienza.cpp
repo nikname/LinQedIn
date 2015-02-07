@@ -13,11 +13,14 @@ public:
 
     /** Distruttore Esperienza_rapp.
      *  Invoca il metodo clear() sulla lista delle esperienze lavorative dell'utente.
+     *
+     * @param void* p  Puntatore all'oggetto Esperienza_rapp.
      */
     void operator delete( void* p ) {
         if( p ) {
             Esperienza_rapp* p_aux = static_cast<Esperienza_rapp*>( p );
-            p_aux->experiencesList.clear();
+            if( !p_aux->experiencesList.isEmpty() )
+                p_aux->experiencesList.clear();
         }
     }
 };

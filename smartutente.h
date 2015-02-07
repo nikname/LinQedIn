@@ -14,7 +14,7 @@ public:
      *
      * @param Utente* u  Elemento della lista utenti.
      */
-    SmartUtente( Utente* u ) : user( u ) {}
+    SmartUtente( Utente* u = 0 ) : user( u ) {}
 
     /** Distruttore di SmartUtente.
      *  Richiama il distruttore di Utente.

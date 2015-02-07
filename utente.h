@@ -131,14 +131,14 @@ public:
      */
     void removeContact( const QString&, Database* );
 
-    /** Ritorna un QVector di QString contenente la login dei contatti nella rete dell'utente.
+    /** Ritorna un QVector di SmartUtente contenente i contatti nella rete dell'utente.
      *  Invoca il metodo getContactsList() del campo dati net di tipo Rete.
      *
-     * @return QVector<QString>  Login dei contatti nella rete dell'utente.
+     * @return QVector<SmartUtente>  Vettore dei contatti nella rete dell'utente.
      */
-    QVector<QString> getContactsList() const;
+    QVector<SmartUtente> getContactsList() const;
 
-
+    // TODO: aggiungere i metodi di Formazione ed Esperienza
 
     /** Ricerca polimorfa, virtuale pura.
      *  Esegue la ricerca degli utenti nel database in base alla tipologia di account.
@@ -173,9 +173,9 @@ protected:
  *  Stampa su standard output tutte le informazioni associate all'utente.
  *
  * @param QDebug  QDebug.
- * @param Utente*  Puntatore all'oggetto Utente.
+ * @param Utente  Puntatore all'oggetto Utente.
  * @param QDebug  QDebug.
  */
-QDebug operator <<( QDebug, Utente* );
+QDebug operator <<( QDebug, const Utente& );
 
 #endif
