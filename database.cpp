@@ -14,7 +14,7 @@ public:
     QList<SmartUtente> users;
 };
 
-void Database::parseUser( QXmlStreamReader& xmlReader ) {
+void Database::parseUser( QXmlStreamReader& xmlReader ) { /*
 
     if( xmlReader.tokenType() != QXmlStreamReader::StartElement &&
         xmlReader.name() != "user" ) {
@@ -136,7 +136,7 @@ void Database::parseUser( QXmlStreamReader& xmlReader ) {
         xmlReader.readNext();
     }
 
-    this->insert( u );
+    this->insert( u ); */
 }
 
 Database::Database() : usersList( new ListaUtenti ) {}
@@ -145,7 +145,7 @@ Database::~Database() {
     delete usersList;
 }
 
-void Database::loadUsersList() {
+void Database::loadUsersList() { /*
 
     QString path( "users.xml" );
     QFile file( path );
@@ -262,7 +262,7 @@ void Database::saveUsersList() const {
 
     // </users>
     xmlWriter.writeEndElement();
-    xmlWriter.writeEndDocument();
+    xmlWriter.writeEndDocument(); */
 }
 
 Utente* Database::findUser( const QString& un ) const {

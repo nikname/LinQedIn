@@ -123,15 +123,15 @@ public:
 
     /** Aggiunge un titolo di studio all'elenco dei titoli di studio.
      *
-     * @param Titolo  Titolo di studio da aggiungere.
+     * @param Titolo*  Titolo di studio da aggiungere.
      */
-    void addEducation( const Titolo& );
+    void addEducation( Titolo* );
 
     /** Rimuove un titolo di studio dall'elenco dei titoli di studio.
      *
-     * @param Titolo  Titolo di studio da rimuovere.
+     * @param Titolo*  Titolo di studio da rimuovere.
      */
-    void removeEducation( const Titolo& );
+    void removeEducation( Titolo* );
 
     /** Ritorna un vettore di puntatori ai titoli di studio dell'utente.
      *
@@ -143,8 +143,6 @@ public:
      *  Decrementa user_ref di 1. Se user_ref vale 0 invoca il distruttore di Formazione_rapp.
      */
     void operator delete( void* );
-
-    friend QDebug operator <<( QDebug, const Formazione& );
 };
 
 /** Overloading dell'operatore di output di QDebug.
@@ -156,13 +154,4 @@ public:
  */
 QDebug operator <<( QDebug, const Formazione::Titolo& );
 
-/** Overloading dell'operatore di output di QDebug.
- *  Stampa su standard output le informazioni di tutti i titoli di studio dell'utente.
- *
- * @param QDebug  QDebug.
- * @param Formazione  Elenco dei titoli di studio dell'utente.
- * @return QDebug  QDebug.
- */
-QDebug operator <<( QDebug, const Formazione& );
-
-#endif // TITOLO_STUDIO_H
+#endif // FORMAZIONE_H

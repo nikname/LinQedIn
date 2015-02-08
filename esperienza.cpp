@@ -5,11 +5,11 @@
 // CLASSE Esperienza_rapp
 class Esperienza::Esperienza_rapp {
 public:
-    QList<Esperienza::Lavoro> experiencesList;
+    QList<Esperienza::Lavoro*> experiencesList;
 
     /** Costruttore di default ridefinito. */
     Esperienza_rapp() :
-        experiencesList( QList<Esperienza::Lavoro>() ) {}
+        experiencesList( QList<Esperienza::Lavoro*>() ) {}
 
     /** Distruttore Esperienza_rapp.
      *  Invoca il metodo clear() sulla lista delle esperienze lavorative dell'utente.
@@ -90,21 +90,21 @@ bool Esperienza::Lavoro::operator ==( const Esperienza::Lavoro& l ) {
 }
 
 // METODO addExperience Lavoro
-void Esperienza::addExperience( const Lavoro& l ) {
+void Esperienza::addExperience( Lavoro* l ) {
     experiences->experiencesList.append( l );
 }
 
 // METODO removeExperience Lavoro
-void Esperienza::removeExperience( const Lavoro& l ) {
+void Esperienza::removeExperience( Lavoro* l ) {
     experiences->experiencesList.removeAll( l );
 }
 
 // METODO getExperiencesList Esperienza
 QVector<Esperienza::Lavoro*> Esperienza::getExperiencesList() const {
     QVector<Esperienza::Lavoro*> v;
-    //QListIterator<Esperienza::Lavoro*> it( experiences->experiencesList ); // QMutableListIterator ?
-    //while( it.hasNext() )
-        //v.push_back( it.next() );
+    QListIterator<Esperienza::Lavoro*> it( experiences->experiencesList ); // QMutableListIterator ?
+    while( it.hasNext() )
+        v.push_back( it.next() );
     return v;
 }
 
@@ -125,14 +125,5 @@ QDebug operator <<( QDebug qdbg, const Esperienza::Lavoro& l ) {
          << "Luogo: " << l.getLocation() << "\n"
          << "Inizio: " << l.getBegin() << "\n"
          << "Fine: " << l.getEnd() << "\n";
-    return qdbg;
-}
-
-// OPERATOR << Esperienza
-QDebug operator <<( QDebug qdbg, const Esperienza& e ) {
-    qdbg << "ESPERIENZE:\n";
-    QListIterator<Esperienza::Lavoro> it( e.experiences->experiencesList );
-    while( it.hasNext() )
-        qdbg << it.next() << "\n";
     return qdbg;
 }

@@ -55,17 +55,6 @@ public:
      * @param void*  Puntatore all'oggetto Rete.
      */
     void operator delete( void* );
-
-    friend QDebug operator <<( QDebug, const Rete& );
 };
-
-/** Overloading dell'operatore di output di QDebug.
- *  Stampa su standard output nome e cognome dei contatti dell'utente separati da ",".
- *
- * @param QDebug  QDebug.
- * @param Rete  Lista dei contatti dell'utente.
- * @return QDebug  QDebug.
- */
-QDebug operator <<( QDebug, const Rete& );
 
 #endif

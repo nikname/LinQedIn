@@ -5,11 +5,12 @@
 class UtenteBusiness : public UtentePagante {
     // Classe concreta
 public:
-    /** Costruttore a 2 parametri con 2 parametri di default.
-     *  Invoca il costruttore a 2 parametri della classe base diretta.
+    /** Costruttore a 3 parametri con 3 parametri di default.
+     *  Invoca il costruttore a 3 parametri della classe base diretta.
      *
-     * @param QString u  Username dell'utente business.
-     * @param Profilo p  Profilo dell'utente business.
+     * @param QString un  Username dell'utente da creare.
+     * @param QString name  Nome dell'utente da creare.
+     * @param QString surname  Cognome dell'utente da creare.
      */
     UtenteBusiness( const QString& un = "",
                     const QString& name = "",

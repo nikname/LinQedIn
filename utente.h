@@ -18,7 +18,7 @@ private:
     Formazione* educations;
     Esperienza* experiences;
 public:
-    /** Costruttore a 2 parametri con 2 parametri di default.
+    /** Costruttore a 3 parametri con 3 parametri di default.
      *  Costruisce un utente associandgli username, nome e cognome.
      *
      * @param QString un  Username dell'utente da creare.
@@ -51,7 +51,7 @@ public:
      *
      * @return QString  Username dell'utente.
      */
-    QString getUsername();
+    QString getUsername() const;
 
     /** Imposta l'username dell'utente.
      *
@@ -138,7 +138,47 @@ public:
      */
     QVector<SmartUtente> getContactsList() const;
 
-    // TODO: aggiungere i metodi di Formazione ed Esperienza
+    /** Aggiunge un titolo di studio all'elenco dei titoli di studio.
+     *  Invoca il metodo addEducation() del campo dati educations dell'utente.
+     *
+     * @param Formazione::Titolo*  Titolo di studio da aggiungere.
+     */
+    void addEducation( Formazione::Titolo* );
+
+    /** Rimuove un titolo di studio dall'elenco dei titoli di studio.
+     *  Invoca il metodo removeEducation() del campo dati educations dell'utente.
+     *
+     * @param Formazione::Titolo*  Titolo di studio da rimuovere.
+     */
+    void removeEducation( Formazione::Titolo* );
+
+    /** Ritorna un vettore di puntatori ai titoli di studio dell'utente.
+     *  Invoca il metodo getTitlesList() del campo dati educations dell'utente.
+     *
+     * @return QVector<Formazione::Titolo*>  Vettore di puntatori ai titoli di studio dell'utente.
+     */
+    QVector<Formazione::Titolo*> getTitlesList() const;
+
+    /** Aggiunge un'esperienza alle esperienze lavorative.
+     *  Invoca il metodo addExperience() del campo dati experiences dell'utente.
+     *
+     * @param Esperienza::Lavoro*  Esperienza da aggiungere alle esperienze lavorative.
+     */
+    void addExperience( Esperienza::Lavoro* );
+
+    /** Rimuove un'esperienza dalle esperienze lavorative.
+     *  Invoca il metodo removeExperience() del campo dati experiences dell'utente.
+     *
+     * @param Esperienza::Lavoro*  Esperienza da riumuovere dalle esperienze lavorative.
+     */
+    void removeExperience( Esperienza::Lavoro* );
+
+    /** Ritorna un vettore di puntatori ai titoli di studio dell'utente.
+     *  Invoca il metodo getExperiencesList() del campo dati experiences dell'utente.
+     *
+     * @return QVector<Esperienza::Lavoro*>  Vettore di puntatori ai titoli di studio dell'utente.
+     */
+    QVector<Esperienza::Lavoro*> getExperiencesList() const;
 
     /** Ricerca polimorfa, virtuale pura.
      *  Esegue la ricerca degli utenti nel database in base alla tipologia di account.

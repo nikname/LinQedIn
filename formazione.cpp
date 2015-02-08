@@ -5,13 +5,13 @@
 // CLASSE Formazione_rapp
 class Formazione::Formazione_rapp {
 public:
-    QList<Formazione::Titolo> titlesList;
+    QList<Formazione::Titolo*> titlesList; // Memoria condivisa per permettere la modifica
 
     /** Costruttore di default rifefinito.
      *  Inizializza il campo titlesList con una QList di Titolo vuota.
      */
     Formazione_rapp() :
-        titlesList( QList<Formazione::Titolo>() ) {}
+        titlesList( QList<Formazione::Titolo*>() ) {}
 
     /** Distruttore Formazione_rapp.
      *  Invoca il metodo clear() sulla lista dei titoli di studio dell'utente.
@@ -92,21 +92,21 @@ bool Formazione::Titolo::operator ==( const Formazione::Titolo& t ) {
 }
 
 // METODO addEducation Formazione
-void Formazione::addEducation( const Titolo& t ) {
+void Formazione::addEducation( Titolo* t ) {
     titles->titlesList.append( t );
 }
 
 // METODO removeEducation Formazione
-void Formazione::removeEducation( const Titolo& t ) {
+void Formazione::removeEducation( Titolo* t ) {
     titles->titlesList.removeOne( t );
 }
 
 // METODO getTitlesList Formazione
 QVector<Formazione::Titolo*> Formazione::getTitlesList() const {
     QVector<Formazione::Titolo*> v;
-    //QListIterator<Formazione::Titolo*> it( titles->titlesList ); // QMutableListIterator ?
-    //while( it.hasNext() )
-        //v.push_back( it.next() );
+    QListIterator<Formazione::Titolo*> it( titles->titlesList ); // QMutableListIterator ?
+    while( it.hasNext() )
+        v.push_back( it.next() );
     return v;
 }
 
@@ -127,14 +127,5 @@ QDebug operator <<( QDebug qdbg, const Formazione::Titolo& t ) {
          << "Laurea: " << t.getDegree() << "\n"
          << "Campo di studio: " << t.getFieldOfStudy() << "\n"
          << "Votazione: " << t.getGrade() << "\n";
-    return qdbg;
-}
-
-// OPERATOR << Formazione
-QDebug operator <<( QDebug qdbg, const Formazione& f ) {
-    qdbg << "TITOLI DI STUDIO:\n";
-    QListIterator<Formazione::Titolo> it( f.titles->titlesList );
-    while ( it.hasNext() )
-        qdbg << it.next() << "\n";
     return qdbg;
 }

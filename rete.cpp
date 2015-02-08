@@ -39,29 +39,28 @@ Rete::Rete() :
 void Rete::addContact( const QString& un, Database* db ) {
     Utente* user = db->findUser( un );
     if( user ) {
-        SmartUtente* su = new SmartUtente( user );
-        contacts->contactsList.append( *su );
+        contacts->contactsList.append( SmartUtente( user ) );
+        delete user;
     }
-    // if( user ) delete user;
-    // else ::delete user;
 }
 
 // METODO removeContact di Rete
 void Rete::removeContact( const QString& un, Database* db ) {
     Utente* user = db->findUser( un );
-    if( user )
+    if( user ) {
         contacts->contactsList.removeOne( SmartUtente( user ) );
-    // if( user ) delete user;
-    // else ::delete user;
+        // Necessario == tra SmartUtente : confronta gli indirizzi o i campi dati
+        delete user;
+    }
 }
 
 // METODO getContactsList di Rete
 QVector<SmartUtente> Rete::getContactsList() const {
-    QVector<SmartUtente> c;
+    QVector<SmartUtente> v;
     QListIterator<SmartUtente> it( contacts->contactsList );
     while( it.hasNext() )
-        c.push_back( it.next() );
-    return c;
+        v.push_back( it.next() ); // Costruttore di copia di SmartUtente
+    return v;
 }
 
 // OPERATOR delete di Rete
@@ -72,19 +71,4 @@ void Rete::operator delete( void* p ) {
         if( p_aux->user_ref == 0 )
             delete p_aux->contacts;
     }
-}
-
-// OPERATOR << di QDebug
-QDebug operator <<( QDebug qdbg, const Rete& r ) {
-    qdbg << "CONTATTI: \n";
-    if( r.contacts && !r.contacts->contactsList.isEmpty()) {
-        QVector<SmartUtente> c = r.getContactsList();
-        for( int i = 0; i < c.size(); i++ ) {
-            qdbg << c[i].getUser()->getUsername();
-            if( i < c.size() - 1 )
-                qdbg << ", ";
-        }
-        qdbg << "\n";
-    } else qdbg << " ** No contacts found! **";
-    return qdbg;
 }

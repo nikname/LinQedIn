@@ -123,15 +123,15 @@ public:
 
     /** Aggiunge un'esperienza alle esperienze lavorative.
      *
-     * @param Lavoro  Esperienza da aggiungere alle esperienze lavorative.
+     * @param Lavoro*  Esperienza da aggiungere alle esperienze lavorative.
      */
-    void addExperience( const Lavoro& );
+    void addExperience( Lavoro* );
 
     /** Rimuove un'esperienza dalle esperienze lavorative.
      *
-     * @param Lavoro  Esperienza da riumuovere dalle esperienze lavorative.
+     * @param Lavoro*  Esperienza da riumuovere dalle esperienze lavorative.
      */
-    void removeExperience( const Lavoro& );
+    void removeExperience( Lavoro* );
 
     /** Ritorna un vettore di puntatori ai titoli di studio dell'utente.
      *
@@ -143,8 +143,6 @@ public:
      *  Decrementa user_ref di 1. Se user_ref vale 0 invoca il distuttore di Esperienza_rapp.
      */
     void operator delete( void* );
-
-    friend QDebug operator <<( QDebug, const Esperienza& );
 };
 
 /** Overloading dell'operatore di output di QDebug.
@@ -155,14 +153,5 @@ public:
  * @param QDebug  QDebug.
  */
 QDebug operator <<( QDebug, const Esperienza::Lavoro& );
-
-/** Overloading dell'operatore di output di QDebug.
- *  Stampa su standard output tutte esperienza lavorative dell'utente.
- *
- * @param QDebug  QDebug.
- * @param Esperienza  Esperienze lavorative.
- * @param QDebug  QDebug.
- */
-QDebug operator <<( QDebug, const Esperienza& );
 
 #endif // ESPERIENZA_H
