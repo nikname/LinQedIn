@@ -128,9 +128,7 @@ QVector<Esperienza::Lavoro*> Utente::getExperiencesList() const {
 }
 
 // OPERATOR () Utente
-void Utente::FuntoreRicerca::operator ()( const SmartUtente& x ) const {
-    // ...
-}
+void Utente::FuntoreRicerca::operator ()( const SmartUtente& x ) const {}
 
 // OPERATOR << Utente
 QDebug operator <<( QDebug qdbg, const Utente& u ) {
@@ -147,7 +145,7 @@ QDebug operator <<( QDebug qdbg, const Utente& u ) {
         qdbg << " ** Nessun contatto! **" << "\n";
     else {
         for( int i = 0; i < c.size(); i++ )
-            qdbg << " " << c[i].getUser()->getUsername() << "\n";
+            qdbg << " " << c[i]->getUsername() << "\n";
     }
     qdbg << "FORMAZIONE: " << "\n";
     QVector<Formazione::Titolo*> ed = u.getTitlesList();

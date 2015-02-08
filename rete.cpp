@@ -37,21 +37,16 @@ Rete::Rete() :
 
 // METODO addContact di Rete
 void Rete::addContact( const QString& un, Database* db ) {
-    Utente* user = db->findUser( un );
-    if( user ) {
-        contacts->contactsList.append( SmartUtente( user ) );
-        delete user;
-    }
+    SmartUtente su = db->findUser( un );
+    if( su.operator ->() )
+        contacts->contactsList.append( su );
 }
 
 // METODO removeContact di Rete
 void Rete::removeContact( const QString& un, Database* db ) {
-    Utente* user = db->findUser( un );
-    if( user ) {
-        contacts->contactsList.removeOne( SmartUtente( user ) );
-        // Necessario == tra SmartUtente : confronta gli indirizzi o i campi dati
-        delete user;
-    }
+    SmartUtente su = db->findUser( un );
+    if( su.operator ->() )
+        contacts->contactsList.removeOne( su );
 }
 
 // METODO getContactsList di Rete

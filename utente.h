@@ -11,15 +11,18 @@
 
 class Utente {
     // Classe astratta
+    friend class SmartUtente;
 private:
     QString username;
     Profilo profile;
     Rete* net;
     Formazione* educations;
     Esperienza* experiences;
+    int references;
 public:
     /** Costruttore a 3 parametri con 3 parametri di default.
      *  Costruisce un utente associandgli username, nome e cognome.
+     *  Inizializza il contatore di riferimenti ad 1.
      *
      * @param QString un  Username dell'utente da creare.
      * @param QString name  Nome dell'utente da creare.
@@ -32,9 +35,11 @@ public:
         profile( name, surname ),
         net( new Rete ),
         educations( new Formazione ),
-        experiences( new Esperienza ) {}
+        experiences( new Esperienza ),
+        references( 1 ) {}
 
     /** Costruttore di copia di Utente.
+     *  Incrementa il contatore di riferimenti all'oggetto utente di 1.
      *  Utilizza la tecnica del references counting per i campi dati net, educations ed experiences.
      *
      * @param Utente  Utente da copiare.

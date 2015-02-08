@@ -2,7 +2,7 @@
 
 LinQedInClient::LinQedInClient( QString un ) {
     db->loadUsersList();
-    user = db->findUser( un );
+    //user = db->findUser( un );
 }
 
 void LinQedInClient::aggiornaProfilo() {

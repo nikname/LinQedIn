@@ -36,9 +36,9 @@ public:
     /** Dato un'username, ricerca l'utente nel database.
      *
      * @param QString  Username dell'utente da ricercare.
-     * @return Utente*  Utente ricercato.
+     * @return SmartUtente  Utente ricercato.
      */
-    Utente* findUser( const QString& ) const;
+    SmartUtente findUser( const QString& ) const;
 
     /** Carica una lista di utenti da file (XML). */
     void loadUsersList();

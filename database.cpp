@@ -265,15 +265,15 @@ void Database::saveUsersList() const {
     xmlWriter.writeEndDocument(); */
 }
 
-Utente* Database::findUser( const QString& un ) const {
-    Utente* u = 0;
+SmartUtente Database::findUser( const QString& un ) const {
+    SmartUtente su = SmartUtente();
     QListIterator<SmartUtente> it( usersList->users );
     while( it.hasNext() ) {
-        u = it.next().getUser();
-        if( u->getUsername() != un )
-            u = 0;
+        SmartUtente su_aux = it.next();
+        if( su_aux->getUsername() == un )
+            su = su_aux;
     }
-    return u;
+    return su;
 }
 
 void Database::insert( Utente* u ) {
@@ -286,10 +286,11 @@ int Database::usersNumber() const {
 }
 
 QDebug operator <<( QDebug qdbg, Database* d ) {
+    qdbg << "UTENTI DATABASE: \n";
     if( d->usersList ) {
         QListIterator<SmartUtente> it( d->usersList->users );
         while( it.hasNext() )
-            qdbg << it.next().getUser()->getUsername();
+            qdbg << it.next()->getUsername() << "\n";
     }
     return qdbg;
 }
