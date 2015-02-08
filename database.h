@@ -7,10 +7,14 @@
 class LinQedInAdmin;
 
 class Database {
-    friend class LinQedInAdmin;
+
+    // NOTE:
+    // Deve esistere un unico oggetto Database.
+
+    friend class LinQedInAdmin; // Necessario per poter aggiungere utenti al database.
 private:
-    class ListaUtenti;
-    ListaUtenti* usersList;
+    class Database_rapp;
+    Database_rapp* dbUsers;
 
     /** Scorre un elemento Utente nel file xml.
      *  Crea e salva un oggetto Utente nella lista degli utenti del database.
@@ -29,16 +33,16 @@ public:
     Database();
 
     /** Distruttore di Database.
-     *  Richiama il distruttore di ListaUtenti.
+     *  Richiama il distruttore di Database_rapp.
      */
     ~Database();
 
-    /** Dato un'username, ricerca l'utente nel database.
+    /** Cerca se nel database è presente un oggetto con la chiave cercata.
      *
-     * @param QString  Username dell'utente da ricercare.
-     * @return SmartUtente  Utente ricercato.
+     * @param QString  Username da cercare tra le chiavi.
+     * @return bool  true se l'username è presente tra le chiavi, false altrimenti.
      */
-    SmartUtente findUser( const QString& ) const;
+    bool contains( const QString& ) const;
 
     /** Carica una lista di utenti da file (XML). */
     void loadUsersList();
@@ -46,11 +50,7 @@ public:
     /** Salva la lista degli utenti su file (XML). */
     void saveUsersList() const;
 
-    /** Ritorna il numero di utenti presenti nel database.
-     *
-     * @return int  Numero di utenti presenti nel database.
-     */
-    int usersNumber() const; // *** JUST FOR DEBUG ***
+    QVector<SmartUtente> getDbUsersList() const;
 
     friend QDebug operator <<( QDebug, Database* ); // *** JUST FOR DEBUG ***
 };

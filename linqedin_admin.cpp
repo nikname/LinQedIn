@@ -5,6 +5,7 @@ LinQedInAdmin::LinQedInAdmin() : db( new Database ) {
 }
 
 void LinQedInAdmin::insertUser( Utente* u ) {
+    qDebug() << u;
     db->insert( u );
 }
 

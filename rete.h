@@ -5,6 +5,7 @@
 
 class SmartUtente;
 class Database;
+class Utente;
 
 class Rete {
 
@@ -30,17 +31,17 @@ public:
 
     /** Aggiunge un contatto alla lista dei contatti dell'utente.
      *
-     * @param QString  Username del contatto da aggiungere.
+     * @param Utente*  Utente da aggiungere.
      * @param Database*  Database sul quale ricercare l'username dell'utente da inserire.
      */
-    void addContact( const QString&, Database* );
+    void addContact( Utente*, Database* );
 
     /** Rimuove un contatto dalla lista dei contatti dell'utente.
      *
-     * @param QString  Username del contatto da rimuovere.
+     * @param Utente*  Utente da rimuovere.
      * @param Database*  Database sul quale ricercare l'username dell'utente da rimuovere.
      */
-    void removeContact( const QString&, Database* );
+    void removeContact( Utente*, Database* );
 
     /** Ritorna un QVector di SmartUtente contenente i contatti nella rete dell'utente.
      *

@@ -34,10 +34,10 @@ QString Utente::getUsername() const {
 // METODO setLogin Utente
 void Utente::setUsername( const QString& l ) {
     //TODO: controlla che non sia già utilizzato
-    //try{
+    //try {
     //    if( db.findUser( l ) )
     //        throw new Exception( "Username non disponibile!" );
-    //}catch( Exception e ){
+    //} catch( Exception e ) {
     //    qDebug() << e;
     //}
     username = l;
@@ -84,13 +84,13 @@ void Utente::setMaritialStatus( const QString& ms ) {
 }
 
 // METODO addContact Utente
-void Utente::addContact( const QString& un, Database* db ) {
-    net->addContact( un, db );
+void Utente::addContact( Utente* u, Database* db ) {
+    net->addContact( u, db );
 }
 
 // METODO removeContact Utente
-void Utente::removeContact( const QString& un, Database* db ) {
-    net->removeContact( un, db );
+void Utente::removeContact( Utente* u, Database* db ) {
+    net->removeContact( u, db );
 }
 
 // METODO getContactsList Utente

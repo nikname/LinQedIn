@@ -1,7 +1,7 @@
 #include "database.h"
 #include "smartutente.h"
-#include <QList>
-#include <QListIterator>
+#include <QMap>
+#include <QMapIterator>
 #include <QXmlStreamReader>
 #include <QXmlStreamWriter>
 #include <QFile>
@@ -9,11 +9,13 @@
 #include "utente_express.h"
 #include "utente_business.h"
 
-class Database::ListaUtenti {
+// CLASSE Database_rapp
+class Database::Database_rapp {
 public:
-    QList<SmartUtente> users;
+    QMap<QString, SmartUtente> usersList;
 };
 
+// METODO parseUser Database
 void Database::parseUser( QXmlStreamReader& xmlReader ) { /*
 
     if( xmlReader.tokenType() != QXmlStreamReader::StartElement &&
@@ -139,12 +141,15 @@ void Database::parseUser( QXmlStreamReader& xmlReader ) { /*
     this->insert( u ); */
 }
 
-Database::Database() : usersList( new ListaUtenti ) {}
+// COSTRUTTORE Database
+Database::Database() : dbUsers( new Database_rapp ) {}
 
+// DISTRUTTORE Database
 Database::~Database() {
-    delete usersList;
+    delete dbUsers;
 }
 
+// METODO loadUserList Database
 void Database::loadUsersList() { /*
 
     QString path( "users.xml" );
@@ -265,32 +270,34 @@ void Database::saveUsersList() const {
     xmlWriter.writeEndDocument(); */
 }
 
-SmartUtente Database::findUser( const QString& un ) const {
-    SmartUtente su = SmartUtente();
-    QListIterator<SmartUtente> it( usersList->users );
-    while( it.hasNext() ) {
-        SmartUtente su_aux = it.next();
-        if( su_aux->getUsername() == un )
-            su = su_aux;
-    }
-    return su;
+// METODO contains Database
+bool Database::contains( const QString& un ) const {
+    return dbUsers->usersList.contains( un );
 }
 
+// METODO insert Database
 void Database::insert( Utente* u ) {
-    SmartUtente* su = new SmartUtente( u );
-    usersList->users.append( *su );
+    qDebug() << u;
+    if( contains( u->getUsername() ) )
+        return;
+    dbUsers->usersList.insert( u->getUsername(), SmartUtente( u ) );
 }
 
-int Database::usersNumber() const {
-    return usersList->users.length();
+QVector<SmartUtente> Database::getDbUsersList() const {
+    QVector<SmartUtente> v;
+    QMapIterator<QString, SmartUtente> it( dbUsers->usersList );
+    while( it.hasNext() )
+        v.append( it.next().value() );
+    return v;
 }
 
+// OPERATOR << Database
 QDebug operator <<( QDebug qdbg, Database* d ) {
     qdbg << "UTENTI DATABASE: \n";
-    if( d->usersList ) {
-        QListIterator<SmartUtente> it( d->usersList->users );
+    if( d->dbUsers ) {
+        QMapIterator<QString, SmartUtente> it( d->dbUsers->usersList );
         while( it.hasNext() )
-            qdbg << it.next()->getUsername() << "\n";
+            qdbg << it.next().key() << "\n";
     }
     return qdbg;
 }

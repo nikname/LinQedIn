@@ -36,17 +36,21 @@ Rete::Rete() :
     user_ref( 1 ) {}
 
 // METODO addContact di Rete
-void Rete::addContact( const QString& un, Database* db ) {
-    SmartUtente su = db->findUser( un );
-    if( su.operator ->() )
-        contacts->contactsList.append( su );
+void Rete::addContact( Utente* u, Database* db ) {
+    if( !u )
+        return;
+    if( db->contains( u->getUsername() ) )
+        return;
+    contacts->contactsList.append( SmartUtente( u ) );
 }
 
 // METODO removeContact di Rete
-void Rete::removeContact( const QString& un, Database* db ) {
-    SmartUtente su = db->findUser( un );
-    if( su.operator ->() )
-        contacts->contactsList.removeOne( su );
+void Rete::removeContact( Utente* u, Database* db ) {
+    if( !u )
+        return;
+    if( !db->contains( u->getUsername() ) )
+        return;
+    contacts->contactsList.removeOne( SmartUtente( u ) );
 }
 
 // METODO getContactsList di Rete
