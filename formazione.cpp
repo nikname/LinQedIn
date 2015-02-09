@@ -14,6 +14,10 @@ public:
     Formazione_rapp() :
         titlesList( QList<Titolo*>() ) {}
 
+    QList<Titolo*> getTitles() const {
+        return titlesList;
+    }
+
     /** Distruttore Formazione_rapp.
      *  Invoca il metodo clear() sulla lista dei titoli di studio dell'utente.
      *
@@ -27,6 +31,20 @@ public:
         }
     }
 };
+
+// COSTRUTTORE Iteratore
+Formazione::Iteratore::Iteratore() : iterator( new Iteratore_rapp ) {}
+
+// CLASSE Iteratore_rapp
+class Formazione::Iteratore_rapp {
+public:
+    QListIterator<Titolo*> it;
+    Iteratore_rapp( QList<Titolo*> list ) : it( list ) {}
+};
+
+Formazione::Iteratore::Iteratore_rapp* Formazione::Iteratore::begin() const {
+    return new Iteratore_rapp( titles->titlesList );
+}
 
 // COSTRUTTORE Formazione
 Formazione::Formazione() :

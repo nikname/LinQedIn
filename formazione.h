@@ -15,6 +15,7 @@ class Formazione {
     // L'aumento del contatore user_ref è lasciato al costruttore di copia di Utente.
 
     friend class Utente; // Necessario per costruire e distruggere oggetti Formazione
+    friend class Iteratore::Iteratore_rapp; // Necessaria per fornire un iteratore sulla lista.
 private:
     class Formazione_rapp;
     Formazione_rapp* titles;
@@ -27,6 +28,15 @@ private:
      */
     Formazione();
 public:
+    class Iteratore {
+    private:
+        class Iteratore_rapp;
+        Iteratore_rapp* iterator;
+    public:
+        Iteratore();
+        Iteratore_rapp* begin() const;
+    };
+
     /** Aggiunge un titolo di studio all'elenco dei titoli di studio.
      *
      * @param Titolo*  Titolo di studio da aggiungere.
