@@ -1,17 +1,18 @@
 #include "formazione.h"
+#include "titolo.h"
 #include <QList>
 #include <QListIterator>
 
 // CLASSE Formazione_rapp
 class Formazione::Formazione_rapp {
 public:
-    QList<Formazione::Titolo*> titlesList; // Memoria condivisa per permettere la modifica
+    QList<Titolo*> titlesList; // Memoria condivisa per permettere la modifica
 
     /** Costruttore di default rifefinito.
      *  Inizializza il campo titlesList con una QList di Titolo vuota.
      */
     Formazione_rapp() :
-        titlesList( QList<Formazione::Titolo*>() ) {}
+        titlesList( QList<Titolo*>() ) {}
 
     /** Distruttore Formazione_rapp.
      *  Invoca il metodo clear() sulla lista dei titoli di studio dell'utente.
@@ -32,65 +33,6 @@ Formazione::Formazione() :
     titles( new Formazione_rapp ),
     user_ref( 1 ) {}
 
-// METODO getSchool Titolo
-QString Formazione::Titolo::getSchool() const {
-    return school;
-}
-
-// METODO getDateAttended Titolo
-QDate Formazione::Titolo::getDateAttended() const {
-    return dateAttended;
-}
-
-// METODO getDegree Titolo
-QString Formazione::Titolo::getDegree() const {
-    return degree;
-}
-
-// METODO getFieldOfStudy Titolo
-QString Formazione::Titolo::getFieldOfStudy() const {
-    return fieldOfStudy;
-}
-
-// METODO getGrade Titolo
-QString Formazione::Titolo::getGrade() const {
-    return grade;
-}
-
-// METODO setSchool Titolo
-void Formazione::Titolo::setSchool( QString scuola ) {
-    school = scuola;
-}
-
-// METODO setDateAttended Titolo
-void Formazione::Titolo::setDateAttended( QDate dataDiploma ) {
-    dateAttended = dataDiploma;
-}
-
-// METODO setDegree Titolo
-void Formazione::Titolo::setDegree( QString laurea ) {
-    degree = laurea;
-}
-
-// METODO setFieldOfStudy Titolo
-void Formazione::Titolo::setFieldOfStudy( QString campoDiStudio ) {
-    fieldOfStudy = campoDiStudio;
-}
-
-// METODO setGrade Titolo
-void Formazione::Titolo::setGrade( QString valutazione ) {
-    grade = valutazione;
-}
-
-// OPERATOR == Titolo
-bool Formazione::Titolo::operator ==( const Formazione::Titolo& t ) {
-    return ( getSchool() == t.getSchool() ) &&
-        ( getDateAttended() == t.getDateAttended() ) &&
-        ( getDegree() == t.getDegree() ) &&
-        ( getFieldOfStudy() == t.getFieldOfStudy() ) &&
-        ( getGrade() == t.getGrade() );
-}
-
 // METODO addEducation Formazione
 void Formazione::addEducation( Titolo* t ) {
     titles->titlesList.append( t );
@@ -102,9 +44,9 @@ void Formazione::removeEducation( Titolo* t ) {
 }
 
 // METODO getTitlesList Formazione
-QVector<Formazione::Titolo*> Formazione::getTitlesList() const {
-    QVector<Formazione::Titolo*> v;
-    QListIterator<Formazione::Titolo*> it( titles->titlesList ); // QMutableListIterator ?
+QVector<Titolo*> Formazione::getTitlesList() const {
+    QVector<Titolo*> v;
+    QListIterator<Titolo*> it( titles->titlesList ); // QMutableListIterator ?
     while( it.hasNext() )
         v.push_back( it.next() );
     return v;
@@ -118,14 +60,4 @@ void Formazione::operator delete( void* p ) {
         if( p_aux->user_ref == 0 )
             delete p_aux->titles;
     }
-}
-
-// OPERATOR << Titolo
-QDebug operator <<( QDebug qdbg, const Formazione::Titolo& t ) {
-    qdbg << "Scuola: " << t.getSchool() << "\n"
-         << "Data diploma: " << t.getDateAttended().toString( "yyyy" ) << "\n"
-         << "Laurea: " << t.getDegree() << "\n"
-         << "Campo di studio: " << t.getFieldOfStudy() << "\n"
-         << "Votazione: " << t.getGrade() << "\n";
-    return qdbg;
 }

@@ -4,13 +4,22 @@
 #include <QString>
 #include <QDate>
 #include "profilo.h"
-#include "rete.h"
-#include "formazione.h"
-#include "esperienza.h"
 #include "smartutente.h"
 
+// Dichiarazioni incomplete
+class Rete;
+class Formazione;
+class Titolo;
+class Esperienza;
+class Lavoro;
+class Database;
+
 class Utente {
-    // Classe astratta
+
+    // NOTE:
+    // Rimossa la possibilità di cambiare username. Il cambio di username avrebbe significato la
+    // necessità di controllare la presenza di un altro utente nel database con lo stesso username.
+
     friend class SmartUtente;
 private:
     QString username;
@@ -18,7 +27,7 @@ private:
     Rete* net;
     Formazione* educations;
     Esperienza* experiences;
-    int references;
+    int references; // Gestito da SmartUtente
 public:
     /** Costruttore a 3 parametri con 3 parametri di default.
      *  Costruisce un utente associandgli username, nome e cognome.
@@ -30,13 +39,7 @@ public:
      */
     Utente( const QString& un = "",
             const QString& name = "",
-            const QString& surname = "" ) :
-        username( un ),
-        profile( name, surname ),
-        net( new Rete ),
-        educations( new Formazione ),
-        experiences( new Esperienza ),
-        references( 1 ) {}
+            const QString& surname = "" );
 
     /** Costruttore di copia di Utente.
      *  Incrementa il contatore di riferimenti all'oggetto utente di 1.
@@ -57,12 +60,6 @@ public:
      * @return QString  Username dell'utente.
      */
     QString getUsername() const;
-
-    /** Imposta l'username dell'utente.
-     *
-     * @param QString  Nuovo username.
-     */
-    void setUsername( const QString& );
 
     /** Ritorna il nome dell'utente.
      *  Invoca il metodo getName() del campo dati profile di tipo Profilo.
@@ -146,44 +143,44 @@ public:
     /** Aggiunge un titolo di studio all'elenco dei titoli di studio.
      *  Invoca il metodo addEducation() del campo dati educations dell'utente.
      *
-     * @param Formazione::Titolo*  Titolo di studio da aggiungere.
+     * @param Titolo*  Titolo di studio da aggiungere.
      */
-    void addEducation( Formazione::Titolo* );
+    void addEducation( Titolo* );
 
     /** Rimuove un titolo di studio dall'elenco dei titoli di studio.
      *  Invoca il metodo removeEducation() del campo dati educations dell'utente.
      *
-     * @param Formazione::Titolo*  Titolo di studio da rimuovere.
+     * @param Titolo*  Titolo di studio da rimuovere.
      */
-    void removeEducation( Formazione::Titolo* );
+    void removeEducation( Titolo* );
 
     /** Ritorna un vettore di puntatori ai titoli di studio dell'utente.
      *  Invoca il metodo getTitlesList() del campo dati educations dell'utente.
      *
-     * @return QVector<Formazione::Titolo*>  Vettore di puntatori ai titoli di studio dell'utente.
+     * @return QVector<Titolo*>  Vettore di puntatori ai titoli di studio dell'utente.
      */
-    QVector<Formazione::Titolo*> getTitlesList() const;
+    QVector<Titolo*> getTitlesList() const;
 
     /** Aggiunge un'esperienza alle esperienze lavorative.
      *  Invoca il metodo addExperience() del campo dati experiences dell'utente.
      *
-     * @param Esperienza::Lavoro*  Esperienza da aggiungere alle esperienze lavorative.
+     * @param Lavoro*  Esperienza da aggiungere alle esperienze lavorative.
      */
-    void addExperience( Esperienza::Lavoro* );
+    void addExperience( Lavoro* );
 
     /** Rimuove un'esperienza dalle esperienze lavorative.
      *  Invoca il metodo removeExperience() del campo dati experiences dell'utente.
      *
-     * @param Esperienza::Lavoro*  Esperienza da riumuovere dalle esperienze lavorative.
+     * @param Lavoro*  Esperienza da riumuovere dalle esperienze lavorative.
      */
-    void removeExperience( Esperienza::Lavoro* );
+    void removeExperience( Lavoro* );
 
     /** Ritorna un vettore di puntatori ai titoli di studio dell'utente.
      *  Invoca il metodo getExperiencesList() del campo dati experiences dell'utente.
      *
-     * @return QVector<Esperienza::Lavoro*>  Vettore di puntatori ai titoli di studio dell'utente.
+     * @return QVector<Lavoro*>  Vettore di puntatori ai titoli di studio dell'utente.
      */
-    QVector<Esperienza::Lavoro*> getExperiencesList() const;
+    QVector<Lavoro*> getExperiencesList() const;
 
     /** Ricerca polimorfa, virtuale pura.
      *  Esegue la ricerca degli utenti nel database in base alla tipologia di account.
