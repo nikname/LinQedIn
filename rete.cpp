@@ -10,7 +10,7 @@ class Rete::Rete_rapp {
 public:
     QList<SmartUtente> contactsList;
 
-    /** Costruttore di default ridefinito.
+    /** Costruttore di default.
      *  Inizializza il campo contactsList con una QList di SmartUtente vuota.
      */
     Rete_rapp() :
@@ -29,6 +29,38 @@ public:
         }
     }
 };
+
+// CLASSE Iteratore_rapp
+class Rete::Iteratore::Iteratore_rapp {
+public:
+    QListIterator<SmartUtente> it;
+
+    /** Costruttore ad 1 parametro.
+     *  Costruttore di default non disponibile.
+     *
+     * @param QList<SmartUtente>  Lista di Utenti sulla quale iterare.
+     */
+    Iteratore_rapp( QList<SmartUtente> list ) : it( list ) {}
+};
+
+// METODO hasNext Iteratore
+bool Rete::Iteratore::hasNext() const {
+    if( iterator )
+        return iterator->it.hasNext();
+    return false;
+}
+
+// METODO next Iteratore
+Utente* Rete::Iteratore::next() {
+    return iterator->it.next().operator ->();
+}
+
+// METODO begin Iteratore
+Rete::Iteratore Rete::begin() const {
+    Iteratore aux;
+    aux.iterator = new Iteratore::Iteratore_rapp( contacts->contactsList );
+    return aux;
+}
 
 // COSTRUTTORE Rete
 Rete::Rete() :

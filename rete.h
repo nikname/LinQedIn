@@ -14,8 +14,9 @@ class Rete {
     // Poichè un oggetto di tipo Rete può venire creato solo tramite una new da un oggetto di tipo
     // Utente, allora non sono necessari costruttore di copia e distruttore (nemmeno ridefiniti).
     // L'aumento del contatore user_ref è lasciato al costruttore di copia di Utente.
+    // Viene fornita una classe Iteratore non necessaria.
 
-    friend class Utente; // Necessario per costruire e distruggere oggetti Utente.
+    friend class Utente; // Necessaria per costruire e distruggere oggetti Utente.
 private:
     class Rete_rapp;
     Rete_rapp* contacts;
@@ -27,8 +28,34 @@ private:
      *  Viene invocato solo dal costruttore di Utente.
      */
     Rete();
-public:
 
+    class Iteratore {
+        friend class Rete;
+    private:
+        class Iteratore_rapp;
+        Iteratore_rapp* iterator;
+    public:
+        /** Controlla se l'Iteratore è arrivao alla fine della lista.
+         *
+         * @return bool  true se esiste un prossimo elemento, false altrimenti.
+         */
+        bool hasNext() const;
+
+        /** Ritorna l'elemento puntato ed avanza l'Iteratore.
+         *
+         * @return Utente*  Utente puntato dall'Iteratore.
+         */
+        Utente* next();
+    };
+
+    /** Ritorna un iteratore al primo elemento della rete dei contatti dell'utente.
+     *
+     * @return Iteratore  Iteratore al primo elemento della rete dei contatti dell'utente.
+     */
+    Iteratore begin() const;
+
+    friend class Iteratore::Iteratore_rapp;
+public:
     /** Aggiunge un contatto alla lista dei contatti dell'utente.
      *
      * @param Utente*  Utente da aggiungere.

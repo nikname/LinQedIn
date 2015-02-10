@@ -3,7 +3,6 @@
 #include "utente_gratis.h"
 
 class UtenteBasic : public UtenteGratis {
-    // Classe concreta
 public:
     /** Costruttore a 3 parametri con 3 parametri di default.
      *  Invoca il costruttore a 3 parametri della classe base diretta.
@@ -18,7 +17,7 @@ public:
        : UtenteGratis( un, name, surname ) {}
 
     /** Ricerca polimorfa virtuale.
-     *  Esegue la ricerca degli utenti nel database per utenti di tipo basic.
+     *  Esegue la ricerca degli utenti nel database per utenti basic.
      *
      * @param Database  Database nel quale verrà effettuata la ricerca.
      */

@@ -17,6 +17,7 @@ class Utente {
     // NOTE:
     // Rimossa la possibilità di cambiare username. Il cambio di username avrebbe significato la
     // necessità di controllare la presenza di un altro utente nel database con lo stesso username.
+    // Non è necessario un iteratore sulla lista dei contatti dell'utente.
 
     friend class SmartUtente;
 private:
@@ -227,7 +228,7 @@ protected:
  *  Stampa su standard output tutte le informazioni associate all'utente.
  *
  * @param QDebug  QDebug.
- * @param Utente  Puntatore all'oggetto Utente.
+ * @param Utente  Oggetto Utente.
  * @param QDebug  QDebug.
  */
 QDebug operator <<( QDebug, const Utente& );

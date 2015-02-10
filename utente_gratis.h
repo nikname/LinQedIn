@@ -3,7 +3,6 @@
 #include "utente.h"
 
 class UtenteGratis : public Utente {
-    // Classe astratta
 public:
     /** Costruttore a 3 parametri con 3 parametri di default.
      *  Invoca il costruttore a 3 parametri della classe base diretta.
