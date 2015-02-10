@@ -3,8 +3,7 @@
 #include <QDebug>
 #include <QString>
 #include <QDate>
-
-class Titolo;
+#include "titolo.h"
 
 class Formazione {
 
@@ -13,9 +12,13 @@ class Formazione {
     // Poichè un oggetto di tipo Formazione può venire creato solo tramite una new da un oggetto di
     // tipo Utente, allora non sono necessari costruttore di copia e distruttore (nemmeno ridefiniti).
     // L'aumento del contatore user_ref è lasciato al costruttore di copia di Utente.
+    // Nelle classi innestate si può accedere solo a campi dati statici della classe contenitrice!
+    // La classe Iteratore non ha bisogno di un costruttore ridefinito. L'Iteratore viene construito
+    // con il metodo begin() sull'oggetto Formazione di invocazione.
+    // Nel metodo begin() non serve controllare se titles è un puntatore valido in quanto se creo un
+    // oggetto Formazione allora viene creato in automatico un oggetto Formazione_rapp.
 
     friend class Utente; // Necessario per costruire e distruggere oggetti Formazione
-    friend class Iteratore::Iteratore_rapp; // Necessaria per fornire un iteratore sulla lista.
 private:
     class Formazione_rapp;
     Formazione_rapp* titles;
@@ -29,13 +32,31 @@ private:
     Formazione();
 public:
     class Iteratore {
+        friend class Formazione;
     private:
         class Iteratore_rapp;
         Iteratore_rapp* iterator;
     public:
-        Iteratore();
-        Iteratore_rapp* begin() const;
+        /** Controlla se l'Iteratore è arrivato alla fine della lista.
+         *
+         * @return bool  true se esiste un prossimo elemento, false altrimenti.
+         */
+        bool hasNext() const;
+
+        /** Avanza l'Iteratore e ritorna l'elemento puntato.
+         *
+         * @return Titolo*  Titolo di studio puntato dall'Iteratore.
+         */
+        Titolo* next();
     };
+
+    friend class Iteratore::Iteratore_rapp; // Necessaria per avanzare sulla lista.
+
+    /** Ritorna un iteratore al primo elemento della lista di titoli di studio.
+     *
+     * @return Iteratore  Iteratore al primo elemento della lista dei titoli di studio.
+     */
+    Iteratore begin() const;
 
     /** Aggiunge un titolo di studio all'elenco dei titoli di studio.
      *

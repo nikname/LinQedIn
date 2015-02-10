@@ -32,18 +32,30 @@ public:
     }
 };
 
-// COSTRUTTORE Iteratore
-Formazione::Iteratore::Iteratore() : iterator( new Iteratore_rapp ) {}
-
 // CLASSE Iteratore_rapp
-class Formazione::Iteratore_rapp {
+class Formazione::Iteratore::Iteratore_rapp {
 public:
     QListIterator<Titolo*> it;
     Iteratore_rapp( QList<Titolo*> list ) : it( list ) {}
 };
 
-Formazione::Iteratore::Iteratore_rapp* Formazione::Iteratore::begin() const {
-    return new Iteratore_rapp( titles->titlesList );
+// METODO hasNext Iteratore
+bool Formazione::Iteratore::hasNext() const {
+    if( iterator )
+        return iterator->it.hasNext();
+    return false;
+}
+
+// METODO next Iteratore
+Titolo* Formazione::Iteratore::next() {
+    return iterator->it.next();
+}
+
+// METODO begin Iteratore
+Formazione::Iteratore Formazione::begin() const {
+    Iteratore aux;
+    aux.iterator = new Iteratore::Iteratore_rapp( titles->titlesList ); // possibile lista vuota!
+    return aux;
 }
 
 // COSTRUTTORE Formazione
