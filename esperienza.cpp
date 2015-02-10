@@ -6,9 +6,11 @@
 // CLASSE Esperienza_rapp
 class Esperienza::Esperienza_rapp {
 public:
-    QList<Lavoro*> experiencesList;
+    QList<Lavoro*> experiencesList; // Puntatore per permetterne la modifica
 
-    /** Costruttore di default ridefinito. */
+    /** Costruttore di default ridefinito.
+     *  Inizializza il campo experiencesList con una QList di Lavoro* vuota.
+     */
     Esperienza_rapp() :
         experiencesList( QList<Lavoro*>() ) {}
 
@@ -25,6 +27,38 @@ public:
         }
     }
 };
+
+// CLASSE Iteratore_rapp
+class Esperienza::Iteratore::Iteratore_rapp {
+public:
+    QListIterator<Lavoro*> it;
+
+    /** Costruttore ad 1 parametro.
+     *  Costruttore di default non disponibile.
+     *
+     * @param QList<Lavoro*>  Lista di Lavoro* sulla quale iterare.
+     */
+    Iteratore_rapp( QList<Lavoro*> list ) : it( list ) {}
+};
+
+// METODO hasNext Iteratore
+bool Esperienza::Iteratore::hasNext() const {
+    if( iterator )
+        return iterator->it.hasNext();
+    return false;
+}
+
+// METODO next Iteratore
+Lavoro* Esperienza::Iteratore::next() {
+    return iterator->it.next();
+}
+
+// METODO begin Iteratore
+Esperienza::Iteratore Esperienza::begin() const {
+    Iteratore aux;
+    aux.iterator = new Iteratore::Iteratore_rapp( experiences->experiencesList );
+    return aux;
+}
 
 // COSTRUTTORE Esperienza
 Esperienza::Esperienza() :

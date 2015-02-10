@@ -119,6 +119,11 @@ QVector<Titolo*> Utente::getTitlesList() const {
     return educations->getTitlesList();
 }
 
+// METODO getEducationsIterator
+Formazione::Iteratore Utente::getEducationsIterator() const {
+    return educations->begin();
+}
+
 // METODO addExperience Utente
 void Utente::addExperience( Lavoro* l ) {
     experiences->addExperience( l );
@@ -129,8 +134,14 @@ void Utente::removeExperience( Lavoro* l ) {
     experiences->removeExperience( l );
 }
 
+// METODO getExperiencesList Utente
 QVector<Lavoro*> Utente::getExperiencesList() const {
     return experiences->getExperiencesList();
+}
+
+// METODO getExperiecesIterator Utente
+Esperienza::Iteratore Utente::getExperiencesIterator() const {
+    return experiences->begin();
 }
 
 // OPERATOR () Utente

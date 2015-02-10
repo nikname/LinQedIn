@@ -6,17 +6,13 @@
 // CLASSE Formazione_rapp
 class Formazione::Formazione_rapp {
 public:
-    QList<Titolo*> titlesList; // Memoria condivisa per permettere la modifica
+    QList<Titolo*> titlesList; // Puntatore per permetterne la modifica
 
     /** Costruttore di default rifefinito.
-     *  Inizializza il campo titlesList con una QList di Titolo vuota.
+     *  Inizializza il campo titlesList con una QList di Titolo* vuota.
      */
     Formazione_rapp() :
         titlesList( QList<Titolo*>() ) {}
-
-    QList<Titolo*> getTitles() const {
-        return titlesList;
-    }
 
     /** Distruttore Formazione_rapp.
      *  Invoca il metodo clear() sulla lista dei titoli di studio dell'utente.
@@ -36,6 +32,12 @@ public:
 class Formazione::Iteratore::Iteratore_rapp {
 public:
     QListIterator<Titolo*> it;
+
+    /** Costruttore ad 1 paramtro.
+     *  Costruttore di default non disponibile.
+     *
+     * @param QList<Titolo*>  Lista di Titolo* sulla quale iterare.
+     */
     Iteratore_rapp( QList<Titolo*> list ) : it( list ) {}
 };
 
@@ -54,7 +56,7 @@ Titolo* Formazione::Iteratore::next() {
 // METODO begin Iteratore
 Formazione::Iteratore Formazione::begin() const {
     Iteratore aux;
-    aux.iterator = new Iteratore::Iteratore_rapp( titles->titlesList ); // possibile lista vuota!
+    aux.iterator = new Iteratore::Iteratore_rapp( titles->titlesList );
     return aux;
 }
 

@@ -9,6 +9,7 @@
 #include "utente_business.h"
 #include "linqedin_admin.h"
 #include "linqedin_client.h"
+#include "formazione.h"
 
 int main( int argc, char *argv[] ) {
     QApplication a( argc, argv );

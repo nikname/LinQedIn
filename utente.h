@@ -5,13 +5,11 @@
 #include <QDate>
 #include "profilo.h"
 #include "smartutente.h"
+#include "formazione.h"
+#include "esperienza.h"
 
 // Dichiarazioni incomplete
 class Rete;
-class Formazione;
-class Titolo;
-class Esperienza;
-class Lavoro;
 class Database;
 
 class Utente {
@@ -161,6 +159,13 @@ public:
      */
     QVector<Titolo*> getTitlesList() const;
 
+    /** Restituisce un iteratore sulla lista dei titoli di studio dell'utente.
+     *  Invoca il metodo begin() di Formazione.
+     *
+     * @return Formazione::Iteratore  Iteratore sulla lista dei titoli di studio dell'utente.
+     */
+    Formazione::Iteratore getEducationsIterator() const;
+
     /** Aggiunge un'esperienza alle esperienze lavorative.
      *  Invoca il metodo addExperience() del campo dati experiences dell'utente.
      *
@@ -181,6 +186,13 @@ public:
      * @return QVector<Lavoro*>  Vettore di puntatori ai titoli di studio dell'utente.
      */
     QVector<Lavoro*> getExperiencesList() const;
+
+    /** Restituisce un iteratore sulla lista delle esperienze lavorative dell'utente.
+     *  Invoca il metodo begin() di Esperienza.
+     *
+     * @return Esperienza::Iteratore  Iteratore sulla lista delle esperienza lavorative dell'utente.
+     */
+     Esperienza::Iteratore getExperiencesIterator() const;
 
     /** Ricerca polimorfa, virtuale pura.
      *  Esegue la ricerca degli utenti nel database in base alla tipologia di account.

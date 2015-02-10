@@ -15,8 +15,8 @@ class Formazione {
     // Nelle classi innestate si può accedere solo a campi dati statici della classe contenitrice!
     // La classe Iteratore non ha bisogno di un costruttore ridefinito. L'Iteratore viene construito
     // con il metodo begin() sull'oggetto Formazione di invocazione.
-    // Nel metodo begin() non serve controllare se titles è un puntatore valido in quanto se creo un
-    // oggetto Formazione allora viene creato in automatico un oggetto Formazione_rapp.
+    // Nel metodo begin() non serve controllare se titles è valido in quanto se creo un oggetto
+    // Formazione allora viene creato in automatico un oggetto Formazione_rapp.
 
     friend class Utente; // Necessario per costruire e distruggere oggetti Formazione
 private:
@@ -43,7 +43,7 @@ public:
          */
         bool hasNext() const;
 
-        /** Avanza l'Iteratore e ritorna l'elemento puntato.
+        /** Ritorna l'elemento puntato ed avanza l'Iteratore.
          *
          * @return Titolo*  Titolo di studio puntato dall'Iteratore.
          */
