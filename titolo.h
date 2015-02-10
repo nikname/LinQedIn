@@ -3,16 +3,20 @@
 #include <QDebug>
 #include <QString>
 #include <QDate>
+#include "smarttitolo.h"
 
 class Titolo {
+    friend class SmartTitolo;
 private:
     QString school;
     QDate dateAttended;
     QString degree;
     QString fieldOfStudy;
     QString grade;
+    int references;
 public:
     /** Costruttore a 5 parametri con 5 parametri di default.
+     *  Inizializza il contatore di riferimenti ad 1.
      *
      * @param QString scuola  Nome della scuola, collegio, università.
      * @param QDate dataDiploma  Data del conseguimento del diploma.
@@ -29,7 +33,8 @@ public:
         dateAttended( dataDiploma ),
         degree( laurea ),
         fieldOfStudy( corsoDiStudio ),
-        grade( votazione ) {}
+        grade( votazione ),
+        references( 1 ) {}
 
     /** Ritorna il nome della scuola, collegio, università.
      *

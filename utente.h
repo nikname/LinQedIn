@@ -155,9 +155,9 @@ public:
     /** Ritorna un vettore di puntatori ai titoli di studio dell'utente.
      *  Invoca il metodo getTitlesList() del campo dati educations dell'utente.
      *
-     * @return QVector<Titolo*>  Vettore di puntatori ai titoli di studio dell'utente.
+     * @return QVector<SmartTitolo>  Vettore di puntatori ai titoli di studio dell'utente.
      */
-    QVector<Titolo*> getTitlesList() const;
+    QVector<SmartTitolo> getTitlesList() const;
 
     /** Restituisce un iteratore sulla lista dei titoli di studio dell'utente.
      *  Invoca il metodo begin() di Formazione.
@@ -183,9 +183,9 @@ public:
     /** Ritorna un vettore di puntatori ai titoli di studio dell'utente.
      *  Invoca il metodo getExperiencesList() del campo dati experiences dell'utente.
      *
-     * @return QVector<Lavoro*>  Vettore di puntatori ai titoli di studio dell'utente.
+     * @return QVector<SmartLavoro>  Vettore di puntatori ai titoli di studio dell'utente.
      */
-    QVector<Lavoro*> getExperiencesList() const;
+    QVector<SmartLavoro> getExperiencesList() const;
 
     /** Restituisce un iteratore sulla lista delle esperienze lavorative dell'utente.
      *  Invoca il metodo begin() di Esperienza.

@@ -72,9 +72,9 @@ public:
 
     /** Ritorna un vettore di puntatori ai titoli di studio dell'utente.
      *
-     * @return QVector<Lavoro*>  Vettore di puntatori ai titoli di studio dell'utente.
+     * @return QVector<SmartLavoro>  Vettore di puntatori ai titoli di studio dell'utente.
      */
-    QVector<Lavoro*> getExperiencesList() const;
+    QVector<SmartLavoro> getExperiencesList() const;
 
     /** Operatore delete ridefinito.
      *  Decrementa user_ref di 1. Se user_ref vale 0 invoca il distuttore di Esperienza_rapp.

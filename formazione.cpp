@@ -76,11 +76,11 @@ void Formazione::removeEducation( Titolo* t ) {
 }
 
 // METODO getTitlesList Formazione
-QVector<Titolo*> Formazione::getTitlesList() const {
-    QVector<Titolo*> v;
+QVector<SmartTitolo> Formazione::getTitlesList() const {
+    QVector<SmartTitolo> v;
     QListIterator<Titolo*> it( titles->titlesList ); // QMutableListIterator ?
     while( it.hasNext() )
-        v.push_back( it.next() );
+        v.push_back( SmartTitolo( it.next() ) );
     return v;
 }
 

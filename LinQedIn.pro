@@ -29,7 +29,9 @@ SOURCES += main.cpp\
     utente_pagante.cpp \
     mainwindow.cpp \
     titolo.cpp \
-    lavoro.cpp
+    lavoro.cpp \
+    smarttitolo.cpp \
+    smartlavoro.cpp
 
 HEADERS  += \
     profilo.h \
@@ -48,6 +50,8 @@ HEADERS  += \
     linqedin_client.h \
     mainwindow.h \
     titolo.h \
-    lavoro.h
+    lavoro.h \
+    smarttitolo.h \
+    smartlavoro.h
 
 FORMS    += mainwindow.ui

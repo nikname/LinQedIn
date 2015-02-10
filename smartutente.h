@@ -7,11 +7,11 @@ class Utente;
 
 class SmartUtente {
 private:
-    Utente* user; // Puntatore polimorfo
+    Utente* user;
 public:
-    /** Costruttore ad 1 parametro.
+    /** Costruttore ad 1 parametro con 1 parametro di default.
      *
-     * @param Utente* u  Elemento della lista utenti.
+     * @param Utente*  Elemento della lista utenti.
      */
     SmartUtente( Utente* = 0 );
 

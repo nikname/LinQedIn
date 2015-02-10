@@ -115,7 +115,7 @@ void Utente::removeEducation( Titolo* t ) {
 }
 
 // METODO getEducationsList Utente
-QVector<Titolo*> Utente::getTitlesList() const {
+QVector<SmartTitolo> Utente::getTitlesList() const {
     return educations->getTitlesList();
 }
 
@@ -135,7 +135,7 @@ void Utente::removeExperience( Lavoro* l ) {
 }
 
 // METODO getExperiencesList Utente
-QVector<Lavoro*> Utente::getExperiencesList() const {
+QVector<SmartLavoro> Utente::getExperiencesList() const {
     return experiences->getExperiencesList();
 }
 
@@ -165,7 +165,7 @@ QDebug operator <<( QDebug qdbg, const Utente& u ) {
             qdbg << " " << c[i]->getUsername() << "\n";
     }
     qdbg << "FORMAZIONE: " << "\n";
-    QVector<Titolo*> ed = u.getTitlesList();
+    QVector<SmartTitolo> ed = u.getTitlesList();
     if( ed.size() == 0 )
         qdbg << " ** Nessun titolo di studio! **" << "\n";
     else {
@@ -178,7 +178,7 @@ QDebug operator <<( QDebug qdbg, const Utente& u ) {
         }
     }
     qdbg << "ESPERIENZE: " << "\n";
-    QVector<Lavoro*> ex = u.getExperiencesList();
+    QVector<SmartLavoro> ex = u.getExperiencesList();
     if( ex.size() == 0 )
         qdbg << " ** Nessuna esperienza lavorativa! **" << "\n";
     else {

@@ -76,11 +76,11 @@ void Esperienza::removeExperience( Lavoro* l ) {
 }
 
 // METODO getExperiencesList Esperienza
-QVector<Lavoro*> Esperienza::getExperiencesList() const {
-    QVector<Lavoro*> v;
+QVector<SmartLavoro> Esperienza::getExperiencesList() const {
+    QVector<SmartLavoro> v;
     QListIterator<Lavoro*> it( experiences->experiencesList ); // QMutableListIterator ?
     while( it.hasNext() )
-        v.push_back( it.next() );
+        v.push_back( SmartLavoro( it.next() ) );
     return v;
 }
 

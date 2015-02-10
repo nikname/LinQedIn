@@ -3,16 +3,20 @@
 #include <QDebug>
 #include <QString>
 #include <QDate>
+#include "smartlavoro.h"
 
 class Lavoro {
+    friend class SmartLavoro;
 private:
     QString companyName;
     QString title;
     QString location;
     QDate begin;
     QDate end;
+    int references;
 public:
     /** Costruttore a 5 parametri con parametri di default.
+     *  Inizializza il contatore di riferimenti ad 1.
      *
      * @param QString azienda  Nome dell'azienda.
      * @param QString ruolo  Ruolo o posizione all'interno dell'azienda.
@@ -29,7 +33,8 @@ public:
         title( ruolo ),
         location( posizione ),
         begin( inizio ),
-        end( fine ) {}
+        end( fine ),
+        references( 1 ) {}
 
     /** Ritorna il nome dell'azienda.
      *
