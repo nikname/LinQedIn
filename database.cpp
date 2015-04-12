@@ -10,35 +10,44 @@
 #include "utente_business.h"
 #include "rete.h"
 
-// CLASSE Database_rapp
+// CLASSE Database::Database_rapp
 class Database::Database_rapp {
+
+    // NOTE:
+    // È stato deciso di memorizzare gli utenti nel database come mappa, dove l'username
+    // è la chiave associata allo SmartUtente. La scelta di utilizzare la classe interna
+    // Database_rapp per nascondere i campi dati di Database è data dal fatto che in questo
+    // modo il codice è indipendente dalla rappresentazione.
+    // È stato deciso di utilizzare una mappa in quanto in questo modo la ricerca di un
+    // utente viene fatta in tempo O(1). Stesso discorso vale inserimento e rimozione.
+
 public:
-    QMap<QString, SmartUtente> usersList;
+    QMap<QString, SmartUtente> users_list;
 
     /** Costruttore di default.
-     *  Inizializza il campo usersList con una QMap di valori SmartUtente e chiavi QString.
-     *  Popola il database da file xml.
+     *  Inizializza il campo users_list con una QMap di SmartUtente con chiavi QString, le
+     *  quali corrispondono all'username dell'utente.
      */
     Database_rapp() :
-        usersList( QMap<QString, SmartUtente>() ) {
-        // TODO: popolare il database
-    }
+        users_list( QMap<QString, SmartUtente>() )
+    {}
 
-    /** Distruttore Database_rapp.
+    /** Distruttore di Database_rapp.
      *  Invoca il metodo clear() sulla mappa degli utenti del database.
+     *  clear() a sua volta richiama il distruttore di SmartUtente per ogni utente.
      *
-     * @param void* p  Puntatore all'oggetto Database_rapp.
+     * @param void* p  Puntatore all'oggetto da distruggere.
      */
     void operator delete( void* p ) {
         if( p ) {
             Database_rapp* p_aux = static_cast<Database_rapp*>( p );
-            if( !p_aux->usersList.isEmpty() )
-                p_aux->usersList.clear();
+            if( !p_aux->users_list.isEmpty() )
+                p_aux->users_list.clear();
         }
     }
 };
 
-// METODO parseProfile Database
+// METODO Database::parseProfile
 void Database::parseProfile( QXmlStreamReader& xmlReader, Utente* u ) {
     if( xmlReader.name() == "name" )
         u->setName( xmlReader.readElementText() );
@@ -55,12 +64,12 @@ void Database::parseProfile( QXmlStreamReader& xmlReader, Utente* u ) {
         u->setMaritialStatus( xmlReader.readElementText() );
 }
 
-// METODO parseNet Database
+// METODO Database::parseNet
 void Database::parseNet( QXmlStreamReader& xmlReader, Utente* u ) {
 
 }
 
-// METODO parseEducation Database
+// METODO Database::parseEducation
 void Database::parseEducation( QXmlStreamReader& xmlReader, Utente* u ) {
     Titolo* t = new Titolo();
     xmlReader.readNext();
@@ -71,7 +80,8 @@ void Database::parseEducation( QXmlStreamReader& xmlReader, Utente* u ) {
         if( xmlReader.name() == "dateAttended" ) {
             QStringList list = xmlReader.readElementText().split( "/" );
             if( !list[0].isEmpty() && !list[1].isEmpty() && !list[2].isEmpty() )
-                t->setDateAttended( QDate( list[2].toInt(), list[1].toInt(), list[0].toInt() ) );
+                t->setDateAttended(
+                            QDate( list[2].toInt(), list[1].toInt(), list[0].toInt() ) );
             else t->setDateAttended( QDate() );
         }
         if( xmlReader.name() == "degree" )
@@ -85,7 +95,7 @@ void Database::parseEducation( QXmlStreamReader& xmlReader, Utente* u ) {
     u->addEducation( t );
 }
 
-// METODO parseExperience Database
+// METODO Database::parseExperience
 void Database::parseExperience( QXmlStreamReader& xmlReader, Utente* u ) {
     Lavoro* j = new Lavoro();
     xmlReader.readNext();
@@ -114,9 +124,8 @@ void Database::parseExperience( QXmlStreamReader& xmlReader, Utente* u ) {
     u->addExperience( j );
 }
 
-// METODO parseUser Database
+// METODO Database::parseUser
 void Database::parseUser( QXmlStreamReader& xmlReader ) {
-
     if( xmlReader.tokenType() != QXmlStreamReader::StartElement &&
         xmlReader.name() != "user" ) {
         qDebug() << "Nessun elemento utente!";
@@ -124,8 +133,8 @@ void Database::parseUser( QXmlStreamReader& xmlReader ) {
     }
 
     Utente* u = 0;
-    QString type = xmlReader.attributes().value( "type" ).toString();
     QString un = xmlReader.attributes().value( "login" ).toString();
+    QString type = xmlReader.attributes().value( "type" ).toString();
     if( type == "basic" )
         u = new UtenteBasic( un );
     else if( type == "express" )
@@ -145,7 +154,10 @@ void Database::parseUser( QXmlStreamReader& xmlReader ) {
                 xmlReader.readNext();
             }
         }
-        if( xmlReader.name() == "net" ) { // Necessario farla in un secondo momento!
+        // L'aggiunta della lista dei contatti è necessario farla in un momento successivo,
+        // quanto tutti gli utenti presenti nel file XML sono stati aggiunti al database.
+        /**
+        if( xmlReader.name() == "net" ) {
             xmlReader.readNext();
             while( xmlReader.name() != "net" ||
                    xmlReader.tokenType() != QXmlStreamReader::EndElement ) {
@@ -153,6 +165,7 @@ void Database::parseUser( QXmlStreamReader& xmlReader ) {
                 xmlReader.readNext();
             }
         }
+        */
         if( xmlReader.name() == "educations" ) {
             xmlReader.readNext();
             while( xmlReader.name() != "educations"
@@ -178,14 +191,16 @@ void Database::parseUser( QXmlStreamReader& xmlReader ) {
 }
 
 // COSTRUTTORE Database
-Database::Database() : dbUsers( new Database_rapp ) {}
+Database::Database() : database_rapp( new Database_rapp ) {
+    loadUsersList();
+}
 
 // DISTRUTTORE Database
 Database::~Database() {
-    delete dbUsers;
+    delete database_rapp;
 }
 
-// METODO loadUserList Database
+// METODO Database::loadUserList
 void Database::loadUsersList() {
 
     QString path( "users.xml" );
@@ -208,6 +223,7 @@ void Database::loadUsersList() {
     }
 }
 
+// METODO Database::saveUsersList
 void Database::saveUsersList() const {
 
     QString path( "users.xml" );
@@ -219,7 +235,7 @@ void Database::saveUsersList() const {
     xmlWriter.writeStartDocument();
     xmlWriter.writeStartElement( "users" );
 
-    QMapIterator<QString, SmartUtente> it( dbUsers->usersList );
+    QMapIterator<QString, SmartUtente> it( database_rapp->users_list );
     while( it.hasNext() ) {
         Utente* u = it.next().value().operator ->();
 
@@ -238,31 +254,51 @@ void Database::saveUsersList() const {
         xmlWriter.writeStartElement( "profile" );
         xmlWriter.writeTextElement( "name", u->getName() );
         xmlWriter.writeTextElement( "surname", u->getSurname() );
-        xmlWriter.writeTextElement( "birthday", u->getBirthday().toString( "dd/MM/yyyy" ) );
+        // <birthday>
+        xmlWriter.writeStartElement( "birthday" );
+        QDate birthday = u->getBirthday();
+        if( birthday.isValid() ) {
+            QStringList list = birthday.toString( "yyyy/MM/dd" ).split( "/" );
+            xmlWriter.writeTextElement( "year", list[0] );
+            xmlWriter.writeTextElement( "month", list[1] );
+            xmlWriter.writeTextElement( "day", list[2] );
+        }
+        xmlWriter.writeEndElement();
+        // </birthday>
         xmlWriter.writeTextElement( "maritialStatus", u->getMaritialStatus() );
         xmlWriter.writeEndElement();
         // </profile>
 
         // <net>
         xmlWriter.writeStartElement( "net" );
-        QVector<SmartUtente> v = u->getContactsList();
-        for( int i = 0; i < v.size(); i++ ) {
-            // <contact>
-            xmlWriter.writeTextElement( "contact", v[i]->getUsername() );
-            // </contact>
+        QVectorIterator<SmartUtente> contacts_it( u->getContactsList() );
+        while( contacts_it.hasNext() ) {
+            xmlWriter.writeTextElement( "contact", contacts_it.next()->getUsername() );
         }
         xmlWriter.writeEndElement();
         // </net>
 
         // <educations>
         xmlWriter.writeStartElement( "educations" );
-        Formazione::Iteratore it_ed( u->getEducationsIterator() );
-        while( it_ed.hasNext() ) {
+        Formazione::Iteratore educations_it( u->getEducationsIterator() );
+        while( educations_it.hasNext() ) {
             // <title>
-            Titolo* t = it_ed.next();
+            Titolo* t = educations_it.next();
             xmlWriter.writeStartElement( "title" );
             xmlWriter.writeTextElement( "school", t->getSchool());
-            xmlWriter.writeTextElement( "dateAttended", t->getDateAttended().toString("dd/MM/yyyy") );
+
+            // <dateAttended>
+            xmlWriter.writeStartElement( "dateAttended" );
+            QDate d = t->getDateAttended();
+            if( d.isValid() ) {
+                QStringList list = d.toString( "yyyy/MM/dd" ).split( "/" );
+                xmlWriter.writeTextElement( "year", list[0] );
+                xmlWriter.writeTextElement( "month", list[1] );
+                xmlWriter.writeTextElement( "day", list[2] );
+            }
+            xmlWriter.writeEndElement();
+            // </dateAttended>
+
             xmlWriter.writeTextElement( "degree", t->getDegree() );
             xmlWriter.writeTextElement( "fieldOfStudy", t->getFieldOfStudy());
             xmlWriter.writeTextElement( "grade", t->getGrade() );
@@ -282,8 +318,28 @@ void Database::saveUsersList() const {
             xmlWriter.writeTextElement( "companyName", j->getCompanyName() );
             xmlWriter.writeTextElement( "title", j->getTitle() );
             xmlWriter.writeTextElement( "location", j->getLocation() );
-            xmlWriter.writeTextElement( "begin", j->getBegin().toString( "dd/MM/yyyy" ) );
-            xmlWriter.writeTextElement( "end", j->getEnd().toString( "dd/MM/yyyy" ) );
+            // <begin>
+            xmlWriter.writeStartElement( "begin" );
+            QDate begin = j->getBegin();
+            if( begin.isValid() ) {
+                QStringList list = begin.toString( "yyyy/MM/dd" ).split( "/" );
+                xmlWriter.writeTextElement( "year", list[0] );
+                xmlWriter.writeTextElement( "month", list[1] );
+                xmlWriter.writeTextElement( "day", list[2] );
+            }
+            xmlWriter.writeEndElement();
+            // </begin>
+            // <end>
+            xmlWriter.writeStartElement( "end" );
+            QDate end = j->getEnd();
+            if( end.isValid() ) {
+                QStringList list = end.toString( "yyyy/MM/dd" ).split( "/" );
+                xmlWriter.writeTextElement( "year", list[0] );
+                xmlWriter.writeTextElement( "month", list[1] );
+                xmlWriter.writeTextElement( "day", list[2] );
+            }
+            xmlWriter.writeEndElement();
+            // </end>
             xmlWriter.writeEndElement();
             // </job>
         }
@@ -299,23 +355,33 @@ void Database::saveUsersList() const {
     xmlWriter.writeEndDocument();
 }
 
-// METODO contains Database
+// METODO Database::contains
 bool Database::contains( const QString& un ) const {
-    return dbUsers->usersList.contains( un );
+    return database_rapp->users_list.contains( un );
 }
 
-// METODO insert Database
-void Database::insert( Utente* u ) {
-    qDebug() << u;
+// METODO Database::insert
+bool Database::insert( Utente* u ) {
     if( contains( u->getUsername() ) )
-        return;
-    dbUsers->usersList.insert( u->getUsername(), SmartUtente( u ) );
+        return false;
+    database_rapp->users_list.insert( u->getUsername(), SmartUtente( u ) );
+    // NB: gli oggetti su di un contenitore vengono inseriti di copia
+    return true;
 }
 
-// METODO getDbUserList Database
-QVector<SmartUtente> Database::getDbUsersList() const {
+// METODO Database::remove
+bool Database::remove( Utente* u ) {
+    // Il metodo QMap::remove( QString ) ritorna il numero di elementi rimossi. I possibili
+    // valori di ritorno sono 0, se la chiave non è presente, e 1, se la chiave è presente.
+    // Non ci possono essere più elementi con la stessa chiave, per questo il tipo di
+    // ritorno non da problemi.
+    return database_rapp->users_list.remove( u->getUsername() );
+}
+
+// METODO getUserList Database
+QVector<SmartUtente> Database::getUsersList() const {
     QVector<SmartUtente> v;
-    QMapIterator<QString, SmartUtente> it( dbUsers->usersList );
+    QMapIterator<QString, SmartUtente> it( database_rapp->users_list );
     while( it.hasNext() )
         v.append( it.next().value() );
     return v;
@@ -324,8 +390,8 @@ QVector<SmartUtente> Database::getDbUsersList() const {
 // OPERATOR << Database
 QDebug operator <<( QDebug qdbg, Database* d ) {
     qdbg << "UTENTI DATABASE: \n";
-    if( d->dbUsers ) {
-        QMapIterator<QString, SmartUtente> it( d->dbUsers->usersList );
+    if( d->database_rapp ) {
+        QMapIterator<QString, SmartUtente> it( d->database_rapp->users_list );
         while( it.hasNext() )
             qdbg << it.next().key() << "\n";
     }

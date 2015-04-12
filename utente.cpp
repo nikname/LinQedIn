@@ -171,7 +171,8 @@ QDebug operator <<( QDebug qdbg, const Utente& u ) {
     else {
         for( int i = 0; i < ed.size(); i++ ) {
             qdbg << " Scuola: " << ed[i]->getSchool() << "\n";
-            qdbg << " Data diploma: " << ed[i]->getDateAttended().toString( "yyyy" ) << "\n";
+            qdbg << " Data diploma: " <<
+                    ed[i]->getDateAttended().toString( "yyyy" ) << "\n";
             qdbg << " Laurea: " << ed[i]->getDegree() << "\n";
             qdbg << " Campo di studio: " << ed[i]->getFieldOfStudy() << "\n";
             qdbg << " Votazione: " << ed[i]->getGrade() << "\n";

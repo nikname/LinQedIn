@@ -9,12 +9,18 @@ class LinQedInAdmin;
 class Database {
 
     // NOTE:
-    // Deve esistere un unico oggetto Database.
+    // Il metodo Database::insert( Utente* ) è accessibile solo da oggetti di tipo
+    // LinQedInAdmin. In questo modo solo l'utente amministratore può aggiungere nuovi
+    // utenti al database. Oggetti di tipo LinQedInClient non possono aggiungere nuovi
+    // utenti al database.
+    // Da prendere il considerazione il fatto di rendere privato il costruttore di
+    // Database e rendere anche la classe LinQedInClient amica. In questo modo però anche
+    // quest'ultima potrebbe aggiungere nuovi utenti.
 
     friend class LinQedInAdmin; // Necessario per poter aggiungere utenti al database.
 private:
     class Database_rapp;
-    Database_rapp* dbUsers;
+    Database_rapp* database_rapp;
 
     /** Scorre un elemento user nel file xml.
      *  Crea e salva un oggetto Utente nella lista degli utenti del database.
@@ -48,7 +54,8 @@ private:
     void parseEducation( QXmlStreamReader&, Utente* );
 
     /** Scorre un oggetto experience nel file xml.
-     *  Crea ed aggiunge un oggetto Lavoro nella lista delle esperienze lavorative dell'utente.
+     *  Crea ed aggiunge un oggetto Lavoro nella lista delle esperienze lavorative
+     *  dell'utente.
      *
      * @param QXmlStreamReader  Lettore di file xml passato per riferimento.
      * @param Utente*  Utente del quale si vogliono aggiungere le esperienze lavorative.
@@ -56,13 +63,26 @@ private:
     void parseExperience( QXmlStreamReader&, Utente* );
 
     /** Inserisce un nuovo utente nella lista degli utenti del database.
+     *  Accessibile solo da oggetti di tipo LinQedInAdmin.
+     *
+     *  TODO: controllo della presenza di un altro utente con lo stesso username
      *
      * @param Utente*  Utende da inserire nella lista degli utenti del database.
+     * @return bool  true se l'utente viene inserito correttamente; false altrimenti.
      */
-    void insert( Utente* );
+    bool insert( Utente* );
+
+    /** Rimuove un utente dalla lista degli utenti del database.
+     *  Accessibile solo da oggetti di tipo LinQedInAdmin.
+     *
+     * @param Utente*  Utente da rimuovere dalla lista degli utenti del database.
+     * @return bool  true se l'utente viene rimosso correttamente; false altrimenti.
+     */
+    bool remove( Utente* );
 public:
     /** Costruttore di default ridefinito.
-     *  Popola il database*/
+     *  Carica la lista degli utenti da file (XML).
+     */
     Database();
 
     /** Distruttore di Database.
@@ -77,7 +97,7 @@ public:
      */
     bool contains( const QString& ) const;
 
-    /** Carica una lista di utenti da file (XML). */
+    /** Carica la lista degli utenti da file (XML). */
     void loadUsersList();
 
     /** Salva la lista degli utenti su file (XML). */
@@ -87,7 +107,7 @@ public:
      *
      * @return QVector<SmartUtente>  Vettore degli utenti del database.
      */
-    QVector<SmartUtente> getDbUsersList() const;
+    QVector<SmartUtente> getUsersList() const;
 
     friend QDebug operator <<( QDebug, Database* ); // *** JUST FOR DEBUG ***
 };
