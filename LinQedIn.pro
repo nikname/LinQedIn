@@ -54,4 +54,5 @@ HEADERS  += \
     smarttitolo.h \
     smartlavoro.h
 
-FORMS    += mainwindow.ui
+FORMS    += mainwindow.ui \
+    mainwindow.ui
