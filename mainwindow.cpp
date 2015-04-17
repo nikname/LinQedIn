@@ -1,30 +1,26 @@
 #include "mainwindow.h"
-#include "ui_mainwindow.h"
-#include <QVBoxLayout>
-#include <QGroupBox>
 #include <QMessageBox>
-#include <QFile>
 #include <QDebug>
 
+// COSTRUTTORE MainWindow
 MainWindow::MainWindow( QWidget *parent ) :
-    QMainWindow( parent ),
-    ui( new Ui::MainWindow )
+    QMainWindow( parent )
 {
     initializeGUI();
 
     this->show();
 }
 
-MainWindow::~MainWindow() {
-    delete ui;
-}
+// DISTRUTTORE MainWindow
+MainWindow::~MainWindow() {}
 
+// METODO MainWindow::initializGUI
 void MainWindow::initializeGUI() {
 
     QWidget *widget = new QWidget;
     setCentralWidget( widget );
 
-    createActions();
+    createMenuActions();
     createMenus();
 
     QWidget *topVFiller = new QWidget;
@@ -36,20 +32,7 @@ void MainWindow::initializeGUI() {
     QWidget *middleVFiller = new QWidget;
     middleVFiller->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Expanding );
 
-    loginArea = new QVBoxLayout;
-    loginArea->setAlignment( Qt::AlignCenter );
-
-    userUsername = new QLineEdit;
-    userUsername->setPlaceholderText( "Username" );
-    userUsername->setMaximumWidth( 400 );
-    userPassword = new QLineEdit;
-    userPassword->setPlaceholderText( "Password" );
-    userPassword->setMaximumWidth( 400 );
-    loginButton = new QPushButton( "Log In" ); // width = 400
-
-    loginArea->addWidget( userUsername );
-    loginArea->addWidget( userPassword );
-    loginArea->addWidget( loginButton );
+    createUserArea();
 
     QWidget *bottomVFiller = new QWidget;
     bottomVFiller->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Expanding );
@@ -58,33 +41,13 @@ void MainWindow::initializeGUI() {
     line->setFrameShape( QFrame::HLine );
     line->setFrameShadow( QFrame::Sunken );
 
-    adminArea = new QHBoxLayout;
-
-    adminLabel = new QLabel( "Accesso amministratore:" );
-
-    QWidget *middleHFiller = new QWidget;
-    middleHFiller->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Expanding );
-
-    adminLogin = new QHBoxLayout;
-
-    adminPassword = new QLineEdit;
-    adminPassword->setPlaceholderText( "Password" );
-    adminPassword->setMaximumWidth( 150 );
-    adminButton = new QPushButton( "Log In" );
-    adminButton->setFixedWidth( 50 );
-
-    adminLogin->addWidget( adminPassword );
-    adminLogin->addWidget( adminButton );
-
-    adminArea->addWidget( adminLabel );
-    adminArea->addWidget( middleHFiller );
-    adminArea->addLayout( adminLogin );
+    createAdminArea();
 
     QVBoxLayout *layout = new QVBoxLayout;
     layout->addWidget( topVFiller );
     layout->addWidget( titleLabel );
     layout->addWidget( middleVFiller );
-    layout->addLayout( loginArea );
+    layout->addLayout( userArea );
     layout->addWidget( bottomVFiller );
     layout->addWidget( line );
     layout->addLayout( adminArea );
@@ -95,18 +58,20 @@ void MainWindow::initializeGUI() {
         "QWidget { background: #069; font-family: Helvetica; }"
         //"QWidget { background: qradialgradient(cx: 0.5, cy: 0.5, fx: 0.5,"
         //  "fy: 0.5, radius: 0.5, stop: 0 white, stop: 1 #069); }"
+        "QLabel { color: white; }"
         "QLineEdit { border: 1px solid gray; border-radius: 5px; background: white; }"
-        "QPushButton { border-radius: 5px; background: #003D5C; color: white; }"
+        "QPushButton { border: 2px solid #003D5C; border-radius: 5px;"
+            "background: #003D5C; color: white; }"
+        "QPushButton:pressed { border: 2px solid #00527A; background: #00527A; }"
     );
-
-    setStyleSheet( "QLabel { color: white; }" );
 
     setWindowTitle( "LinQedIn" );
     setMinimumSize( 600, 400 );
     setMaximumSize( 1000, 600 );
 }
 
-void MainWindow::createActions() {
+// METODO MainWindow::createMenuActions
+void MainWindow::createMenuActions() {
     exitAct = new QAction( tr( "Exit" ), this );
     exitAct->setStatusTip( tr( "Esci dall'applicazione" ) );
     connect( exitAct, SIGNAL( triggered() ), this, SLOT( close() ) );
@@ -116,6 +81,7 @@ void MainWindow::createActions() {
     connect( aboutAct, SIGNAL( triggered() ), this, SLOT( about() ) );
 }
 
+// METODO MainWindow::createMenus
 void MainWindow::createMenus() {
     menu = menuBar()->addMenu( tr( "&Menu" ) );
     menu->addAction( exitAct );
@@ -123,14 +89,63 @@ void MainWindow::createMenus() {
     helpMenu->addAction( aboutAct );
 }
 
+// METODO MainWindow::createUserArea
+void MainWindow::createUserArea() {
+    userArea = new QVBoxLayout;
+    userArea->setAlignment( Qt::AlignCenter );
+
+    userUsername = new QLineEdit;
+    userUsername->setPlaceholderText( "Username" );
+    userUsername->setFixedWidth( 400 );
+    userPassword = new QLineEdit;
+    userPassword->setPlaceholderText( "Password" );
+    userPassword->setEchoMode( QLineEdit::Password );
+    userPassword->setInputMethodHints(
+        Qt::ImhHiddenText | Qt::ImhNoPredictiveText | Qt::ImhNoAutoUppercase );
+    userPassword->setFixedWidth( 400 );
+    loginButton = new QPushButton( "Log In" );
+    loginButton->setFixedWidth( 400 ); // inutile in quanto determinato dai precedenti QLineEdit
+    connect( loginButton, SIGNAL( clicked() ), this, SLOT( loginUser() ) );
+
+    userArea->addWidget( userUsername );
+    userArea->addWidget( userPassword );
+    userArea->addWidget( loginButton );
+}
+
+// METODO MainWindow::createAdminArea
+void MainWindow::createAdminArea() {
+    adminArea = new QHBoxLayout;
+    adminArea->setContentsMargins( 10, 0, 10, 0 );
+
+    adminLabel = new QLabel( "Accesso amministratore:" );
+
+    adminLogin = new QHBoxLayout;
+
+    adminPassword = new QLineEdit;
+    adminPassword->setPlaceholderText( "Password" );
+    adminPassword->setFixedWidth( 150 );
+    adminLoginButton = new QPushButton( "Log In" );
+    adminLoginButton->setFixedWidth( 50 );
+    connect( adminLoginButton, SIGNAL( clicked() ), this, SLOT( loginAdmin() ) );
+
+    adminLogin->addWidget( adminPassword );
+    adminLogin->addWidget( adminLoginButton );
+
+    adminArea->addWidget( adminLabel );
+    adminArea->addLayout( adminLogin );
+}
+
+// SLOT MainWindows::loginAdmin
 void MainWindow::loginAdmin() {
 
 }
 
+// SLOT MainWindow::loginUser
 void MainWindow::loginUser() {
 
 }
 
+// SLOT MainWindow::about
 void MainWindow::about() {
     QMessageBox::about( this, tr("About Menu"), tr(
         "<b>LinQedIn</b>"
