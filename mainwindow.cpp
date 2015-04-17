@@ -27,62 +27,86 @@ void MainWindow::initializeGUI() {
     createActions();
     createMenus();
 
-    infoLabel = new QLabel( tr(
-        "<h1>Benvenuto su LinQedIn!</h1>" ) );
-    infoLabel->setAlignment( Qt::AlignCenter );
+    QWidget *topVFiller = new QWidget;
+    topVFiller->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Expanding );
 
-    QGroupBox *userLoginBox = new QGroupBox( tr( "Login utente" ) );
-    QGridLayout *userLoginArea = new QGridLayout;
-    QLabel *userUsernameLabel = new QLabel( tr( "Username" ) );
-    userUsername = new QLineEdit();
-    QLabel *userPasswordLabel = new QLabel( tr( "Password" ) );
-    userPassword = new QLineEdit();
-    userLoginArea->addWidget( userUsernameLabel, 0, 0 );
-    userLoginArea->addWidget( userUsername, 0, 1 );
-    userLoginArea->addWidget( userPasswordLabel, 1, 0 );
-    userLoginArea->addWidget( userPassword, 1, 1 );
-    userLoginBox->setLayout( userLoginArea );
+    titleLabel = new QLabel( tr( "<h1>LinQedIn</h1>" ) );
+    titleLabel->setAlignment( Qt::AlignHCenter );
 
-    QGroupBox * adminLoginBox = new QGroupBox( tr( "Login amministratore" ) );
-    QGridLayout * adminLoginArea = new QGridLayout;
-    QLabel *adminUsernameLabel = new QLabel( tr( "Username" ) );
-    adminUsername = new QLineEdit();
-    QLabel *adminPasswordLabel = new QLabel( tr( "Password" ) );
-    adminPassword = new QLineEdit();
-    adminLoginArea->addWidget( adminUsernameLabel, 0, 0 );
-    adminLoginArea->addWidget( adminUsername, 0, 1 );
-    adminLoginArea->addWidget( adminPasswordLabel, 1, 0 );
-    adminLoginArea->addWidget( adminPassword, 1, 1 );
-    adminLoginBox->setLayout( adminLoginArea );
+    QWidget *middleVFiller = new QWidget;
+    middleVFiller->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Expanding );
 
-    QWidget *bottomFiller = new QWidget;
-    bottomFiller->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    loginArea = new QVBoxLayout;
+    loginArea->setAlignment( Qt::AlignCenter );
 
-    QVBoxLayout *layout = new QVBoxLayout;
-    layout->addWidget( infoLabel );
-    layout->addWidget( userLoginBox );
+    userUsername = new QLineEdit;
+    userUsername->setPlaceholderText( "Username" );
+    userUsername->setMaximumWidth( 400 );
+    userPassword = new QLineEdit;
+    userPassword->setPlaceholderText( "Password" );
+    userPassword->setMaximumWidth( 400 );
+    loginButton = new QPushButton( "Log In" ); // width = 400
+
+    loginArea->addWidget( userUsername );
+    loginArea->addWidget( userPassword );
+    loginArea->addWidget( loginButton );
+
+    QWidget *bottomVFiller = new QWidget;
+    bottomVFiller->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Expanding );
 
     QFrame *line = new QFrame;
     line->setFrameShape( QFrame::HLine );
     line->setFrameShadow( QFrame::Sunken );
-    layout->addWidget( line );
 
-    layout->addWidget( adminLoginBox );
+    adminArea = new QHBoxLayout;
+
+    adminLabel = new QLabel( "Accesso amministratore:" );
+
+    QWidget *middleHFiller = new QWidget;
+    middleHFiller->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Expanding );
+
+    adminLogin = new QHBoxLayout;
+
+    adminPassword = new QLineEdit;
+    adminPassword->setPlaceholderText( "Password" );
+    adminPassword->setMaximumWidth( 150 );
+    adminButton = new QPushButton( "Log In" );
+    adminButton->setFixedWidth( 50 );
+
+    adminLogin->addWidget( adminPassword );
+    adminLogin->addWidget( adminButton );
+
+    adminArea->addWidget( adminLabel );
+    adminArea->addWidget( middleHFiller );
+    adminArea->addLayout( adminLogin );
+
+    QVBoxLayout *layout = new QVBoxLayout;
+    layout->addWidget( topVFiller );
+    layout->addWidget( titleLabel );
+    layout->addWidget( middleVFiller );
+    layout->addLayout( loginArea );
+    layout->addWidget( bottomVFiller );
+    layout->addWidget( line );
+    layout->addLayout( adminArea );
 
     widget->setLayout( layout );
 
+    widget->setStyleSheet(
+        "QWidget { background: #069; font-family: Helvetica; }"
+        //"QWidget { background: qradialgradient(cx: 0.5, cy: 0.5, fx: 0.5,"
+        //  "fy: 0.5, radius: 0.5, stop: 0 white, stop: 1 #069); }"
+        "QLineEdit { border: 1px solid gray; border-radius: 5px; background: white; }"
+        "QPushButton { border-radius: 5px; background: #003D5C; color: white; }"
+    );
+
+    setStyleSheet( "QLabel { color: white; }" );
+
     setWindowTitle( "LinQedIn" );
-    setMinimumSize( 400, 300 );
-    setMaximumSize( 400, 300 );
+    setMinimumSize( 600, 400 );
+    setMaximumSize( 1000, 600 );
 }
 
 void MainWindow::createActions() {
-    loginUserAct = new QAction( tr( "Login as User" ), this );
-    loginUserAct->setStatusTip( tr( "Accesso come utente" ) );
-    connect( loginUserAct, SIGNAL( triggered() ), this, SLOT( loginUser() ) );
-    loginAdminAct = new QAction( tr( "Login as Admin"), this );
-    loginAdminAct->setStatusTip( tr( "Accesso come amministratore" ) );
-    connect( loginAdminAct, SIGNAL( triggered() ), this, SLOT( loginAdmin() ) );
     exitAct = new QAction( tr( "Exit" ), this );
     exitAct->setStatusTip( tr( "Esci dall'applicazione" ) );
     connect( exitAct, SIGNAL( triggered() ), this, SLOT( close() ) );
@@ -94,9 +118,6 @@ void MainWindow::createActions() {
 
 void MainWindow::createMenus() {
     menu = menuBar()->addMenu( tr( "&Menu" ) );
-    menu->addAction( loginUserAct );
-    menu->addAction( loginAdminAct );
-    menu->addSeparator();
     menu->addAction( exitAct );
     helpMenu = menuBar()->addMenu( tr( "&Help" ) );
     helpMenu->addAction( aboutAct );
