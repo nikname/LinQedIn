@@ -56,3 +56,5 @@ HEADERS  += \
 
 FORMS    += mainwindow.ui \
     mainwindow.ui
+
+OTHER_FILES +=

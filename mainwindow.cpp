@@ -1,7 +1,9 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include <QVBoxLayout>
+#include <QGroupBox>
 #include <QMessageBox>
+#include <QFile>
 #include <QDebug>
 
 MainWindow::MainWindow( QWidget *parent ) :
@@ -25,41 +27,50 @@ void MainWindow::initializeGUI() {
     createActions();
     createMenus();
 
-    QWidget *topFiller = new QWidget;
-    topFiller->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Expanding );
-
     infoLabel = new QLabel( tr(
-        "<h1>Benvenuto su LinQedIn!</h1>"
-        "<p>Seleziona la modalità di accesso.</p>" ) );
+        "<h1>Benvenuto su LinQedIn!</h1>" ) );
     infoLabel->setAlignment( Qt::AlignCenter );
 
-    QWidget *middleFiller = new QWidget;
-    middleFiller->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Expanding );
+    QGroupBox *userLoginBox = new QGroupBox( tr( "Login utente" ) );
+    QGridLayout *userLoginArea = new QGridLayout;
+    QLabel *userUsernameLabel = new QLabel( tr( "Username" ) );
+    userUsername = new QLineEdit();
+    QLabel *userPasswordLabel = new QLabel( tr( "Password" ) );
+    userPassword = new QLineEdit();
+    userLoginArea->addWidget( userUsernameLabel, 0, 0 );
+    userLoginArea->addWidget( userUsername, 0, 1 );
+    userLoginArea->addWidget( userPasswordLabel, 1, 0 );
+    userLoginArea->addWidget( userPassword, 1, 1 );
+    userLoginBox->setLayout( userLoginArea );
 
-    QHBoxLayout *choicesLayout = new QHBoxLayout;
-
-    QPushButton *userButton = new QPushButton( tr( "Utente" ) );
-    connect( userButton, SIGNAL( clicked() ), this, SLOT( loginUser() ) );
-
-    QPushButton *adminButton = new QPushButton( tr( "Amministratore" ) );
-    connect( adminButton, SIGNAL( clicked() ), this, SLOT( loginAdmin() ) );
-
-    choicesLayout->addWidget( userButton );
-    choicesLayout->addWidget( adminButton );
+    QGroupBox * adminLoginBox = new QGroupBox( tr( "Login amministratore" ) );
+    QGridLayout * adminLoginArea = new QGridLayout;
+    QLabel *adminUsernameLabel = new QLabel( tr( "Username" ) );
+    adminUsername = new QLineEdit();
+    QLabel *adminPasswordLabel = new QLabel( tr( "Password" ) );
+    adminPassword = new QLineEdit();
+    adminLoginArea->addWidget( adminUsernameLabel, 0, 0 );
+    adminLoginArea->addWidget( adminUsername, 0, 1 );
+    adminLoginArea->addWidget( adminPasswordLabel, 1, 0 );
+    adminLoginArea->addWidget( adminPassword, 1, 1 );
+    adminLoginBox->setLayout( adminLoginArea );
 
     QWidget *bottomFiller = new QWidget;
-    bottomFiller->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Expanding );
+    bottomFiller->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
     QVBoxLayout *layout = new QVBoxLayout;
-    layout->addWidget( topFiller );
     layout->addWidget( infoLabel );
-    layout->addWidget( middleFiller );
-    layout->addLayout( choicesLayout );
-    layout->addWidget( bottomFiller );
+    layout->addWidget( userLoginBox );
+
+    QFrame *line = new QFrame;
+    line->setFrameShape( QFrame::HLine );
+    line->setFrameShadow( QFrame::Sunken );
+    layout->addWidget( line );
+
+    layout->addWidget( adminLoginBox );
 
     widget->setLayout( layout );
 
-    setStyleSheet( "QPushButton { margin: 0 10 0 10; padding: 5; }");
     setWindowTitle( "LinQedIn" );
     setMinimumSize( 400, 300 );
     setMaximumSize( 400, 300 );
@@ -82,11 +93,11 @@ void MainWindow::createActions() {
 }
 
 void MainWindow::createMenus() {
-    accountMenu = menuBar()->addMenu( tr( "&Account" ) );
-    accountMenu->addAction( loginUserAct );
-    accountMenu->addAction( loginAdminAct );
-    accountMenu->addSeparator();
-    accountMenu->addAction( exitAct );
+    menu = menuBar()->addMenu( tr( "&Menu" ) );
+    menu->addAction( loginUserAct );
+    menu->addAction( loginAdminAct );
+    menu->addSeparator();
+    menu->addAction( exitAct );
     helpMenu = menuBar()->addMenu( tr( "&Help" ) );
     helpMenu->addAction( aboutAct );
 }

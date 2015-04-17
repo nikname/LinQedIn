@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <QMenuBar>
 #include <QLabel>
+#include <QLineEdit>
 #include <QPushButton>
 
 namespace Ui {
@@ -28,13 +29,18 @@ public:
 private:
     Ui::MainWindow *ui;
 
-    QMenu *accountMenu;
+    QMenu *menu;
     QAction *loginUserAct;
     QAction *loginAdminAct;
     QAction *exitAct;
     QMenu *helpMenu;
     QAction *aboutAct;
     QLabel *infoLabel;
+
+    QLineEdit *userUsername;
+    QLineEdit *userPassword;
+    QLineEdit *adminUsername;
+    QLineEdit *adminPassword;
 
     /** Inizializza la GUI. */
     void initializeGUI();
