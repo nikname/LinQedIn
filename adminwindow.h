@@ -25,8 +25,8 @@ private:
     void createMenuActions();
 
     /** Crea il menu.
-    *  Associa le action al menu ed inserisce il menu nella barra del menu.
-    */
+     *  Associa le action al menu ed inserisce il menu nella barra del menu.
+     */
     void createMenus();
 public:
     /** Costruttore esplicito ad 1 parametro con 1 valore di default.

@@ -48,6 +48,13 @@ public:
      *  Invoca il metodo Database::saveUsersList().
      */
     void saveDatabase() const;
+
+    /** Ritorna un vettore contenente gli utenti del database.
+     *  Richiama il metodo Database::getUserList.
+     *
+     * @return QVector<SmartUtente>  Vettore degli utenti del database.
+     */
+    QVector<SmartUtente> getUsersList() const;
 };
 
 #endif // LINQEDIN_ADMIN_H

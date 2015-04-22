@@ -33,3 +33,8 @@ void LinQedInAdmin::changeSubscriptionType( QString u ) {
 void LinQedInAdmin::saveDatabase() const {
     db->saveUsersList();
 }
+
+// METODO LinQedInAdmin::getUserList
+QVector<SmartUtente> LinQedInAdmin::getUsersList() const {
+    return db->getUsersList();
+}
