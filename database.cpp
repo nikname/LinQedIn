@@ -53,15 +53,32 @@ void Database::parseProfile( QXmlStreamReader& xmlReader, Utente* u ) {
         u->setName( xmlReader.readElementText() );
     if( xmlReader.name() == "surname" )
         u->setSurname( xmlReader.readElementText() );
-    if( xmlReader.name() == "birthday" ) {
-        QString b = xmlReader.readElementText();
-        QStringList list = b.split( "/" );
-        if( !list[0].isEmpty() && !list[1].isEmpty() && !list[2].isEmpty() )
-            u->setBirthday( QDate( list[2].toInt(), list[1].toInt(), list[0].toInt() ) );
-        else u->setBirthday( QDate() );
-    }
+    if( xmlReader.name() == "birthday" )
+        parseDate( xmlReader, u );
     if( xmlReader.name() == "maritialStatus" )
         u->setMaritialStatus( xmlReader.readElementText() );
+}
+
+// METODO Database::parseDate
+void Database::parseDate( QXmlStreamReader& xmlReader, Utente* u ) {
+    int year = 0;
+    int month = 0;
+    int day = 0;
+    while( ( xmlReader.name() != "birthday"
+             && xmlReader.name() != "date"
+             && xmlReader.name() != "dateAttended"
+             && xmlReader.name() != "begin"
+             && xmlReader.name() != "end" )
+           || xmlReader.tokenType() != QXmlStreamReader::EndElement ) {
+        xmlReader.readNext();
+        if( xmlReader.name() == "year" )
+            year = xmlReader.readElementText().toInt();
+        if( xmlReader.name() == "month" )
+            month = xmlReader.readElementText().toInt();
+        if( xmlReader.name() == "day" )
+            day = xmlReader.readElementText().toInt();
+    }
+    u->setBirthday( QDate( year, month, day ) );
 }
 
 // METODO Database::parseNet
@@ -77,13 +94,8 @@ void Database::parseEducation( QXmlStreamReader& xmlReader, Utente* u ) {
            || xmlReader.tokenType() != QXmlStreamReader::EndElement ) {
         if( xmlReader.name() == "school" )
             t->setSchool( xmlReader.readElementText() );
-        if( xmlReader.name() == "dateAttended" ) {
-            QStringList list = xmlReader.readElementText().split( "/" );
-            if( !list[0].isEmpty() && !list[1].isEmpty() && !list[2].isEmpty() )
-                t->setDateAttended(
-                            QDate( list[2].toInt(), list[1].toInt(), list[0].toInt() ) );
-            else t->setDateAttended( QDate() );
-        }
+        if( xmlReader.name() == "dateAttended" )
+            parseDate( xmlReader, u );
         if( xmlReader.name() == "degree" )
             t->setDegree( xmlReader.readElementText() );
         if( xmlReader.name() == "fieldOfStudy" )
@@ -107,18 +119,10 @@ void Database::parseExperience( QXmlStreamReader& xmlReader, Utente* u ) {
             j->setTitle( xmlReader.readElementText() );
         if( xmlReader.name() == "location" )
             j->setLocation( xmlReader.readElementText() );
-        if( xmlReader.name() == "begin" ) {
-            QStringList list = xmlReader.readElementText().split( "/" );
-            if( !list[0].isEmpty() && !list[1].isEmpty() && !list[2].isEmpty() )
-                j->setBegin( QDate( list[2].toInt(), list[1].toInt(), list[0].toInt() ) );
-            else j->setBegin( QDate() );
-        }
-        if( xmlReader.name() == "end" ) {
-            QStringList list = xmlReader.readElementText().split( "/" );
-            if( !list[0].isEmpty() && !list[1].isEmpty() && !list[2].isEmpty() )
-                j->setEnd( QDate( list[2].toInt(), list[1].toInt(), list[0].toInt() ) );
-            else j->setEnd( QDate() );
-        }
+        if( xmlReader.name() == "begin" )
+            parseDate( xmlReader, u );
+        if( xmlReader.name() == "end" )
+            parseDate( xmlReader, u );
         xmlReader.readNext();
     }
     u->addExperience( j );
@@ -146,6 +150,7 @@ void Database::parseUser( QXmlStreamReader& xmlReader ) {
     xmlReader.readNext();
     while( xmlReader.name() != "user" ||
            xmlReader.tokenType() != QXmlStreamReader::EndElement ) {
+        xmlReader.readNext();
         if( xmlReader.name() == "profile" ) {
             xmlReader.readNext();
             while( xmlReader.name() != "profile" ||
@@ -184,16 +189,13 @@ void Database::parseUser( QXmlStreamReader& xmlReader ) {
                 xmlReader.readNext();
             }
         }
-        xmlReader.readNext();
     }
 
     this->insert( u );
 }
 
 // COSTRUTTORE Database
-Database::Database() : database_rapp( new Database_rapp ) {
-    loadUsersList();
-}
+Database::Database() : database_rapp( new Database_rapp ) {}
 
 // DISTRUTTORE Database
 Database::~Database() {

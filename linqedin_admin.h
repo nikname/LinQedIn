@@ -2,15 +2,22 @@
 #define LINQEDIN_ADMIN_H
 #include "database.h"
 
+class AdminWindow;
+
 class LinQedInAdmin {
+
+    // NOTE:
+    // Un oggetto di tipo LinQedInAdmin può essere creato solo da oggetti di tipo AdminWindow.
+
+    friend class AdminWindow;
 private:
     Database* db;
-public:
+
     /** Costruttore di default ridefinito.
      *  Ricostruisce il database con la lista degli utenti.
      */
     LinQedInAdmin();
-
+public:
     /** Inserisce un nuovo utente nel database.
      *
      * @param Utente*  Utente da inserire nel database.

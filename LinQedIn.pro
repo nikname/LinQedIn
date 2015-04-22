@@ -31,7 +31,9 @@ SOURCES += main.cpp\
     titolo.cpp \
     lavoro.cpp \
     smarttitolo.cpp \
-    smartlavoro.cpp
+    smartlavoro.cpp \
+    adminwindow.cpp \
+    userlist_widget.cpp
 
 HEADERS  += \
     profilo.h \
@@ -52,7 +54,9 @@ HEADERS  += \
     titolo.h \
     lavoro.h \
     smarttitolo.h \
-    smartlavoro.h
+    smartlavoro.h \
+    adminwindow.h \
+    userlist_widget.h
 
 FORMS    += mainwindow.ui \
     mainwindow.ui

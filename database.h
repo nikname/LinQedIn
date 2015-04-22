@@ -62,6 +62,14 @@ private:
      */
     void parseExperience( QXmlStreamReader&, Utente* );
 
+    /** Scorre un elemento <date> nel file xml.
+     *  Crea un oggetto di tipo QDate e lo aggiunge in base all'oggetto adeguato.
+     *
+     * @param QXmlStreamReader  Lettore di file xml passato per riferimento.
+     * @param Utente*  Oggetto del quale si vuole aggiungere una data.
+     */
+    void parseDate( QXmlStreamReader&, Utente* );
+
     /** Inserisce un nuovo utente nella lista degli utenti del database.
      *  Accessibile solo da oggetti di tipo LinQedInAdmin.
      *

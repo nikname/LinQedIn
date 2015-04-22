@@ -1,6 +1,11 @@
 #include "mainwindow.h"
+#include "adminwindow.h"
 #include <QMessageBox>
-#include <QDebug>
+
+// NOTE:
+// Poichè tutti gli oggetti creati dinamicamente nel costruttore sono figli di un QWidget parent,
+// quando questo verrà distrutto, verranno distrutti anche tutti i figli. Per questo motivo quando
+// verrà invocata la delete su widget verranno distrutti anche tutti gli oggetti figli.
 
 // COSTRUTTORE MainWindow
 MainWindow::MainWindow( QWidget *parent ) :
@@ -16,34 +21,33 @@ MainWindow::~MainWindow() {}
 
 // METODO MainWindow::initializGUI
 void MainWindow::initializeGUI() {
+    createMenuActions();
+    createMenus();
 
     QWidget *widget = new QWidget;
     setCentralWidget( widget );
 
-    createMenuActions();
-    createMenus();
-
-    QWidget *topVFiller = new QWidget;
+    QWidget *topVFiller = new QWidget( widget );
     topVFiller->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Expanding );
 
     titleLabel = new QLabel( tr( "<h1>LinQedIn</h1>" ) );
     titleLabel->setAlignment( Qt::AlignHCenter );
 
-    QWidget *middleVFiller = new QWidget;
+    QWidget *middleVFiller = new QWidget( widget );
     middleVFiller->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Expanding );
 
     createUserArea();
 
-    QWidget *bottomVFiller = new QWidget;
+    QWidget *bottomVFiller = new QWidget( widget );
     bottomVFiller->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Expanding );
 
-    QFrame *line = new QFrame;
+    QFrame *line = new QFrame( widget );
     line->setFrameShape( QFrame::HLine );
     line->setFrameShadow( QFrame::Sunken );
 
     createAdminArea();
 
-    QVBoxLayout *layout = new QVBoxLayout;
+    QVBoxLayout *layout = new QVBoxLayout( widget );
     layout->addWidget( topVFiller );
     layout->addWidget( titleLabel );
     layout->addWidget( middleVFiller );
@@ -67,7 +71,7 @@ void MainWindow::initializeGUI() {
 
     setWindowTitle( "LinQedIn" );
     setMinimumSize( 600, 400 );
-    setMaximumSize( 1000, 600 );
+    //setMaximumSize( 1000, 600 );
 }
 
 // METODO MainWindow::createMenuActions
@@ -135,14 +139,17 @@ void MainWindow::createAdminArea() {
     adminArea->addLayout( adminLogin );
 }
 
-// SLOT MainWindows::loginAdmin
-void MainWindow::loginAdmin() {
-
-}
-
 // SLOT MainWindow::loginUser
 void MainWindow::loginUser() {
 
+}
+
+// SLOT MainWindows::loginAdmin
+void MainWindow::loginAdmin() {
+    // TODO: controllo password
+
+    AdminWindow* adminWindow = new AdminWindow;
+    this->close();
 }
 
 // SLOT MainWindow::about

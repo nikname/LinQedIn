@@ -10,19 +10,6 @@
 
 class MainWindow : public QMainWindow {
     Q_OBJECT
-public:
-    /** Costruttore esplicito ad 1 parametro con 1 valore di dafault.
-     *  Come da buona pratica, delega l'inizializzazione della GUI ad un metodo ausiliario.
-     *  Mostra la GUI.
-     *
-     * @param QWidget  Puntatore al QWidget padre. Se nullo si riferisce a quello top-level.
-     */
-    explicit MainWindow( QWidget *parent = 0 );
-
-    /** Distruttore ridefinito.
-     *  Ripulisce lo heap.
-     */
-    ~MainWindow();
 private:
     QMenu *menu;
     QAction *exitAct;
@@ -58,6 +45,19 @@ private:
 
     /** Crea l'area per il login dell'amministratore. */
     void createAdminArea();
+public:
+    /** Costruttore esplicito ad 1 parametro con 1 valore di dafault.
+     *  Come da buona pratica, delega l'inizializzazione della GUI ad un metodo ausiliario.
+     *  Mostra la GUI.
+     *
+     * @param QWidget  Puntatore al QWidget padre. Se nullo si riferisce a quello top-level.
+     */
+    explicit MainWindow( QWidget *parent = 0 );
+
+    /** Distruttore ridefinito.
+     *  Ripulisce lo heap.
+     */
+    ~MainWindow();
 private slots:
     /** */
     void loginUser();
