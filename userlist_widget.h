@@ -9,9 +9,16 @@ class UserListWidget : public QTabWidget {
 private:
     TableModel *table;
 
+    /** Realizza le schede, utili per visualizzare gli utenti in base alla tipologia di account. */
     void setupTabs();
 public:
-    explicit UserListWidget( QWidget *parent = 0 );
+    /** Costruttore esplicito ad 1 parametro con 1 valore di default.
+     *  Realizza l'area della GUI nella quale viene visualizzata la lista degli utenti.
+     *
+     * @param LinQedInAdmin  Puntatore all'oggetto LinQedInAdmin.
+     * @param QWidget  Puntatore al QWidget padre. Se nullo si riferisce a quello top-level.
+     */
+    explicit UserListWidget( LinQedInAdmin *adminClient, QWidget *parent = 0 );
 };
 
 #endif // USERLIST_WIDGET_H

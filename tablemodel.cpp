@@ -6,11 +6,6 @@
 #include "utente_express.h"
 
 // COSTRUTTORE TableModel
-TableModel::TableModel( QObject *parent ) :
-    QAbstractTableModel( parent )
-{}
-
-// COSTRUTTORE TableModel
 TableModel::TableModel( LinQedInAdmin *adminClient, QObject *parent ) :
     QAbstractTableModel( parent )
 {
@@ -50,9 +45,9 @@ QVariant TableModel::data( const QModelIndex &index, int role ) const {
         case 3:
             return user->getSurname();
         case 4:
-            if( dynamic_cast<UtenteBasic*>( user ) )
+            if( dynamic_cast<UtenteBasic*>( user.operator ->() ) )
                 return QString( "Utente Basic" );
-            if( dynamic_cast<UtenteBusiness*>( user ) )
+            if( dynamic_cast<UtenteBusiness*>( user.operator ->() ) )
                 return QString( "Utente Business" );
             return QString( "Utente Express" );
         default:

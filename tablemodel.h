@@ -11,19 +11,13 @@ class TableModel : public QAbstractTableModel {
 private:
     QVector<SmartUtente> userList;
 public:
-    /** Costruttore esplicito ad 1 parametro con 1 valore di default.
-     *
-     * @param QWidget  Puntatore al QWidget padre. Se nullo si riferisce a quello top-level.
-     */
-    explicit TableModel( QWidget *parent = 0 );
-
-    /** Costruttore a 2 parametri con 1 parametro di default.
+    /** Costruttore esplicito a 2 parametri con 1 parametro di default.
      *  Inizializza il campo userList con la lista degli utenti del database.
      *
      * @param LinQedInAdmin  Puntatore all'oggetto LinQedInAdmin.
-     * @param QWidget  Puntatore al QWidget padre. Se nullo si riferisce a quello top-level.
+     * @param QObject
      */
-    TableModel( LinQedInAdmin *adminClient, QWidget *parent = 0 );
+    explicit TableModel( LinQedInAdmin *adminClient, QObject *parent = 0 );
 
     /** Ritorna il numero di righe della tabella della lista degli utenti.
      *  Necessaria la ridefinizione per le sottoclassi di QAbstractTableModel.
@@ -53,18 +47,18 @@ public:
      */
     QVariant data( const QModelIndex &index, int role ) const Q_DECL_OVERRIDE;
 
-    QVariant headerData( int section, Qt::Orientation orientation, int role ) const Q_DECL_OVERRIDE;
+    //QVariant headerData( int section, Qt::Orientation orientation, int role ) const Q_DECL_OVERRIDE;
 
-    Qt::ItemFlag flags( const QModelIndex &index ) const Q_DECL_OVERRIDE;
+    //Qt::ItemFlags flags( const QModelIndex &index ) const Q_DECL_OVERRIDE;
 
-    bool setData( const QModelIndex &index, const QVariant &value, int role = Qt::EditRole )
-        Q_DECL_OVERRIDE;
+    //bool setData( const QModelIndex &index, const QVariant &value, int role = Qt::EditRole )
+        //Q_DECL_OVERRIDE;
 
-    bool insertRows( int position, int rows, const QModelIndex &index = QModelIndex() )
-        Q_DECL_OVERRIDE;
+    //bool insertRows( int position, int rows, const QModelIndex &index = QModelIndex() )
+        //Q_DECL_OVERRIDE;
 
-    bool removeRows( int position, int rows, const QModelIndex &index = QModelIndex() )
-        Q_DECL_OVERRIDE;
+    //bool removeRows( int position, int rows, const QModelIndex &index = QModelIndex() )
+        //Q_DECL_OVERRIDE;
 
     QVector<SmartUtente> getList();
 };

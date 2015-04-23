@@ -1,13 +1,14 @@
 #include "adminwindow.h"
 #include <QMessageBox>
+#include <QVBoxLayout>
 
 // COSTRUTTORE AdminWindow
 AdminWindow::AdminWindow(QWidget *parent) :
     QMainWindow(parent)
 {
-    initializeGUI();
-
     adminClient = new LinQedInAdmin();
+
+    initializeGUI();
 
     this->show();
 }
@@ -20,8 +21,16 @@ void AdminWindow::initializeGUI() {
     createMenuActions();
     createMenus();
 
-    userListWidget = new UserListWidget;
-    setCentralWidget( userListWidget );
+    QWidget *mainWidget = new QWidget;
+    QVBoxLayout *mainLayout = new QVBoxLayout;
+
+    userListWidget = new UserListWidget( adminClient );
+
+    mainLayout->addWidget( userListWidget );
+
+    mainWidget->setLayout( mainLayout );
+
+    setCentralWidget( mainWidget );
 
     setWindowTitle( "LinQedIn Admin" );
     setMinimumSize( 600, 400 );

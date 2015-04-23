@@ -1,9 +1,11 @@
 #include "userlist_widget.h"
 #include <QTableWidget>
 
-UserListWidget::UserListWidget( QWidget *parent ) :
+UserListWidget::UserListWidget( LinQedInAdmin *adminClient, QWidget *parent ) :
     QTabWidget( parent )
 {
+    table = new TableModel( adminClient, this );
+
     setupTabs();
 }
 
@@ -13,7 +15,6 @@ void UserListWidget::setupTabs() {
 
     for( int i = 0; i < tabs.size(); i++ ) {
         QString str = tabs.at( i );
-        QString regExp = QString( "^[%1].*" ).arg( str );
 
         QTableWidget *tableWidget = new QTableWidget;
         tableWidget->setSelectionBehavior( QAbstractItemView::SelectRows );
