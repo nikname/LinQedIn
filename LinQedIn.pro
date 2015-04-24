@@ -34,7 +34,8 @@ SOURCES += main.cpp\
     smartlavoro.cpp \
     adminwindow.cpp \
     userlist_widget.cpp \
-    tablemodel.cpp
+    tablemodel.cpp \
+    clientwindow.cpp
 
 HEADERS  += \
     profilo.h \
@@ -58,9 +59,9 @@ HEADERS  += \
     smartlavoro.h \
     adminwindow.h \
     userlist_widget.h \
-    tablemodel.h
+    tablemodel.h \
+    clientwindow.h
 
-FORMS    += mainwindow.ui \
-    mainwindow.ui
+FORMS    +=
 
 OTHER_FILES +=

@@ -3,8 +3,9 @@
 
 #include <QMainWindow>
 #include <QMenuBar>
-#include "linqedin_admin.h"
 #include "userlist_widget.h"
+
+class LinQedInAdmin;
 
 class AdminWindow : public QMainWindow {
     Q_OBJECT

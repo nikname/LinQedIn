@@ -1,4 +1,5 @@
 #include "adminwindow.h"
+#include "linqedin_admin.h"
 #include <QMessageBox>
 #include <QVBoxLayout>
 

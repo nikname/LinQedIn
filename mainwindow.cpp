@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "adminwindow.h"
+#include "clientwindow.h"
 #include <QMessageBox>
 
 // NOTE:
@@ -141,14 +142,17 @@ void MainWindow::createAdminArea() {
 
 // SLOT MainWindow::loginUser
 void MainWindow::loginUser() {
+    // TODO: controllo password
 
+    ClientWindow *clientWindow = new ClientWindow;
+    this->close();
 }
 
 // SLOT MainWindows::loginAdmin
 void MainWindow::loginAdmin() {
     // TODO: controllo password
 
-    AdminWindow* adminWindow = new AdminWindow;
+    AdminWindow *adminWindow = new AdminWindow;
     this->close();
 }
 
