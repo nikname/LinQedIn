@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QMenuBar>
+#include "adminsearch_widget.h"
 #include "userlist_widget.h"
 
 class LinQedInAdmin;
@@ -17,6 +18,7 @@ private:
     QMenu *helpMenu;
     QAction *aboutAct;
 
+    AdminSearchWidget *searchWidget;
     UserListWidget *userListWidget;
 
     /** Inizializza la GUI. */

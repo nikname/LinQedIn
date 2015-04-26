@@ -8,9 +8,6 @@ class UserListWidget : public QTabWidget {
     Q_OBJECT
 private:
     TableModel *table;
-
-    /** Realizza le schede, utili per visualizzare gli utenti in base alla tipologia di account. */
-    void setupTabs();
 public:
     /** Costruttore esplicito ad 1 parametro con 1 valore di default.
      *  Realizza l'area della GUI nella quale viene visualizzata la lista degli utenti.

@@ -3,9 +3,16 @@
 #include <QMessageBox>
 #include <QVBoxLayout>
 
+// NOTE:
+// Poichè tutti gli oggetti creati dinamicamente nel costruttore sono figli di un QWidget parent,
+// quando questo verrà distrutto, verranno distrutti anche tutti i figli. Per questo motivo quando
+// verrà invocata la delete su widget verranno distrutti anche tutti gli oggetti figli. Il parent di
+// widget è il widget top-level, quindi quando verrà distrutto quello, anche tutti i figli verranno
+// distrutti.
+
 // COSTRUTTORE AdminWindow
-AdminWindow::AdminWindow(QWidget *parent) :
-    QMainWindow(parent)
+AdminWindow::AdminWindow( QWidget *parent ) :
+    QMainWindow( parent )
 {
     adminClient = new LinQedInAdmin();
 
@@ -23,18 +30,25 @@ void AdminWindow::initializeGUI() {
     createMenus();
 
     QWidget *mainWidget = new QWidget;
-    QVBoxLayout *mainLayout = new QVBoxLayout;
+    QHBoxLayout *mainLayout = new QHBoxLayout;
 
-    userListWidget = new UserListWidget( adminClient );
+    searchWidget = new AdminSearchWidget( mainWidget );
+    searchWidget->setFixedWidth( 200 );
 
+    userListWidget = new UserListWidget( adminClient, mainWidget );
+    userListWidget->setMinimumWidth( 600 );
+
+    mainLayout->addWidget( searchWidget );
     mainLayout->addWidget( userListWidget );
 
     mainWidget->setLayout( mainLayout );
+    mainWidget->setStyleSheet(
+        "background: #069;"
+    );
 
     setCentralWidget( mainWidget );
 
     setWindowTitle( "LinQedIn Admin" );
-    setMinimumSize( 600, 400 );
 }
 
 // METODO AdminWindow::createMenuActions

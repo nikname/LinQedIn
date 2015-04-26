@@ -6,7 +6,9 @@
 // NOTE:
 // Poichè tutti gli oggetti creati dinamicamente nel costruttore sono figli di un QWidget parent,
 // quando questo verrà distrutto, verranno distrutti anche tutti i figli. Per questo motivo quando
-// verrà invocata la delete su widget verranno distrutti anche tutti gli oggetti figli.
+// verrà invocata la delete su widget verranno distrutti anche tutti gli oggetti figli. Il parent di
+// widget è il widget top-level, quindi quando verrà distrutto quello, anche tutti i figli verranno
+// distrutti.
 
 // COSTRUTTORE MainWindow
 MainWindow::MainWindow( QWidget *parent ) :

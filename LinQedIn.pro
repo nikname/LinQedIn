@@ -35,7 +35,8 @@ SOURCES += main.cpp\
     adminwindow.cpp \
     userlist_widget.cpp \
     tablemodel.cpp \
-    clientwindow.cpp
+    clientwindow.cpp \
+    adminsearch_widget.cpp
 
 HEADERS  += \
     profilo.h \
@@ -60,7 +61,8 @@ HEADERS  += \
     adminwindow.h \
     userlist_widget.h \
     tablemodel.h \
-    clientwindow.h
+    clientwindow.h \
+    adminsearch_widget.h
 
 FORMS    +=
 
