@@ -1,6 +1,6 @@
-#include "mainwindow.h"
-#include "adminwindow.h"
-#include "clientwindow.h"
+#include "gui/mainwindow.h"
+#include "gui/adminwindow.h"
+#include "gui/clientwindow.h"
 #include <QMessageBox>
 
 // NOTE:
@@ -74,7 +74,6 @@ void MainWindow::initializeGUI() {
 
     setWindowTitle( "LinQedIn" );
     setMinimumSize( 600, 400 );
-    //setMaximumSize( 1000, 600 );
 }
 
 // METODO MainWindow::createMenuActions
@@ -103,15 +102,15 @@ void MainWindow::createUserArea() {
 
     userUsername = new QLineEdit;
     userUsername->setPlaceholderText( "Username" );
-    userUsername->setFixedWidth( 400 );
+    userUsername->setFixedWidth( 300 );
     userPassword = new QLineEdit;
     userPassword->setPlaceholderText( "Password" );
     userPassword->setEchoMode( QLineEdit::Password );
     userPassword->setInputMethodHints(
         Qt::ImhHiddenText | Qt::ImhNoPredictiveText | Qt::ImhNoAutoUppercase );
-    userPassword->setFixedWidth( 400 );
+    userPassword->setFixedWidth( 300 );
     loginButton = new QPushButton( "Log In" );
-    loginButton->setFixedWidth( 400 ); // inutile in quanto determinato dai precedenti QLineEdit
+    loginButton->setFixedWidth( 300 ); // inutile in quanto determinato dai precedenti QLineEdit
     connect( loginButton, SIGNAL( clicked() ), this, SLOT( loginUser() ) );
 
     userArea->addWidget( userUsername );

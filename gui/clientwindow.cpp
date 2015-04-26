@@ -1,5 +1,5 @@
-#include "clientwindow.h"
-#include "linqedin_client.h"
+#include "gui/clientwindow.h"
+#include "../linqedin_client.h"
 
 ClientWindow::ClientWindow( QWidget *parent ) :
     QMainWindow( parent )

@@ -1,5 +1,6 @@
-#include "adminwindow.h"
-#include "linqedin_admin.h"
+#include "gui/adminwindow.h"
+#include "gui/mainwindow.h"
+#include "../linqedin_admin.h"
 #include <QMessageBox>
 #include <QVBoxLayout>
 
@@ -53,8 +54,12 @@ void AdminWindow::initializeGUI() {
 
 // METODO AdminWindow::createMenuActions
 void AdminWindow::createMenuActions() {
+    logoutAct = new QAction( tr( "Log Out" ), this );
+    logoutAct->setStatusTip( tr( "Log out dall'applicazione"));
+    connect( logoutAct, SIGNAL( triggered() ), this, SLOT( logout() ) );
+
     exitAct = new QAction( tr( "Exit" ), this );
-    exitAct->setStatusTip( tr( "Esci dall'applicazione" ) );
+    exitAct->setStatusTip( tr( "Chiudi applicazione" ) );
     connect( exitAct, SIGNAL( triggered() ), this, SLOT( close() ) );
 
     aboutAct = new QAction( tr( "About" ), this );
@@ -65,9 +70,17 @@ void AdminWindow::createMenuActions() {
 // METODO AdminWindow::createMenus
 void AdminWindow::createMenus() {
     menu = menuBar()->addMenu( tr( "&Menu" ) );
+    menu->addAction( logoutAct );
     menu->addAction( exitAct );
     helpMenu = menuBar()->addMenu( tr( "&Help" ) );
     helpMenu->addAction( aboutAct );
+}
+
+// SLOT AdminWindow::logout
+void AdminWindow::logout() {
+    MainWindow *mainWindow = new MainWindow;
+
+    this->close();
 }
 
 // SLOT AdminWindow::about

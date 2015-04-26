@@ -27,16 +27,16 @@ SOURCES += main.cpp\
     utente_express.cpp \
     utente_gratis.cpp \
     utente_pagante.cpp \
-    mainwindow.cpp \
     titolo.cpp \
     lavoro.cpp \
     smarttitolo.cpp \
     smartlavoro.cpp \
-    adminwindow.cpp \
-    userlist_widget.cpp \
-    tablemodel.cpp \
-    clientwindow.cpp \
-    adminsearch_widget.cpp
+    gui/mainwindow.cpp \
+    gui/adminsearch_widget.cpp \
+    gui/adminwindow.cpp \
+    gui/clientwindow.cpp \
+    gui/userlist_widget.cpp \
+    gui/tablemodel.cpp
 
 HEADERS  += \
     profilo.h \
@@ -53,16 +53,16 @@ HEADERS  += \
     smartutente.h \
     linqedin_admin.h \
     linqedin_client.h \
-    mainwindow.h \
     titolo.h \
     lavoro.h \
     smarttitolo.h \
     smartlavoro.h \
-    adminwindow.h \
-    userlist_widget.h \
-    tablemodel.h \
-    clientwindow.h \
-    adminsearch_widget.h
+    gui/mainwindow.h \
+    gui/adminsearch_widget.h \
+    gui/adminwindow.h \
+    gui/clientwindow.h \
+    gui/userlist_widget.h \
+    gui/tablemodel.h
 
 FORMS    +=
 

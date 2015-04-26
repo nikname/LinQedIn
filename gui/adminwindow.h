@@ -3,8 +3,8 @@
 
 #include <QMainWindow>
 #include <QMenuBar>
-#include "adminsearch_widget.h"
-#include "userlist_widget.h"
+#include "gui/adminsearch_widget.h"
+#include "gui/userlist_widget.h"
 
 class LinQedInAdmin;
 
@@ -14,6 +14,7 @@ private:
     LinQedInAdmin *adminClient;
 
     QMenu *menu;
+    QAction *logoutAct;
     QAction *exitAct;
     QMenu *helpMenu;
     QAction *aboutAct;
@@ -45,6 +46,9 @@ public:
      */
     ~AdminWindow();
 private slots:
+    /** Esegue il log out dall'applicazione. Mostra la finestra di log in. */
+    void logout();
+
     /** Mostra le informazioni dell'applicazione su di una finestra pop-up. */
     void about();
 };

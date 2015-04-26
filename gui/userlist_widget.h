@@ -2,7 +2,9 @@
 #define USERLIST_WIDGET_H
 
 #include <QTabWidget>
-#include "tablemodel.h"
+
+class TableModel;
+class LinQedInAdmin;
 
 class UserListWidget : public QTabWidget {
     Q_OBJECT
