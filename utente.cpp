@@ -90,13 +90,13 @@ void Utente::setMaritialStatus( const QString& ms ) {
 }
 
 // METODO addContact Utente
-void Utente::addContact( Utente* u, Database* db ) {
-    net->addContact( u, db );
+void Utente::addContact( Utente* u ) {
+    net->addContact( u );
 }
 
 // METODO removeContact Utente
-void Utente::removeContact( Utente* u, Database* db ) {
-    net->removeContact( u, db );
+void Utente::removeContact( Utente* u ) {
+    net->removeContact( u );
 }
 
 // METODO getContactsList Utente

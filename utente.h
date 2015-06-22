@@ -120,17 +120,15 @@ public:
      *  Invoca il metodo addContact() del campo dati net di tipo Rete.
      *
      * @param QString  Username del contatto da aggiungere.
-     * @param Database*  Database sul quale ricercare l'username dell'utente da inserire.
      */
-    void addContact( Utente*, Database* );
+    void addContact( Utente* );
 
     /** Rimuove un contatto dalla lista dei contatti dell'utente.
      *  Invoca il metodo removeContact() del campo dati net di tipo Rete.
      *
      * @param QString  Username del contatto da rimuovere.
-     * @param Database*  Database sul quale ricercare l'username dell'utente da rimuovere.
      */
-    void removeContact( Utente*, Database* );
+    void removeContact( Utente* );
 
     /** Ritorna un QVector di SmartUtente contenente i contatti nella rete dell'utente.
      *  Invoca il metodo getContactsList() del campo dati net di tipo Rete.

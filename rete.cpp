@@ -36,19 +36,15 @@ Rete::Rete() :
     user_ref( 1 ) {}
 
 // METODO addContact di Rete
-void Rete::addContact( Utente* u, Database* db ) {
+void Rete::addContact( Utente* u ) {
     if( !u )
-        return;
-    if( !db->contains( u->getUsername() ) )
         return;
     contacts->contactsList.append( SmartUtente( u ) );
 }
 
 // METODO removeContact di Rete
-void Rete::removeContact( Utente* u, Database* db ) {
+void Rete::removeContact( Utente* u ) {
     if( !u )
-        return;
-    if( !db->contains( u->getUsername() ) )
         return;
     contacts->contactsList.removeOne( SmartUtente( u ) );
 }
