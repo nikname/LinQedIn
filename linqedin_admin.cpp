@@ -1,35 +1,40 @@
 #include "linqedin_admin.h"
 #include <QDebug>
 
+// COSTRUTTORE LinQedInAdmin
 LinQedInAdmin::LinQedInAdmin() : db( new Database ) {
     db->loadUsersList();
 }
 
-bool LinQedInAdmin::insertUser( Utente* u ) {
-    return db->insert( u );
+// METODO LinQedInAdmin::insertUser
+bool LinQedInAdmin::insertUser( SmartUtente su ) {
+    return db->insert( su );
 }
 
+// METODO LinQedInAdmin::findUser
 SmartUtente LinQedInAdmin::findUser( QString u ) const {
-    SmartUtente su = SmartUtente();
     if( db->contains( u ) ) {
         QVectorIterator<SmartUtente> it( db->getUsersList() );
         while( it.hasNext() ) {
             SmartUtente aux = it.next();
             if( aux->getUsername() == u )
-                su = aux;
+                return aux;
         }
     }
-    return su;
+    return SmartUtente();
 }
 
-void LinQedInAdmin::removeUser( QString u ) {
-
+// METODO LinQedInAdmin::removeUser
+bool LinQedInAdmin::removeUser( QString u ) {
+    return db->remove( u );
 }
 
+// METODO LinQedInAdmin::changeSubscriptionType
 void LinQedInAdmin::changeSubscriptionType( QString u ) {
 
 }
 
+// METODO LinQedInAdmin::saveDatabase
 void LinQedInAdmin::saveDatabase() const {
     db->saveUsersList();
 }

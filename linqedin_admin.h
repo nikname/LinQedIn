@@ -20,10 +20,10 @@ private:
 public:
     /** Inserisce un nuovo utente nel database.
      *
-     * @param Utente*  Utente da inserire nel database.
+     * @param SmartUtente  Utente da inserire nel database.
      * @return bool  true se l'utente viene inserito correttamente; false altrimenti.
      */
-    bool insertUser( Utente* );
+    bool insertUser( SmartUtente );
 
     /** Ricerca un'utente nel database.
      *
@@ -35,8 +35,10 @@ public:
     /** Rimuove un'utente nel database.
      *
      * @param QString  Username dell'utente da rimuovere.
+     * @return bool  true se l'utente viene rimosso con successo; false altrimenti (può essere dovuto
+     * a problemi di rimozione o per il semplice fatto che l'utente da rimuovere non esiste).
      */
-    void removeUser( QString );
+    bool removeUser( QString );
 
     /** Cambia tipologia di account.
      *

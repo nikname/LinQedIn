@@ -363,21 +363,21 @@ bool Database::contains( const QString& un ) const {
 }
 
 // METODO Database::insert
-bool Database::insert( Utente* u ) {
-    if( contains( u->getUsername() ) )
+bool Database::insert( SmartUtente su ) {
+    if( contains( su->getUsername() ) )
         return false;
-    database_rapp->users_list.insert( u->getUsername(), SmartUtente( u ) );
+    database_rapp->users_list.insert( su->getUsername(), su );
     // NB: gli oggetti su di un contenitore vengono inseriti di copia
     return true;
 }
 
 // METODO Database::remove
-bool Database::remove( Utente* u ) {
+bool Database::remove( QString u ) {
     // Il metodo QMap::remove( QString ) ritorna il numero di elementi rimossi. I possibili
     // valori di ritorno sono 0, se la chiave non è presente, e 1, se la chiave è presente.
     // Non ci possono essere più elementi con la stessa chiave, per questo il tipo di
     // ritorno non da problemi.
-    return database_rapp->users_list.remove( u->getUsername() );
+    return database_rapp->users_list.remove( u );
 }
 
 // METODO getUserList Database

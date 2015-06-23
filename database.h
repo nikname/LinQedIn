@@ -73,20 +73,18 @@ private:
     /** Inserisce un nuovo utente nella lista degli utenti del database.
      *  Accessibile solo da oggetti di tipo LinQedInAdmin.
      *
-     *  TODO: controllo della presenza di un altro utente con lo stesso username
-     *
-     * @param Utente*  Utende da inserire nella lista degli utenti del database.
+     * @param SmartUtente  Utende da inserire nella lista degli utenti del database.
      * @return bool  true se l'utente viene inserito correttamente; false altrimenti.
      */
-    bool insert( Utente* );
+    bool insert( SmartUtente );
 
     /** Rimuove un utente dalla lista degli utenti del database.
      *  Accessibile solo da oggetti di tipo LinQedInAdmin.
      *
-     * @param Utente*  Utente da rimuovere dalla lista degli utenti del database.
+     * @param QString  Username dell'utente da rimuovere dalla lista degli utenti del database.
      * @return bool  true se l'utente viene rimosso correttamente; false altrimenti.
      */
-    bool remove( Utente* );
+    bool remove( QString );
 public:
     /** Costruttore di default ridefinito.
      *  Carica la lista degli utenti da file (XML).
