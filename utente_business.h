@@ -16,6 +16,13 @@ public:
                     const QString& surname = "" )
           : UtentePagante( un, name, surname ) {}
 
+    /** Costruttore di copia ridefinito.
+     *  Invoca il costruttore di copia della classe base.
+     *
+     * @param Utente  Riferimento polimorfo all'oggetto utente da creare di copia.
+     */
+    UtenteBusiness( const Utente& );
+
     /** Ricerca polimorfa virtuale.
      *  Esegue la ricerca degli utenti nel database per utenti business.
      *
@@ -26,6 +33,14 @@ public:
     /** Distruttore virtuale.
      *  Invoca il distruttore della classe base diretta. */
     virtual ~UtenteBusiness() {}
+
+    /** Ritorna la tipologia dell'account sotto forma di stringa.
+     *  Il metodo viene ridefinito in ogni sottoclasse concreta in modo che all'invocazione su di
+     *  un qualsiasi utente ritorni la tipologia corretta.
+     *
+     * @return QString  Tipologia dell'account.
+     */
+    virtual QString getAccountType() const;
 };
 
 #endif

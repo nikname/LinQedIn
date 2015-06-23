@@ -1,4 +1,7 @@
 #include "linqedin_admin.h"
+#include "utente_basic.h"
+#include "utente_express.h"
+#include "utente_business.h"
 #include <QDebug>
 
 // COSTRUTTORE LinQedInAdmin
@@ -30,8 +33,22 @@ bool LinQedInAdmin::removeUser( QString u ) {
 }
 
 // METODO LinQedInAdmin::changeSubscriptionType
-void LinQedInAdmin::changeSubscriptionType( QString u ) {
-
+void LinQedInAdmin::changeSubscriptionType( QString u, QString type ) {
+    if( db->contains( u ) ) {
+        SmartUtente su = findUser( u );
+        if( type != su->getAccountType() ) {
+            db->remove( u );
+            if( type == "Basic" ) {
+                db->insert( new UtenteBasic( *su ) );
+            } else if( type == "Express" ) {
+                db->insert( new UtenteExpress( *su ) );
+            } else if( type == "Business" ) {
+                db->insert( new UtenteBusiness( *su ) );
+            } else {
+                // throw ...
+            }
+        }
+    }
 }
 
 // METODO LinQedInAdmin::saveDatabase

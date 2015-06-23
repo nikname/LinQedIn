@@ -16,6 +16,13 @@ public:
                    const QString& surname = "" )
          : Utente( un, name, surname ) {}
 
+    /** Costruttore di copia ridefinito.
+     *  Invoca il costruttore di copia della classe base.
+     *
+     * @param Utente  Riferimento polimorfo all'oggetto utente da creare di copia.
+     */
+    UtentePagante( const Utente& );
+
     /** Distruttore virtuale puro.
      *  Invoca il distruttore della classe base diretta. */
     ~UtentePagante() = 0;

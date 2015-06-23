@@ -54,6 +54,14 @@ public:
      */
     virtual ~Utente() = 0;
 
+    /** Ritorna la tipologia dell'account sotto forma di stringa.
+     *  Il metodo viene ridefinito in ogni sottoclasse concreta in modo che all'invocazione su di
+     *  un qualsiasi utente ritorni la tipologia corretta.
+     *
+     * @return QString  Tipologia dell'account.
+     */
+    virtual QString getAccountType() const = 0;
+
     /** Ritorna l'username dell'utente.
      *
      * @return QString  Username dell'utente.
