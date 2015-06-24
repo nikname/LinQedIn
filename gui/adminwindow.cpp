@@ -13,17 +13,18 @@
 
 // COSTRUTTORE AdminWindow
 AdminWindow::AdminWindow( QWidget *parent ) :
-    QMainWindow( parent )
+    QMainWindow( parent ),
+    admin( new LinQedInAdmin() )
 {
-    adminClient = new LinQedInAdmin();
-
     initializeGUI();
 
     this->show();
 }
 
 // DISTRUTTORE AdminWindow
-AdminWindow::~AdminWindow() {}
+AdminWindow::~AdminWindow() {
+    delete admin;
+}
 
 // METODO AdminWindow::initializeGUI
 void AdminWindow::initializeGUI() {
@@ -36,7 +37,7 @@ void AdminWindow::initializeGUI() {
     searchWidget = new AdminSearchWidget( mainWidget );
     searchWidget->setFixedWidth( 200 );
 
-    userListWidget = new UserListWidget( adminClient, mainWidget );
+    userListWidget = new UserListWidget( admin, mainWidget );
     userListWidget->setMinimumWidth( 600 );
 
     mainLayout->addWidget( searchWidget );
@@ -63,7 +64,7 @@ void AdminWindow::createMenuActions() {
     connect( exitAct, SIGNAL( triggered() ), this, SLOT( close() ) );
 
     aboutAct = new QAction( tr( "About" ), this );
-    aboutAct->setStatusTip( tr( "Mostra le informazioni dell'applicazione") );
+    aboutAct->setStatusTip( tr( "Mostra informazioni sull'applicazione") );
     connect( aboutAct, SIGNAL( triggered() ), this, SLOT( about() ) );
 }
 

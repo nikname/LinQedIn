@@ -11,7 +11,7 @@ class LinQedInAdmin;
 class AdminWindow : public QMainWindow {
     Q_OBJECT
 private:
-    LinQedInAdmin *adminClient;
+    LinQedInAdmin *admin;
 
     QMenu *menu;
     QAction *logoutAct;

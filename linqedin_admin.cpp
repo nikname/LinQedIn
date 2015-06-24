@@ -9,6 +9,11 @@ LinQedInAdmin::LinQedInAdmin() : db( new Database ) {
     db->loadUsersList();
 }
 
+// DISTRUTTORE LinQedInAdmin
+LinQedInAdmin::~LinQedInAdmin() {
+    delete db;
+}
+
 // METODO LinQedInAdmin::insertUser
 bool LinQedInAdmin::insertUser( SmartUtente su ) {
     return db->insert( su );

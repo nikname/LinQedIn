@@ -18,6 +18,11 @@ private:
      */
     LinQedInAdmin();
 public:
+    /** Distruttore ridefinito.
+     *  Ripulisce lo heap.
+     */
+    ~LinQedInAdmin();
+
     /** Inserisce un nuovo utente nel database.
      *
      * @param SmartUtente  Utente da inserire nel database.
