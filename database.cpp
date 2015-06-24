@@ -208,7 +208,7 @@ void Database::loadUsersList() {
     QString path( "users.xml" );
     QFile file( path );
 
-    if( !file.open( QIODevice::ReadOnly | QIODevice::Text ) ) {
+    if( !file.open( QIODevice::ReadWrite | QIODevice::Text ) ) {
         qDebug() << "Cannot read file: " << file.errorString();
         return;
     }
