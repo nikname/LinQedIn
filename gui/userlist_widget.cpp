@@ -4,6 +4,7 @@
 #include <QTableWidget>
 #include <QTableView>
 #include <QVBoxLayout>
+#include <QHeaderView>
 #include "utente.h"
 
 // COSTRUTTORE UserListWidget
@@ -17,6 +18,8 @@ UserListWidget::UserListWidget( LinQedInAdmin *adminClient, QWidget *parent ) :
     QTableView *tableView = new QTableView;
     tableView->setModel( table );
     tableView->setVerticalScrollBarPolicy( Qt::ScrollBarAlwaysOn );
+    tableView->horizontalHeader()->setSectionResizeMode( QHeaderView::Stretch );
+    tableView->setStyleSheet( "background: white" );
 
     loadUserList();
 
@@ -26,9 +29,9 @@ UserListWidget::UserListWidget( LinQedInAdmin *adminClient, QWidget *parent ) :
 }
 
 // METODO UserListWidget::addUser
-void UserListWidget::addUser( QString username, QString name, QString surname, QString type ) {
-    table->insertRows( 0, 1, QModelIndex() );
-/**
+void UserListWidget::addItem( QString username, QString name, QString surname, QString type ) {
+    //table->insertRows( 0, 1, QModelIndex() );
+
     QModelIndex index = table->index( 0, 0 );
     table->setData( index, username, Qt::EditRole );
     index = table->index( 0, 1 );
@@ -37,7 +40,6 @@ void UserListWidget::addUser( QString username, QString name, QString surname, Q
     table->setData( index, surname, Qt::EditRole );
     index = table->index( 0, 3 );
     table->setData( index, type, Qt::EditRole );
-*/
 }
 
 // METODO UserListWidget::loadUserList
@@ -50,7 +52,7 @@ void UserListWidget::loadUserList() {
         QVectorIterator<SmartUtente> it( userList );
         while( it.hasNext() ) {
             SmartUtente aux = it.next();
-            addUser( aux->getUsername(), aux->getName(), aux->getSurname(), "" );
+            addItem( aux->getUsername(), aux->getName(), aux->getSurname(), aux->getAccountType() );
         }
     }
 }

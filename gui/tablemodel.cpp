@@ -44,11 +44,7 @@ QVariant TableModel::data( const QModelIndex &index, int role ) const {
         case 2:
             return user->getSurname();
         case 3:
-            if( dynamic_cast<UtenteBasic*>( user.operator ->() ) )
-                return QString( "Utente Basic" );
-            if( dynamic_cast<UtenteBusiness*>( user.operator ->() ) )
-                return QString( "Utente Business" );
-            return QString( "Utente Express" );
+            return user->getAccountType();
         }
     }
 
@@ -65,11 +61,11 @@ QVariant TableModel::headerData( int section, Qt::Orientation orientation, int r
         case 0:
             return tr( "Username" );
         case 1:
-            return tr( "Nome" );
+            return tr( "Name" );
         case 2:
-            return tr( "Cognome" );
+            return tr( "Surname" );
         case 3:
-            return tr( "Tipo" );
+            return tr( "Account Type" );
         }
     }
 
@@ -84,10 +80,9 @@ Qt::ItemFlags TableModel::flags( const QModelIndex &index ) const {
     return QAbstractTableModel::flags( index ) | Qt::ItemIsEditable;
 }
 
+/*
 // METODO TableModel::setData
 bool TableModel::setData( const QModelIndex &index, const QVariant &value, int role ) {
-    qDebug() << "#";
-
     if( index.isValid() && role == Qt::EditRole ) {
         int row = index.row();
 
@@ -129,6 +124,7 @@ bool TableModel::insertRows( int position, int rows, const QModelIndex &index ) 
     endInsertRows();
     return true;
 }
+*/
 
 // METODO TableModel::getList
 QVector<SmartUtente> TableModel::getList() {

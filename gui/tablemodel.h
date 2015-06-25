@@ -66,15 +66,16 @@ public:
      */
     Qt::ItemFlags flags( const QModelIndex& ) const Q_DECL_OVERRIDE;
 
-    /** Necessaria la ridefinizione per i modelli editabili. */
+    /** Necessaria la ridefinizione per i modelli editabili.
     bool setData( const QModelIndex&, const QVariant&, int = Qt::EditRole )
         Q_DECL_OVERRIDE;
 
     bool insertRows( int, int, const QModelIndex& = QModelIndex() )
         Q_DECL_OVERRIDE;
 
-    //bool removeRows( int position, int rows, const QModelIndex &index = QModelIndex() )
-        //Q_DECL_OVERRIDE;
+    bool removeRows( int position, int rows, const QModelIndex &index = QModelIndex() )
+        Q_DECL_OVERRIDE;
+    */
 
     /** */
     QVector<SmartUtente> getList();

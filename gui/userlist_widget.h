@@ -2,6 +2,7 @@
 #define USERLIST_WIDGET_H
 
 #include <QWidget>
+#include <QPushButton>
 
 class TableModel;
 class LinQedInAdmin;
@@ -19,16 +20,16 @@ public:
      */
     explicit UserListWidget( LinQedInAdmin *adminClient, QWidget *parent = 0 );
 
-    /** Mostra le informazioni di un utente in una riga della tabella.
+    /** Aggiunge le informazioni di un utente in una riga della tabella.
      *
      * @param Qstring  Username dell'utente.
      * @param Qstring  Nome dell'utente.
      * @param Qstring  Cognome dell'utente.
      * @param Qstring  Tipologia account dell'utente.
      */
-    void addUser( QString, QString, QString, QString );
+    void addItem( QString, QString, QString, QString );
 
-    /** */
+    /** Carica la tabella con le informazioni degli utenti presenti nel database. */
     void loadUserList();
 };
 
