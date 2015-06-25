@@ -67,3 +67,6 @@ HEADERS  += \
 FORMS    +=
 
 OTHER_FILES +=
+
+RESOURCES += \
+    icons.qrc

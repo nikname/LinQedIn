@@ -21,6 +21,7 @@ private:
 
     AdminSearchWidget *searchWidget;
     UserListWidget *userListWidget;
+    QPushButton *addUserButton;
 
     /** Inizializza la GUI. */
     void initializeGUI();

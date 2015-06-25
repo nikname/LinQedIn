@@ -3,6 +3,7 @@
 #include "../linqedin_admin.h"
 #include <QMessageBox>
 #include <QVBoxLayout>
+#include <QIcon>
 
 // NOTE:
 // Poichè tutti gli oggetti creati dinamicamente nel costruttore sono figli di un QWidget parent,
@@ -37,11 +38,28 @@ void AdminWindow::initializeGUI() {
     searchWidget = new AdminSearchWidget( mainWidget );
     searchWidget->setFixedWidth( 200 );
 
+    QWidget *rightPanel = new QWidget;
+    QVBoxLayout *rightPanelLayout = new QVBoxLayout;
+
     userListWidget = new UserListWidget( admin, mainWidget );
     userListWidget->setMinimumWidth( 600 );
 
+    addUserButton = new QPushButton;
+    addUserButton->setFixedHeight( 50 );
+    addUserButton->setFixedWidth( 50 );
+    addUserButton->setIcon( QIcon( QPixmap( ":/icons/icon/account-plus.png" ) ) );
+    addUserButton->setStyleSheet(
+        "QPushButton { background: #003D5C; border-radius: 25px; }"
+        "QPushButton:pressed { background: #00527A; }"
+    );
+
+    rightPanelLayout->addWidget( userListWidget );
+    rightPanelLayout->addWidget( addUserButton, 0, Qt::AlignRight );
+
+    rightPanel->setLayout( rightPanelLayout );
+
     mainLayout->addWidget( searchWidget );
-    mainLayout->addWidget( userListWidget );
+    mainLayout->addWidget( rightPanel );
 
     mainWidget->setLayout( mainLayout );
     mainWidget->setStyleSheet(

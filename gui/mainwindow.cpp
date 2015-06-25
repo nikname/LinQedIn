@@ -130,8 +130,10 @@ void MainWindow::createAdminArea() {
     adminPassword = new QLineEdit;
     adminPassword->setPlaceholderText( "Password" );
     adminPassword->setFixedWidth( 150 );
-    adminLoginButton = new QPushButton( "Log In" );
-    adminLoginButton->setFixedWidth( 50 );
+    adminLoginButton = new QPushButton();
+    adminLoginButton->setIcon( QIcon( QPixmap( ":/icons/icon/key-variant.png" ) ) );
+    adminLoginButton->setFixedWidth( 25 );
+    adminLoginButton->setFixedHeight( 25 );
     connect( adminLoginButton, SIGNAL( clicked() ), this, SLOT( loginAdmin() ) );
 
     adminLogin->addWidget( adminPassword );

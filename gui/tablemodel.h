@@ -2,14 +2,19 @@
 #define TABLEMODEL_H
 
 #include <QAbstractTableModel>
+#include <QPixmap>
+#include "adminwindow.h"
 #include "smartutente.h"
 
 class LinQedInAdmin;
 
 class TableModel : public QAbstractTableModel {
     Q_OBJECT
+    friend class AdminWindow;
 private:
     QVector<SmartUtente> userList;
+    QPixmap detailIcon;
+    QPixmap deleteIcon;
 public:
     /** Costruttore esplicito a 2 parametri con 1 parametro di default.
      *  Inizializza il campo userList con la lista degli utenti del database.
@@ -56,26 +61,6 @@ public:
      * @return QVariant  Oggetto rappresentativo per i tipi Qt principali.
      */
     QVariant headerData( int, Qt::Orientation, int ) const Q_DECL_OVERRIDE;
-
-    /** Ritorna le flag associate all'oggetto corrispondente all'indice.
-     *  Necessaria la ridefinizione per i modelli editabili.
-     *
-     * @param QModelIndex  Indice per gli oggetti del modello. Se invalido si riferisce all'elemento
-     * top-level del modello.
-     * @return Qt::ItemFlags  Flag dell'oggetto.
-     */
-    Qt::ItemFlags flags( const QModelIndex& ) const Q_DECL_OVERRIDE;
-
-    /** Necessaria la ridefinizione per i modelli editabili.
-    bool setData( const QModelIndex&, const QVariant&, int = Qt::EditRole )
-        Q_DECL_OVERRIDE;
-
-    bool insertRows( int, int, const QModelIndex& = QModelIndex() )
-        Q_DECL_OVERRIDE;
-
-    bool removeRows( int position, int rows, const QModelIndex &index = QModelIndex() )
-        Q_DECL_OVERRIDE;
-    */
 
     /** */
     QVector<SmartUtente> getList();

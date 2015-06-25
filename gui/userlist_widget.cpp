@@ -18,6 +18,7 @@ UserListWidget::UserListWidget( LinQedInAdmin *adminClient, QWidget *parent ) :
     QTableView *tableView = new QTableView;
     tableView->setModel( table );
     tableView->setVerticalScrollBarPolicy( Qt::ScrollBarAlwaysOn );
+    tableView->setAlternatingRowColors( true );
     tableView->horizontalHeader()->setSectionResizeMode( QHeaderView::Stretch );
     tableView->setStyleSheet( "background: white" );
 
@@ -30,8 +31,6 @@ UserListWidget::UserListWidget( LinQedInAdmin *adminClient, QWidget *parent ) :
 
 // METODO UserListWidget::addUser
 void UserListWidget::addItem( QString username, QString name, QString surname, QString type ) {
-    //table->insertRows( 0, 1, QModelIndex() );
-
     QModelIndex index = table->index( 0, 0 );
     table->setData( index, username, Qt::EditRole );
     index = table->index( 0, 1 );
