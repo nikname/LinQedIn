@@ -41,7 +41,7 @@ void AdminWindow::initializeGUI() {
     QWidget *rightPanel = new QWidget;
     QVBoxLayout *rightPanelLayout = new QVBoxLayout;
 
-    userListWidget = new UserListWidget( admin, mainWidget );
+    userListWidget = new UserListWidget( admin->getUsersList(), mainWidget );
     userListWidget->setMinimumWidth( 600 );
 
     addUserButton = new QPushButton;
@@ -62,11 +62,10 @@ void AdminWindow::initializeGUI() {
     mainLayout->addWidget( rightPanel );
 
     mainWidget->setLayout( mainLayout );
-    mainWidget->setStyleSheet(
-        "background: #069;"
-    );
+    mainWidget->setStyleSheet( "background: #069" );
 
     setCentralWidget( mainWidget );
+    setMinimumHeight( 400 );
 
     setWindowTitle( "LinQedIn Admin" );
 }

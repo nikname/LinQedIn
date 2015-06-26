@@ -1,10 +1,10 @@
 #include "tablemodel.h"
-#include "linqedin_admin.h"
+#include "linqedin_admin.h" // Se omesso: invalid use of incomplete type 'class Utente'
 
 // COSTRUTTORE TableModel
-TableModel::TableModel( LinQedInAdmin *adminClient, QObject *parent ) :
+TableModel::TableModel( const QVector<SmartUtente> v, QObject *parent ) :
     QAbstractTableModel( parent ),
-    userList( adminClient->getUsersList() ),
+    userList( v ),
     detailIcon( QPixmap( ":/icons/icon/information.png" ) ),
     deleteIcon( QPixmap( ":/icons/icon/delete.png" ) )
 {}

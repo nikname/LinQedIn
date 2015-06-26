@@ -8,12 +8,12 @@
 #include "utente.h"
 
 // COSTRUTTORE UserListWidget
-UserListWidget::UserListWidget( LinQedInAdmin *adminClient, QWidget *parent ) :
+UserListWidget::UserListWidget( const QVector<SmartUtente> v, QWidget *parent ) :
     QWidget( parent )
 {
     QVBoxLayout *layout = new QVBoxLayout;
 
-    table = new TableModel( adminClient );
+    table = new TableModel( v );
 
     QTableView *tableView = new QTableView;
     tableView->setModel( table );

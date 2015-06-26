@@ -40,20 +40,49 @@ AdminSearchWidget::AdminSearchWidget( QWidget *parent ) :
     hideSearchSettingsButton->setVisible( false );
     connect( hideSearchSettingsButton, SIGNAL( clicked() ), this, SLOT( hideAdvancedSettings() ) );
 
-    checkbox = new QWidget( this );
+    typeCheckbox = new QWidget( this );
 
-    QVBoxLayout *checkboxLayout = new QVBoxLayout( checkbox );
+    QVBoxLayout *typeCheckboxLayout = new QVBoxLayout( typeCheckbox );
+    typeCheckboxLayout->setContentsMargins( 10, 5, 10, 5 );
 
-    checkboxEntry1 = new QCheckBox( "Basic", checkbox );
-    checkboxEntry2 = new QCheckBox( "Express", checkbox );
-    checkboxEntry3 = new QCheckBox( "Business", checkbox );
+    typeLabel = new QLabel( tr( "Type" ), typeCheckbox );
 
-    checkboxLayout->addWidget( checkboxEntry1 );
-    checkboxLayout->addWidget( checkboxEntry2 );
-    checkboxLayout->addWidget( checkboxEntry3 );
+    typeCheckboxBasic = new QCheckBox( "Basic", typeCheckbox );
+    typeCheckboxBasic->setChecked( true );
+    typeCheckboxExpress = new QCheckBox( "Express", typeCheckbox );
+    typeCheckboxExpress->setChecked( true );
+    typeCheckboxBusiness = new QCheckBox( "Business", typeCheckbox );
+    typeCheckboxBusiness->setChecked( true );
 
-    checkbox->setLayout( checkboxLayout );
-    checkbox->setVisible( false );
+    typeCheckboxLayout->addWidget( typeLabel );
+    typeCheckboxLayout->addWidget( typeCheckboxBasic );
+    typeCheckboxLayout->addWidget( typeCheckboxExpress );
+    typeCheckboxLayout->addWidget( typeCheckboxBusiness );
+
+    typeCheckbox->setLayout( typeCheckboxLayout );
+    typeCheckbox->setStyleSheet( "margin: 0" );
+    typeCheckbox->setVisible( false );
+
+    fieldCheckbox = new QWidget( this );
+
+    QVBoxLayout *fieldCheckboxLayout = new QVBoxLayout( fieldCheckbox );
+    fieldCheckboxLayout->setContentsMargins( 10, 5, 10, 5 );
+
+    fieldLabel = new QLabel( tr( "Field" ), fieldCheckbox );
+
+    fieldCheckboxUsername = new QCheckBox( tr( "Username" ), fieldCheckbox );
+    fieldCheckboxUsername->setChecked( true );
+    fieldCheckboxName = new QCheckBox( tr( "Name" ), fieldCheckbox );
+    fieldCheckboxSurname = new QCheckBox( tr( "Surname" ), fieldCheckbox );
+
+    fieldCheckboxLayout->addWidget( fieldLabel );
+    fieldCheckboxLayout->addWidget( fieldCheckboxUsername );
+    fieldCheckboxLayout->addWidget( fieldCheckboxName );
+    fieldCheckboxLayout->addWidget( fieldCheckboxSurname );
+
+    fieldCheckbox->setLayout( fieldCheckboxLayout );
+    fieldCheckbox->setStyleSheet( "margin: 0" );
+    fieldCheckbox->setVisible( false );
 
     searchWidgetLayout->addWidget( searchButton );
     searchWidgetLayout->addWidget( searchSettingsButton );
@@ -74,7 +103,8 @@ AdminSearchWidget::AdminSearchWidget( QWidget *parent ) :
     layout->addWidget( searchLabel );
     layout->addWidget( search );
     layout->addWidget( searchWidget );
-    layout->addWidget( checkbox );
+    layout->addWidget( typeCheckbox );
+    layout->addWidget( fieldCheckbox );
     layout->addWidget( resetButton );
     layout->addWidget( bottomFiller );
 
@@ -91,14 +121,16 @@ AdminSearchWidget::AdminSearchWidget( QWidget *parent ) :
 void AdminSearchWidget::showAdvancedSettings() {
     searchSettingsButton->setVisible( false );
     hideSearchSettingsButton->setVisible( true );
-    checkbox->setVisible( true );
+    typeCheckbox->setVisible( true );
+    fieldCheckbox->setVisible( true );
 }
 
 // SLOT AdminSearchWidget::hideAdvancedSettings()
 void AdminSearchWidget::hideAdvancedSettings() {
     searchSettingsButton->setVisible( true );
     hideSearchSettingsButton->setVisible( false );
-    checkbox->setVisible( false );
+    typeCheckbox->setVisible( false );
+    fieldCheckbox->setVisible( false );
 }
 
 // SLOT AdminSearchWidget::searchUsers()

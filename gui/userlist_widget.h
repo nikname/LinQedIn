@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <QPushButton>
+#include "smartutente.h"
 
 class TableModel;
 class LinQedInAdmin;
@@ -15,10 +16,10 @@ public:
     /** Costruttore esplicito ad 1 parametro con 1 valore di default.
      *  Realizza l'area della GUI nella quale viene visualizzata la lista degli utenti.
      *
-     * @param LinQedInAdmin  Puntatore all'oggetto LinQedInAdmin.
+     * @param QVector<SmartUtente>  Utenti da visualizzare nella tabella.
      * @param QWidget  Puntatore al QWidget padre. Se nullo si riferisce a quello top-level.
      */
-    explicit UserListWidget( LinQedInAdmin *adminClient, QWidget *parent = 0 );
+    explicit UserListWidget( const QVector<SmartUtente>, QWidget *parent = 0 );
 
     /** Aggiunge le informazioni di un utente in una riga della tabella.
      *

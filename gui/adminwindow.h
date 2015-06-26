@@ -5,6 +5,7 @@
 #include <QMenuBar>
 #include "gui/adminsearch_widget.h"
 #include "gui/userlist_widget.h"
+#include "../smartutente.h"
 
 class LinQedInAdmin;
 

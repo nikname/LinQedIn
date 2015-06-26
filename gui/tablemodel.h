@@ -6,23 +6,19 @@
 #include "adminwindow.h"
 #include "smartutente.h"
 
-class LinQedInAdmin;
-
 class TableModel : public QAbstractTableModel {
     Q_OBJECT
-    friend class AdminWindow;
 private:
     QVector<SmartUtente> userList;
     QPixmap detailIcon;
     QPixmap deleteIcon;
 public:
     /** Costruttore esplicito a 2 parametri con 1 parametro di default.
-     *  Inizializza il campo userList con la lista degli utenti del database.
      *
-     * @param LinQedInAdmin  Puntatore all'oggetto LinQedInAdmin.
+     * @param QVector<SmartUtente>  Utenti da visualizzare sulla tabella.
      * @param QObject
      */
-    explicit TableModel( LinQedInAdmin*, QObject* = 0 );
+    explicit TableModel( const QVector<SmartUtente>, QObject* = 0 );
 
     /** Ritorna il numero di righe della tabella della lista degli utenti.
      *  Necessaria la ridefinizione per le sottoclassi di QAbstractTableModel.

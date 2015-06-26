@@ -14,10 +14,19 @@ private:
     QVBoxLayout *layout;
     QLabel *searchLabel;
     QLineEdit *search;
-    QWidget *checkbox;
-    QCheckBox *checkboxEntry1;
-    QCheckBox *checkboxEntry2;
-    QCheckBox *checkboxEntry3;
+
+    QWidget *typeCheckbox;
+    QLabel *typeLabel;
+    QCheckBox *typeCheckboxBasic;
+    QCheckBox *typeCheckboxExpress;
+    QCheckBox *typeCheckboxBusiness;
+
+    QWidget *fieldCheckbox;
+    QLabel *fieldLabel;
+    QCheckBox *fieldCheckboxUsername;
+    QCheckBox *fieldCheckboxName;
+    QCheckBox *fieldCheckboxSurname;
+
     QWidget *searchWidget;
     QVBoxLayout *searchWidgetLayout;
     QPushButton *searchButton;
@@ -33,8 +42,10 @@ public:
 signals:
 
 public slots:
+    /** Mostra le opzioni per la ricerca avanzata. */
     void showAdvancedSettings();
 
+    /** Nasconde le opzioni per la ricerca avanzata. */
     void hideAdvancedSettings();
 
     void searchUsers();
