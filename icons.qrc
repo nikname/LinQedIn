@@ -6,5 +6,7 @@
         <file>icon/key-variant.png</file>
         <file>icon/account-key.png</file>
         <file>icon/login.png</file>
+        <file>icon/settings.png</file>
+        <file>icon/chevron-up.png</file>
     </qresource>
 </RCC>
