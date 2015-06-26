@@ -4,5 +4,7 @@
         <file>icon/information.png</file>
         <file>icon/account-plus.png</file>
         <file>icon/key-variant.png</file>
+        <file>icon/account-key.png</file>
+        <file>icon/login.png</file>
     </qresource>
 </RCC>

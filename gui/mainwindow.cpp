@@ -131,7 +131,7 @@ void MainWindow::createAdminArea() {
     adminPassword->setPlaceholderText( "Password" );
     adminPassword->setFixedWidth( 150 );
     adminLoginButton = new QPushButton();
-    adminLoginButton->setIcon( QIcon( QPixmap( ":/icons/icon/key-variant.png" ) ) );
+    adminLoginButton->setIcon( QIcon( QPixmap( ":/icons/icon/login.png" ) ) );
     adminLoginButton->setFixedWidth( 25 );
     adminLoginButton->setFixedHeight( 25 );
     connect( adminLoginButton, SIGNAL( clicked() ), this, SLOT( loginAdmin() ) );
