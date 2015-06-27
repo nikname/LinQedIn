@@ -36,7 +36,8 @@ SOURCES += main.cpp\
     gui/adminwindow.cpp \
     gui/clientwindow.cpp \
     gui/userlist_widget.cpp \
-    gui/tablemodel.cpp
+    gui/tablemodel.cpp \
+    gui/adduserdialog.cpp
 
 HEADERS  += \
     profilo.h \
@@ -62,7 +63,8 @@ HEADERS  += \
     gui/adminwindow.h \
     gui/clientwindow.h \
     gui/userlist_widget.h \
-    gui/tablemodel.h
+    gui/tablemodel.h \
+    gui/adduserdialog.h
 
 FORMS    +=
 

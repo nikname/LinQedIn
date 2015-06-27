@@ -10,6 +10,7 @@ class LinQedInAdmin;
 
 class UserListWidget : public QWidget {
     Q_OBJECT
+    friend class AddUserDialog;
 private:
     TableModel *table;
 public:

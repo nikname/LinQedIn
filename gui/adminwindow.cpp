@@ -4,6 +4,7 @@
 #include <QMessageBox>
 #include <QVBoxLayout>
 #include <QIcon>
+#include <QDebug>
 
 // NOTE:
 // Poichè tutti gli oggetti creati dinamicamente nel costruttore sono figli di un QWidget parent,
@@ -52,6 +53,7 @@ void AdminWindow::initializeGUI() {
         "QPushButton { background: #003D5C; border-radius: 25px; }"
         "QPushButton:pressed { background: #00527A; }"
     );
+    connect( addUserButton, SIGNAL( clicked() ), this, SLOT( openAddUserDialog() ) );
 
     rightPanelLayout->addWidget( userListWidget );
     rightPanelLayout->addWidget( addUserButton, 0, Qt::AlignRight );
@@ -110,4 +112,19 @@ void AdminWindow::about() {
         "<p>Lo scopo del progetto era lo sviluppo in C++/Qt di un sistema minimale per "
         "l'amministrazione ed utilizzo tramite interfaccia utente grafica di un (piccolo) "
         "database di contatti professionali ispirato a LinkedIn.</p>" ) );
+}
+
+// SLOT AdminWindow::openAddUserDialog
+void AdminWindow::openAddUserDialog() {
+    AddUserDialog *addUserDialog = new AddUserDialog;
+    connect( addUserDialog, SIGNAL( addUserSignal( const SmartUtente& ) ),
+             this, SLOT( addUserSlot( const SmartUtente& ) ) );
+    addUserDialog->exec();
+}
+
+// SLOT AdminWindow::addUserSlot
+void AdminWindow::addUserSlot( const SmartUtente& su ) {
+    admin->insertUser( su );
+    // TODO: aggiornare userListWidget
+    admin->saveDatabase();
 }

@@ -6,11 +6,13 @@
 #include "gui/adminsearch_widget.h"
 #include "gui/userlist_widget.h"
 #include "../smartutente.h"
+#include "adduserdialog.h"
 
 class LinQedInAdmin;
 
 class AdminWindow : public QMainWindow {
     Q_OBJECT
+    friend class AddUserDialog;
 private:
     LinQedInAdmin *admin;
 
@@ -53,6 +55,11 @@ private slots:
 
     /** Mostra le informazioni dell'applicazione su di una finestra pop-up. */
     void about();
+
+    /** Apre una nuova finestra per l'inserimento di un nuovo utente. */
+    void openAddUserDialog();
+
+    void addUserSlot( const SmartUtente& );
 };
 
 #endif // ADMINWINDOW_H
