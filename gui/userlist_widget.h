@@ -33,6 +33,9 @@ public:
 
     /** Carica la tabella con le informazioni degli utenti presenti nel database. */
     void loadUserList();
+private slots:
+    /** Aggiorna la lista degli utenti con il nuovo contenuto del database. */
+    void updateUserListSlot( LinQedInAdmin* );
 };
 
 #endif // USERLIST_WIDGET_H

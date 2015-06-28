@@ -66,6 +66,9 @@ void AdminWindow::initializeGUI() {
     mainWidget->setLayout( mainLayout );
     mainWidget->setStyleSheet( "background: #069" );
 
+    connect( this, SIGNAL( updateUserListSignal( LinQedInAdmin* ) ),
+             userListWidget, SLOT( updateUserListSlot( LinQedInAdmin* ) ) );
+
     setCentralWidget( mainWidget );
     setMinimumHeight( 400 );
 
@@ -125,6 +128,6 @@ void AdminWindow::openAddUserDialog() {
 // SLOT AdminWindow::addUserSlot
 void AdminWindow::addUserSlot( const SmartUtente& su ) {
     admin->insertUser( su );
-    // TODO: aggiornare userListWidget
+    emit updateUserListSignal( admin );
     admin->saveDatabase();
 }

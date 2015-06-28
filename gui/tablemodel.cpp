@@ -82,3 +82,10 @@ QVariant TableModel::headerData( int section, Qt::Orientation orientation, int r
 QVector<SmartUtente> TableModel::getList() {
     return userList;
 }
+
+// METODO TableModel::setList
+void TableModel::setList( const QVector<SmartUtente> v ) {
+    emit layoutAboutToBeChanged();
+    userList = v;
+    emit layoutChanged();
+}

@@ -59,7 +59,15 @@ private slots:
     /** Apre una nuova finestra per l'inserimento di un nuovo utente. */
     void openAddUserDialog();
 
+    /** Inserisce un nuovo utente nel database quando viene emesso il segnale AddUserDialog::
+     *  addUserSignal( SmartUtente ). Mostra il nuovo utente inserito e salva il database.
+     *
+     * @param SmartUtente  Utente da inserire.
+     */
     void addUserSlot( const SmartUtente& );
+signals:
+    /** */
+    void updateUserListSignal( LinQedInAdmin* );
 };
 
 #endif // ADMINWINDOW_H

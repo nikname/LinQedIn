@@ -60,6 +60,9 @@ public:
 
     /** */
     QVector<SmartUtente> getList();
+
+    /** */
+    void setList( const QVector<SmartUtente> );
 };
 
 #endif // TABLEMODEL_H

@@ -6,6 +6,7 @@
 #include <QVBoxLayout>
 #include <QHeaderView>
 #include "utente.h"
+#include "linqedin_admin.h"
 
 // COSTRUTTORE UserListWidget
 UserListWidget::UserListWidget( const QVector<SmartUtente> v, QWidget *parent ) :
@@ -54,4 +55,9 @@ void UserListWidget::loadUserList() {
             addItem( aux->getUsername(), aux->getName(), aux->getSurname(), aux->getAccountType() );
         }
     }
+}
+
+// SLOT UserListWidget::updateUserListSlot
+void UserListWidget::updateUserListSlot( LinQedInAdmin* admin ) {
+    table->setList( admin->getUsersList() );
 }
