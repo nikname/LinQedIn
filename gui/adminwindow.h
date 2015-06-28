@@ -67,6 +67,8 @@ private slots:
     void addUserSlot( const SmartUtente& );
 
     void emitUpdateUserListSignal( const QString& );
+
+    void emitUpdateUserListSignal( const QString&, const QString& );
 signals:
     /** */
     void updateUserListSignal( LinQedInAdmin* );

@@ -7,6 +7,7 @@
 #include <QHeaderView>
 #include "utente.h"
 #include "linqedin_admin.h"
+#include "changeusertypedialog.h"
 
 // COSTRUTTORE UserListWidget
 UserListWidget::UserListWidget( const QVector<SmartUtente> v, QWidget *parent ) :
@@ -27,6 +28,8 @@ UserListWidget::UserListWidget( const QVector<SmartUtente> v, QWidget *parent ) 
              // table, SLOT( tableClickedSlot( const QModelIndex& ) ) );
     connect( table, SIGNAL( updateUserListSignal( int ) ),
              this, SLOT( updateUserListSlot( int ) ) );
+    connect( table, SIGNAL( openChangeAccountTypeSignal( const QModelIndex& ) ),
+             this, SLOT( openChangeAccountTypeSlot( const QModelIndex& ) ) );
 
     loadUserList();
 
@@ -69,4 +72,14 @@ void UserListWidget::updateUserListSlot( LinQedInAdmin* admin ) {
 
 void UserListWidget::updateUserListSlot( int row ) {
     emit updateUserListSignal( table->data( table->index( row, 0 ), Qt::DisplayRole ).toString() );
+}
+
+void UserListWidget::openChangeAccountTypeSlot( const QModelIndex& i ) {
+    QString username = table->data( table->index( i.row(), 0 ), Qt::DisplayRole ).toString();
+    QString type = table->data( table->index( i.row(), i.column() - 1 ), Qt::DisplayRole ).toString();
+    qDebug() << "[info] Open dialog...";
+    ChangeUserTypeDialog *changeUserTypeDialog = new ChangeUserTypeDialog( username, type, this );
+    connect( changeUserTypeDialog, SIGNAL( changeAccountTypeSignal( const QString&, const QString& ) ),
+             this, SIGNAL( updateUserListSignal( const QString&, const QString& ) ) );
+    changeUserTypeDialog->exec();
 }

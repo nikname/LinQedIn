@@ -70,6 +70,8 @@ void AdminWindow::initializeGUI() {
              userListWidget, SLOT( updateUserListSlot( LinQedInAdmin* ) ) );
     connect( userListWidget, SIGNAL( updateUserListSignal( const QString& ) ),
              this, SLOT( emitUpdateUserListSignal( const QString& ) ) );
+    connect( userListWidget, SIGNAL( updateUserListSignal( const QString&, const QString& ) ),
+             this, SLOT( emitUpdateUserListSignal( const QString&, const QString& ) ) );
 
     setCentralWidget( mainWidget );
     setMinimumHeight( 400 );
@@ -138,5 +140,11 @@ void AdminWindow::addUserSlot( const SmartUtente& su ) {
 void AdminWindow::emitUpdateUserListSignal( const QString& username ) {
     admin->removeUser( username );
     admin->saveDatabase();
+    emit updateUserListSignal( admin );
+}
+
+// SLOT
+void AdminWindow::emitUpdateUserListSignal( const QString& u, const QString& t ) {
+    admin->changeSubscriptionType( u, t );
     emit updateUserListSignal( admin );
 }

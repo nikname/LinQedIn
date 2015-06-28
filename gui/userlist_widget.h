@@ -38,9 +38,13 @@ private slots:
     void updateUserListSlot( LinQedInAdmin* );
 
     void updateUserListSlot( int );
+
+    void openChangeAccountTypeSlot( const QModelIndex& );
 signals:
     /** */
     void updateUserListSignal( const QString& );
+
+    void updateUserListSignal( const QString&, const QString& );
 };
 
 #endif // USERLIST_WIDGET_H

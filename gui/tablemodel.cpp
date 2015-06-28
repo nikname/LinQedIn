@@ -5,13 +5,13 @@
 TableModel::TableModel( const QVector<SmartUtente> v, QObject *parent ) :
     QAbstractTableModel( parent ),
     userList( v ),
-    detailIcon( QPixmap( ":/icons/icon/information.png" ) ),
+    detailIcon( QPixmap( ":/icons/icon/account-switch.png" ) ),
     deleteIcon( QPixmap( ":/icons/icon/delete.png" ) )
 {
     connect( this, SIGNAL( tableClickedSignal( const QModelIndex& ) ),
              this, SLOT( tableClickedSlot( const QModelIndex& ) ) );
-    connect( this, SIGNAL( showUserDetailsSignal( const QModelIndex& ) ),
-             this, SLOT( showUserDetailsSlot( const QModelIndex& ) ) );
+    // connect( this, SIGNAL( changeAccountTypeSignal( const QModelIndex& ) ),
+             // this, SLOT( changeAccountTypeSlot( const QModelIndex& ) ) );
     connect( this, SIGNAL( removeUserSignal( const QModelIndex& ) ),
              this, SLOT( removeUserSlot( const QModelIndex& ) ) );
 }
@@ -75,7 +75,7 @@ QVariant TableModel::headerData( int section, Qt::Orientation orientation, int r
         case 1: return tr( "Name" );
         case 2: return tr( "Surname" );
         case 3: return tr( "Type" );
-        case 4: return tr( "Details" );
+        case 4: return tr( "Change Type" );
         case 5: return tr( "Delete" );
         }
     }
@@ -102,7 +102,8 @@ void TableModel::tableClickedSlot( const QModelIndex& i ) {
     qDebug() << "( " << i.row() << ", " << i.column() << " )";
     switch( i.column() ) {
     case ( 4 ):
-        emit showUserDetailsSignal( i );
+        emit openChangeAccountTypeSignal( i );
+        // emit changeAccountTypeSignal( i );
         break;
     case ( 5 ):
         emit removeUserSignal( i );
@@ -111,9 +112,10 @@ void TableModel::tableClickedSlot( const QModelIndex& i ) {
     }
 }
 
-// SLOT TableModel::showUserDetailsSlot
-void TableModel::showUserDetailsSlot( const QModelIndex& i ) {
-    qDebug() << "showUserDetails";
+// SLOT TableModel::changeAccountTypeSlot
+void TableModel::changeAccountTypeSlot( const QModelIndex& i ) {
+    qDebug() << "changeAccountType";
+    emit updateUserListSignal( i.row() );
 }
 
 // SLOT TableModel::removeUserSlot

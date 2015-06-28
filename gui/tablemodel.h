@@ -68,19 +68,21 @@ signals:
     void tableClickedSignal( const QModelIndex& );
 
     /** */
-    void showUserDetailsSignal( const QModelIndex& );
+    // void changeAccountTypeSignal( const QModelIndex& );
 
     /** */
     void removeUserSignal( const QModelIndex& );
 
     /** */
     void updateUserListSignal( int );
+
+    void openChangeAccountTypeSignal( const QModelIndex& );
 private slots:
     /** */
     void tableClickedSlot( const QModelIndex& );
 
     /** */
-    void showUserDetailsSlot( const QModelIndex& );
+    void changeAccountTypeSlot( const QModelIndex& );
 
     /** */
     void removeUserSlot( const QModelIndex & );
