@@ -7,7 +7,14 @@ TableModel::TableModel( const QVector<SmartUtente> v, QObject *parent ) :
     userList( v ),
     detailIcon( QPixmap( ":/icons/icon/information.png" ) ),
     deleteIcon( QPixmap( ":/icons/icon/delete.png" ) )
-{}
+{
+    connect( this, SIGNAL( tableClickedSignal( const QModelIndex& ) ),
+             this, SLOT( tableClickedSlot( const QModelIndex& ) ) );
+    connect( this, SIGNAL( showUserDetailsSignal( const QModelIndex& ) ),
+             this, SLOT( showUserDetailsSlot( const QModelIndex& ) ) );
+    connect( this, SIGNAL( removeUserSignal( const QModelIndex& ) ),
+             this, SLOT( removeUserSlot( const QModelIndex& ) ) );
+}
 
 // METODO TableModel::rowCount
 int TableModel::rowCount( const QModelIndex &parent ) const {
@@ -85,7 +92,32 @@ QVector<SmartUtente> TableModel::getList() {
 
 // METODO TableModel::setList
 void TableModel::setList( const QVector<SmartUtente> v ) {
-    emit layoutAboutToBeChanged();
+    //emit layoutAboutToBeChanged();
     userList = v;
     emit layoutChanged();
+}
+
+// SLOT TableModel::tableClickedSlot
+void TableModel::tableClickedSlot( const QModelIndex& i ) {
+    qDebug() << "( " << i.row() << ", " << i.column() << " )";
+    switch( i.column() ) {
+    case ( 4 ):
+        emit showUserDetailsSignal( i );
+        break;
+    case ( 5 ):
+        emit removeUserSignal( i );
+        break;
+    default: break;
+    }
+}
+
+// SLOT TableModel::showUserDetailsSlot
+void TableModel::showUserDetailsSlot( const QModelIndex& i ) {
+    qDebug() << "showUserDetails";
+}
+
+// SLOT TableModel::removeUserSlot
+void TableModel::removeUserSlot( const QModelIndex& i ) {
+    qDebug() << "removeUser";
+    emit updateUserListSignal( i.row() );
 }

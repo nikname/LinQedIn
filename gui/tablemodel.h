@@ -63,6 +63,27 @@ public:
 
     /** */
     void setList( const QVector<SmartUtente> );
+signals:
+    /** */
+    void tableClickedSignal( const QModelIndex& );
+
+    /** */
+    void showUserDetailsSignal( const QModelIndex& );
+
+    /** */
+    void removeUserSignal( const QModelIndex& );
+
+    /** */
+    void updateUserListSignal( int );
+private slots:
+    /** */
+    void tableClickedSlot( const QModelIndex& );
+
+    /** */
+    void showUserDetailsSlot( const QModelIndex& );
+
+    /** */
+    void removeUserSlot( const QModelIndex & );
 };
 
 #endif // TABLEMODEL_H

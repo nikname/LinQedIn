@@ -36,6 +36,11 @@ public:
 private slots:
     /** Aggiorna la lista degli utenti con il nuovo contenuto del database. */
     void updateUserListSlot( LinQedInAdmin* );
+
+    void updateUserListSlot( int );
+signals:
+    /** */
+    void updateUserListSignal( const QString& );
 };
 
 #endif // USERLIST_WIDGET_H

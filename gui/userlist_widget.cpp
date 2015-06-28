@@ -22,6 +22,11 @@ UserListWidget::UserListWidget( const QVector<SmartUtente> v, QWidget *parent ) 
     tableView->setAlternatingRowColors( true );
     tableView->horizontalHeader()->setSectionResizeMode( QHeaderView::Stretch );
     tableView->setStyleSheet( "background: white" );
+    connect( tableView, SIGNAL( clicked( const QModelIndex& ) ),
+             table, SIGNAL( tableClickedSignal( const QModelIndex& ) ) );
+             // table, SLOT( tableClickedSlot( const QModelIndex& ) ) );
+    connect( table, SIGNAL( updateUserListSignal( int ) ),
+             this, SLOT( updateUserListSlot( int ) ) );
 
     loadUserList();
 
@@ -60,4 +65,8 @@ void UserListWidget::loadUserList() {
 // SLOT UserListWidget::updateUserListSlot
 void UserListWidget::updateUserListSlot( LinQedInAdmin* admin ) {
     table->setList( admin->getUsersList() );
+}
+
+void UserListWidget::updateUserListSlot( int row ) {
+    emit updateUserListSignal( table->data( table->index( row, 0 ), Qt::DisplayRole ).toString() );
 }

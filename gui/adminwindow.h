@@ -65,6 +65,8 @@ private slots:
      * @param SmartUtente  Utente da inserire.
      */
     void addUserSlot( const SmartUtente& );
+
+    void emitUpdateUserListSignal( const QString& );
 signals:
     /** */
     void updateUserListSignal( LinQedInAdmin* );
