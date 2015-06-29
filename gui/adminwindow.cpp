@@ -146,5 +146,6 @@ void AdminWindow::emitUpdateUserListSignal( const QString& username ) {
 // SLOT
 void AdminWindow::emitUpdateUserListSignal( const QString& u, const QString& t ) {
     admin->changeSubscriptionType( u, t );
+    admin->saveDatabase();
     emit updateUserListSignal( admin );
 }
