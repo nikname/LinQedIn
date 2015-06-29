@@ -10,7 +10,6 @@ ChangeUserTypeDialog::ChangeUserTypeDialog( const QString& u, const QString& t, 
     buttonBox( new QDialogButtonBox( this ) )
 {
     setupUI();
-    qDebug() << "[info] Done!";
 
     if( type == "Basic" )
         basicRadioButton->setChecked( true );
@@ -23,7 +22,6 @@ ChangeUserTypeDialog::ChangeUserTypeDialog( const QString& u, const QString& t, 
 
 // METODO ChangeUserTypeDialog::setupUI
 void ChangeUserTypeDialog::setupUI() {
-    qDebug() << "[info] Setup UI...";
     QVBoxLayout *layout = new QVBoxLayout( this );
 
     buttonGroup = new QGroupBox( tr( "Account Type" ), this );
@@ -42,7 +40,6 @@ void ChangeUserTypeDialog::setupUI() {
 
     buttonBox->setOrientation( Qt::Horizontal );
     buttonBox->setStandardButtons( QDialogButtonBox::Cancel | QDialogButtonBox::Ok );
-    qDebug() << "[info] Connecting SINGALs and SLOTs...";
     connect( buttonBox, SIGNAL( rejected() ), this, SLOT( reject() ) );
     connect( buttonBox, SIGNAL( accepted() ), this, SLOT( emitChangeAccountTypeSignal() ) );
 

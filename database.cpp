@@ -202,6 +202,17 @@ Database::~Database() {
     delete database_rapp;
 }
 
+// METODO Database::contains
+bool Database::contains( const QString& un ) const {
+    return database_rapp->users_list.contains( un );
+}
+
+// METODO Database::find( QString )
+SmartUtente Database::find( const QString& un ) {
+    // un deve essere presente come chiave nel database
+    return database_rapp->users_list.find( un ).value();
+}
+
 // METODO Database::loadUserList
 void Database::loadUsersList() {
 
@@ -357,11 +368,6 @@ void Database::saveUsersList() const {
     xmlWriter.writeEndDocument();
 }
 
-// METODO Database::contains
-bool Database::contains( const QString& un ) const {
-    return database_rapp->users_list.contains( un );
-}
-
 // METODO Database::insert
 bool Database::insert( SmartUtente su ) {
     if( contains( su->getUsername() ) )
@@ -373,10 +379,6 @@ bool Database::insert( SmartUtente su ) {
 
 // METODO Database::remove
 bool Database::remove( QString u ) {
-    // Il metodo QMap::remove( QString ) ritorna il numero di elementi rimossi. I possibili
-    // valori di ritorno sono 0, se la chiave non è presente, e 1, se la chiave è presente.
-    // Non ci possono essere più elementi con la stessa chiave, per questo il tipo di
-    // ritorno non da problemi.
     return database_rapp->users_list.remove( u );
 }
 

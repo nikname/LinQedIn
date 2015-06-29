@@ -145,9 +145,11 @@ void MainWindow::createAdminArea() {
 
 // SLOT MainWindow::loginUser
 void MainWindow::loginUser() {
-    // TODO: controllo password
+    QString username = userUsername->text();
 
-    ClientWindow *clientWindow = new ClientWindow;
+    // TODO: controllare username e password
+    // ClientWindow *clientWindow = new ClientWindow( username );
+    ClientWindow *clientWindow = new ClientWindow( "test" ); // TEST
     this->close();
 }
 

@@ -99,11 +99,9 @@ void TableModel::setList( const QVector<SmartUtente> v ) {
 
 // SLOT TableModel::tableClickedSlot
 void TableModel::tableClickedSlot( const QModelIndex& i ) {
-    qDebug() << "( " << i.row() << ", " << i.column() << " )";
     switch( i.column() ) {
     case ( 4 ):
         emit openChangeAccountTypeSignal( i );
-        // emit changeAccountTypeSignal( i );
         break;
     case ( 5 ):
         emit removeUserSignal( i );
@@ -112,14 +110,7 @@ void TableModel::tableClickedSlot( const QModelIndex& i ) {
     }
 }
 
-// SLOT TableModel::changeAccountTypeSlot
-void TableModel::changeAccountTypeSlot( const QModelIndex& i ) {
-    qDebug() << "changeAccountType";
-    emit updateUserListSignal( i.row() );
-}
-
 // SLOT TableModel::removeUserSlot
 void TableModel::removeUserSlot( const QModelIndex& i ) {
-    qDebug() << "removeUser";
     emit updateUserListSignal( i.row() );
 }

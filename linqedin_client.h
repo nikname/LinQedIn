@@ -4,7 +4,7 @@
 
 class LinQedInClient {
 private:
-    Utente* user;
+    SmartUtente user;
     Database* db;
 public:
     /** Costruttore ad 1 parametro.

@@ -1,8 +1,13 @@
 #include "linqedin_client.h"
 
-LinQedInClient::LinQedInClient( QString un ) {
+LinQedInClient::LinQedInClient( QString un ) : db( new Database ) {
     db->loadUsersList();
-    //user = db->findUser( un );
+    if( db->contains( un ) ) {
+        user = db->find( un );
+    } else {
+        // throw ...
+        qDebug() << "[error] User not found!";
+    }
 }
 
 void LinQedInClient::aggiornaProfilo() {

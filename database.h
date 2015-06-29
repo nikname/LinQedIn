@@ -103,6 +103,14 @@ public:
      */
     bool contains( const QString& ) const;
 
+    /** Ritorna lo SmartUtente in base all'username.
+     *  L'username fornito deve essere presente come chiave nel database.
+     *
+     * @param QString  Username dell'utente cercato.
+     * @return SmartUtente  Utente cercato.
+     */
+    SmartUtente find( const QString& );
+
     /** Carica la lista degli utenti da file (XML). */
     void loadUsersList();
 

@@ -82,9 +82,6 @@ private slots:
     void tableClickedSlot( const QModelIndex& );
 
     /** */
-    void changeAccountTypeSlot( const QModelIndex& );
-
-    /** */
     void removeUserSlot( const QModelIndex & );
 };
 

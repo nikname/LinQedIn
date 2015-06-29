@@ -1,6 +1,6 @@
 #include "gui/clientwindow.h"
 #include "gui/mainwindow.h"
-#include "../linqedin_client.h"
+#include "linqedin_client.h"
 #include <QMessageBox>
 
 // COSTRUTTORE ClientWindow
