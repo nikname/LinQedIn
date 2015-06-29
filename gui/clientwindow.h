@@ -2,6 +2,8 @@
 #define CLIENTWINDOW_H
 
 #include <QMainWindow>
+#include <QTabWidget>
+#include "usersearchwidget.h"
 
 class LinQedInClient;
 
@@ -9,6 +11,9 @@ class ClientWindow : public QMainWindow {
     Q_OBJECT
 private:
     LinQedInClient *client;
+
+    UserSearchWidget *userSearchWidget;
+    QTabWidget *tabWidget;
 
     QMenu *menu;
     QAction *logoutAct;

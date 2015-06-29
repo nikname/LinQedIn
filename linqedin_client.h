@@ -3,6 +3,7 @@
 #include "database.h"
 
 class LinQedInClient {
+    friend class ClientWindow;
 private:
     SmartUtente user;
     Database* db;

@@ -38,7 +38,9 @@ SOURCES += main.cpp\
     gui/userlist_widget.cpp \
     gui/tablemodel.cpp \
     gui/adduserdialog.cpp \
-    gui/changeusertypedialog.cpp
+    gui/changeusertypedialog.cpp \
+    gui/usersearchwidget.cpp \
+    gui/tabprofilo.cpp
 
 HEADERS  += \
     profilo.h \
@@ -66,7 +68,9 @@ HEADERS  += \
     gui/userlist_widget.h \
     gui/tablemodel.h \
     gui/adduserdialog.h \
-    gui/changeusertypedialog.h
+    gui/changeusertypedialog.h \
+    gui/usersearchwidget.h \
+    gui/tabprofilo.h
 
 FORMS    +=
 

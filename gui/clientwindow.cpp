@@ -2,6 +2,7 @@
 #include "gui/mainwindow.h"
 #include "linqedin_client.h"
 #include <QMessageBox>
+#include "tabprofilo.h"
 
 // COSTRUTTORE ClientWindow
 ClientWindow::ClientWindow( QString username, QWidget *parent ) :
@@ -23,9 +24,28 @@ void ClientWindow::initializeGUI() {
     createMenuActions();
     createMenus();
 
-    QWidget *mainWidget = new QWidget;
+    QWidget *mainWidget = new QWidget( this );
+    QHBoxLayout *mainLayout = new QHBoxLayout( mainWidget );
+
+    userSearchWidget = new UserSearchWidget( this );
+    userSearchWidget->setFixedWidth( 200 );
+
+    tabWidget = new QTabWidget( this );
+    tabWidget->setMinimumWidth( 600 );
+    tabWidget->setStyleSheet( "background: white" );
+    tabWidget->addTab( new TabProfilo( client->user ), tr( "Profilo" ) );
+    //tabWidget->addTab( new TabRete(), tr( "Net" ) );
+    //tabWidget->addTab( new TabFormazione(), tr( "Education" ) );
+    //tabWidget->addTab( new TabEsperienza(), tr( "Experience" ) );
+
+    mainLayout->addWidget( userSearchWidget );
+    mainLayout->addWidget( tabWidget );
+
+    mainWidget->setLayout( mainLayout );
+    mainWidget->setStyleSheet( "background: #069" );
 
     setCentralWidget( mainWidget );
+    setMinimumHeight( 400 );
 
     setWindowTitle( "LinQedIn Client" );
 }
