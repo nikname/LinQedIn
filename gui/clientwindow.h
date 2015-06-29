@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <QTabWidget>
 #include "usersearchwidget.h"
+#include "tabprofilo.h"
 
 class LinQedInClient;
 
@@ -14,6 +15,7 @@ private:
 
     UserSearchWidget *userSearchWidget;
     QTabWidget *tabWidget;
+    TabProfilo *tabProfilo;
 
     QMenu *menu;
     QAction *logoutAct;
@@ -49,6 +51,9 @@ private slots:
 
     /** Mostra le informazioni dell'applicazione su di una finestra pop-up. */
     void about();
+
+    /** */
+    void updateUserInfoSlot( const QString&, const QString& );
 };
 
 #endif // CLIENTWINDOW_H

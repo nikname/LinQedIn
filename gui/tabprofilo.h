@@ -4,6 +4,7 @@
 #include <QWidget>
 #include <QLabel>
 #include <QLineEdit>
+#include <QPushButton>
 #include "linqedin_client.h"
 
 class TabProfilo : public QWidget {
@@ -28,6 +29,9 @@ private:
     QLabel *maritialStatusLabel;
     QLabel *userMaritialStatusLabel;
     QLineEdit *maritialStatusLineEdit;
+
+    QPushButton *editButton;
+    QPushButton *saveButton;
 public:
     /** Costruttore esplicito ad 1 parametro con 1 parametro di default.
      *
@@ -36,9 +40,14 @@ public:
      */
     explicit TabProfilo( SmartUtente, QWidget *parent = 0 );
 signals:
+    /** */
+    void updateUserInfoSignal( const QString&, const QString& );
+private slots:
+    /** */
+    void editInfo();
 
-public slots:
-
+    /** */
+    void saveInfo();
 };
 
 #endif // TABPROFILO_H

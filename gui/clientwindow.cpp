@@ -2,7 +2,6 @@
 #include "gui/mainwindow.h"
 #include "linqedin_client.h"
 #include <QMessageBox>
-#include "tabprofilo.h"
 
 // COSTRUTTORE ClientWindow
 ClientWindow::ClientWindow( QString username, QWidget *parent ) :
@@ -31,12 +30,18 @@ void ClientWindow::initializeGUI() {
     userSearchWidget->setFixedWidth( 200 );
 
     tabWidget = new QTabWidget( this );
-    tabWidget->setMinimumWidth( 600 );
+    tabWidget->setMinimumWidth( 400 );
     tabWidget->setStyleSheet( "background: white" );
-    tabWidget->addTab( new TabProfilo( client->user ), tr( "Profilo" ) );
+
+    tabProfilo = new TabProfilo( client->user );
+
+    tabWidget->addTab( tabProfilo, tr( "Profilo" ) );
     //tabWidget->addTab( new TabRete(), tr( "Net" ) );
     //tabWidget->addTab( new TabFormazione(), tr( "Education" ) );
     //tabWidget->addTab( new TabEsperienza(), tr( "Experience" ) );
+
+    connect( tabProfilo, SIGNAL( updateUserInfoSignal( const QString&, const QString& ) ),
+             this, SLOT( updateUserInfoSlot( const QString&, const QString& ) ) );
 
     mainLayout->addWidget( userSearchWidget );
     mainLayout->addWidget( tabWidget );
@@ -90,4 +95,15 @@ void ClientWindow::about() {
         "<p>Lo scopo del progetto era lo sviluppo in C++/Qt di un sistema minimale per "
         "l'amministrazione ed utilizzo tramite interfaccia utente grafica di un (piccolo) "
         "database di contatti professionali ispirato a LinkedIn.</p>" ) );
+}
+
+// SLOT
+void ClientWindow::updateUserInfoSlot( const QString& value, const QString& field ) {
+    if( field == "Name" )
+        client->user->setName( value );
+    else if( field == "Surname" )
+        client->user->setSurname( value );
+    else if( field == "Maritial Status" )
+        client->user->setMaritialStatus( value );
+    else {}
 }
