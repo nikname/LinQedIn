@@ -9,7 +9,7 @@ class LinQedInAdmin;
 class Database {
 
     // NOTE:
-    // Il metodo Database::insert( Utente* ) è accessibile solo da oggetti di tipo
+    // Il metodo Database::insert( SmartUtente ) è accessibile solo da oggetti di tipo
     // LinQedInAdmin. In questo modo solo l'utente amministratore può aggiungere nuovi
     // utenti al database. Oggetti di tipo LinQedInClient non possono aggiungere nuovi
     // utenti al database.
@@ -33,42 +33,48 @@ private:
      *  Ricrea le informazioni legate al profilo dell'utente.
      *
      * @param QXmlStreamReader  Lettore di file xml passato per riferimento.
-     * @param Utente*  Utente del quale si devono ricreare le informazioni.
+     * @param SmartUtente  Utente del quale si devono ricreare le informazioni.
      */
-    void parseProfile( QXmlStreamReader&, Utente* );
+    void parseProfile( QXmlStreamReader&, SmartUtente );
 
     /** Scorre un elemento net nel file xml.
      *  Ricrea la rete dei contatti dell'utente.
      *
      * @param QXmlStreamReader  Lettore di file xml passato per riferimento.
-     * @param Utente*  Utente del quale si vuole ricreare la rete dei contatti.
+     * @param SmartUtente  Utente del quale si vuole ricreare la rete dei contatti.
      */
-    void parseNet( QXmlStreamReader&, Utente* );
+    void parseNet( QXmlStreamReader&, SmartUtente );
 
     /** Scorre un elemento education nel file xml.
      *  Crea ed aggiunge un oggetto Titolo nella lista dei titoli di studio dell'utente.
      *
      * @param QXmlStreamReader  Lettore di file xml passato per riferimento.
-     * @param Utente*  Utente del quale si vogliono aggiungere i titoli di studio.
+     * @param SmartUtente  Utente del quale si vogliono aggiungere i titoli di studio.
      */
-    void parseEducation( QXmlStreamReader&, Utente* );
+    void parseEducation( QXmlStreamReader&, SmartUtente );
 
     /** Scorre un oggetto experience nel file xml.
      *  Crea ed aggiunge un oggetto Lavoro nella lista delle esperienze lavorative
      *  dell'utente.
      *
      * @param QXmlStreamReader  Lettore di file xml passato per riferimento.
-     * @param Utente*  Utente del quale si vogliono aggiungere le esperienze lavorative.
+     * @param SmartUtente  Utente del quale si vogliono aggiungere le esperienze lavorative.
      */
-    void parseExperience( QXmlStreamReader&, Utente* );
+    void parseExperience( QXmlStreamReader&, SmartUtente );
 
     /** Scorre un elemento <date> nel file xml.
      *  Crea un oggetto di tipo QDate e lo aggiunge in base all'oggetto adeguato.
      *
      * @param QXmlStreamReader  Lettore di file xml passato per riferimento.
-     * @param Utente*  Oggetto del quale si vuole aggiungere una data.
+     * @param SmartUtente  Utente del quale si vuole aggiungere una data.
      */
-    void parseDate( QXmlStreamReader&, Utente* );
+    void parseDate( QXmlStreamReader&, SmartUtente );
+
+    /** Ricrea la lista dei contatti per ogni utente da file (XML).
+     *
+     * @param QXmlStreamReader  Lettore di file xml passato per riferimento.
+     */
+    void loadUsersNet( QXmlStreamReader& );
 
     /** Inserisce un nuovo utente nella lista degli utenti del database.
      *  Accessibile solo da oggetti di tipo LinQedInAdmin.
@@ -123,16 +129,16 @@ public:
      */
     QVector<SmartUtente> getUsersList() const;
 
-    friend QDebug operator <<( QDebug, Database* ); // *** JUST FOR DEBUG ***
+    friend QDebug operator <<( QDebug, const Database& ); // *** JUST FOR DEBUG ***
 };
 
 /** Overloading operatore di output di QDebug.
  *  Stampa su standard output l'username degli utenti del database.
  *
  * @param QDebug  QDebug.
- * @param Database*  Database.
+ * @param Database  Database.
  * @param QDebug  QDebug.
  */
-QDebug operator <<( QDebug, Database* );
+QDebug operator <<( QDebug, const Database& );
 
 #endif // DATABASE_H

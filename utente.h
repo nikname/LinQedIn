@@ -129,21 +129,21 @@ public:
      *
      * @param QString  Username del contatto da aggiungere.
      */
-    void addContact( Utente* );
+    void addContact( const QString& );
 
     /** Rimuove un contatto dalla lista dei contatti dell'utente.
      *  Invoca il metodo removeContact() del campo dati net di tipo Rete.
      *
      * @param QString  Username del contatto da rimuovere.
      */
-    void removeContact( Utente* );
+    void removeContact( const QString& );
 
     /** Ritorna un QVector di SmartUtente contenente i contatti nella rete dell'utente.
      *  Invoca il metodo getContactsList() del campo dati net di tipo Rete.
      *
-     * @return QVector<SmartUtente>  Vettore dei contatti nella rete dell'utente.
+     * @return QVector<QString>  Vettore dei contatti nella rete dell'utente.
      */
-    QVector<SmartUtente> getContactsList() const;
+    QVector<QString> getContactsList() const;
 
     /** Aggiunge un titolo di studio all'elenco dei titoli di studio.
      *  Invoca il metodo addEducation() del campo dati educations dell'utente.

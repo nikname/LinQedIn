@@ -48,7 +48,7 @@ public:
 };
 
 // METODO Database::parseProfile
-void Database::parseProfile( QXmlStreamReader& xmlReader, Utente* u ) {
+void Database::parseProfile( QXmlStreamReader& xmlReader, SmartUtente u ) {
     if( xmlReader.name() == "name" )
         u->setName( xmlReader.readElementText() );
     if( xmlReader.name() == "surname" )
@@ -60,7 +60,7 @@ void Database::parseProfile( QXmlStreamReader& xmlReader, Utente* u ) {
 }
 
 // METODO Database::parseDate
-void Database::parseDate( QXmlStreamReader& xmlReader, Utente* u ) {
+void Database::parseDate( QXmlStreamReader& xmlReader, SmartUtente u ) {
     int year = 0;
     int month = 0;
     int day = 0;
@@ -82,12 +82,18 @@ void Database::parseDate( QXmlStreamReader& xmlReader, Utente* u ) {
 }
 
 // METODO Database::parseNet
-void Database::parseNet( QXmlStreamReader& xmlReader, Utente* u ) {
-
+void Database::parseNet( QXmlStreamReader& xmlReader, SmartUtente su ) {
+    xmlReader.readNext();
+    while( xmlReader.name() != "net" ||
+           xmlReader.tokenType() != QXmlStreamReader::EndElement ) {
+        su->addContact( xmlReader.text().toString() );
+        xmlReader.readNext();
+    }
+    xmlReader.readNext();
 }
 
 // METODO Database::parseEducation
-void Database::parseEducation( QXmlStreamReader& xmlReader, Utente* u ) {
+void Database::parseEducation( QXmlStreamReader& xmlReader, SmartUtente u ) {
     Titolo* t = new Titolo();
     xmlReader.readNext();
     while( xmlReader.name() != "title"
@@ -108,7 +114,7 @@ void Database::parseEducation( QXmlStreamReader& xmlReader, Utente* u ) {
 }
 
 // METODO Database::parseExperience
-void Database::parseExperience( QXmlStreamReader& xmlReader, Utente* u ) {
+void Database::parseExperience( QXmlStreamReader& xmlReader, SmartUtente u ) {
     Lavoro* j = new Lavoro();
     xmlReader.readNext();
     while( xmlReader.name() != "job"
@@ -159,18 +165,10 @@ void Database::parseUser( QXmlStreamReader& xmlReader ) {
                 xmlReader.readNext();
             }
         }
+
         // L'aggiunta della lista dei contatti è necessario farla in un momento successivo,
         // quanto tutti gli utenti presenti nel file XML sono stati aggiunti al database.
-        /**
-        if( xmlReader.name() == "net" ) {
-            xmlReader.readNext();
-            while( xmlReader.name() != "net" ||
-                   xmlReader.tokenType() != QXmlStreamReader::EndElement ) {
-                parseNet( xmlReader, u );
-                xmlReader.readNext();
-            }
-        }
-        */
+
         if( xmlReader.name() == "educations" ) {
             xmlReader.readNext();
             while( xmlReader.name() != "educations"
@@ -234,6 +232,18 @@ void Database::loadUsersList() {
                 parseUser( xmlReader );
         }
     }
+
+    xmlReader.clear();
+    xmlReader.setDevice( &file );
+    while( !xmlReader.atEnd() && !xmlReader.hasError() ) {
+        QXmlStreamReader::TokenType token = xmlReader.readNext();
+        if( token == QXmlStreamReader::StartDocument )
+            continue;
+        if( token == QXmlStreamReader::StartElement) {
+            if( xmlReader.name() == "user" )
+                loadUsersNet( xmlReader );
+        }
+    }
 }
 
 // METODO Database::saveUsersList
@@ -284,9 +294,9 @@ void Database::saveUsersList() const {
 
         // <net>
         xmlWriter.writeStartElement( "net" );
-        QVectorIterator<SmartUtente> contacts_it( u->getContactsList() );
+        QVectorIterator<QString> contacts_it( u->getContactsList() );
         while( contacts_it.hasNext() ) {
-            xmlWriter.writeTextElement( "contact", contacts_it.next()->getUsername() );
+            xmlWriter.writeTextElement( "contact", contacts_it.next() );
         }
         xmlWriter.writeEndElement();
         // </net>
@@ -368,6 +378,26 @@ void Database::saveUsersList() const {
     xmlWriter.writeEndDocument();
 }
 
+// METODO Database::loadUserNet
+void Database::loadUsersNet( QXmlStreamReader& xmlReader ) {
+    if( xmlReader.tokenType() != QXmlStreamReader::StartElement &&
+        xmlReader.name() != "user" ) {
+        return;
+    }
+
+    QString un = xmlReader.attributes().value( "login" ).toString();
+    SmartUtente su = database_rapp->users_list.find( un ).value();
+
+    // l'elemento <net> è sicuramente presente ed eventualmente vuoto
+    while( xmlReader.name() != "net" )
+        xmlReader.readNext();
+
+    if( xmlReader.tokenType() != QXmlStreamReader::EndElement )
+        parseNet( xmlReader, su );
+
+    xmlReader.readNext();
+}
+
 // METODO Database::insert
 bool Database::insert( SmartUtente su ) {
     if( contains( su->getUsername() ) )
@@ -392,10 +422,10 @@ QVector<SmartUtente> Database::getUsersList() const {
 }
 
 // OPERATOR << Database
-QDebug operator <<( QDebug qdbg, Database* d ) {
+QDebug operator <<( QDebug qdbg, const Database& d ) {
     qdbg << "UTENTI DATABASE: \n";
-    if( d->database_rapp ) {
-        QMapIterator<QString, SmartUtente> it( d->database_rapp->users_list );
+    if( d.database_rapp ) {
+        QMapIterator<QString, SmartUtente> it( d.database_rapp->users_list );
         while( it.hasNext() )
             qdbg << it.next().key() << "\n";
     }
