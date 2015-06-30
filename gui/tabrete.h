@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include "userlist_widget.h"
+#include "database.h"
 
 class TabRete : public QWidget {
     Q_OBJECT
@@ -14,7 +15,7 @@ public:
      * @param SmartUtente  Utente utilizzatore del client.
      * @param QWidget  Puntatore al QWidget padre. Se nullo si riferisce a quello top-level.
      */
-    explicit TabRete( SmartUtente, QWidget *parent = 0 );
+    explicit TabRete( SmartUtente, Database*, QWidget *parent = 0 );
 signals:
 
 public slots:

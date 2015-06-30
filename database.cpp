@@ -83,11 +83,16 @@ void Database::parseDate( QXmlStreamReader& xmlReader, SmartUtente u ) {
 
 // METODO Database::parseNet
 void Database::parseNet( QXmlStreamReader& xmlReader, SmartUtente su ) {
-    xmlReader.readNext();
+    // xmlReader è su <net>
+    xmlReader.readNext(); // xmlReader è su </net> o <contact>
     while( xmlReader.name() != "net" ||
            xmlReader.tokenType() != QXmlStreamReader::EndElement ) {
-        su->addContact( xmlReader.text().toString() );
-        xmlReader.readNext();
+        if( xmlReader.name() == "contact" &&
+                xmlReader.tokenType() != QXmlStreamReader::EndElement ) {
+            xmlReader.readNext(); // xmlReader è sul contenuto dell'elemento <contact>
+            su->addContact( xmlReader.text().toString() );
+        }
+        xmlReader.readNext(); // xmlReader è su </contact> o </net>
     }
     xmlReader.readNext();
 }
@@ -233,7 +238,13 @@ void Database::loadUsersList() {
         }
     }
 
-    xmlReader.clear();
+
+    file.close();
+    if( !file.open( QIODevice::ReadWrite | QIODevice::Text ) ) {
+        qDebug() << "Cannot read file: " << file.errorString();
+        return;
+    }
+
     xmlReader.setDevice( &file );
     while( !xmlReader.atEnd() && !xmlReader.hasError() ) {
         QXmlStreamReader::TokenType token = xmlReader.readNext();

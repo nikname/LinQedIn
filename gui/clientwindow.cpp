@@ -34,7 +34,7 @@ void ClientWindow::initializeGUI() {
     tabWidget->setStyleSheet( "background: white" );
 
     tabProfilo = new TabProfilo( client->user );
-    tabRete = new TabRete( client->user );
+    tabRete = new TabRete( client->user, client->db );
 
     tabWidget->addTab( tabProfilo, tr( "Profilo" ) );
     tabWidget->addTab( tabRete, tr( "Net" ) );
