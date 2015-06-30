@@ -106,4 +106,6 @@ void ClientWindow::updateUserInfoSlot( const QString& value, const QString& fiel
     else if( field == "Maritial Status" )
         client->user->setMaritialStatus( value );
     else {}
+
+    client->db->saveUsersList();
 }

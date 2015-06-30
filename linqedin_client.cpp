@@ -10,13 +10,6 @@ LinQedInClient::LinQedInClient( QString un ) : db( new Database ) {
     }
 }
 
-void LinQedInClient::aggiornaProfilo() {
-    // user->getProfile().setName();
-    // user->getProfile().setSurname();
-    // user->getProfile().setBirthday();
-    // user->getProfile().setMaritialStatus();
-}
-
 void LinQedInClient::showProfilo() {
     // user->getUsername();
     // user->getProfile();
