@@ -5,6 +5,7 @@
 #include <QTabWidget>
 #include "usersearchwidget.h"
 #include "tabprofilo.h"
+#include "tabrete.h"
 
 class LinQedInClient;
 
@@ -16,6 +17,7 @@ private:
     UserSearchWidget *userSearchWidget;
     QTabWidget *tabWidget;
     TabProfilo *tabProfilo;
+    TabRete *tabRete;
 
     QMenu *menu;
     QAction *logoutAct;

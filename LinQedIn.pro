@@ -40,7 +40,8 @@ SOURCES += main.cpp\
     gui/adduserdialog.cpp \
     gui/changeusertypedialog.cpp \
     gui/usersearchwidget.cpp \
-    gui/tabprofilo.cpp
+    gui/tabprofilo.cpp \
+    gui/tabrete.cpp
 
 HEADERS  += \
     profilo.h \
@@ -70,7 +71,8 @@ HEADERS  += \
     gui/adduserdialog.h \
     gui/changeusertypedialog.h \
     gui/usersearchwidget.h \
-    gui/tabprofilo.h
+    gui/tabprofilo.h \
+    gui/tabrete.h
 
 FORMS    +=
 
