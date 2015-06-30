@@ -44,6 +44,7 @@ void AdminWindow::initializeGUI() {
 
     userListWidget = new UserListWidget( admin->getUsersList(), mainWidget );
     userListWidget->setMinimumWidth( 600 );
+    userListWidget->hideColumn( 6 );
 
     addUserButton = new QPushButton;
     addUserButton->setFixedHeight( 50 );

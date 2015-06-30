@@ -43,6 +43,8 @@ void ClientWindow::initializeGUI() {
 
     connect( tabProfilo, SIGNAL( updateUserInfoSignal( const QString&, const QString& ) ),
              this, SLOT( updateUserInfoSlot( const QString&, const QString& ) ) );
+    connect( tabRete, SIGNAL( updateContactsSignal( const QString& ) ),
+             this, SLOT( updateContactsSlot( const QString& ) ) );
 
     mainLayout->addWidget( userSearchWidget );
     mainLayout->addWidget( tabWidget );
@@ -108,5 +110,11 @@ void ClientWindow::updateUserInfoSlot( const QString& value, const QString& fiel
         client->user->setMaritialStatus( value );
     else {}
 
+    client->db->saveUsersList();
+}
+
+// SLOT
+void ClientWindow::updateContactsSlot( const QString& un ) {
+    client->user->removeContact( un );
     client->db->saveUsersList();
 }

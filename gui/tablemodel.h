@@ -12,6 +12,7 @@ private:
     QVector<SmartUtente> userList;
     QPixmap detailIcon;
     QPixmap deleteIcon;
+    QPixmap removeContactIcon;
 public:
     /** Costruttore esplicito a 2 parametri con 1 parametro di default.
      *
@@ -68,21 +69,22 @@ signals:
     void tableClickedSignal( const QModelIndex& );
 
     /** */
-    // void changeAccountTypeSignal( const QModelIndex& );
-
-    /** */
     void removeUserSignal( const QModelIndex& );
 
     /** */
     void updateUserListSignal( int );
 
+    /** */
     void openChangeAccountTypeSignal( const QModelIndex& );
+
+    /** */
+    void removeContactSignal( const QModelIndex& );
 private slots:
     /** */
     void tableClickedSlot( const QModelIndex& );
 
     /** */
-    void removeUserSlot( const QModelIndex & );
+    void removeUserSlot( const QModelIndex& );
 };
 
 #endif // TABLEMODEL_H

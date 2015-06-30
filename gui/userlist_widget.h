@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <QPushButton>
+#include <QTableView>
 #include "smartutente.h"
 
 class TableModel;
@@ -13,6 +14,7 @@ class UserListWidget : public QWidget {
     friend class AddUserDialog;
 private:
     TableModel *table;
+    QTableView *tableView;
 public:
     /** Costruttore esplicito ad 1 parametro con 1 valore di default.
      *  Realizza l'area della GUI nella quale viene visualizzata la lista degli utenti.
@@ -33,6 +35,12 @@ public:
 
     /** Carica la tabella con le informazioni degli utenti presenti nel database. */
     void loadUserList();
+
+    /** Nasconde una colonna dalla tabella.
+     *
+     * @param int  Indice colonna da nascondere.
+     */
+    void hideColumn( int );
 private slots:
     /** Aggiorna la lista degli utenti con il nuovo contenuto del database. */
     void updateUserListSlot( LinQedInAdmin* );
@@ -40,11 +48,16 @@ private slots:
     void updateUserListSlot( int );
 
     void openChangeAccountTypeSlot( const QModelIndex& );
+
+    /** */
+    void removeContactSlot( const QModelIndex& );
 signals:
     /** */
     void updateUserListSignal( const QString& );
 
     void updateUserListSignal( const QString&, const QString& );
+
+    void updateContactsSignal( const QString& );
 };
 
 #endif // USERLIST_WIDGET_H

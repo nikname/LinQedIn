@@ -56,6 +56,8 @@ private slots:
 
     /** */
     void updateUserInfoSlot( const QString&, const QString& );
+
+    void updateContactsSlot( const QString& );
 };
 
 #endif // CLIENTWINDOW_H

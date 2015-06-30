@@ -9,5 +9,6 @@
         <file>icon/settings.png</file>
         <file>icon/chevron-up.png</file>
         <file>icon/account-switch.png</file>
+        <file>icon/account-remove.png</file>
     </qresource>
 </RCC>

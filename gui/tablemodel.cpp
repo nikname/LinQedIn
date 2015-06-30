@@ -6,12 +6,11 @@ TableModel::TableModel( const QVector<SmartUtente> v, QObject *parent ) :
     QAbstractTableModel( parent ),
     userList( v ),
     detailIcon( QPixmap( ":/icons/icon/account-switch.png" ) ),
-    deleteIcon( QPixmap( ":/icons/icon/delete.png" ) )
+    deleteIcon( QPixmap( ":/icons/icon/delete.png" ) ),
+    removeContactIcon( QPixmap( ":icons/icon/account-remove.png" ) )
 {
     connect( this, SIGNAL( tableClickedSignal( const QModelIndex& ) ),
              this, SLOT( tableClickedSlot( const QModelIndex& ) ) );
-    // connect( this, SIGNAL( changeAccountTypeSignal( const QModelIndex& ) ),
-             // this, SLOT( changeAccountTypeSlot( const QModelIndex& ) ) );
     connect( this, SIGNAL( removeUserSignal( const QModelIndex& ) ),
              this, SLOT( removeUserSlot( const QModelIndex& ) ) );
 }
@@ -25,7 +24,7 @@ int TableModel::rowCount( const QModelIndex &parent ) const {
 // METODO TableModel::columnCount
 int TableModel::columnCount( const QModelIndex &parent ) const {
     Q_UNUSED( parent );
-    return 6;
+    return 7;
 }
 
 // METODO TableModel::date
@@ -51,6 +50,7 @@ QVariant TableModel::data( const QModelIndex &index, int role ) const {
         switch ( index.column() ) {
         case 4: return detailIcon;
         case 5: return deleteIcon;
+        case 6: return removeContactIcon;
         }
     }
 
@@ -58,6 +58,7 @@ QVariant TableModel::data( const QModelIndex &index, int role ) const {
         switch ( index.column() ) {
         case 4: return detailIcon.size();
         case 5: return deleteIcon.size();
+        case 6: return removeContactIcon.size();
         }
     }
 
@@ -77,6 +78,7 @@ QVariant TableModel::headerData( int section, Qt::Orientation orientation, int r
         case 3: return tr( "Type" );
         case 4: return tr( "Change Type" );
         case 5: return tr( "Delete" );
+        case 6: return tr( "Remove" );
         }
     }
     if( orientation == Qt::Vertical )
@@ -100,11 +102,14 @@ void TableModel::setList( const QVector<SmartUtente> v ) {
 // SLOT TableModel::tableClickedSlot
 void TableModel::tableClickedSlot( const QModelIndex& i ) {
     switch( i.column() ) {
-    case ( 4 ):
+    case 4:
         emit openChangeAccountTypeSignal( i );
         break;
-    case ( 5 ):
+    case 5:
         emit removeUserSignal( i );
+        break;
+    case 6:
+        emit removeContactSignal( i );
         break;
     default: break;
     }

@@ -17,9 +17,8 @@ public:
      */
     explicit TabRete( SmartUtente, Database*, QWidget *parent = 0 );
 signals:
-
-public slots:
-
+    /** */
+    void updateContactsSignal( const QString& );
 };
 
 #endif // TABRETE_H

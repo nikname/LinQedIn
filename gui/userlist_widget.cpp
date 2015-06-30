@@ -2,7 +2,6 @@
 #include "gui/tablemodel.h"
 #include <QDebug>
 #include <QTableWidget>
-#include <QTableView>
 #include <QVBoxLayout>
 #include <QHeaderView>
 #include "utente.h"
@@ -17,7 +16,7 @@ UserListWidget::UserListWidget( const QVector<SmartUtente> v, QWidget *parent ) 
 
     table = new TableModel( v );
 
-    QTableView *tableView = new QTableView;
+    tableView = new QTableView;
     tableView->setModel( table );
     tableView->setVerticalScrollBarPolicy( Qt::ScrollBarAlwaysOn );
     tableView->setAlternatingRowColors( true );
@@ -30,6 +29,8 @@ UserListWidget::UserListWidget( const QVector<SmartUtente> v, QWidget *parent ) 
              this, SLOT( updateUserListSlot( int ) ) );
     connect( table, SIGNAL( openChangeAccountTypeSignal( const QModelIndex& ) ),
              this, SLOT( openChangeAccountTypeSlot( const QModelIndex& ) ) );
+    connect( table, SIGNAL( removeContactSignal( const QModelIndex& ) ),
+             this, SLOT( removeContactSlot( const QModelIndex& ) ) );
 
     loadUserList();
 
@@ -65,6 +66,11 @@ void UserListWidget::loadUserList() {
     }
 }
 
+// METODO UserListWidget::hideColumn
+void UserListWidget::hideColumn( int i ) {
+    tableView->hideColumn( i );
+}
+
 // SLOT UserListWidget::updateUserListSlot
 void UserListWidget::updateUserListSlot( LinQedInAdmin* admin ) {
     table->setList( admin->getUsersList() );
@@ -81,4 +87,9 @@ void UserListWidget::openChangeAccountTypeSlot( const QModelIndex& i ) {
     connect( changeUserTypeDialog, SIGNAL( changeAccountTypeSignal( const QString&, const QString& ) ),
              this, SIGNAL( updateUserListSignal( const QString&, const QString& ) ) );
     changeUserTypeDialog->exec();
+}
+
+void UserListWidget::removeContactSlot( const QModelIndex& i ) {
+    // table->removeRow( i.row() );
+    emit updateContactsSignal( table->data( table->index( i.row(), 0 ), Qt::DisplayRole ).toString() );
 }

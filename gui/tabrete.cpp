@@ -18,6 +18,12 @@ TabRete::TabRete( SmartUtente su, Database *db, QWidget *parent ) :
     }
 
     contactList = new UserListWidget( contacts, this );
+    contactList->hideColumn( 3 );
+    contactList->hideColumn( 4 );
+    contactList->hideColumn( 5 );
+
+    connect( contactList, SIGNAL( updateContactsSignal( const QString& ) ),
+             this, SIGNAL( updateContactsSignal( const QString& ) ) );
 
     tabLayout->addWidget( contactList );
 
