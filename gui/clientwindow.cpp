@@ -38,8 +38,6 @@ void ClientWindow::initializeGUI() {
 
     tabWidget->addTab( tabProfilo, tr( "Profilo" ) );
     tabWidget->addTab( tabRete, tr( "Net" ) );
-    //tabWidget->addTab( new TabFormazione(), tr( "Education" ) );
-    //tabWidget->addTab( new TabEsperienza(), tr( "Experience" ) );
 
     connect( tabProfilo, SIGNAL( updateUserInfoSignal( const QString&, const QString& ) ),
              this, SLOT( updateUserInfoSlot( const QString&, const QString& ) ) );
