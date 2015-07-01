@@ -51,6 +51,8 @@ private slots:
 
     /** */
     void removeContactSlot( const QModelIndex& );
+
+    void updateContactsListSlot( const SmartUtente& );
 signals:
     /** */
     void updateUserListSignal( const QString& );
@@ -58,6 +60,8 @@ signals:
     void updateUserListSignal( const QString&, const QString& );
 
     void updateContactsSignal( const QString& );
+
+    void updateContactsListSignal( const SmartUtente& );
 };
 
 #endif // USERLIST_WIDGET_H

@@ -19,6 +19,8 @@ public:
 signals:
     /** */
     void updateContactsSignal( const QString& );
+
+    void updateContactsListSignal( const SmartUtente& );
 };
 
 #endif // TABRETE_H

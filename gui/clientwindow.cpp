@@ -45,6 +45,8 @@ void ClientWindow::initializeGUI() {
              this, SLOT( updateUserInfoSlot( const QString&, const QString& ) ) );
     connect( tabRete, SIGNAL( updateContactsSignal( const QString& ) ),
              this, SLOT( updateContactsSlot( const QString& ) ) );
+    connect( this, SIGNAL( updateContactsListSignal(const SmartUtente& ) ),
+             tabRete, SIGNAL( updateContactsListSignal( const SmartUtente& ) ) );
 
     mainLayout->addWidget( userSearchWidget );
     mainLayout->addWidget( tabWidget );
@@ -116,5 +118,6 @@ void ClientWindow::updateUserInfoSlot( const QString& value, const QString& fiel
 // SLOT
 void ClientWindow::updateContactsSlot( const QString& un ) {
     client->user->removeContact( un );
+    emit updateContactsListSignal( client->user );
     client->db->saveUsersList();
 }

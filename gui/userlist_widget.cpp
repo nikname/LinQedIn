@@ -31,6 +31,8 @@ UserListWidget::UserListWidget( const QVector<SmartUtente> v, QWidget *parent ) 
              this, SLOT( openChangeAccountTypeSlot( const QModelIndex& ) ) );
     connect( table, SIGNAL( removeContactSignal( const QModelIndex& ) ),
              this, SLOT( removeContactSlot( const QModelIndex& ) ) );
+    connect( this, SIGNAL( updateContactsListSignal(const SmartUtente&) ),
+             this, SLOT( updateContactsListSlot( const SmartUtente& ) ) );
 
     loadUserList();
 
@@ -90,6 +92,9 @@ void UserListWidget::openChangeAccountTypeSlot( const QModelIndex& i ) {
 }
 
 void UserListWidget::removeContactSlot( const QModelIndex& i ) {
-    // table->removeRow( i.row() );
     emit updateContactsSignal( table->data( table->index( i.row(), 0 ), Qt::DisplayRole ).toString() );
+}
+
+void UserListWidget::updateContactsListSlot( const SmartUtente& su ) {
+    table->setList( su->getContactsList() );
 }

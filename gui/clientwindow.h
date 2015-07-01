@@ -58,6 +58,8 @@ private slots:
     void updateUserInfoSlot( const QString&, const QString& );
 
     void updateContactsSlot( const QString& );
+signals:
+    void updateContactsListSignal( const SmartUtente& );
 };
 
 #endif // CLIENTWINDOW_H

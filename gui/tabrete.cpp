@@ -24,6 +24,8 @@ TabRete::TabRete( SmartUtente su, Database *db, QWidget *parent ) :
 
     connect( contactList, SIGNAL( updateContactsSignal( const QString& ) ),
              this, SIGNAL( updateContactsSignal( const QString& ) ) );
+    connect( this, SIGNAL( updateContactsListSignal( const SmartUtente&) ),
+             contactList, SIGNAL( updateContactsListSignal( const SmartUtente& ) ) );
 
     tabLayout->addWidget( contactList );
 
