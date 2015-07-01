@@ -2,12 +2,12 @@
 #define USERLIST_WIDGET_H
 
 #include <QWidget>
-#include <QPushButton>
-#include <QTableView>
 #include "smartutente.h"
 
-class TableModel;
 class LinQedInAdmin;
+class QPushButton;
+class QTableView;
+class TableModel;
 
 class UserListWidget : public QWidget {
     Q_OBJECT
@@ -24,6 +24,9 @@ public:
      */
     explicit UserListWidget( const QVector<SmartUtente>, QWidget *parent = 0 );
 
+    /** Distruttore ridefinito. Ripulisce lo heap. */
+    ~UserListWidget();
+
     /** Aggiunge le informazioni di un utente in una riga della tabella.
      *
      * @param Qstring  Username dell'utente.
@@ -37,22 +40,11 @@ public:
     void loadUserList();
 
     /** Nasconde una colonna dalla tabella.
+     *  Necessario per realizzare una tabella in base alle esigenze.
      *
      * @param int  Indice colonna da nascondere.
      */
     void hideColumn( int );
-private slots:
-    /** Aggiorna la lista degli utenti con il nuovo contenuto del database. */
-    void updateUserListSlot( LinQedInAdmin* );
-
-    void updateUserListSlot( int );
-
-    void openChangeAccountTypeSlot( const QModelIndex& );
-
-    /** */
-    void removeContactSlot( const QModelIndex& );
-
-    void updateContactsListSlot( const SmartUtente& );
 signals:
     /** */
     void updateUserListSignal( const QString& );
@@ -62,6 +54,26 @@ signals:
     void updateContactsSignal( const QString& );
 
     void updateContactsListSignal( const SmartUtente& );
+private slots:
+    /** Aggiorna la lista degli utenti con il nuovo contenuto del database.
+     *
+     * @param LinQedInAdmin*
+     */
+    void updateUserListSlot( LinQedInAdmin* );
+
+    /** Aggiorna la lista degli utenti nella tabella rimuovendo un'utente da una riga.
+     *
+     * @param QModelIndex  Indice la quale riga corrispondente all'utente da rimuovere.
+     */
+    void updateUserListSlot( const QModelIndex& );
+
+    /** */
+    void openChangeAccountTypeSlot( const QModelIndex& );
+
+    /** */
+    void removeContactSlot( const QModelIndex& );
+
+    void updateContactsListSlot( const SmartUtente& );
 };
 
 #endif // USERLIST_WIDGET_H

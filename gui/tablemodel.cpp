@@ -1,5 +1,5 @@
 #include "tablemodel.h"
-#include "linqedin_admin.h" // Se omesso: invalid use of incomplete type 'class Utente'
+#include "linqedin_admin.h" // se omesso: invalid use of incomplete type 'class Utente'
 
 // COSTRUTTORE TableModel
 TableModel::TableModel( const QVector<SmartUtente> v, QObject *parent ) :
@@ -12,7 +12,7 @@ TableModel::TableModel( const QVector<SmartUtente> v, QObject *parent ) :
     connect( this, SIGNAL( tableClickedSignal( const QModelIndex& ) ),
              this, SLOT( tableClickedSlot( const QModelIndex& ) ) );
     connect( this, SIGNAL( removeUserSignal( const QModelIndex& ) ),
-             this, SLOT( removeUserSlot( const QModelIndex& ) ) );
+             this, SIGNAL( updateUserListSignal( const QModelIndex& ) ) );
 }
 
 // METODO TableModel::rowCount
@@ -113,9 +113,4 @@ void TableModel::tableClickedSlot( const QModelIndex& i ) {
         break;
     default: break;
     }
-}
-
-// SLOT TableModel::removeUserSlot
-void TableModel::removeUserSlot( const QModelIndex& i ) {
-    emit updateUserListSignal( i.row() );
 }

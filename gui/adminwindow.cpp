@@ -1,24 +1,23 @@
-#include "gui/adminwindow.h"
-#include "gui/mainwindow.h"
-#include "../linqedin_admin.h"
+#include <QDebug>
+#include <QIcon>
+#include <QMenuBar>
 #include <QMessageBox>
 #include <QVBoxLayout>
-#include <QIcon>
-#include <QDebug>
 
-// NOTE:
-// Poichè tutti gli oggetti creati dinamicamente nel costruttore sono figli di un QWidget parent,
-// quando questo verrà distrutto, verranno distrutti anche tutti i figli. Per questo motivo quando
-// verrà invocata la delete su widget verranno distrutti anche tutti gli oggetti figli. Il parent di
-// widget è il widget top-level, quindi quando verrà distrutto quello, anche tutti i figli verranno
-// distrutti.
+#include "gui/adduserdialog.h"
+#include "gui/adminsearch_widget.h"
+#include "gui/adminwindow.h"
+#include "gui/mainwindow.h"
+#include "gui/userlist_widget.h"
+#include "linqedin_admin.h"
+#include "smartutente.h"
 
 // COSTRUTTORE AdminWindow
 AdminWindow::AdminWindow( QWidget *parent ) :
     QMainWindow( parent ),
     admin( new LinQedInAdmin() )
 {
-    initializeGUI();
+    setupUI();
 
     this->show();
 }
@@ -28,27 +27,27 @@ AdminWindow::~AdminWindow() {
     delete admin;
 }
 
-// METODO AdminWindow::initializeGUI
-void AdminWindow::initializeGUI() {
+// METODO AdminWindow::setupUI
+void AdminWindow::setupUI() {
     createMenuActions();
     createMenus();
 
-    QWidget *mainWidget = new QWidget;
-    QHBoxLayout *mainLayout = new QHBoxLayout;
+    QWidget *mainWidget = new QWidget( this );
+
+    QHBoxLayout *layout = new QHBoxLayout( mainWidget );
 
     searchWidget = new AdminSearchWidget( mainWidget );
     searchWidget->setFixedWidth( 200 );
 
-    QWidget *rightPanel = new QWidget;
-    QVBoxLayout *rightPanelLayout = new QVBoxLayout;
+    QWidget *rightPanel = new QWidget( mainWidget );
+    QVBoxLayout *rightPanelLayout = new QVBoxLayout( rightPanel );
 
     userListWidget = new UserListWidget( admin->getUsersList(), mainWidget );
     userListWidget->setMinimumWidth( 600 );
     userListWidget->hideColumn( 6 );
 
-    addUserButton = new QPushButton;
-    addUserButton->setFixedHeight( 50 );
-    addUserButton->setFixedWidth( 50 );
+    addUserButton = new QPushButton( mainWidget );
+    addUserButton->setFixedSize( 50, 50 );
     addUserButton->setIcon( QIcon( QPixmap( ":/icons/icon/account-plus.png" ) ) );
     addUserButton->setStyleSheet(
         "QPushButton { background: #003D5C; border-radius: 25px; }"
@@ -61,22 +60,21 @@ void AdminWindow::initializeGUI() {
 
     rightPanel->setLayout( rightPanelLayout );
 
-    mainLayout->addWidget( searchWidget );
-    mainLayout->addWidget( rightPanel );
+    layout->addWidget( searchWidget );
+    layout->addWidget( rightPanel );
 
-    mainWidget->setLayout( mainLayout );
+    mainWidget->setLayout( layout );
     mainWidget->setStyleSheet( "background: #069" );
 
-    connect( this, SIGNAL( updateUserListSignal( LinQedInAdmin* ) ),
+    connect( this, SIGNAL( updateUsersListSignal( LinQedInAdmin* ) ),
              userListWidget, SLOT( updateUserListSlot( LinQedInAdmin* ) ) );
     connect( userListWidget, SIGNAL( updateUserListSignal( const QString& ) ),
-             this, SLOT( emitUpdateUserListSignal( const QString& ) ) );
+             this, SLOT( updateListUserRemoved( const QString& ) ) );
     connect( userListWidget, SIGNAL( updateUserListSignal( const QString&, const QString& ) ),
-             this, SLOT( emitUpdateUserListSignal( const QString&, const QString& ) ) );
+             this, SLOT( updateListUserModified( const QString&, const QString& ) ) );
 
     setCentralWidget( mainWidget );
     setMinimumHeight( 400 );
-
     setWindowTitle( "LinQedIn Admin" );
 }
 
@@ -106,7 +104,7 @@ void AdminWindow::createMenus() {
 
 // SLOT AdminWindow::logout
 void AdminWindow::logout() {
-    MainWindow *mainWindow = new MainWindow;
+    new MainWindow;
 
     this->close();
 }
@@ -130,23 +128,23 @@ void AdminWindow::openAddUserDialog() {
     addUserDialog->exec();
 }
 
-// SLOT AdminWindow::addUserSlot
+// SLOT AdminWindow::addUserSlot( SmartUtente )
 void AdminWindow::addUserSlot( const SmartUtente& su ) {
     admin->insertUser( su );
     admin->saveDatabase();
-    emit updateUserListSignal( admin );
+    emit updateUsersListSignal( admin );
 }
 
-// SLOT AdminWindow::emitAddUserSignal
-void AdminWindow::emitUpdateUserListSignal( const QString& username ) {
+// SLOT AdminWindow::updateListUserRemoved( QString )
+void AdminWindow::updateListUserRemoved( const QString& username ) {
     admin->removeUser( username );
     admin->saveDatabase();
-    emit updateUserListSignal( admin );
+    emit updateUsersListSignal( admin );
 }
 
-// SLOT
-void AdminWindow::emitUpdateUserListSignal( const QString& u, const QString& t ) {
+// SLOT AdminWindow::updateListUserModified( QString, QString )
+void AdminWindow::updateListUserModified( const QString& u, const QString& t ) {
     admin->changeSubscriptionType( u, t );
     admin->saveDatabase();
-    emit updateUserListSignal( admin );
+    emit updateUsersListSignal( admin );
 }

@@ -17,7 +17,7 @@ public:
     /** Costruttore esplicito a 2 parametri con 1 parametro di default.
      *
      * @param QVector<SmartUtente>  Utenti da visualizzare sulla tabella.
-     * @param QObject
+     * @param QObject  QObject padre.
      */
     explicit TableModel( const QVector<SmartUtente>, QObject* = 0 );
 
@@ -59,32 +59,57 @@ public:
      */
     QVariant headerData( int, Qt::Orientation, int ) const Q_DECL_OVERRIDE;
 
-    /** */
+    /** Ritorna un vettore contenente degli oggetti SmartUtente contenuti nella tabella.
+     *
+     * @return QVector<SmartUtente>  Vettore degli oggetti SmartUtente contenuti nella tabella.
+     */
     QVector<SmartUtente> getList();
 
-    /** */
+    /** Imposta la lista degli oggetti di tipo SmartUtente della tabella.
+     *  Emette il segnale layoutChanged() per notificare la view della modifica.
+     *
+     * @param QVector<SmartUtente>  Nuovo vettore di oggetti SmartUtente da mostrare nella tabella.
+     */
     void setList( const QVector<SmartUtente> );
 signals:
-    /** */
+    /** Notifica il model quale cella è stata selezionata.
+     *
+     * @param QModelIndex  Indice della tabella selezionato.
+     */
     void tableClickedSignal( const QModelIndex& );
 
-    /** */
+    /** Notifica che l'utente corrispondente all'indice della tabella è da rimuovere.
+     *
+     * @param QModelIndex  Indice della tabella selezionato.
+     */
     void removeUserSignal( const QModelIndex& );
 
-    /** */
-    void updateUserListSignal( int );
+    /** Notifica al parent quale riga della tabella (utente) è da rimuovere.
+     *
+     * @param QModelIndex  Indice delle tabella dove la riga corrisponde all'utente da rimuovere.
+     */
+    void updateUserListSignal( const QModelIndex& );
 
-    /** */
+    /** Notifica il parent che è stata selezionata la cella corrispondente al cambio di tipologia
+     *  dell'account di un'utente.
+     *
+     * @param QModelIndex  Indice della tabella, dove, la riga corrisponde ad un utente del database,
+     * mentre la colonna corrisponde al cambio di tipologia dell'account.
+     */
     void openChangeAccountTypeSignal( const QModelIndex& );
 
-    /** */
+    /** Notifica al parent quale riga della tabella (contatto) è da rimuovere.
+     *
+     * @param QModelIndex  Indice della tabella, la quale riga corrisponde al contatto da rimuovere.
+     */
     void removeContactSignal( const QModelIndex& );
 private slots:
-    /** */
+    /** In base all'indice della colonna selezionata, se a questo è associata un'azione, emette un
+     *  apposito segnale.
+     *
+     * @param QModelIndex  Indice della tabella selezionato.
+     */
     void tableClickedSlot( const QModelIndex& );
-
-    /** */
-    void removeUserSlot( const QModelIndex& );
 };
 
 #endif // TABLEMODEL_H

@@ -1,32 +1,36 @@
-#include "gui/userlist_widget.h"
-#include "gui/tablemodel.h"
 #include <QDebug>
+#include <QHeaderView>
+#include <QPushButton>
+#include <QTableView>
 #include <QTableWidget>
 #include <QVBoxLayout>
-#include <QHeaderView>
-#include "utente.h"
-#include "linqedin_admin.h"
+
 #include "changeusertypedialog.h"
+#include "gui/tablemodel.h"
+#include "gui/userlist_widget.h"
+#include "linqedin_admin.h"
+#include "utente.h"
 
 // COSTRUTTORE UserListWidget
 UserListWidget::UserListWidget( const QVector<SmartUtente> v, QWidget *parent ) :
     QWidget( parent )
 {
-    QVBoxLayout *layout = new QVBoxLayout;
+    QVBoxLayout *layout = new QVBoxLayout( this );
 
-    table = new TableModel( v );
+    table = new TableModel( v, this );
 
-    tableView = new QTableView;
+    tableView = new QTableView( this );
     tableView->setModel( table );
     tableView->setVerticalScrollBarPolicy( Qt::ScrollBarAlwaysOn );
     tableView->setAlternatingRowColors( true );
     tableView->horizontalHeader()->setSectionResizeMode( QHeaderView::Stretch );
     tableView->setStyleSheet( "background: white" );
+
     connect( tableView, SIGNAL( clicked( const QModelIndex& ) ),
              table, SIGNAL( tableClickedSignal( const QModelIndex& ) ) );
              // table, SLOT( tableClickedSlot( const QModelIndex& ) ) );
-    connect( table, SIGNAL( updateUserListSignal( int ) ),
-             this, SLOT( updateUserListSlot( int ) ) );
+    connect( table, SIGNAL( updateUserListSignal( const QModelIndex& ) ),
+             this, SLOT( updateUserListSlot( const QModelIndex& ) ) );
     connect( table, SIGNAL( openChangeAccountTypeSignal( const QModelIndex& ) ),
              this, SLOT( openChangeAccountTypeSlot( const QModelIndex& ) ) );
     connect( table, SIGNAL( removeContactSignal( const QModelIndex& ) ),
@@ -39,6 +43,12 @@ UserListWidget::UserListWidget( const QVector<SmartUtente> v, QWidget *parent ) 
     layout->addWidget( tableView );
 
     setLayout( layout );
+}
+
+// DISTRUTTORE UserListWidget
+UserListWidget::~UserListWidget() {
+    delete table;
+    delete tableView;
 }
 
 // METODO UserListWidget::addUser
@@ -78,8 +88,8 @@ void UserListWidget::updateUserListSlot( LinQedInAdmin* admin ) {
     table->setList( admin->getUsersList() );
 }
 
-void UserListWidget::updateUserListSlot( int row ) {
-    emit updateUserListSignal( table->data( table->index( row, 0 ), Qt::DisplayRole ).toString() );
+void UserListWidget::updateUserListSlot( const QModelIndex& i ) {
+    emit updateUserListSignal( table->data( table->index( i.row(), 0 ), Qt::DisplayRole ).toString() );
 }
 
 void UserListWidget::openChangeAccountTypeSlot( const QModelIndex& i ) {
@@ -96,5 +106,5 @@ void UserListWidget::removeContactSlot( const QModelIndex& i ) {
 }
 
 void UserListWidget::updateContactsListSlot( const SmartUtente& su ) {
-    table->setList( su->getContactsList() );
+    //table->setList( su->getContactsList() );
 }

@@ -2,13 +2,14 @@
 #define ADMINWINDOW_H
 
 #include <QMainWindow>
-#include <QMenuBar>
-#include "gui/adminsearch_widget.h"
-#include "gui/userlist_widget.h"
-#include "../smartutente.h"
-#include "adduserdialog.h"
 
+class AdminSearchWidget;
 class LinQedInAdmin;
+class QAction;
+class QMenu;
+class QPushButton;
+class SmartUtente;
+class UserListWidget;
 
 class AdminWindow : public QMainWindow {
     Q_OBJECT
@@ -26,34 +27,36 @@ private:
     UserListWidget *userListWidget;
     QPushButton *addUserButton;
 
-    /** Inizializza la GUI. */
-    void initializeGUI();
+    /** Realizza la UI. Mostra la GUI. */
+    void setupUI();
 
     /** Crea le varie action necessarie. */
     void createMenuActions();
 
-    /** Crea il menu.
-     *  Associa le action al menu ed inserisce il menu nella barra del menu.
-     */
+    /** Crea il menu. Associa le action al menu ed inserisce il menu nella barra del menu. */
     void createMenus();
 public:
     /** Costruttore esplicito ad 1 parametro con 1 valore di default.
      *  Come da buona pratica, delega l'inizializzazione della GUI ad un metodo ausiliario.
-     *  Mostra la GUI del client per l'amministratore.
      *
      * @param QWidget  Puntatore al QWidget padre. Se nullo si riferisce a quello top-level.
      */
     explicit AdminWindow( QWidget *parent = 0 );
 
-    /** Distruttore ridefinito.
-     *  Ripulise lo heap.
-     */
+    /** Distruttore ridefinito. Ripulise lo heap. */
     ~AdminWindow();
+signals:
+    /** Notifica userListWidget che la lista degli utenti del database è stata aggiornata.
+     *  Si preoccupa di aggiornare la lista degli utenti sulla tabella del client.
+     *
+     * @param LinQedInAdmin*  Necessario per poter recuperare la nuova lista degli utenti.
+     */
+    void updateUsersListSignal( LinQedInAdmin* );
 private slots:
     /** Esegue il log out dall'applicazione. Mostra la finestra di log in. */
     void logout();
 
-    /** Mostra le informazioni dell'applicazione su di una finestra pop-up. */
+    /** Mostra le informazioni dell'applicazione su di una finestra di dialogo. */
     void about();
 
     /** Apre una nuova finestra per l'inserimento di un nuovo utente. */
@@ -66,12 +69,20 @@ private slots:
      */
     void addUserSlot( const SmartUtente& );
 
-    void emitUpdateUserListSignal( const QString& );
+    /** Quando userListWidget notifica la rimozione di un utente dal database, rimuove un utente dal
+     *  database ed emette il segnale updateUserListSignal( LinQedInAdmin* ).
+     *
+     * @param QString  Username dell'utente da rimuovere dal database degli utenti.
+     */
+    void updateListUserRemoved( const QString& );
 
-    void emitUpdateUserListSignal( const QString&, const QString& );
-signals:
-    /** */
-    void updateUserListSignal( LinQedInAdmin* );
+    /** Quando userListWidget notifica la modifica della tipologia di account di un utente, modifica
+     *  la tipologia dell'utente ed emette il segnale updateUserListSignal( LinQedInAdmin* )
+     *
+     * @param QString  Username dell'utente interessato dal cambio di tipologia.
+     * @param QString  Nuova tipologia dell'account dell'utente.
+     */
+    void updateListUserModified( const QString&, const QString& );
 };
 
 #endif // ADMINWINDOW_H
