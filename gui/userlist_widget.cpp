@@ -27,14 +27,13 @@ UserListWidget::UserListWidget( const QVector<SmartUtente> v, QWidget *parent ) 
     tableView->setStyleSheet( "background: white" );
 
     connect( tableView, SIGNAL( clicked( const QModelIndex& ) ),
-             table, SIGNAL( tableClickedSignal( const QModelIndex& ) ) );
-             // table, SLOT( tableClickedSlot( const QModelIndex& ) ) );
-    connect( table, SIGNAL( updateUserListSignal( const QModelIndex& ) ),
-             this, SLOT( updateUserListSlot( const QModelIndex& ) ) );
-    connect( table, SIGNAL( openChangeAccountTypeSignal( const QModelIndex& ) ),
-             this, SLOT( openChangeAccountTypeSlot( const QModelIndex& ) ) );
-    connect( table, SIGNAL( removeContactSignal( const QModelIndex& ) ),
-             this, SLOT( removeContactSlot( const QModelIndex& ) ) );
+             table, SLOT( tableClickedSlot( const QModelIndex& ) ) );
+    connect( table, SIGNAL( userToRemoveSignal( const QModelIndex& ) ),
+             this, SLOT( userToRemoveSlot( const QModelIndex& ) ) );
+    connect( table, SIGNAL( openChangeUserTypeSignal( const QModelIndex& ) ),
+             this, SLOT( openChangeUserTypeSlot( const QModelIndex& ) ) );
+    connect( table, SIGNAL( contactToRemoveSignal( const QModelIndex& ) ),
+             this, SLOT( contactToRemoveSlot( const QModelIndex& ) ) );
     connect( this, SIGNAL( updateContactsListSignal(const SmartUtente&) ),
              this, SLOT( updateContactsListSlot( const SmartUtente& ) ) );
 
@@ -43,12 +42,6 @@ UserListWidget::UserListWidget( const QVector<SmartUtente> v, QWidget *parent ) 
     layout->addWidget( tableView );
 
     setLayout( layout );
-}
-
-// DISTRUTTORE UserListWidget
-UserListWidget::~UserListWidget() {
-    delete table;
-    delete tableView;
 }
 
 // METODO UserListWidget::addUser
@@ -88,23 +81,28 @@ void UserListWidget::updateUserListSlot( LinQedInAdmin* admin ) {
     table->setList( admin->getUsersList() );
 }
 
-void UserListWidget::updateUserListSlot( const QModelIndex& i ) {
-    emit updateUserListSignal( table->data( table->index( i.row(), 0 ), Qt::DisplayRole ).toString() );
+// SLOT
+void UserListWidget::userToRemoveSlot( const QModelIndex& i ) {
+    emit updateListUserRemovedSignal( table->data( table->index( i.row(), 0 ), Qt::DisplayRole ).toString() );
 }
 
-void UserListWidget::openChangeAccountTypeSlot( const QModelIndex& i ) {
+// SLOT
+void UserListWidget::openChangeUserTypeSlot( const QModelIndex& i ) {
     QString username = table->data( table->index( i.row(), 0 ), Qt::DisplayRole ).toString();
     QString type = table->data( table->index( i.row(), i.column() - 1 ), Qt::DisplayRole ).toString();
+
     ChangeUserTypeDialog *changeUserTypeDialog = new ChangeUserTypeDialog( username, type, this );
-    connect( changeUserTypeDialog, SIGNAL( changeAccountTypeSignal( const QString&, const QString& ) ),
-             this, SIGNAL( updateUserListSignal( const QString&, const QString& ) ) );
+    connect( changeUserTypeDialog, SIGNAL( changeUserTypeSignal( const QString&, const QString& ) ),
+             this, SIGNAL( updateListUserTypeSignal( const QString&, const QString& ) ) );
     changeUserTypeDialog->exec();
 }
 
-void UserListWidget::removeContactSlot( const QModelIndex& i ) {
-    emit updateContactsSignal( table->data( table->index( i.row(), 0 ), Qt::DisplayRole ).toString() );
+// SLOT
+void UserListWidget::contactToRemoveSlot( const QModelIndex& i ) {
+    emit updateListContactRemovedSignal( table->data( table->index( i.row(), 0 ), Qt::DisplayRole ).toString() );
 }
 
+// SLOT
 void UserListWidget::updateContactsListSlot( const SmartUtente& su ) {
     //table->setList( su->getContactsList() );
 }

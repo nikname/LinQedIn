@@ -42,6 +42,7 @@ void LinQedInAdmin::changeSubscriptionType( QString u, QString type ) {
     if( db->contains( u ) ) {
         SmartUtente su = findUser( u );
         if( type != su->getAccountType() ) {
+            // controllo già effettuato in ChangeUserTypeDialog::changeUserType()
             db->remove( u );
             if( type == "Basic" ) {
                 db->insert( new UtenteBasic( *su ) );

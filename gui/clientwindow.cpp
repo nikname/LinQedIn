@@ -41,7 +41,7 @@ void ClientWindow::initializeGUI() {
 
     connect( tabProfilo, SIGNAL( updateUserInfoSignal( const QString&, const QString& ) ),
              this, SLOT( updateUserInfoSlot( const QString&, const QString& ) ) );
-    connect( tabRete, SIGNAL( updateContactsSignal( const QString& ) ),
+    connect( tabRete, SIGNAL( updateListContactRemovedSignal( const QString& ) ),
              this, SLOT( updateContactsSlot( const QString& ) ) );
     connect( this, SIGNAL( updateContactsListSignal(const SmartUtente& ) ),
              tabRete, SIGNAL( updateContactsListSignal( const SmartUtente& ) ) );

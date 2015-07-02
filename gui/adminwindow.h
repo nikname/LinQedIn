@@ -49,6 +49,8 @@ signals:
     /** Notifica userListWidget che la lista degli utenti del database è stata aggiornata.
      *  Si preoccupa di aggiornare la lista degli utenti sulla tabella del client.
      *
+     *  ### Necessario per AddUserDialog::addUserSignal( SmartUtente ) ###
+     *
      * @param LinQedInAdmin*  Necessario per poter recuperare la nuova lista degli utenti.
      */
     void updateUsersListSignal( LinQedInAdmin* );
@@ -74,7 +76,7 @@ private slots:
      *
      * @param QString  Username dell'utente da rimuovere dal database degli utenti.
      */
-    void updateListUserRemoved( const QString& );
+    void updateListUserRemovedSlot( const QString& );
 
     /** Quando userListWidget notifica la modifica della tipologia di account di un utente, modifica
      *  la tipologia dell'utente ed emette il segnale updateUserListSignal( LinQedInAdmin* )
@@ -82,7 +84,7 @@ private slots:
      * @param QString  Username dell'utente interessato dal cambio di tipologia.
      * @param QString  Nuova tipologia dell'account dell'utente.
      */
-    void updateListUserModified( const QString&, const QString& );
+    void updateListUserTypeSlot( const QString&, const QString& );
 };
 
 #endif // ADMINWINDOW_H

@@ -59,6 +59,15 @@ public:
      */
     QVariant headerData( int, Qt::Orientation, int ) const Q_DECL_OVERRIDE;
 
+    /** Rimuove un numero di righe consecutive dalla tabella. Emette il segnale layoutChanged() per
+     *  notificare alla view il cambiamento del contenuto della tabella.
+     *
+     * @param int  Indice della prima riga da rimuovere.
+     * @param int  Numero di righe consecutive da rimuovere.
+     * @param QModelIndex  Parent dal quale rimuovere le righe.
+     */
+    bool removeRows( int, int, const QModelIndex& parent ) Q_DECL_OVERRIDE;
+
     /** Ritorna un vettore contenente degli oggetti SmartUtente contenuti nella tabella.
      *
      * @return QVector<SmartUtente>  Vettore degli oggetti SmartUtente contenuti nella tabella.
@@ -72,40 +81,30 @@ public:
      */
     void setList( const QVector<SmartUtente> );
 signals:
-    /** Notifica il model quale cella è stata selezionata.
+    /** Notifica il parent quale riga della tabella (utente) è da rimuovere.
      *
-     * @param QModelIndex  Indice della tabella selezionato.
+     * @param QModelIndex  Indice della tabella selezionato. La riga identifica l'utente.
      */
-    void tableClickedSignal( const QModelIndex& );
-
-    /** Notifica che l'utente corrispondente all'indice della tabella è da rimuovere.
-     *
-     * @param QModelIndex  Indice della tabella selezionato.
-     */
-    void removeUserSignal( const QModelIndex& );
-
-    /** Notifica al parent quale riga della tabella (utente) è da rimuovere.
-     *
-     * @param QModelIndex  Indice delle tabella dove la riga corrisponde all'utente da rimuovere.
-     */
-    void updateUserListSignal( const QModelIndex& );
+    void userToRemoveSignal( const QModelIndex& );
 
     /** Notifica il parent che è stata selezionata la cella corrispondente al cambio di tipologia
      *  dell'account di un'utente.
      *
-     * @param QModelIndex  Indice della tabella, dove, la riga corrisponde ad un utente del database,
-     * mentre la colonna corrisponde al cambio di tipologia dell'account.
+     * @param QModelIndex  Indice della tabella selezionato. La riga identifica l'utente.
      */
-    void openChangeAccountTypeSignal( const QModelIndex& );
+    void openChangeUserTypeSignal( const QModelIndex& );
 
     /** Notifica al parent quale riga della tabella (contatto) è da rimuovere.
      *
-     * @param QModelIndex  Indice della tabella, la quale riga corrisponde al contatto da rimuovere.
+     * @param QModelIndex  Indice della tabella selezionato. La riga identifica il contatto.
      */
-    void removeContactSignal( const QModelIndex& );
+    void contactToRemoveSignal( const QModelIndex& );
 private slots:
     /** In base all'indice della colonna selezionata, se a questo è associata un'azione, emette un
-     *  apposito segnale.
+     *  apposito segnale. Gli indici di colonna ai quali è associata un'azione sono:
+     *   - 4, emette openChangeUserTypeSignal( QModelIndex );
+     *   - 5, rimuove l'utente dalla tabella ed emette userToRemoveSignal( QModelIndex );
+     *   - 6, rimuove il contatto dalla tabella ed emette contactToRemoveSignal( QModelIndex ).
      *
      * @param QModelIndex  Indice della tabella selezionato.
      */

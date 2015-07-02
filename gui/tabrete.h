@@ -18,7 +18,7 @@ public:
     explicit TabRete( SmartUtente, Database*, QWidget *parent = 0 );
 signals:
     /** */
-    void updateContactsSignal( const QString& );
+    void updateListContactRemovedSignal( const QString& );
 
     void updateContactsListSignal( const SmartUtente& );
 };

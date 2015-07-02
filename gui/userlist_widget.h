@@ -11,7 +11,6 @@ class TableModel;
 
 class UserListWidget : public QWidget {
     Q_OBJECT
-    friend class AddUserDialog;
 private:
     TableModel *table;
     QTableView *tableView;
@@ -23,9 +22,6 @@ public:
      * @param QWidget  Puntatore al QWidget padre. Se nullo si riferisce a quello top-level.
      */
     explicit UserListWidget( const QVector<SmartUtente>, QWidget *parent = 0 );
-
-    /** Distruttore ridefinito. Ripulisce lo heap. */
-    ~UserListWidget();
 
     /** Aggiunge le informazioni di un utente in una riga della tabella.
      *
@@ -46,13 +42,29 @@ public:
      */
     void hideColumn( int );
 signals:
-    /** */
-    void updateUserListSignal( const QString& );
+    /** Notifica al parent l'username dell'utente da rimuovere dal database.
+     *
+     * @param QString  Username dell'utente.
+     */
+    void updateListUserRemovedSignal( const QString& );
 
-    void updateUserListSignal( const QString&, const QString& );
+    /** Notifica al parent la nuova tipologia dell'account di un utente.
+     *
+     * @param QString  Username dell'utente.
+     * @param QString  Nuova tipologia dell'account.
+     */
+    void updateListUserTypeSignal( const QString&, const QString& );
 
-    void updateContactsSignal( const QString& );
+    /** Notifica il parent l'username del contatto da rimuovere.
+     *
+     * @param QString  Username del contatto da rimuovere.
+     */
+    void updateListContactRemovedSignal( const QString& );
 
+    /** Notifica al parent l'username del contatto da rimuovere dai contatti dell'utente del client.
+     *
+     * @param SmartUtente  Username del contatto da rimuovere.
+     */
     void updateContactsListSignal( const SmartUtente& );
 private slots:
     /** Aggiorna la lista degli utenti con il nuovo contenuto del database.
@@ -61,17 +73,22 @@ private slots:
      */
     void updateUserListSlot( LinQedInAdmin* );
 
-    /** Aggiorna la lista degli utenti nella tabella rimuovendo un'utente da una riga.
+    /** Emette il segnale updateListUserRemovedSignal( QModelIndex ) per notificare al parent
+     *  l'username dell'utente da rimuovere.
      *
-     * @param QModelIndex  Indice la quale riga corrispondente all'utente da rimuovere.
+     * @param QModelIndex  Indice della tabella selezionato. La riga identifica l'utente da rimuovere.
      */
-    void updateUserListSlot( const QModelIndex& );
+    void userToRemoveSlot( const QModelIndex& );
 
-    /** */
-    void openChangeAccountTypeSlot( const QModelIndex& );
+    /** Mostra una finestra di dialogo necessaria al cambio di tipologia di account di un utente.
+     *
+     * @param QModelIndex  Indice della tabella selezionato. La riga identifica l'utente interessato
+     * dal cambio di tipologia di account.
+     */
+    void openChangeUserTypeSlot( const QModelIndex& );
 
-    /** */
-    void removeContactSlot( const QModelIndex& );
+    /**  */
+    void contactToRemoveSlot( const QModelIndex& );
 
     void updateContactsListSlot( const SmartUtente& );
 };

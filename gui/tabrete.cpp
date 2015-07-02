@@ -22,8 +22,8 @@ TabRete::TabRete( SmartUtente su, Database *db, QWidget *parent ) :
     contactList->hideColumn( 4 );
     contactList->hideColumn( 5 );
 
-    connect( contactList, SIGNAL( updateContactsSignal( const QString& ) ),
-             this, SIGNAL( updateContactsSignal( const QString& ) ) );
+    connect( contactList, SIGNAL( updateListContactRemovedSignal( const QString& ) ),
+             this, SIGNAL( updateListContactRemovedSignal( const QString& ) ) );
     connect( this, SIGNAL( updateContactsListSignal( const SmartUtente&) ),
              contactList, SIGNAL( updateContactsListSignal( const SmartUtente& ) ) );
 

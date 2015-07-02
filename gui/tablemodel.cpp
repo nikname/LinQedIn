@@ -4,15 +4,11 @@
 // COSTRUTTORE TableModel
 TableModel::TableModel( const QVector<SmartUtente> v, QObject *parent ) :
     QAbstractTableModel( parent ),
-    userList( v ),
-    detailIcon( QPixmap( ":/icons/icon/account-switch.png" ) ),
-    deleteIcon( QPixmap( ":/icons/icon/delete.png" ) ),
-    removeContactIcon( QPixmap( ":icons/icon/account-remove.png" ) )
+    userList( v )
 {
-    connect( this, SIGNAL( tableClickedSignal( const QModelIndex& ) ),
-             this, SLOT( tableClickedSlot( const QModelIndex& ) ) );
-    connect( this, SIGNAL( removeUserSignal( const QModelIndex& ) ),
-             this, SIGNAL( updateUserListSignal( const QModelIndex& ) ) );
+    detailIcon = QPixmap( ":/icons/icon/account-switch.png" );
+    deleteIcon = QPixmap( ":/icons/icon/delete.png" );
+    removeContactIcon = QPixmap( ":icons/icon/account-remove.png" );
 }
 
 // METODO TableModel::rowCount
@@ -87,6 +83,19 @@ QVariant TableModel::headerData( int section, Qt::Orientation orientation, int r
     return QVariant();
 }
 
+// METODO TableModel::removeRows
+bool TableModel::removeRows( int row, int count, const QModelIndex& parent ) {
+    Q_UNUSED( parent );
+    beginRemoveRows( QModelIndex(), row, row + count - 1 );
+    while( count ) {
+        userList.removeAt( row );
+        count--;
+    }
+    endRemoveRows();
+    emit layoutChanged();
+    return true;
+}
+
 // METODO TableModel::getList
 QVector<SmartUtente> TableModel::getList() {
     return userList;
@@ -103,13 +112,14 @@ void TableModel::setList( const QVector<SmartUtente> v ) {
 void TableModel::tableClickedSlot( const QModelIndex& i ) {
     switch( i.column() ) {
     case 4:
-        emit openChangeAccountTypeSignal( i );
+        emit openChangeUserTypeSignal( i );
         break;
     case 5:
-        emit removeUserSignal( i );
+        emit userToRemoveSignal( i );
+        removeRows( i.row(), 1, QModelIndex() );
         break;
     case 6:
-        emit removeContactSignal( i );
+        emit contactToRemoveSignal( i );
         break;
     default: break;
     }
