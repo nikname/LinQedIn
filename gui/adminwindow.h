@@ -49,11 +49,9 @@ signals:
     /** Notifica userListWidget che la lista degli utenti del database è stata aggiornata.
      *  Si preoccupa di aggiornare la lista degli utenti sulla tabella del client.
      *
-     *  ### Necessario per AddUserDialog::addUserSignal( SmartUtente ) ###
-     *
      * @param LinQedInAdmin*  Necessario per poter recuperare la nuova lista degli utenti.
      */
-    void updateUsersListSignal( LinQedInAdmin* );
+    void updateUsersListSignal( LinQedInAdmin*, const QString& );
 private slots:
     /** Esegue il log out dall'applicazione. Mostra la finestra di log in. */
     void logout();

@@ -3,11 +3,12 @@
 
 #include <QAbstractTableModel>
 #include <QPixmap>
-#include "adminwindow.h"
+
 #include "smartutente.h"
 
 class TableModel : public QAbstractTableModel {
     Q_OBJECT
+    friend class UserListWidget;
 private:
     QVector<SmartUtente> userList;
     QPixmap detailIcon;
@@ -71,6 +72,7 @@ public:
     /** Ritorna un vettore contenente degli oggetti SmartUtente contenuti nella tabella.
      *
      * @return QVector<SmartUtente>  Vettore degli oggetti SmartUtente contenuti nella tabella.
+     * @deprecated  Conviene utilizzare una combinazione signal/slot adeguata.
      */
     QVector<SmartUtente> getList();
 
@@ -109,6 +111,8 @@ private slots:
      * @param QModelIndex  Indice della tabella selezionato.
      */
     void tableClickedSlot( const QModelIndex& );
+
+    void updateTableRowSlot( const SmartUtente& );
 };
 
 #endif // TABLEMODEL_H

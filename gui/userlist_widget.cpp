@@ -1,6 +1,7 @@
 #include <QDebug>
 #include <QHeaderView>
 #include <QPushButton>
+#include <QSortFilterProxyModel>
 #include <QTableView>
 #include <QTableWidget>
 #include <QVBoxLayout>
@@ -19,8 +20,13 @@ UserListWidget::UserListWidget( const QVector<SmartUtente> v, QWidget *parent ) 
 
     table = new TableModel( v, this );
 
+    proxyModel = new QSortFilterProxyModel( this );
+    proxyModel->setSourceModel( table );
+    proxyModel->sort( 0, Qt::AscendingOrder );
+    proxyModel->setDynamicSortFilter( true );
+
     tableView = new QTableView( this );
-    tableView->setModel( table );
+    tableView->setModel( proxyModel );
     tableView->setVerticalScrollBarPolicy( Qt::ScrollBarAlwaysOn );
     tableView->setAlternatingRowColors( true );
     tableView->horizontalHeader()->setSectionResizeMode( QHeaderView::Stretch );
@@ -36,6 +42,8 @@ UserListWidget::UserListWidget( const QVector<SmartUtente> v, QWidget *parent ) 
              this, SLOT( contactToRemoveSlot( const QModelIndex& ) ) );
     connect( this, SIGNAL( updateContactsListSignal(const SmartUtente&) ),
              this, SLOT( updateContactsListSlot( const SmartUtente& ) ) );
+    connect( this, SIGNAL( updateTableRowSignal( const SmartUtente& ) ),
+             table, SLOT( updateTableRowSlot( const SmartUtente& ) ) );
 
     loadUserList();
 
@@ -77,19 +85,23 @@ void UserListWidget::hideColumn( int i ) {
 }
 
 // SLOT UserListWidget::updateUserListSlot
-void UserListWidget::updateUserListSlot( LinQedInAdmin* admin ) {
-    table->setList( admin->getUsersList() );
+void UserListWidget::updateUserListSlot( LinQedInAdmin* admin, const QString& un ) {
+    emit updateTableRowSignal( admin->findUser( un ) );
+
+    // table->setList( admin->getUsersList() );
 }
 
 // SLOT
 void UserListWidget::userToRemoveSlot( const QModelIndex& i ) {
-    emit updateListUserRemovedSignal( table->data( table->index( i.row(), 0 ), Qt::DisplayRole ).toString() );
+    emit updateListUserRemovedSignal( table->data( table->index( i.row(), 0 ), Qt::DisplayRole )
+                                      .toString() );
 }
 
 // SLOT
 void UserListWidget::openChangeUserTypeSlot( const QModelIndex& i ) {
     QString username = table->data( table->index( i.row(), 0 ), Qt::DisplayRole ).toString();
-    QString type = table->data( table->index( i.row(), i.column() - 1 ), Qt::DisplayRole ).toString();
+    QString type = table->data( table->index( i.row(), i.column() - 1 ), Qt::DisplayRole )
+            .toString();
 
     ChangeUserTypeDialog *changeUserTypeDialog = new ChangeUserTypeDialog( username, type, this );
     connect( changeUserTypeDialog, SIGNAL( changeUserTypeSignal( const QString&, const QString& ) ),
@@ -99,7 +111,8 @@ void UserListWidget::openChangeUserTypeSlot( const QModelIndex& i ) {
 
 // SLOT
 void UserListWidget::contactToRemoveSlot( const QModelIndex& i ) {
-    emit updateListContactRemovedSignal( table->data( table->index( i.row(), 0 ), Qt::DisplayRole ).toString() );
+    emit updateListContactRemovedSignal( table->data( table->index( i.row(), 0 ), Qt::DisplayRole )
+                                         .toString() );
 }
 
 // SLOT

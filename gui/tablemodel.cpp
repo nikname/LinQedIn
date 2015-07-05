@@ -1,6 +1,8 @@
 #include "tablemodel.h"
 #include "linqedin_admin.h" // se omesso: invalid use of incomplete type 'class Utente'
 
+#include <QSortFilterProxyModel>
+
 // COSTRUTTORE TableModel
 TableModel::TableModel( const QVector<SmartUtente> v, QObject *parent ) :
     QAbstractTableModel( parent ),
@@ -87,12 +89,13 @@ QVariant TableModel::headerData( int section, Qt::Orientation orientation, int r
 bool TableModel::removeRows( int row, int count, const QModelIndex& parent ) {
     Q_UNUSED( parent );
     beginRemoveRows( QModelIndex(), row, row + count - 1 );
-    while( count ) {
+
+    for( int r = 0; r < count; ++r) {
         userList.removeAt( row );
-        count--;
     }
+
     endRemoveRows();
-    emit layoutChanged();
+    //emit layoutChanged();
     return true;
 }
 
@@ -103,7 +106,7 @@ QVector<SmartUtente> TableModel::getList() {
 
 // METODO TableModel::setList
 void TableModel::setList( const QVector<SmartUtente> v ) {
-    //emit layoutAboutToBeChanged();
+    emit layoutAboutToBeChanged();
     userList = v;
     emit layoutChanged();
 }
@@ -123,4 +126,30 @@ void TableModel::tableClickedSlot( const QModelIndex& i ) {
         break;
     default: break;
     }
+}
+
+// SLOT TableModel::updateTableRowSlot
+void TableModel::updateTableRowSlot( const SmartUtente& su ) {
+    emit layoutAboutToBeChanged();
+
+    if( userList.isEmpty() ) {
+        QVector<SmartUtente> aux;
+        aux.append( su );
+        userList = aux;
+    } else {
+        bool replaced = false;
+        QVector<SmartUtente>::iterator it = userList.begin();
+        for( int i = 0; i < userList.size(); i++, it++ ) {
+            if( userList[i]->getUsername() == su->getUsername() ) {
+                userList.replace( i, su );
+                replaced = true;
+                break;
+            }
+        }
+        if( !replaced ) {
+            userList.append( su );
+        }
+    }
+
+    emit layoutChanged();
 }

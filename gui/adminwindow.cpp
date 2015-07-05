@@ -66,8 +66,8 @@ void AdminWindow::setupUI() {
     mainWidget->setLayout( layout );
     mainWidget->setStyleSheet( "background: #069" );
 
-    connect( this, SIGNAL( updateUsersListSignal( LinQedInAdmin* ) ),
-             userListWidget, SLOT( updateUserListSlot( LinQedInAdmin* ) ) );
+    connect( this, SIGNAL( updateUsersListSignal( LinQedInAdmin*, QString ) ),
+             userListWidget, SLOT( updateUserListSlot( LinQedInAdmin*, QString ) ) );
     connect( userListWidget, SIGNAL( updateListUserRemovedSignal( const QString& ) ),
              this, SLOT( updateListUserRemovedSlot( const QString& ) ) );
     connect( userListWidget, SIGNAL( updateListUserTypeSignal( const QString&, const QString& ) ),
@@ -132,7 +132,7 @@ void AdminWindow::openAddUserDialog() {
 void AdminWindow::addUserSlot( const SmartUtente& su ) {
     admin->insertUser( su );
     admin->saveDatabase();
-    emit updateUsersListSignal( admin );
+    emit updateUsersListSignal( admin, su->getUsername() );
 }
 
 // SLOT AdminWindow::updateListUserRemovedSlot( QString )
@@ -145,4 +145,5 @@ void AdminWindow::updateListUserRemovedSlot( const QString& username ) {
 void AdminWindow::updateListUserTypeSlot( const QString& u, const QString& t ) {
     admin->changeSubscriptionType( u, t );
     admin->saveDatabase();
+    emit updateUsersListSignal( admin, u );
 }

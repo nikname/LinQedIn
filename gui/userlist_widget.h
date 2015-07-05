@@ -6,6 +6,7 @@
 
 class LinQedInAdmin;
 class QPushButton;
+class QSortFilterProxyModel;
 class QTableView;
 class TableModel;
 
@@ -14,6 +15,7 @@ class UserListWidget : public QWidget {
 private:
     TableModel *table;
     QTableView *tableView;
+    QSortFilterProxyModel *proxyModel;
 public:
     /** Costruttore esplicito ad 1 parametro con 1 valore di default.
      *  Realizza l'area della GUI nella quale viene visualizzata la lista degli utenti.
@@ -66,12 +68,14 @@ signals:
      * @param SmartUtente  Username del contatto da rimuovere.
      */
     void updateContactsListSignal( const SmartUtente& );
+
+    void updateTableRowSignal( const SmartUtente& );
 private slots:
     /** Aggiorna la lista degli utenti con il nuovo contenuto del database.
      *
-     * @param LinQedInAdmin*
+     * @param LinQedInAdmin*  Oggetto che ha accesso al contenuto del database.
      */
-    void updateUserListSlot( LinQedInAdmin* );
+    void updateUserListSlot( LinQedInAdmin*, const QString& );
 
     /** Emette il segnale updateListUserRemovedSignal( QModelIndex ) per notificare al parent
      *  l'username dell'utente da rimuovere.
