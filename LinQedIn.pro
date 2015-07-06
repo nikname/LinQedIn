@@ -24,7 +24,6 @@ SOURCES += main.cpp\
     linqedin_client.cpp \
     utente_basic.cpp \
     utente_business.cpp \
-    utente_express.cpp \
     utente_gratis.cpp \
     utente_pagante.cpp \
     titolo.cpp \
@@ -41,7 +40,8 @@ SOURCES += main.cpp\
     gui/changeusertypedialog.cpp \
     gui/usersearchwidget.cpp \
     gui/tabprofilo.cpp \
-    gui/tabrete.cpp
+    gui/tabrete.cpp \
+    utente_executive.cpp
 
 HEADERS  += \
     profilo.h \
@@ -50,7 +50,6 @@ HEADERS  += \
     utente_gratis.h \
     utente_pagante.h \
     utente_basic.h \
-    utente_express.h \
     utente_business.h \
     esperienza.h \
     formazione.h \
@@ -72,7 +71,8 @@ HEADERS  += \
     gui/changeusertypedialog.h \
     gui/usersearchwidget.h \
     gui/tabprofilo.h \
-    gui/tabrete.h
+    gui/tabrete.h \
+    utente_executive.h
 
 FORMS    +=
 

@@ -18,7 +18,7 @@ private:
     QWidget *typeCheckbox;
     QLabel *typeLabel;
     QCheckBox *typeCheckboxBasic;
-    QCheckBox *typeCheckboxExpress;
+    QCheckBox *typeCheckboxExecutive;
     QCheckBox *typeCheckboxBusiness;
 
     QWidget *fieldCheckbox;

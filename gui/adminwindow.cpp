@@ -173,9 +173,11 @@ void AdminWindow::openAddUserDialog() {
 
 // SLOT AdminWindow::saveDatabaseStatus
 void AdminWindow::saveDatabaseStatus() {
-    admin->saveDatabase();
-    stateChanged = false;
-    setWindowTitle( windowTitle().remove( 0, 1 ) );
+    if( stateChanged ) {
+        admin->saveDatabase();
+        stateChanged = false;
+        setWindowTitle( windowTitle().remove( 0, 1 ) );
+    }
 }
 
 // SLOT AdminWindow::userToAddSlot( SmartUtente )
@@ -200,6 +202,8 @@ void AdminWindow::updateListUserTypeSlot( const QString& u, const QString& t ) {
 
 // SLOT AdminWindow::databaseStatusChangedSlot()
 void AdminWindow::databaseStatusChangedSlot() {
-    stateChanged = true;
-    setWindowTitle( "*" + windowTitle() );
+    if( !stateChanged ) {
+        stateChanged = true;
+        setWindowTitle( "*" + windowTitle() );
+    }
 }

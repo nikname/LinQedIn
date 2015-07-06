@@ -49,14 +49,14 @@ AdminSearchWidget::AdminSearchWidget( QWidget *parent ) :
 
     typeCheckboxBasic = new QCheckBox( "Basic", typeCheckbox );
     typeCheckboxBasic->setChecked( true );
-    typeCheckboxExpress = new QCheckBox( "Express", typeCheckbox );
-    typeCheckboxExpress->setChecked( true );
+    typeCheckboxExecutive = new QCheckBox( "Executive", typeCheckbox );
+    typeCheckboxExecutive->setChecked( true );
     typeCheckboxBusiness = new QCheckBox( "Business", typeCheckbox );
     typeCheckboxBusiness->setChecked( true );
 
     typeCheckboxLayout->addWidget( typeLabel );
     typeCheckboxLayout->addWidget( typeCheckboxBasic );
-    typeCheckboxLayout->addWidget( typeCheckboxExpress );
+    typeCheckboxLayout->addWidget( typeCheckboxExecutive );
     typeCheckboxLayout->addWidget( typeCheckboxBusiness );
 
     typeCheckbox->setLayout( typeCheckboxLayout );

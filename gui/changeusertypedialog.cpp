@@ -15,7 +15,7 @@ ChangeUserTypeDialog::ChangeUserTypeDialog( const QString& u, const QString& t, 
     setupUI();
 
     if( type == "Basic" ) basicRadioButton->setChecked( true );
-    else if( type == "Express" ) expressRadioButton->setChecked( true );
+    else if( type == "Executive" ) executiveRadioButton->setChecked( true );
     else if( type == "Business" ) businessRadioButton->setChecked( true );
     else {}
 }
@@ -29,11 +29,11 @@ void ChangeUserTypeDialog::setupUI() {
     QVBoxLayout *buttonGroupLayout = new QVBoxLayout( buttonGroup );
 
     basicRadioButton = new QRadioButton( "Basic", buttonGroup );
-    expressRadioButton = new QRadioButton( "Express", buttonGroup );
+    executiveRadioButton = new QRadioButton( "Executive", buttonGroup );
     businessRadioButton = new QRadioButton( "Business", buttonGroup );
 
     buttonGroupLayout->addWidget( basicRadioButton );
-    buttonGroupLayout->addWidget( expressRadioButton );
+    buttonGroupLayout->addWidget( executiveRadioButton );
     buttonGroupLayout->addWidget( businessRadioButton );
 
     buttonGroup->setLayout( buttonGroupLayout );
@@ -56,8 +56,8 @@ void ChangeUserTypeDialog::setupUI() {
 void ChangeUserTypeDialog::changeUserType() {
     if( basicRadioButton->isChecked() && type != "Basic" )
         emit changeUserTypeSignal( username, "Basic" );
-    else if( expressRadioButton->isChecked() && type != "Express" )
-        emit changeUserTypeSignal( username, "Express" );
+    else if( executiveRadioButton->isChecked() && type != "Executive" )
+        emit changeUserTypeSignal( username, "Executive" );
     else if( businessRadioButton->isChecked() && type != "Business" )
         emit changeUserTypeSignal( username, "Business" );
     else {}

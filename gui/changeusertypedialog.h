@@ -15,7 +15,7 @@ private:
 
     QGroupBox *buttonGroup;
     QRadioButton *basicRadioButton;
-    QRadioButton *expressRadioButton;
+    QRadioButton *executiveRadioButton;
     QRadioButton *businessRadioButton;
 
     QDialogButtonBox *buttonBox;

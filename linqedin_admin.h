@@ -48,7 +48,7 @@ public:
     /** Cambia tipologia di account.
      *
      * @param QString  Username dell'utente interessato dal cambio tipologia.
-     * @param QString  Nuova tipologia di account ("Basic", "Express", "Business").
+     * @param QString  Nuova tipologia di account ("Basic", "Executive", "Business").
      */
     void changeSubscriptionType( QString, QString );
 

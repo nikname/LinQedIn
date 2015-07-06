@@ -6,7 +6,7 @@
 #include <QXmlStreamWriter>
 #include <QFile>
 #include "utente_basic.h"
-#include "utente_express.h"
+#include "utente_executive.h"
 #include "utente_business.h"
 #include "rete.h"
 
@@ -152,8 +152,8 @@ void Database::parseUser( QXmlStreamReader& xmlReader ) {
     QString type = xmlReader.attributes().value( "type" ).toString();
     if( type == "basic" )
         u = new UtenteBasic( un );
-    else if( type == "express" )
-        u = new UtenteExpress( un );
+    else if( type == "executive" )
+        u = new UtenteExecutive( un );
     else if( type == "business" )
         u = new UtenteBusiness( un );
     else qDebug() << "#"; // throw
@@ -279,8 +279,8 @@ void Database::saveUsersList() const {
 
         if( dynamic_cast<UtenteBasic*>( u ) )
             xmlWriter.writeAttribute( "type", "basic" );
-        else if( dynamic_cast<UtenteExpress*>( u ) )
-            xmlWriter.writeAttribute( "type", "express" );
+        else if( dynamic_cast<UtenteExecutive*>( u ) )
+            xmlWriter.writeAttribute( "type", "executive" );
         else if( dynamic_cast<UtenteBusiness*>( u ) )
             xmlWriter.writeAttribute( "type", "business" );
 

@@ -2,7 +2,7 @@
 #define UTENTE_EXPRESS_H
 #include "utente_pagante.h"
 
-class UtenteExpress : public UtentePagante {
+class UtenteExecutive : public UtentePagante {
 public:
     /** Costruttore a 3 parametri con 3 parametri di default.
      *  Invoca il costruttore a 3 parametri della classe base diretta.
@@ -11,7 +11,7 @@ public:
      * @param QString name  Nome dell'utente da creare.
      * @param QString surname  Cognome dell'utente da creare.
      */
-    UtenteExpress( const QString& un = "",
+    UtenteExecutive( const QString& un = "",
                    const QString& name = "",
                    const QString& surname = "" )
          : UtentePagante( un, name, surname ) {}
@@ -21,10 +21,10 @@ public:
      *
      * @param Utente  Riferimento polimorfo all'oggetto utente da creare di copia.
      */
-    UtenteExpress( const Utente& );
+    UtenteExecutive( const Utente& );
 
     /** Ricerca polimorfa virtuale.
-     *  Esegue la ricerca degli utenti nel database per utenti express.
+     *  Esegue la ricerca degli utenti nel database per utenti executive.
      *
      * @param Database  Database nel quale verrà effettuata la ricerca.
      */
@@ -32,7 +32,7 @@ public:
 
     /** Distruttore virtuale.
      *  Invoca il distruttore della classe base diretta. */
-    virtual ~UtenteExpress() {}
+    virtual ~UtenteExecutive() {}
 
     /** Ritorna la tipologia dell'account sotto forma di stringa.
      *  Il metodo viene ridefinito in ogni sottoclasse concreta in modo che all'invocazione su di

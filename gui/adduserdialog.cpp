@@ -10,7 +10,7 @@
 #include "smartutente.h"
 #include "utente_basic.h"
 #include "utente_business.h"
-#include "utente_express.h"
+#include "utente_executive.h"
 
 // COSTRUTTORE AddUserDialog
 AddUserDialog::AddUserDialog( QWidget *parent ) :
@@ -22,7 +22,7 @@ AddUserDialog::AddUserDialog( QWidget *parent ) :
 
     buttonGroup = new QGroupBox( tr( "Account Type" ), this );
     basicRadioButton = new QRadioButton( "Basic", buttonGroup );
-    expressRadioButton = new QRadioButton( "Express", buttonGroup );
+    executiveRadioButton = new QRadioButton( "Executive", buttonGroup );
     businessRadioButton = new QRadioButton( "Business", buttonGroup );
 
     buttonBox = new QDialogButtonBox( this );
@@ -43,7 +43,7 @@ void AddUserDialog::setupUI() {
     basicRadioButton->setChecked( true );
 
     buttonGroupLayout->addWidget( basicRadioButton );
-    buttonGroupLayout->addWidget( expressRadioButton );
+    buttonGroupLayout->addWidget( executiveRadioButton );
     buttonGroupLayout->addWidget( businessRadioButton );
 
     buttonGroup->setLayout( buttonGroupLayout );
@@ -68,8 +68,8 @@ void AddUserDialog::addUser() {
     Utente *u = 0;
     if( basicRadioButton->isChecked() )
         u = new UtenteBasic( username->text(), name->text(), surname->text() );
-    else if( expressRadioButton->isChecked() )
-        u = new UtenteExpress( username->text(), name->text(), surname->text() );
+    else if( executiveRadioButton->isChecked() )
+        u = new UtenteExecutive( username->text(), name->text(), surname->text() );
     else if( businessRadioButton->isChecked() )
         u = new UtenteBusiness( username->text(), name->text(), surname->text() );
     else qDebug() << "[error] No account type selected!";
