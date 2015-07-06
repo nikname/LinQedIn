@@ -10,5 +10,7 @@
         <file>icon/chevron-up.png</file>
         <file>icon/account-switch.png</file>
         <file>icon/account-remove.png</file>
+        <file>icon/content-save-all.png</file>
     </qresource>
+    <qresource prefix="/"/>
 </RCC>
