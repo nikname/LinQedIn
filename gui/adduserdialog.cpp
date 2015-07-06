@@ -1,15 +1,32 @@
+#include <QDialogButtonBox>
+#include <QGroupBox>
+#include <QLineEdit>
+#include <QMessageBox>
+#include <QRadioButton>
+#include <QVBoxLayout>
+
 #include "adduserdialog.h"
 #include "adminwindow.h"
-#include <QVBoxLayout>
+#include "smartutente.h"
 #include "utente_basic.h"
-#include "utente_express.h"
 #include "utente_business.h"
+#include "utente_express.h"
 
 // COSTRUTTORE AddUserDialog
 AddUserDialog::AddUserDialog( QWidget *parent ) :
-    QDialog( parent ),
-    buttonBox( new QDialogButtonBox( this ) )
+    QDialog( parent )
 {
+    username = new QLineEdit( this );
+    name = new QLineEdit( this );
+    surname = new QLineEdit( this );
+
+    buttonGroup = new QGroupBox( tr( "Account Type" ), this );
+    basicRadioButton = new QRadioButton( "Basic", buttonGroup );
+    expressRadioButton = new QRadioButton( "Express", buttonGroup );
+    businessRadioButton = new QRadioButton( "Business", buttonGroup );
+
+    buttonBox = new QDialogButtonBox( this );
+
     setupUI();
 }
 
@@ -17,20 +34,13 @@ AddUserDialog::AddUserDialog( QWidget *parent ) :
 void AddUserDialog::setupUI() {
     QVBoxLayout *layout = new QVBoxLayout( this );
 
-    username = new QLineEdit( this );
     username->setPlaceholderText( tr( "Username" ) );
-    name = new QLineEdit( this );
     name->setPlaceholderText( tr( "Name" ) );
-    surname = new QLineEdit( this );
     surname->setPlaceholderText( tr( "Surname" ) );
-
-    buttonGroup = new QGroupBox( tr( "Account Type" ), this );
 
     QVBoxLayout *buttonGroupLayout = new QVBoxLayout( buttonGroup );
 
-    basicRadioButton = new QRadioButton( "Basic", buttonGroup );
-    expressRadioButton = new QRadioButton( "Express", buttonGroup );
-    businessRadioButton = new QRadioButton( "Business", buttonGroup );
+    basicRadioButton->setChecked( true );
 
     buttonGroupLayout->addWidget( basicRadioButton );
     buttonGroupLayout->addWidget( expressRadioButton );
@@ -41,7 +51,7 @@ void AddUserDialog::setupUI() {
     buttonBox->setOrientation( Qt::Horizontal );
     buttonBox->setStandardButtons( QDialogButtonBox::Cancel | QDialogButtonBox::Ok );
     connect( buttonBox, SIGNAL( rejected() ), this, SLOT( reject() ) );
-    connect( buttonBox, SIGNAL( accepted() ), this, SLOT( emitAddUserSignal() ) );
+    connect( buttonBox, SIGNAL( accepted() ), this, SLOT( addUser() ) );
 
     layout->addWidget( username );
     layout->addWidget( name );
@@ -50,18 +60,23 @@ void AddUserDialog::setupUI() {
     layout->addWidget( buttonBox, 0, Qt::AlignBottom );
 
     setLayout( layout );
-    setWindowTitle( "Add User" );
+    setWindowTitle( tr( "Add User" ) );
     resize( 300, 200 );
 }
 
-void AddUserDialog::emitAddUserSignal() {
-    Utente *u;
+void AddUserDialog::addUser() {
+    Utente *u = 0;
     if( basicRadioButton->isChecked() )
         u = new UtenteBasic( username->text(), name->text(), surname->text() );
     else if( expressRadioButton->isChecked() )
         u = new UtenteExpress( username->text(), name->text(), surname->text() );
-    else u = new UtenteBusiness( username->text(), name->text(), surname->text() );
-    emit addUserSignal( SmartUtente( u ) );
+    else if( businessRadioButton->isChecked() )
+        u = new UtenteBusiness( username->text(), name->text(), surname->text() );
+    else qDebug() << "[error] No account type selected!";
+
+    if( u )
+        emit userToAddSignal( SmartUtente( u ) );
+
     this->close();
 }
 

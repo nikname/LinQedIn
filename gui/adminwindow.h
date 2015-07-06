@@ -63,11 +63,11 @@ private slots:
     void openAddUserDialog();
 
     /** Inserisce un nuovo utente nel database quando viene emesso il segnale AddUserDialog::
-     *  addUserSignal( SmartUtente ). Mostra il nuovo utente inserito e salva il database.
+     *  userToAddSignal( SmartUtente ). Mostra il nuovo utente inserito e salva il database.
      *
      * @param SmartUtente  Utente da inserire.
      */
-    void addUserSlot( const SmartUtente& );
+    void userToAddSlot( const SmartUtente& );
 
     /** Quando userListWidget notifica la rimozione di un utente dal database, rimuove un utente dal
      *  database ed emette il segnale updateUserListSignal( LinQedInAdmin* ).

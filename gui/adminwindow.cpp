@@ -123,13 +123,13 @@ void AdminWindow::about() {
 // SLOT AdminWindow::openAddUserDialog
 void AdminWindow::openAddUserDialog() {
     AddUserDialog *addUserDialog = new AddUserDialog;
-    connect( addUserDialog, SIGNAL( addUserSignal( const SmartUtente& ) ),
-             this, SLOT( addUserSlot( const SmartUtente& ) ) );
+    connect( addUserDialog, SIGNAL( userToAddSignal( const SmartUtente& ) ),
+             this, SLOT( userToAddSlot( const SmartUtente& ) ) );
     addUserDialog->exec();
 }
 
-// SLOT AdminWindow::addUserSlot( SmartUtente )
-void AdminWindow::addUserSlot( const SmartUtente& su ) {
+// SLOT AdminWindow::userToAddSlot( SmartUtente )
+void AdminWindow::userToAddSlot( const SmartUtente& su ) {
     admin->insertUser( su );
     admin->saveDatabase();
     emit updateUsersListSignal( admin, su->getUsername() );
