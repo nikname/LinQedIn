@@ -8,7 +8,7 @@ ClientWindow::ClientWindow( QString username, QWidget *parent ) :
     QMainWindow( parent ),
     client( new LinQedInClient( username ) )
 {
-    initializeGUI();
+    setupUI();
 
     this->show();
 }
@@ -18,42 +18,54 @@ ClientWindow::~ClientWindow() {
     delete client;
 }
 
-// METODO ClientWindow::initializeGUI
-void ClientWindow::initializeGUI() {
+// METODO ClientWindow::setupUI
+void ClientWindow::setupUI() {
     createMenuActions();
     createMenus();
 
     QWidget *mainWidget = new QWidget( this );
-    QHBoxLayout *mainLayout = new QHBoxLayout( mainWidget );
+    QVBoxLayout *mainLayout = new QVBoxLayout( mainWidget );
 
-    userSearchWidget = new UserSearchWidget( this );
-    userSearchWidget->setFixedWidth( 200 );
+    menuWidget = new QWidget( mainWidget );
+    menuWidget->setFixedHeight( 50 );
+    menuWidget->setStyleSheet( "background: #069" );
 
-    tabWidget = new QTabWidget( this );
-    tabWidget->setMinimumWidth( 400 );
-    tabWidget->setStyleSheet( "background: white" );
+    QHBoxLayout* menuLayout = new QHBoxLayout( menuWidget );
 
-    tabProfilo = new TabProfilo( client->user );
-    tabRete = new TabRete( client->user, client->db );
+    linqedinLabel = new QLabel( "<h2>LinQedIn</h2>", menuWidget );
+    profileButton = new QPushButton( tr( "Profile" ), menuWidget );
+    profileButton->setFlat( true );
+    netButton = new QPushButton( tr( "Net" ), menuWidget );
+    netButton->setFlat( true );
 
-    tabWidget->addTab( tabProfilo, tr( "Profilo" ) );
-    tabWidget->addTab( tabRete, tr( "Net" ) );
+    QWidget *middleFiller = new QWidget( menuWidget );
+    middleFiller->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Expanding );
 
-    connect( tabProfilo, SIGNAL( updateUserInfoSignal( const QString&, const QString& ) ),
-             this, SLOT( updateUserInfoSlot( const QString&, const QString& ) ) );
-    connect( tabRete, SIGNAL( updateListContactRemovedSignal( const QString& ) ),
-             this, SLOT( updateContactsSlot( const QString& ) ) );
-    connect( this, SIGNAL( updateContactsListSignal(const SmartUtente& ) ),
-             tabRete, SIGNAL( updateContactsListSignal( const SmartUtente& ) ) );
+    searchButton = new QPushButton( menuWidget );
+    searchButton->setIcon( QIcon( QPixmap( ":/icons/icon/account-search.png" ) ) );
+    searchButton->setFlat( true );
 
-    mainLayout->addWidget( userSearchWidget );
-    mainLayout->addWidget( tabWidget );
+    menuLayout->addWidget( linqedinLabel, 0, Qt::AlignVCenter );
+    menuLayout->addSpacing( 30 );
+    menuLayout->addWidget( profileButton, 0, Qt::AlignVCenter );
+    menuLayout->addWidget( netButton, 0, Qt::AlignVCenter );
+    menuLayout->addWidget( middleFiller );
+    menuLayout->addWidget( searchButton, 0, Qt::AlignVCenter );
+    menuLayout->setSpacing( 0 );
+
+    contentWidget = new QWidget( mainWidget );
+    contentWidget->setStyleSheet( "background: white" );
+
+    mainLayout->addWidget( menuWidget );
+    mainLayout->addWidget( contentWidget );
+    mainLayout->setMargin( 0 );
+    mainLayout->setSpacing( 0 );
 
     mainWidget->setLayout( mainLayout );
-    mainWidget->setStyleSheet( "background: #069" );
+    mainWidget->setStyleSheet( "background: #EEE; color: white;" );
 
     setCentralWidget( mainWidget );
-    setMinimumHeight( 400 );
+    setMinimumSize( 600, 400 );
 
     setWindowTitle( "LinQedIn Client" );
 }

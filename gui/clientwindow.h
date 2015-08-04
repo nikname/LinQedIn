@@ -14,19 +14,22 @@ class ClientWindow : public QMainWindow {
 private:
     LinQedInClient *client;
 
-    UserSearchWidget *userSearchWidget;
-    QTabWidget *tabWidget;
-    TabProfilo *tabProfilo;
-    TabRete *tabRete;
-
     QMenu *menu;
     QAction *logoutAct;
     QAction *exitAct;
     QMenu *helpMenu;
     QAction *aboutAct;
 
-    /** Inizializza la GUI. */
-    void initializeGUI();
+    QWidget *menuWidget;
+    QLabel *linqedinLabel;
+    QPushButton *profileButton;
+    QPushButton *netButton;
+    QPushButton *searchButton;
+
+    QWidget *contentWidget;
+
+    /** Realizza la UI. Mostra la GUI. */
+    void setupUI();
 
     /** Crea le varie action necessarie. */
     void createMenuActions();
