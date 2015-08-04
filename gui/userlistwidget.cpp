@@ -8,7 +8,7 @@
 
 #include "changeusertypedialog.h"
 #include "gui/tablemodel.h"
-#include "gui/userlist_widget.h"
+#include "gui/userlistwidget.h"
 #include "linqedin_admin.h"
 #include "utente.h"
 

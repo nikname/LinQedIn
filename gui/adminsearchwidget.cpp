@@ -1,4 +1,4 @@
-#include "gui/adminsearch_widget.h"
+#include "gui/adminsearchwidget.h"
 #include <QVBoxLayout>
 #include <QPushButton>
 #include <QCheckBox>

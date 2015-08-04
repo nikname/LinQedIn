@@ -5,10 +5,10 @@
 #include <QVBoxLayout>
 
 #include "gui/adduserdialog.h"
-#include "gui/adminsearch_widget.h"
+#include "gui/adminsearchwidget.h"
 #include "gui/adminwindow.h"
 #include "gui/mainwindow.h"
-#include "gui/userlist_widget.h"
+#include "gui/userlistwidget.h"
 #include "linqedin_admin.h"
 #include "smartutente.h"
 

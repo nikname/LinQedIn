@@ -31,17 +31,17 @@ SOURCES += main.cpp\
     smarttitolo.cpp \
     smartlavoro.cpp \
     gui/mainwindow.cpp \
-    gui/adminsearch_widget.cpp \
     gui/adminwindow.cpp \
     gui/clientwindow.cpp \
-    gui/userlist_widget.cpp \
     gui/tablemodel.cpp \
     gui/adduserdialog.cpp \
     gui/changeusertypedialog.cpp \
     gui/usersearchwidget.cpp \
     gui/tabprofilo.cpp \
     gui/tabrete.cpp \
-    utente_executive.cpp
+    utente_executive.cpp \
+    gui/adminsearchwidget.cpp \
+    gui/userlistwidget.cpp
 
 HEADERS  += \
     profilo.h \
@@ -62,17 +62,17 @@ HEADERS  += \
     smarttitolo.h \
     smartlavoro.h \
     gui/mainwindow.h \
-    gui/adminsearch_widget.h \
     gui/adminwindow.h \
     gui/clientwindow.h \
-    gui/userlist_widget.h \
     gui/tablemodel.h \
     gui/adduserdialog.h \
     gui/changeusertypedialog.h \
     gui/usersearchwidget.h \
     gui/tabprofilo.h \
     gui/tabrete.h \
-    utente_executive.h
+    utente_executive.h \
+    gui/userlistwidget.h \
+    gui/adminsearchwidget.h
 
 FORMS    +=
 
