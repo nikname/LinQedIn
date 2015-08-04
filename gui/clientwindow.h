@@ -23,7 +23,9 @@ private:
     QWidget *menuWidget;
     QLabel *linqedinLabel;
     QPushButton *profileButton;
-    QPushButton *netButton;
+    QPushButton *connectionsButton;
+    QPushButton *educationsButton;
+    QPushButton *experiencesButton;
     QPushButton *searchButton;
 
     QWidget *contentWidget;
@@ -38,6 +40,21 @@ private:
      *  Associa le action al menu ed inserisce il menu nella barra del menu.
      */
     void createMenus();
+
+    /** Metodo di utilità per creare i bottoni che andranno a costituire il menu utente.
+     *  Il bottone non viene rappresentato come selezionato.
+     *
+     * @param QString  Nome del bottone da creare.
+     * @param QWidget  Puntatore al QWidget padre. Se nullo si riferisce a quello top-level.
+     * @return QPushButton*  Bottone creato.
+     */
+    QPushButton* createMenuButton( QString, QWidget * = 0 );
+
+    /** Modifica la GUI indicando quale bottone del menu è stato selezionato.
+     *
+     * @param QPushButton*  Bottone selezionato.
+     */
+    void setButtonSelected( QPushButton* );
 public:
     /** Costruttore esplicito a 2 parametri con 2 parametri di deafult.
      *

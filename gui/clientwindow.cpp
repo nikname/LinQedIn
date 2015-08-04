@@ -33,10 +33,11 @@ void ClientWindow::setupUI() {
     QHBoxLayout* menuLayout = new QHBoxLayout( menuWidget );
 
     linqedinLabel = new QLabel( "<h2>LinQedIn</h2>", menuWidget );
-    profileButton = new QPushButton( tr( "Profile" ), menuWidget );
-    profileButton->setFlat( true );
-    netButton = new QPushButton( tr( "Net" ), menuWidget );
-    netButton->setFlat( true );
+    profileButton = createMenuButton( tr( "Profile" ), menuWidget );
+    connectionsButton = createMenuButton( tr( "Connections" ), menuWidget );
+    educationsButton = createMenuButton( tr( "Educations" ), menuWidget );
+    experiencesButton = createMenuButton( tr( "Experiences" ), menuWidget );
+    setButtonSelected( profileButton );
 
     QWidget *middleFiller = new QWidget( menuWidget );
     middleFiller->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Expanding );
@@ -48,10 +49,12 @@ void ClientWindow::setupUI() {
     menuLayout->addWidget( linqedinLabel, 0, Qt::AlignVCenter );
     menuLayout->addSpacing( 30 );
     menuLayout->addWidget( profileButton, 0, Qt::AlignVCenter );
-    menuLayout->addWidget( netButton, 0, Qt::AlignVCenter );
+    menuLayout->addWidget( connectionsButton, 0, Qt::AlignVCenter );
+    menuLayout->addWidget( educationsButton, 0, Qt::AlignVCenter );
+    menuLayout->addWidget( experiencesButton, 0, Qt::AlignVCenter );
     menuLayout->addWidget( middleFiller );
     menuLayout->addWidget( searchButton, 0, Qt::AlignVCenter );
-    menuLayout->setSpacing( 0 );
+    menuLayout->setContentsMargins( 20, 0, 20, 0 );
 
     contentWidget = new QWidget( mainWidget );
     contentWidget->setStyleSheet( "background: white" );
@@ -92,6 +95,70 @@ void ClientWindow::createMenus() {
     menu->addAction( exitAct );
     helpMenu = menuBar()->addMenu( tr( "&Help" ) );
     helpMenu->addAction( aboutAct );
+}
+
+// METODO ClientWindow::createMenuButton( QString, QWidget* )
+QPushButton* ClientWindow::createMenuButton( QString label, QWidget *parent ) {
+    QPushButton *button = new QPushButton( label, parent );
+    button->setFixedHeight( 50 );
+    button->setStyleSheet(
+        "QPushButton {"
+            "padding: 0 10px;"
+            "border-top: none;"
+            "border-bottom: none;"
+            "border-left: none;"
+            "border-right: none;"
+            "outline: 0;"
+        "}"
+        "QPushButton:hover {"
+            "padding: 0 10px;"
+            "border: 3px solid white;"
+            "border-top: none;"
+            "border-left: none;"
+            "border-right: none;"
+            "outline: 0;"
+        "}"
+    );
+    return button;
+}
+
+// METODO ClientWindow::setButtonSelected( QPushButton* )
+void ClientWindow::setButtonSelected( QPushButton *buttonSelected ) {
+    QPushButton* buttons[4] =
+        { profileButton, connectionsButton, educationsButton, experiencesButton };
+    for( int i = 0; i < 4; i++ ) {
+        if( buttonSelected != buttons[i] ) {
+            buttons[i]->setStyleSheet(
+                "QPushButton {"
+                    "padding: 0 10px;"
+                    "border-top: none;"
+                    "border-bottom: none;"
+                    "border-left: none;"
+                    "border-right: none;"
+                    "outline: 0;"
+                "}"
+                "QPushButton:hover {"
+                    "padding: 0 10px;"
+                    "border: 3px solid white;"
+                    "border-top: none;"
+                    "border-left: none;"
+                    "border-right: none;"
+                    "outline: 0;"
+                "}"
+            );
+        } else {
+            buttonSelected->setStyleSheet(
+                "QPushButton {"
+                    "padding: 0 10px;"
+                    "border: 3px solid white;"
+                    "border-top: none;"
+                    "border-left: none;"
+                    "border-right: none;"
+                    "outline: 0;"
+                "}"
+            );
+        }
+    }
 }
 
 // SLOT ClientWindow::logout
