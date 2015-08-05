@@ -89,7 +89,7 @@ void ClientWindow::setupUI() {
     searchLayout->addWidget( searchButton, 0, Qt::AlignVCenter );
 
     searchWidget->setLayout( searchLayout );
-    searchWidget->setStyleSheet( "background: white" );
+    //searchWidget->setStyleSheet( "background: white" );
     //searchWidget->setVisible( false );
 
     topBarLayout->addWidget( linqedinLabel, 0, Qt::AlignVCenter );
