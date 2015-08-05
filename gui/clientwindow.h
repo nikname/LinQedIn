@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <QTabWidget>
 #include "menubutton.h"
+#include "profilewidget.h"
 #include "smartutente.h"
 
 class LinQedInClient;
@@ -34,6 +35,10 @@ private:
     QPushButton *searchButton;
 
     QWidget *contentWidget;
+    ProfileWidget *profileWidget;
+    QWidget *connectionsWidget;
+    QWidget *educationsWidget;
+    QWidget *experiencesWidget;
 
     /** Realizza la UI. Mostra la GUI. */
     void setupUI();

@@ -105,7 +105,15 @@ void ClientWindow::setupUI() {
     menuWidget->setStyleSheet( "background: #069" );
 
     contentWidget = new QWidget( mainWidget );
-    contentWidget->setStyleSheet( "background: white" );
+
+    QVBoxLayout *contentLayout = new QVBoxLayout( contentWidget );
+    contentLayout->setContentsMargins( 10, 10, 10, 10 );
+
+    profileWidget = new ProfileWidget( client->user, contentWidget );
+
+    contentLayout->addWidget( profileWidget );
+
+    contentWidget->setLayout( contentLayout );
 
     mainLayout->addWidget( menuWidget );
     mainLayout->addWidget( contentWidget );
