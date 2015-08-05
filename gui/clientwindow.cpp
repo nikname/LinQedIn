@@ -26,13 +26,18 @@ void ClientWindow::setupUI() {
     QWidget *mainWidget = new QWidget( this );
     QVBoxLayout *mainLayout = new QVBoxLayout( mainWidget );
 
-    menuWidget = new QWidget( mainWidget );
+    topBarWidget = new QWidget( mainWidget );
+    topBarWidget->setFixedHeight( 50 );
+    topBarWidget->setStyleSheet( "background: #069" );
+
+    QHBoxLayout *topBarLayout = new QHBoxLayout( topBarWidget );
+
+    linqedinLabel = new QLabel( "<h2>LinQedIn</h2>", topBarWidget );
+
+    menuWidget = new QWidget( topBarWidget );
     menuWidget->setFixedHeight( 50 );
-    menuWidget->setStyleSheet( "background: #069" );
 
     QHBoxLayout* menuLayout = new QHBoxLayout( menuWidget );
-
-    linqedinLabel = new QLabel( "<h2>LinQedIn</h2>", menuWidget );
 
     profileButton = new MenuButton( tr( "Profile" ), menuWidget );
     connectionsButton = new MenuButton( tr( "Connections" ), menuWidget );
@@ -44,70 +49,61 @@ void ClientWindow::setupUI() {
     middleFiller->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Expanding );
 
     openSearchButton = new QPushButton( menuWidget );
-    openSearchButton->setIcon( QIcon( QPixmap( ":/icons/icon/magnify.png" ) ) );
-    openSearchButton->setFixedSize( 50, 50 );
-    openSearchButton->setStyleSheet(
-        "QPushButton { border-radius: 25px; outline: 0; }"
-        "QPushButton:pressed { background: #3385AD; }"
-    );
-    connect( openSearchButton, SIGNAL( clicked() ), this, SLOT( openSearchBox() ) );
+    openSearchButton->setIcon( QIcon( QPixmap( ":/icons/icon/magnify-white.png" ) ) );
+    openSearchButton->setFlat( true );
 
-    searchWidget = new QWidget( menuWidget );
-    searchWidget->setFixedHeight( 50 );
-
-    QHBoxLayout *searchLayout = new QHBoxLayout( searchWidget );
-
-    closeSearchButton = new QPushButton( searchWidget );
-    closeSearchButton->setIcon( QIcon( QPixmap( ":/icons/icon/close.png" ) ) );
-    closeSearchButton->setFixedSize( 50, 50 );
-    closeSearchButton->setStyleSheet(
-        "QPushButton { border-radius: 25px; outline: 0; }"
-        "QPushButton:pressed { background: #3385AD; }"
-    );
-    connect( closeSearchButton, SIGNAL( clicked() ), this, SLOT( closeSearchBox() ) );
-    searchText = new QLineEdit( searchWidget );
-    searchText->setPlaceholderText( tr( "Search" ) );
-    searchText->setStyleSheet(
-        "border: 1px solid white;"
-        "border-top: none; border-right: none; border-left: none;"
-        "padding: 0 10px;"
-        "color: white;"
-    );
-    searchButton = new QPushButton( searchWidget );
-    searchButton->setIcon( QIcon( QPixmap( ":/icons/icon/magnify.png" ) ) );
-    searchButton->setFixedSize( 50, 50 );
-    searchButton->setStyleSheet(
-        "QPushButton { border-radius: 25px; outline: 0; }"
-        "QPushButton:pressed { background: #3385AD; }"
-    );
-
-    searchLayout->addWidget( closeSearchButton, 0, Qt::AlignVCenter );
-    searchLayout->addWidget( searchText, 0, Qt::AlignVCenter );
-    searchLayout->addWidget( searchButton, 0, Qt::AlignVCenter );
-    searchLayout->setMargin( 0 );
-
-    searchWidget->setLayout( searchLayout );
-    searchWidget->setVisible( false );
-
-    menuLayout->addWidget( linqedinLabel, 0, Qt::AlignVCenter );
-    menuLayout->addSpacing( 30 );
     menuLayout->addWidget( profileButton, 0, Qt::AlignVCenter );
     menuLayout->addWidget( connectionsButton, 0, Qt::AlignVCenter );
     menuLayout->addWidget( educationsButton, 0, Qt::AlignVCenter );
     menuLayout->addWidget( experiencesButton, 0, Qt::AlignVCenter );
     menuLayout->addWidget( middleFiller );
     menuLayout->addWidget( openSearchButton, 0, Qt::AlignVCenter );
-    menuLayout->addWidget( searchWidget, 0, Qt::AlignVCenter );
     menuLayout->setMargin( 0 );
-    menuLayout->setContentsMargins( 20, 0, 20, 0 );
 
     menuWidget->setLayout( menuLayout );
     menuWidget->setStyleSheet( "background: #069" );
+    //menuWidget->setVisible( false );
+
+    searchWidget = new QWidget( topBarWidget );
+    searchWidget->setFixedHeight( 50 );
+
+    QHBoxLayout *searchLayout = new QHBoxLayout( searchWidget );
+
+    closeSearch = new QPushButton( searchWidget );
+    closeSearch->setIcon( QIcon( QPixmap( ":/icons/icon/close.png" ) ) );
+    closeSearch->setFlat( true );
+    searchText = new QLineEdit( searchWidget );
+    searchText->setPlaceholderText( tr( "Search" ) );
+    searchText->setStyleSheet(
+        "border: 1px solid black;"
+        "border-top: none; border-right: none; border-left: none;"
+        "padding: 0 10px;"
+        "color: black;"
+    );
+    searchButton = new QPushButton( searchWidget );
+    searchButton->setIcon( QIcon( QPixmap( ":/icons/icon/magnify-black.png" ) ) );
+    searchButton->setFlat( true );
+
+    searchLayout->addWidget( closeSearch, 0, Qt::AlignVCenter );
+    searchLayout->addWidget( searchText, 0, Qt::AlignVCenter );
+    searchLayout->addWidget( searchButton, 0, Qt::AlignVCenter );
+
+    searchWidget->setLayout( searchLayout );
+    //searchWidget->setStyleSheet( "background: white" );
+    //searchWidget->setVisible( false );
+
+    topBarLayout->addWidget( linqedinLabel, 0, Qt::AlignVCenter );
+    topBarLayout->addSpacing( 30 );
+    topBarLayout->addWidget( menuWidget );
+    topBarLayout->addWidget( searchWidget );
+    topBarLayout->setContentsMargins( 20, 0, 20, 0 );
+
+    topBarWidget->setLayout( topBarLayout );
 
     contentWidget = new QWidget( mainWidget );
     contentWidget->setStyleSheet( "background: white" );
 
-    mainLayout->addWidget( menuWidget );
+    mainLayout->addWidget( topBarWidget );
     mainLayout->addWidget( contentWidget );
     mainLayout->setMargin( 0 );
     mainLayout->setSpacing( 0 );
@@ -152,12 +148,12 @@ void ClientWindow::setButtonSelected( QPushButton *buttonSelected ) {
     for( int i = 0; i < 4; i++ ) {
         if( buttonSelected != buttons[i] ) {
             buttons[i]->setStyleSheet(
-                "MenuButton {"
+                "QPushButton {"
                     "padding: 0 10px;"
                     "border: 3px solid #069;"
                     "outline: 0;"
                 "}"
-                "MenuButton:hover {"
+                "QPushButton:hover {"
                     "padding: 0 10px;"
                     "border-bottom-color: white;"
                     "outline: 0;"
@@ -165,7 +161,7 @@ void ClientWindow::setButtonSelected( QPushButton *buttonSelected ) {
             );
         } else {
             buttonSelected->setStyleSheet(
-                "MenuButton {"
+                "QPushButton {"
                     "padding: 0 10px;"
                     "border: 3px solid #069;"
                     "border-bottom-color: white;"
@@ -192,18 +188,6 @@ void ClientWindow::about() {
         "<p>Lo scopo del progetto era lo sviluppo in C++/Qt di un sistema minimale per "
         "l'amministrazione ed utilizzo tramite interfaccia utente grafica di un (piccolo) "
         "database di contatti professionali ispirato a LinkedIn.</p>" ) );
-}
-
-// SLOT ClientWindow::openSearchBox()
-void ClientWindow::openSearchBox() {
-    openSearchButton->setVisible( false );
-    searchWidget->setVisible( true );
-}
-
-// SLOT ClientWindow::closeSearchBox()
-void ClientWindow::closeSearchBox() {
-    searchWidget->setVisible( false );
-    openSearchButton->setVisible( true );
 }
 
 // SLOT
