@@ -12,6 +12,9 @@
         <file>icon/account-remove.png</file>
         <file>icon/content-save-all.png</file>
         <file>icon/account-search.png</file>
+        <file>icon/close.png</file>
+        <file>icon/magnify-black.png</file>
+        <file>icon/magnify-white.png</file>
     </qresource>
     <qresource prefix="/"/>
 </RCC>

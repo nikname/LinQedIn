@@ -3,11 +3,12 @@
 
 #include <QMainWindow>
 #include <QTabWidget>
-#include "usersearchwidget.h"
-#include "tabprofilo.h"
-#include "tabrete.h"
+#include "menubutton.h"
+#include "smartutente.h"
 
 class LinQedInClient;
+class QLabel;
+class QLineEdit;
 
 class ClientWindow : public QMainWindow {
     Q_OBJECT
@@ -22,10 +23,14 @@ private:
 
     QWidget *menuWidget;
     QLabel *linqedinLabel;
-    QPushButton *profileButton;
-    QPushButton *connectionsButton;
-    QPushButton *educationsButton;
-    QPushButton *experiencesButton;
+    MenuButton *profileButton;
+    MenuButton *connectionsButton;
+    MenuButton *educationsButton;
+    MenuButton *experiencesButton;
+    QWidget *searchWidget;
+    QPushButton *closeSearch;
+    QLineEdit *searchText;
+    QPushButton *openSearchButton;
     QPushButton *searchButton;
 
     QWidget *contentWidget;
@@ -40,15 +45,6 @@ private:
      *  Associa le action al menu ed inserisce il menu nella barra del menu.
      */
     void createMenus();
-
-    /** Metodo di utilità per creare i bottoni che andranno a costituire il menu utente.
-     *  Il bottone non viene rappresentato come selezionato.
-     *
-     * @param QString  Nome del bottone da creare.
-     * @param QWidget  Puntatore al QWidget padre. Se nullo si riferisce a quello top-level.
-     * @return QPushButton*  Bottone creato.
-     */
-    QPushButton* createMenuButton( QString, QWidget * = 0 );
 
     /** Modifica la GUI indicando quale bottone del menu è stato selezionato.
      *

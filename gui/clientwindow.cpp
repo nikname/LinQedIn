@@ -33,18 +33,43 @@ void ClientWindow::setupUI() {
     QHBoxLayout* menuLayout = new QHBoxLayout( menuWidget );
 
     linqedinLabel = new QLabel( "<h2>LinQedIn</h2>", menuWidget );
-    profileButton = createMenuButton( tr( "Profile" ), menuWidget );
-    connectionsButton = createMenuButton( tr( "Connections" ), menuWidget );
-    educationsButton = createMenuButton( tr( "Educations" ), menuWidget );
-    experiencesButton = createMenuButton( tr( "Experiences" ), menuWidget );
+    profileButton = new MenuButton( tr( "Profile" ), menuWidget );
+    connectionsButton = new MenuButton( tr( "Connections" ), menuWidget );
+    educationsButton = new MenuButton( tr( "Educations" ), menuWidget );
+    experiencesButton = new MenuButton( tr( "Experiences" ), menuWidget );
     setButtonSelected( profileButton );
 
     QWidget *middleFiller = new QWidget( menuWidget );
     middleFiller->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Expanding );
 
-    searchButton = new QPushButton( menuWidget );
-    searchButton->setIcon( QIcon( QPixmap( ":/icons/icon/account-search.png" ) ) );
+    searchWidget = new QWidget( menuWidget );
+
+    QHBoxLayout *searchLayout = new QHBoxLayout( searchWidget );
+
+    closeSearch = new QPushButton( searchWidget );
+    closeSearch->setIcon( QIcon( QPixmap( ":/icons/icon/close.png" ) ) );
+    closeSearch->setFlat( true );
+    searchText = new QLineEdit( tr( "Search" ), searchWidget );
+    searchText->setStyleSheet(
+        "border: 1px solid black;"
+        "border-top: none; border-right: none; border-left: none;"
+        "color: black;"
+    );
+    searchButton = new QPushButton( searchWidget );
+    searchButton->setIcon( QIcon( QPixmap( ":/icons/icon/magnify-black.png" ) ) );
     searchButton->setFlat( true );
+
+    searchLayout->addWidget( closeSearch, 0, Qt::AlignVCenter );
+    searchLayout->addWidget( searchText, 0, Qt::AlignVCenter );
+    searchLayout->addWidget( searchButton, 0, Qt::AlignVCenter );
+
+    searchWidget->setLayout( searchLayout );
+    searchWidget->setStyleSheet( "background: white" );
+    searchWidget->setVisible( false );
+
+    openSearchButton = new QPushButton( searchWidget );
+    openSearchButton->setIcon( QIcon( QPixmap( ":/icons/icon/magnify-white.png" ) ) );
+    openSearchButton->setFlat( true );
 
     menuLayout->addWidget( linqedinLabel, 0, Qt::AlignVCenter );
     menuLayout->addSpacing( 30 );
@@ -53,7 +78,8 @@ void ClientWindow::setupUI() {
     menuLayout->addWidget( educationsButton, 0, Qt::AlignVCenter );
     menuLayout->addWidget( experiencesButton, 0, Qt::AlignVCenter );
     menuLayout->addWidget( middleFiller );
-    menuLayout->addWidget( searchButton, 0, Qt::AlignVCenter );
+    menuLayout->addWidget( searchWidget, Qt::AlignVCenter );
+    menuLayout->addWidget( openSearchButton, 0, Qt::AlignVCenter );
     menuLayout->setContentsMargins( 20, 0, 20, 0 );
 
     contentWidget = new QWidget( mainWidget );
@@ -95,25 +121,6 @@ void ClientWindow::createMenus() {
     menu->addAction( exitAct );
     helpMenu = menuBar()->addMenu( tr( "&Help" ) );
     helpMenu->addAction( aboutAct );
-}
-
-// METODO ClientWindow::createMenuButton( QString, QWidget* )
-QPushButton* ClientWindow::createMenuButton( QString label, QWidget *parent ) {
-    QPushButton *button = new QPushButton( label, parent );
-    button->setFixedHeight( 50 );
-    button->setStyleSheet(
-        "QPushButton {"
-            "padding: 0 10px;"
-            "border: 3px solid #069;"
-            "outline: 0;"
-        "}"
-        "QPushButton:hover {"
-            "padding: 0 10px;"
-            "border-bottom-color: white;"
-            "outline: 0;"
-        "}"
-    );
-    return button;
 }
 
 // METODO ClientWindow::setButtonSelected( QPushButton* )

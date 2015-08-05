@@ -41,7 +41,8 @@ SOURCES += main.cpp\
     gui/tabrete.cpp \
     utente_executive.cpp \
     gui/adminsearchwidget.cpp \
-    gui/userlistwidget.cpp
+    gui/userlistwidget.cpp \
+    gui/menubutton.cpp
 
 HEADERS  += \
     profilo.h \
@@ -72,7 +73,8 @@ HEADERS  += \
     gui/tabrete.h \
     utente_executive.h \
     gui/userlistwidget.h \
-    gui/adminsearchwidget.h
+    gui/adminsearchwidget.h \
+    gui/menubutton.h
 
 FORMS    +=
 
