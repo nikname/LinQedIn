@@ -21,17 +21,16 @@ private:
     QMenu *helpMenu;
     QAction *aboutAct;
 
-    QWidget *topBarWidget;
     QWidget *menuWidget;
     QLabel *linqedinLabel;
     MenuButton *profileButton;
     MenuButton *connectionsButton;
     MenuButton *educationsButton;
     MenuButton *experiencesButton;
-    QWidget *searchWidget;
-    QPushButton *closeSearch;
-    QLineEdit *searchText;
     QPushButton *openSearchButton;
+    QWidget *searchWidget;
+    QPushButton *closeSearchButton;
+    QLineEdit *searchText;
     QPushButton *searchButton;
 
     QWidget *contentWidget;
@@ -70,6 +69,12 @@ private slots:
 
     /** Mostra le informazioni dell'applicazione su di una finestra pop-up. */
     void about();
+
+    /** Mostra il box di ricerca. */
+    void openSearchBox();
+
+    /** Chiude il box di ricerca. */
+    void closeSearchBox();
 
     /** */
     void updateUserInfoSlot( const QString&, const QString& );
