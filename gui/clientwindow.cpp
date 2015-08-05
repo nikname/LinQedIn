@@ -26,13 +26,19 @@ void ClientWindow::setupUI() {
     QWidget *mainWidget = new QWidget( this );
     QVBoxLayout *mainLayout = new QVBoxLayout( mainWidget );
 
-    menuWidget = new QWidget( mainWidget );
+    topBarWidget = new QWidget( mainWidget );
+    topBarWidget->setFixedHeight( 50 );
+    topBarWidget->setStyleSheet( "background: #069" );
+
+    QHBoxLayout *topBarLayout = new QHBoxLayout( topBarWidget );
+
+    linqedinLabel = new QLabel( "<h2>LinQedIn</h2>", topBarWidget );
+
+    menuWidget = new QWidget( topBarWidget );
     menuWidget->setFixedHeight( 50 );
-    menuWidget->setStyleSheet( "background: #069" );
 
     QHBoxLayout* menuLayout = new QHBoxLayout( menuWidget );
 
-    linqedinLabel = new QLabel( "<h2>LinQedIn</h2>", menuWidget );
     profileButton = new MenuButton( tr( "Profile" ), menuWidget );
     connectionsButton = new MenuButton( tr( "Connections" ), menuWidget );
     educationsButton = new MenuButton( tr( "Educations" ), menuWidget );
@@ -42,17 +48,36 @@ void ClientWindow::setupUI() {
     QWidget *middleFiller = new QWidget( menuWidget );
     middleFiller->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Expanding );
 
-    searchWidget = new QWidget( menuWidget );
+    openSearchButton = new QPushButton( menuWidget );
+    openSearchButton->setIcon( QIcon( QPixmap( ":/icons/icon/magnify-white.png" ) ) );
+    openSearchButton->setFlat( true );
+
+    menuLayout->addWidget( profileButton, 0, Qt::AlignVCenter );
+    menuLayout->addWidget( connectionsButton, 0, Qt::AlignVCenter );
+    menuLayout->addWidget( educationsButton, 0, Qt::AlignVCenter );
+    menuLayout->addWidget( experiencesButton, 0, Qt::AlignVCenter );
+    menuLayout->addWidget( middleFiller );
+    menuLayout->addWidget( openSearchButton, 0, Qt::AlignVCenter );
+    menuLayout->setMargin( 0 );
+
+    menuWidget->setLayout( menuLayout );
+    menuWidget->setStyleSheet( "background: #069" );
+    //menuWidget->setVisible( false );
+
+    searchWidget = new QWidget( topBarWidget );
+    searchWidget->setFixedHeight( 50 );
 
     QHBoxLayout *searchLayout = new QHBoxLayout( searchWidget );
 
     closeSearch = new QPushButton( searchWidget );
     closeSearch->setIcon( QIcon( QPixmap( ":/icons/icon/close.png" ) ) );
     closeSearch->setFlat( true );
-    searchText = new QLineEdit( tr( "Search" ), searchWidget );
+    searchText = new QLineEdit( searchWidget );
+    searchText->setPlaceholderText( tr( "Search" ) );
     searchText->setStyleSheet(
         "border: 1px solid black;"
         "border-top: none; border-right: none; border-left: none;"
+        "padding: 0 10px;"
         "color: black;"
     );
     searchButton = new QPushButton( searchWidget );
@@ -65,27 +90,20 @@ void ClientWindow::setupUI() {
 
     searchWidget->setLayout( searchLayout );
     searchWidget->setStyleSheet( "background: white" );
-    searchWidget->setVisible( false );
+    //searchWidget->setVisible( false );
 
-    openSearchButton = new QPushButton( searchWidget );
-    openSearchButton->setIcon( QIcon( QPixmap( ":/icons/icon/magnify-white.png" ) ) );
-    openSearchButton->setFlat( true );
+    topBarLayout->addWidget( linqedinLabel, 0, Qt::AlignVCenter );
+    topBarLayout->addSpacing( 30 );
+    topBarLayout->addWidget( menuWidget );
+    topBarLayout->addWidget( searchWidget );
+    topBarLayout->setContentsMargins( 20, 0, 20, 0 );
 
-    menuLayout->addWidget( linqedinLabel, 0, Qt::AlignVCenter );
-    menuLayout->addSpacing( 30 );
-    menuLayout->addWidget( profileButton, 0, Qt::AlignVCenter );
-    menuLayout->addWidget( connectionsButton, 0, Qt::AlignVCenter );
-    menuLayout->addWidget( educationsButton, 0, Qt::AlignVCenter );
-    menuLayout->addWidget( experiencesButton, 0, Qt::AlignVCenter );
-    menuLayout->addWidget( middleFiller );
-    menuLayout->addWidget( searchWidget, Qt::AlignVCenter );
-    menuLayout->addWidget( openSearchButton, 0, Qt::AlignVCenter );
-    menuLayout->setContentsMargins( 20, 0, 20, 0 );
+    topBarWidget->setLayout( topBarLayout );
 
     contentWidget = new QWidget( mainWidget );
     contentWidget->setStyleSheet( "background: white" );
 
-    mainLayout->addWidget( menuWidget );
+    mainLayout->addWidget( topBarWidget );
     mainLayout->addWidget( contentWidget );
     mainLayout->setMargin( 0 );
     mainLayout->setSpacing( 0 );
@@ -94,7 +112,7 @@ void ClientWindow::setupUI() {
     mainWidget->setStyleSheet( "background: #EEE; color: white;" );
 
     setCentralWidget( mainWidget );
-    setMinimumSize( 600, 400 );
+    setMinimumSize( 800, 600 );
 
     setWindowTitle( "LinQedIn Client" );
 }

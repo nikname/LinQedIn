@@ -21,6 +21,7 @@ private:
     QMenu *helpMenu;
     QAction *aboutAct;
 
+    QWidget *topBarWidget;
     QWidget *menuWidget;
     QLabel *linqedinLabel;
     MenuButton *profileButton;
