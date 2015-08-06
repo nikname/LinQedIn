@@ -4,6 +4,8 @@
 #include <QWidget>
 #include "smartutente.h"
 
+class QLabel;
+
 class ProfileWidget : public QWidget {
     Q_OBJECT
 public:

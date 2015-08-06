@@ -28,7 +28,6 @@ void ClientWindow::setupUI() {
 
     menuWidget = new QWidget( mainWidget );
     menuWidget->setFixedHeight( 50 );
-    menuWidget->setStyleSheet( "background: #069" );
 
     QHBoxLayout* menuLayout = new QHBoxLayout( menuWidget );
 
@@ -102,12 +101,12 @@ void ClientWindow::setupUI() {
     menuLayout->setContentsMargins( 20, 0, 20, 0 );
 
     menuWidget->setLayout( menuLayout );
-    menuWidget->setStyleSheet( "background: #069" );
+    menuWidget->setStyleSheet( "background: #069; color: white;" );
 
     contentWidget = new QWidget( mainWidget );
 
     QVBoxLayout *contentLayout = new QVBoxLayout( contentWidget );
-    contentLayout->setContentsMargins( 10, 10, 10, 10 );
+    contentLayout->setMargin( 10 );
 
     profileWidget = new ProfileWidget( client->user, contentWidget );
 
@@ -121,7 +120,7 @@ void ClientWindow::setupUI() {
     mainLayout->setSpacing( 0 );
 
     mainWidget->setLayout( mainLayout );
-    mainWidget->setStyleSheet( "background: #EEE; color: white;" );
+    mainWidget->setStyleSheet( "background: #EEE" );
 
     setCentralWidget( mainWidget );
     setMinimumSize( 800, 600 );
