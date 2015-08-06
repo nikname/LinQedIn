@@ -16,8 +16,9 @@ private:
 
     QWidget *profileSummary;
     QLabel *nameSurnameLabel;
-    QLabel *lastEducationLabel;
     QLabel *lastExperienceLabel;
+    QLabel *lastEducationLabel;
+    QLabel *numberOfConnections;
 public:
     explicit ProfileWidget( const SmartUtente&, QWidget *parent = 0 );
 
