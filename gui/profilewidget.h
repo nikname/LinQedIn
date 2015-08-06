@@ -8,6 +8,16 @@ class QLabel;
 
 class ProfileWidget : public QWidget {
     Q_OBJECT
+private:
+    QWidget *header;
+
+    QWidget *profilePicWidget;
+    QLabel *profilePicLabel;
+
+    QWidget *profileSummary;
+    QLabel *nameSurnameLabel;
+    QLabel *lastEducationLabel;
+    QLabel *lastExperienceLabel;
 public:
     explicit ProfileWidget( const SmartUtente&, QWidget *parent = 0 );
 

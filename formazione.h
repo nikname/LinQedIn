@@ -74,7 +74,7 @@ public:
      *
      * @return QVector<SmartTitolo>  Vettore di puntatori ai titoli di studio dell'utente.
      */
-    QVector<SmartTitolo> getTitlesList() const;
+    QVector<SmartTitolo> getEducationsList() const;
 
     /** Operatore delete ridefinito.
      *  Decrementa user_ref di 1. Se user_ref vale 0 invoca il distruttore di Formazione_rapp.

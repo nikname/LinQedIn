@@ -115,8 +115,8 @@ void Utente::removeEducation( Titolo* t ) {
 }
 
 // METODO getEducationsList Utente
-QVector<SmartTitolo> Utente::getTitlesList() const {
-    return educations->getTitlesList();
+QVector<SmartTitolo> Utente::getEducationsList() const {
+    return educations->getEducationsList();
 }
 
 // METODO getEducationsIterator
@@ -165,7 +165,7 @@ QDebug operator <<( QDebug qdbg, const Utente& u ) {
             qdbg << " " << c[i] << "\n";
     }
     qdbg << "FORMAZIONE: " << "\n";
-    QVector<SmartTitolo> ed = u.getTitlesList();
+    QVector<SmartTitolo> ed = u.getEducationsList();
     if( ed.size() == 0 )
         qdbg << " ** Nessun titolo di studio! **" << "\n";
     else {

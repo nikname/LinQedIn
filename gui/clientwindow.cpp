@@ -106,11 +106,10 @@ void ClientWindow::setupUI() {
     contentWidget = new QWidget( mainWidget );
 
     QVBoxLayout *contentLayout = new QVBoxLayout( contentWidget );
-    contentLayout->setMargin( 10 );
 
     profileWidget = new ProfileWidget( client->user, contentWidget );
 
-    contentLayout->addWidget( profileWidget );
+    contentLayout->addWidget( profileWidget, 0, Qt::AlignTop );
 
     contentWidget->setLayout( contentLayout );
 

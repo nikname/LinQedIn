@@ -160,11 +160,11 @@ public:
     void removeEducation( Titolo* );
 
     /** Ritorna un vettore di puntatori ai titoli di studio dell'utente.
-     *  Invoca il metodo getTitlesList() del campo dati educations dell'utente.
+     *  Invoca il metodo getEducationsList() del campo dati educations dell'utente.
      *
      * @return QVector<SmartTitolo>  Vettore di puntatori ai titoli di studio dell'utente.
      */
-    QVector<SmartTitolo> getTitlesList() const;
+    QVector<SmartTitolo> getEducationsList() const;
 
     /** Restituisce un iteratore sulla lista dei titoli di studio dell'utente.
      *  Invoca il metodo begin() di Formazione.

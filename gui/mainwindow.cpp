@@ -149,7 +149,7 @@ void MainWindow::loginUser() {
 
     // TODO: controllare username e password
     // ClientWindow *clientWindow = new ClientWindow( username );
-    ClientWindow *clientWindow = new ClientWindow( "test" ); // TEST
+    ClientWindow *clientWindow = new ClientWindow( username );
     this->close();
 }
 

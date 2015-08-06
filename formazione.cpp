@@ -76,7 +76,7 @@ void Formazione::removeEducation( Titolo* t ) {
 }
 
 // METODO getTitlesList Formazione
-QVector<SmartTitolo> Formazione::getTitlesList() const {
+QVector<SmartTitolo> Formazione::getEducationsList() const {
     QVector<SmartTitolo> v;
     QListIterator<Titolo*> it( titles->titlesList ); // QMutableListIterator ?
     while( it.hasNext() )
