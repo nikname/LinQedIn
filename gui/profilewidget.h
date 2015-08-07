@@ -27,13 +27,18 @@ private:
     QWidget *infoTabs;
 
     QWidget *infoTabsButtonsWidget;
-    QPushButton *experiencesTabButton;
-    QPushButton *educationsTabButton;
+    QPushButton *backgroundTabButton;
+    QPushButton *connectionsTabButton;
     QPushButton *otherInfoTabButton;
+    QPushButton *addContactButton;
 
-    EducationsTab *educationsTab;
-    ExperiencesTab *experiencesTab;
-    OtherInfoTab *otherInfoTab;
+    /** Applica delle proprietà dei pulsanti del menu interno al profilo.
+     *
+     * @param QPushButton  Pulsante al quale applicare le proprietà.
+     */
+    void setProfileButtonProperties( QPushButton* );
+
+    void setProfileButtonSelected( QPushButton* );
 public:
     explicit ProfileWidget( const SmartUtente&, QWidget *parent = 0 );
 

@@ -5,7 +5,6 @@
 #include "utente.h"
 #include "smartlavoro.h"
 #include "smarttitolo.h"
-#include "educationstab.h"
 
 // COSTRUTTORE ProfileWidget
 ProfileWidget::ProfileWidget( const SmartUtente& su, QWidget *parent ) :
@@ -77,13 +76,29 @@ ProfileWidget::ProfileWidget( const SmartUtente& su, QWidget *parent ) :
 
     QHBoxLayout *infoTabsButtonLayout = new QHBoxLayout( infoTabsButtonsWidget );
 
-    experiencesTabButton = new QPushButton( tr( "Experiences" ) );
-    educationsTabButton = new QPushButton( tr( "Educations" ) );
-    otherInfoTabButton = new QPushButton( tr( "Other info" ) );
+    backgroundTabButton = new QPushButton( tr( "Background" ), infoTabsButtonsWidget );
+    setProfileButtonProperties( backgroundTabButton );
+    connectionsTabButton = new QPushButton( tr( "Connections" ), infoTabsButtonsWidget );
+    setProfileButtonProperties( connectionsTabButton );
+    otherInfoTabButton = new QPushButton( tr( "Other info" ), infoTabsButtonsWidget );
+    setProfileButtonProperties( otherInfoTabButton );
+    addContactButton = new QPushButton( infoTabsButtonsWidget );
+    addContactButton->setFixedSize( 50, 50 );
+    addContactButton->setIcon( QIcon( QPixmap( ":/icons/icon/account-plus.png" ) ) );
+    addContactButton->setStyleSheet(
+        "QPushButton { background: #003D5C; border-radius: 25px; outline: none; }"
+        "QPushButton:pressed { background: #3385AD; outline: none; }"
+    );
+    setProfileButtonSelected( backgroundTabButton );
 
-    infoTabsButtonLayout->addWidget( experiencesTabButton );
-    infoTabsButtonLayout->addWidget( educationsTabButton );
+    QWidget *buttonsFiller = new QWidget( infoTabsButtonsWidget );
+    buttonsFiller->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Expanding );
+
+    infoTabsButtonLayout->addWidget( backgroundTabButton );
+    infoTabsButtonLayout->addWidget( connectionsTabButton );
     infoTabsButtonLayout->addWidget( otherInfoTabButton );
+    infoTabsButtonLayout->addWidget( buttonsFiller );
+    infoTabsButtonLayout->addWidget( addContactButton );
 
     infoTabLayout->addWidget( infoTabsButtonsWidget );
 
@@ -92,4 +107,56 @@ ProfileWidget::ProfileWidget( const SmartUtente& su, QWidget *parent ) :
 
     setStyleSheet( "background: white; color: black;" );
     setLayout( layout );
+}
+
+
+// METODO ProfileWidget::setProfileButtonProperties( QPushButton* )
+void ProfileWidget::setProfileButtonProperties( QPushButton *button ) {
+    button->setFixedHeight( 50 );
+    button->setStyleSheet(
+        "QPushButton {"
+            "padding: 0 10px;"
+            "border: 3px solid white;"
+            "color: rgba( 0, 0, 0, 0.54 );"
+            "outline: 0;"
+        "}"
+        "QPushButton:hover {"
+            "padding: 0 10px;"
+            "border-bottom-color: #069;"
+            "color: rgba( 0, 0, 0, 0.54 );"
+            "outline: 0;"
+        "}"
+    );
+}
+
+// METODO ProfileWidget::setProfileButtonSelected( QPushButton* )
+void ProfileWidget::setProfileButtonSelected( QPushButton *buttonSelected ) {
+    QPushButton* buttons[3] = { backgroundTabButton, connectionsTabButton, otherInfoTabButton };
+    for( int i = 0; i < 3; i++ ) {
+        if( buttonSelected != buttons[i] ) {
+            buttons[i]->setStyleSheet(
+                "QPushButton {"
+                    "padding: 0 10px;"
+                    "border: 3px solid white;"
+                    "color: rgba( 0, 0, 0, 0.54 );"
+                    "outline: 0;"
+                "}"
+                "QPushButton:hover {"
+                    "padding: 0 10px;"
+                    "border-bottom-color: #069;"
+                    "color: rgba( 0, 0, 0, 0.54 );"
+                    "outline: 0;"
+                "}"
+            );
+        } else {
+            buttonSelected->setStyleSheet(
+                "QPushButton {"
+                    "padding: 0 10px;"
+                    "border: 3px solid white;"
+                    "border-bottom-color: #069;"
+                    "outline: 0;"
+                "}"
+            );
+        }
+    }
 }

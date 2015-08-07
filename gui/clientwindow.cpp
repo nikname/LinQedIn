@@ -33,11 +33,15 @@ void ClientWindow::setupUI() {
 
     linqedinLabel = new QLabel( "<h2>LinQedIn</h2>", menuWidget );
 
-    profileButton = new MenuButton( tr( "Profile" ), menuWidget );
-    connectionsButton = new MenuButton( tr( "Connections" ), menuWidget );
-    educationsButton = new MenuButton( tr( "Educations" ), menuWidget );
-    experiencesButton = new MenuButton( tr( "Experiences" ), menuWidget );
-    setButtonSelected( profileButton );
+    profileButton = new QPushButton( tr( "Profile" ), menuWidget );
+    setMenuButtonProperties( profileButton );
+    connectionsButton = new QPushButton( tr( "Connections" ), menuWidget );
+    setMenuButtonProperties( connectionsButton );
+    experiencesButton = new QPushButton( tr( "Experiences" ), menuWidget );
+    setMenuButtonProperties( experiencesButton );
+    educationsButton = new QPushButton( tr( "Educations" ), menuWidget );
+    setMenuButtonProperties( educationsButton );
+    setMenuButtonSelected( profileButton );
 
     QWidget *middleFiller = new QWidget( menuWidget );
     middleFiller->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Expanding );
@@ -92,8 +96,8 @@ void ClientWindow::setupUI() {
     menuLayout->addSpacing( 30 );
     menuLayout->addWidget( profileButton, 0, Qt::AlignVCenter );
     menuLayout->addWidget( connectionsButton, 0, Qt::AlignVCenter );
-    menuLayout->addWidget( educationsButton, 0, Qt::AlignVCenter );
     menuLayout->addWidget( experiencesButton, 0, Qt::AlignVCenter );
+    menuLayout->addWidget( educationsButton, 0, Qt::AlignVCenter );
     menuLayout->addWidget( middleFiller );
     menuLayout->addWidget( openSearchButton, 0, Qt::AlignVCenter );
     menuLayout->addWidget( searchWidget, 0, Qt::AlignVCenter );
@@ -151,30 +155,65 @@ void ClientWindow::createMenus() {
     helpMenu->addAction( aboutAct );
 }
 
-// METODO ClientWindow::setButtonSelected( QPushButton* )
-void ClientWindow::setButtonSelected( QPushButton *buttonSelected ) {
+// METODO ClientWindow::setMenuButtonsProperties
+void ClientWindow::setMenuButtonProperties( QPushButton *button ) {
+    button->setFixedHeight( 50 );
+    button->setStyleSheet(
+        "QPushButton {"
+            "padding: 0 10px;"
+            "border: 3px solid #069;"
+            "outline: 0;"
+        "}"
+        "QPushButton:hover {"
+            "padding: 0 10px;"
+            "border-bottom-color: white;"
+            "outline: 0;"
+        "}"
+        "QPushButton:pressed {"
+            "padding: 0 10px;"
+            "border-bottom-color: white;"
+            "background: #3385AD;"
+            "outline: 0;"
+        "}"
+    );
+}
+
+// METODO ClientWindow::setMenuButtonSelected( QPushButton* )
+void ClientWindow::setMenuButtonSelected( QPushButton *buttonSelected ) {
     QPushButton* buttons[4] =
         { profileButton, connectionsButton, educationsButton, experiencesButton };
     for( int i = 0; i < 4; i++ ) {
         if( buttonSelected != buttons[i] ) {
             buttons[i]->setStyleSheet(
-                "MenuButton {"
+                "QPushButton {"
                     "padding: 0 10px;"
                     "border: 3px solid #069;"
                     "outline: 0;"
                 "}"
-                "MenuButton:hover {"
+                "QPushButton:hover {"
                     "padding: 0 10px;"
                     "border-bottom-color: white;"
+                    "outline: 0;"
+                "}"
+                "QPushButton:pressed {"
+                    "padding: 0 10px;"
+                    "border-bottom-color: white;"
+                    "background: #3385AD;"
                     "outline: 0;"
                 "}"
             );
         } else {
             buttonSelected->setStyleSheet(
-                "MenuButton {"
+                "QPushButton {"
                     "padding: 0 10px;"
                     "border: 3px solid #069;"
                     "border-bottom-color: white;"
+                    "outline: 0;"
+                "}"
+                "QPushButton:pressed {"
+                    "padding: 0 10px;"
+                    "border-bottom-color: white;"
+                    "background: #3385AD;"
                     "outline: 0;"
                 "}"
             );

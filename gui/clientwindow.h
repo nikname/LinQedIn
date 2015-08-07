@@ -24,10 +24,10 @@ private:
 
     QWidget *menuWidget;
     QLabel *linqedinLabel;
-    MenuButton *profileButton;
-    MenuButton *connectionsButton;
-    MenuButton *educationsButton;
-    MenuButton *experiencesButton;
+    QPushButton *profileButton;
+    QPushButton *connectionsButton;
+    QPushButton *educationsButton;
+    QPushButton *experiencesButton;
     QPushButton *openSearchButton;
     QWidget *searchWidget;
     QPushButton *closeSearchButton;
@@ -51,11 +51,17 @@ private:
      */
     void createMenus();
 
+    /** Applica delle proprietà dei pulsanti del menu utente.
+     *
+     * @param QPushButton  Pulsante al quale applicare le proprietà.
+     */
+    void setMenuButtonProperties( QPushButton* );
+
     /** Modifica la GUI indicando quale bottone del menu è stato selezionato.
      *
      * @param QPushButton*  Bottone selezionato.
      */
-    void setButtonSelected( QPushButton* );
+    void setMenuButtonSelected( QPushButton* );
 public:
     /** Costruttore esplicito a 2 parametri con 2 parametri di deafult.
      *
