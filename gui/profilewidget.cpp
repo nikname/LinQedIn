@@ -1,9 +1,11 @@
 #include <QVBoxLayout>
 #include <QLabel>
+#include <QPushButton>
 #include "profilewidget.h"
 #include "utente.h"
 #include "smartlavoro.h"
 #include "smarttitolo.h"
+#include "educationstab.h"
 
 // COSTRUTTORE ProfileWidget
 ProfileWidget::ProfileWidget( const SmartUtente& su, QWidget *parent ) :
@@ -25,8 +27,6 @@ ProfileWidget::ProfileWidget( const SmartUtente& su, QWidget *parent ) :
     profilePicLabel->setPixmap( QPixmap( ":/icons/icon/account-circle.png" ) );
 
     profilePicLayout->addWidget( profilePicLabel, 0, Qt::AlignCenter );
-
-    profilePicWidget->setLayout( profilePicLayout );
 
     profileSummary = new QWidget( header );
 
@@ -55,7 +55,7 @@ ProfileWidget::ProfileWidget( const SmartUtente& su, QWidget *parent ) :
     lastEducationLabel->setStyleSheet( "color: rgba( 0, 0, 0, 0.54 );" );
 
     QVector<QString> contactsList = su->getContactsList();
-    numberOfConnections = new QLabel( QString::number( contactsList.size() ) + tr( " connections" ) );
+    connectionsNumber = new QLabel( QString::number( contactsList.size() ) + tr( " connections" ) );
 
     QWidget *profileSummaryFiller = new QWidget( profileSummary );
     profileSummaryFiller->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Expanding );
@@ -63,17 +63,32 @@ ProfileWidget::ProfileWidget( const SmartUtente& su, QWidget *parent ) :
     profileSummaryLayout->addWidget( nameSurnameLabel );
     profileSummaryLayout->addWidget( lastExperienceLabel );
     profileSummaryLayout->addWidget( lastEducationLabel );
-    profileSummaryLayout->addWidget( numberOfConnections, 0, Qt::AlignRight );
+    profileSummaryLayout->addWidget( connectionsNumber, 0, Qt::AlignRight );
     profileSummaryLayout->addWidget( profileSummaryFiller );
-
-    profileSummary->setLayout( profileSummaryLayout );
 
     headerLayout->addWidget( profilePicWidget );
     headerLayout->addWidget( profileSummary );
 
-    header->setLayout( headerLayout );
+    infoTabs = new QWidget( this );
+
+    QHBoxLayout *infoTabLayout = new QHBoxLayout( infoTabs );
+
+    infoTabsButtonsWidget = new QWidget( infoTabs );
+
+    QHBoxLayout *infoTabsButtonLayout = new QHBoxLayout( infoTabsButtonsWidget );
+
+    experiencesTabButton = new QPushButton( tr( "Experiences" ) );
+    educationsTabButton = new QPushButton( tr( "Educations" ) );
+    otherInfoTabButton = new QPushButton( tr( "Other info" ) );
+
+    infoTabsButtonLayout->addWidget( experiencesTabButton );
+    infoTabsButtonLayout->addWidget( educationsTabButton );
+    infoTabsButtonLayout->addWidget( otherInfoTabButton );
+
+    infoTabLayout->addWidget( infoTabsButtonsWidget );
 
     layout->addWidget( header );
+    layout->addWidget( infoTabs );
 
     setStyleSheet( "background: white; color: black;" );
     setLayout( layout );
