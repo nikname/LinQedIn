@@ -5,6 +5,7 @@
 #include "utente.h"
 #include "smartlavoro.h"
 #include "smarttitolo.h"
+#include "experienceswidget.h"
 
 // COSTRUTTORE ProfileWidget
 ProfileWidget::ProfileWidget( const SmartUtente& su, QWidget *parent ) :
@@ -70,7 +71,7 @@ ProfileWidget::ProfileWidget( const SmartUtente& su, QWidget *parent ) :
 
     infoTabs = new QWidget( this );
 
-    QHBoxLayout *infoTabLayout = new QHBoxLayout( infoTabs );
+    QVBoxLayout *infoTabLayout = new QVBoxLayout( infoTabs );
 
     infoTabsButtonsWidget = new QWidget( infoTabs );
 
@@ -100,7 +101,10 @@ ProfileWidget::ProfileWidget( const SmartUtente& su, QWidget *parent ) :
     infoTabsButtonLayout->addWidget( buttonsFiller );
     infoTabsButtonLayout->addWidget( addContactButton );
 
+    experiencesWidget = new ExperiencesWidget( su, infoTabs );
+
     infoTabLayout->addWidget( infoTabsButtonsWidget );
+    infoTabLayout->addWidget( experiencesWidget );
 
     layout->addWidget( header );
     layout->addWidget( infoTabs );
@@ -112,19 +116,17 @@ ProfileWidget::ProfileWidget( const SmartUtente& su, QWidget *parent ) :
 
 // METODO ProfileWidget::setProfileButtonProperties( QPushButton* )
 void ProfileWidget::setProfileButtonProperties( QPushButton *button ) {
-    button->setFixedHeight( 50 );
+    button->setFixedHeight( 40 );
     button->setStyleSheet(
         "QPushButton {"
             "padding: 0 10px;"
             "border: 3px solid white;"
+            "font: bold;"
             "color: rgba( 0, 0, 0, 0.54 );"
             "outline: 0;"
         "}"
         "QPushButton:hover {"
-            "padding: 0 10px;"
             "border-bottom-color: #069;"
-            "color: rgba( 0, 0, 0, 0.54 );"
-            "outline: 0;"
         "}"
     );
 }
@@ -138,14 +140,12 @@ void ProfileWidget::setProfileButtonSelected( QPushButton *buttonSelected ) {
                 "QPushButton {"
                     "padding: 0 10px;"
                     "border: 3px solid white;"
+                    "font: bold;"
                     "color: rgba( 0, 0, 0, 0.54 );"
                     "outline: 0;"
                 "}"
                 "QPushButton:hover {"
-                    "padding: 0 10px;"
                     "border-bottom-color: #069;"
-                    "color: rgba( 0, 0, 0, 0.54 );"
-                    "outline: 0;"
                 "}"
             );
         } else {
@@ -153,6 +153,8 @@ void ProfileWidget::setProfileButtonSelected( QPushButton *buttonSelected ) {
                 "QPushButton {"
                     "padding: 0 10px;"
                     "border: 3px solid white;"
+                    "font: bold;"
+                    "color: rgba( 0, 0, 0, 0.87 );"
                     "border-bottom-color: #069;"
                     "outline: 0;"
                 "}"
