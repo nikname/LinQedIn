@@ -10,6 +10,8 @@
 class LinQedInClient;
 class QLabel;
 class QLineEdit;
+class QScrollArea;
+class ExperiencesWidget;
 
 class ClientWindow : public QMainWindow {
     Q_OBJECT
@@ -34,11 +36,12 @@ private:
     QLineEdit *searchText;
     QPushButton *searchButton;
 
+    QScrollArea *scrollArea;
     QWidget *contentWidget;
     ProfileWidget *profileWidget;
     QWidget *connectionsWidget;
+    ExperiencesWidget *experiencesWidget;
     QWidget *educationsWidget;
-    QWidget *experiencesWidget;
 
     /** Realizza la UI. Mostra la GUI. */
     void setupUI();
@@ -86,6 +89,18 @@ private slots:
 
     /** Chiude il box di ricerca. */
     void closeSearchBox();
+
+    /** Mostra il profilo dell'utente. */
+    void showProfile();
+
+    /** Mostra la rete dei contatti dell'utente. */
+    void showConnections();
+
+    /** Mostra le esperienze lavorative dell'utente. */
+    void showExperiences();
+
+    /** Mostra i titoli di studio dell'utente. */
+    void showEducations();
 
     /** */
     void updateUserInfoSlot( const QString&, const QString& );

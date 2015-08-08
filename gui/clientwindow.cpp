@@ -1,6 +1,8 @@
 #include "gui/clientwindow.h"
 #include "gui/mainwindow.h"
 #include "linqedin_client.h"
+#include "gui/experienceswidget.h"
+#include <QScrollArea>
 #include <QMessageBox>
 
 // COSTRUTTORE ClientWindow
@@ -35,12 +37,16 @@ void ClientWindow::setupUI() {
 
     profileButton = new QPushButton( tr( "Profile" ), menuWidget );
     setMenuButtonProperties( profileButton );
+    connect( profileButton, SIGNAL( clicked() ), this, SLOT( showProfile() ) );
     connectionsButton = new QPushButton( tr( "Connections" ), menuWidget );
     setMenuButtonProperties( connectionsButton );
+    connect( connectionsButton, SIGNAL( clicked() ), this, SLOT( showConnections() ) );
     experiencesButton = new QPushButton( tr( "Experiences" ), menuWidget );
     setMenuButtonProperties( experiencesButton );
+    connect( experiencesButton, SIGNAL( clicked() ), this, SLOT( showExperiences() ) );
     educationsButton = new QPushButton( tr( "Educations" ), menuWidget );
     setMenuButtonProperties( educationsButton );
+    connect( educationsButton, SIGNAL( clicked() ), this, SLOT( showEducations() ) );
     setMenuButtonSelected( profileButton );
 
     QWidget *middleFiller = new QWidget( menuWidget );
@@ -107,18 +113,44 @@ void ClientWindow::setupUI() {
     menuWidget->setLayout( menuLayout );
     menuWidget->setStyleSheet( "background: #069; color: white;" );
 
+    scrollArea = new QScrollArea( mainWidget );
+
     contentWidget = new QWidget( mainWidget );
 
     QVBoxLayout *contentLayout = new QVBoxLayout( contentWidget );
 
     profileWidget = new ProfileWidget( client->user, contentWidget );
+    connectionsWidget = new QWidget( contentWidget );
+    connectionsWidget->setVisible( false );
+    experiencesWidget = new ExperiencesWidget( client->user, contentWidget );
+    experiencesWidget->setVisible( false );
+    educationsWidget = new QWidget( contentWidget );
+    educationsWidget->setVisible( false );
+
+    QWidget *contentFiller = new QWidget( contentWidget );
+    contentFiller->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Expanding );
 
     contentLayout->addWidget( profileWidget, 0, Qt::AlignTop );
+    contentLayout->addWidget( connectionsWidget );
+    contentLayout->addWidget( experiencesWidget );
+    contentLayout->addWidget( educationsWidget );
+    contentLayout->addWidget( contentFiller );
 
     contentWidget->setLayout( contentLayout );
 
+    scrollArea->setWidget( contentWidget );
+    scrollArea->setWidgetResizable( true );
+    scrollArea->setVerticalScrollBarPolicy( Qt::ScrollBarAlwaysOn );
+    scrollArea->setStyleSheet(
+        "QScrollBar:vertical { padding-left: 2px; width: 6px; }"
+        "QScrollBar::handle:vertical {"
+                "background: rgba(0,0,0,0.38); border-radius: 2px; min-height: 10px;"
+        "}"
+        "QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical { border: none; }"
+    );
+
     mainLayout->addWidget( menuWidget );
-    mainLayout->addWidget( contentWidget );
+    mainLayout->addWidget( scrollArea );
     mainLayout->setMargin( 0 );
     mainLayout->setSpacing( 0 );
 
@@ -166,15 +198,11 @@ void ClientWindow::setMenuButtonProperties( QPushButton *button ) {
             "outline: 0;"
         "}"
         "QPushButton:hover {"
-            "padding: 0 10px;"
             "border-bottom-color: white;"
-            "outline: 0;"
         "}"
         "QPushButton:pressed {"
-            "padding: 0 10px;"
             "border-bottom-color: white;"
             "background: #3385AD;"
-            "outline: 0;"
         "}"
     );
 }
@@ -193,15 +221,11 @@ void ClientWindow::setMenuButtonSelected( QPushButton *buttonSelected ) {
                     "outline: 0;"
                 "}"
                 "QPushButton:hover {"
-                    "padding: 0 10px;"
                     "border-bottom-color: white;"
-                    "outline: 0;"
                 "}"
                 "QPushButton:pressed {"
-                    "padding: 0 10px;"
                     "border-bottom-color: white;"
                     "background: #3385AD;"
-                    "outline: 0;"
                 "}"
             );
         } else {
@@ -214,10 +238,7 @@ void ClientWindow::setMenuButtonSelected( QPushButton *buttonSelected ) {
                     "outline: 0;"
                 "}"
                 "QPushButton:pressed {"
-                    "padding: 0 10px;"
-                    "border-bottom-color: white;"
                     "background: #3385AD;"
-                    "outline: 0;"
                 "}"
             );
         }
@@ -252,6 +273,42 @@ void ClientWindow::openSearchBox() {
 void ClientWindow::closeSearchBox() {
     searchWidget->setVisible( false );
     openSearchButton->setVisible( true );
+}
+
+// SLOT ClientWindow::showProfile()
+void ClientWindow::showProfile() {
+    profileWidget->setVisible( true );
+    setMenuButtonSelected( profileButton );
+    connectionsWidget->setVisible( false );
+    experiencesWidget->setVisible( false );
+    educationsWidget->setVisible( false );
+}
+
+// SLOT ClientWindow::showConnections()
+void ClientWindow::showConnections() {
+    profileWidget->setVisible( false );
+    connectionsWidget->setVisible( true );
+    setMenuButtonSelected( connectionsButton );
+    experiencesWidget->setVisible( false );
+    educationsWidget->setVisible( false );
+}
+
+// SLOT ClientWindow::showExperiences()
+void ClientWindow::showExperiences() {
+    profileWidget->setVisible( false );
+    connectionsWidget->setVisible( false );
+    experiencesWidget->setVisible( true );
+    setMenuButtonSelected( experiencesButton );
+    educationsWidget->setVisible( false );
+}
+
+// SLOT ClientWindow::showEducations()
+void ClientWindow::showEducations() {
+    profileWidget->setVisible( false );
+    connectionsWidget->setVisible( false );
+    experiencesWidget->setVisible( false );
+    educationsWidget->setVisible( true );
+    setMenuButtonSelected( educationsButton );
 }
 
 // SLOT

@@ -12,6 +12,8 @@ class ExperiencesWidget : public QWidget {
     Q_OBJECT
 private:
     QVector<SmartLavoro> experiencesList;
+
+    QWidget *widgetsWrapper;
     QLabel *experiencesLabel;
     QVector<JobWidget*> jobsWidget;
 public:

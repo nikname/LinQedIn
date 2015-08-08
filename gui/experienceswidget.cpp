@@ -10,21 +10,33 @@ ExperiencesWidget::ExperiencesWidget( const SmartUtente& su, QWidget *parent ) :
 {
     QVBoxLayout *layout = new QVBoxLayout( this );
 
+    widgetsWrapper = new QWidget( this );
+    widgetsWrapper->setStyleSheet( "background: white" );
+
+    QVBoxLayout *wrapperLayout = new QVBoxLayout( widgetsWrapper );
+
     experiencesLabel = new QLabel( tr( "Experiences" ), this );
     experiencesLabel->setStyleSheet( "color: rgba( 0, 0, 0, 0.54 )" );
 
-    layout->addWidget( experiencesLabel );
+    wrapperLayout->addWidget( experiencesLabel );
 
     experiencesList = su->getExperiencesList();
     for( int i = 0; i < experiencesList.size(); i++ ) {
-        layout->addWidget( new JobWidget( experiencesList[i], this ) );
+        wrapperLayout->addWidget( new JobWidget( experiencesList[i], this ) );
         if( i < experiencesList.size() - 1 ) {
             QFrame *line = new QFrame( this );
             line->setFrameShape( QFrame::HLine );
             line->setStyleSheet( "color: rgba( 0, 0, 0, 0.12 )" );
-            layout->addWidget( line );
+            wrapperLayout->addWidget( line );
         }
     }
+
+    QWidget *bottomFiller = new QWidget( this );
+    bottomFiller->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Expanding );
+
+    wrapperLayout->addWidget( bottomFiller );
+
+    layout->addWidget( widgetsWrapper );
 
     setLayout( layout );
 }
