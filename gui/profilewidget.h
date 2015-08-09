@@ -33,9 +33,10 @@ private:
 
     QWidget *backgroundTab;
     ExperiencesWidget *experiencesWidget;
-    EducationsWidget *educationsWidget;
+    QWidget *educationsWidget;
 
     QWidget *connectionsTab;
+    QWidget *otherInfoTab;
 
     /** Applica delle proprietà dei pulsanti del menu interno al profilo.
      *
@@ -57,8 +58,15 @@ public:
     explicit ProfileWidget( const SmartUtente&, QWidget *parent = 0 );
 signals:
 
-public slots:
+private slots:
+    /** Mostra la scheda della panoramica dell'utente. */
+    void showBackgroundTab();
 
+    /** Mostra la scheda dei contatti dell'utente. */
+    void showConnectionsTab();
+
+    /** Mostra la scheda delle altre informazioni dell'utente. */
+    void showOtherInfoTab();
 };
 
 #endif // PROFILEWIDGET_H

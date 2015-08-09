@@ -79,10 +79,14 @@ ProfileWidget::ProfileWidget( const SmartUtente& su, QWidget *parent ) :
 
     backgroundTabButton = new QPushButton( tr( "Background" ), infoTabsButtonsWidget );
     setProfileButtonProperties( backgroundTabButton );
+    connect( backgroundTabButton, SIGNAL( clicked() ), this, SLOT( showBackgroundTab() ) );
     connectionsTabButton = new QPushButton( tr( "Connections" ), infoTabsButtonsWidget );
     setProfileButtonProperties( connectionsTabButton );
+    connect( connectionsTabButton, SIGNAL( clicked() ), this, SLOT( showConnectionsTab() ) );
     otherInfoTabButton = new QPushButton( tr( "Other info" ), infoTabsButtonsWidget );
     setProfileButtonProperties( otherInfoTabButton );
+    connect( otherInfoTabButton, SIGNAL( clicked() ), this, SLOT( showOtherInfoTab() ) );
+
     addContactButton = new QPushButton( infoTabsButtonsWidget );
     addContactButton->setFixedSize( 50, 50 );
     addContactButton->setIcon( QIcon( QPixmap( ":/icons/icon/account-plus.png" ) ) );
@@ -101,10 +105,26 @@ ProfileWidget::ProfileWidget( const SmartUtente& su, QWidget *parent ) :
     infoTabsButtonLayout->addWidget( buttonsFiller );
     infoTabsButtonLayout->addWidget( addContactButton );
 
+    backgroundTab = new QWidget( infoTabs );
+
+    QVBoxLayout *backgroundTabLayout = new QVBoxLayout( backgroundTab );
+
     experiencesWidget = new ExperiencesWidget( su, infoTabs );
+    educationsWidget = new QWidget( infoTabs );
+
+    backgroundTabLayout->addWidget( experiencesWidget );
+    backgroundTabLayout->addWidget( educationsWidget );
+
+    connectionsTab = new QWidget( infoTabs );
+    connectionsTab->setVisible( false );
+
+    otherInfoTab = new QWidget( infoTabs );
+    otherInfoTab->setVisible( false );
 
     infoTabLayout->addWidget( infoTabsButtonsWidget );
-    infoTabLayout->addWidget( experiencesWidget );
+    infoTabLayout->addWidget( backgroundTab );
+    infoTabLayout->addWidget( connectionsTab );
+    infoTabLayout->addWidget( otherInfoTab );
 
     layout->addWidget( header );
     layout->addWidget( infoTabs );
@@ -161,4 +181,27 @@ void ProfileWidget::setProfileButtonSelected( QPushButton *buttonSelected ) {
             );
         }
     }
+}
+
+// SLOT ProfileWidget::showBackgroundTab()
+void ProfileWidget::showBackgroundTab() {
+    backgroundTab->setVisible( true );
+    setProfileButtonSelected( backgroundTabButton );
+    connectionsTab->setVisible( false );
+    otherInfoTab->setVisible( false );
+}
+
+// SLOT ProfileWidget::showConnectionsTab()
+void ProfileWidget::showConnectionsTab() {
+    backgroundTab->setVisible( false );
+    connectionsTab->setVisible( true );
+    setProfileButtonSelected( connectionsTabButton );
+    otherInfoTab->setVisible( false );
+}
+// SLOT ProfileWidget::showOtherInfoTab()
+void ProfileWidget::showOtherInfoTab() {
+    backgroundTab->setVisible( false );
+    connectionsTab->setVisible( false );
+    otherInfoTab->setVisible( true );
+    setProfileButtonSelected( otherInfoTabButton );
 }
