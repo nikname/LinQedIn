@@ -2,16 +2,19 @@
 #define CLIENTWINDOW_H
 
 #include <QMainWindow>
-#include <QTabWidget>
-#include "menubutton.h"
-#include "profilewidget.h"
 #include "smartutente.h"
 
 class LinQedInClient;
+class QMenu;
+class QAction;
 class QLabel;
 class QLineEdit;
+class QPushButton;
 class QScrollArea;
+class ProfileWidget;
+class ConnectionsWidget;
 class ExperiencesWidget;
+class EducationsWidget;
 
 class ClientWindow : public QMainWindow {
     Q_OBJECT
@@ -24,6 +27,7 @@ private:
     QMenu *helpMenu;
     QAction *aboutAct;
 
+    QWidget *mainWidget;
     QWidget *menuWidget;
     QLabel *linqedinLabel;
     QPushButton *profileButton;
@@ -43,6 +47,9 @@ private:
     ExperiencesWidget *experiencesWidget;
     EducationsWidget *educationsWidget;
 
+    /** Inizializza la UI. */
+    void initUI();
+
     /** Realizza la UI. Mostra la GUI. */
     void setupUI();
 
@@ -54,7 +61,7 @@ private:
      */
     void createMenus();
 
-    /** Applica delle proprietà dei pulsanti del menu utente.
+    /** Applica delle proprietà ai pulsanti del menu utente.
      *
      * @param QPushButton  Pulsante al quale applicare le proprietà.
      */
@@ -65,6 +72,12 @@ private:
      * @param QPushButton*  Bottone selezionato.
      */
     void setMenuButtonSelected( QPushButton* );
+
+    /** Applica delle proprietà ai pulsanti dell'area di ricerca.
+     *
+     * @param QPushButton*  Pulsante al quale applicare le proprietà.
+     */
+    void setSearchAreaButtonProperties( QPushButton* );
 public:
     /** Costruttore esplicito a 2 parametri con 2 parametri di deafult.
      *
