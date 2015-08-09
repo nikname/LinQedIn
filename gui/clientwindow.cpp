@@ -2,6 +2,7 @@
 #include "gui/mainwindow.h"
 #include "linqedin_client.h"
 #include "gui/experienceswidget.h"
+#include "gui/educationswidget.h"
 #include <QScrollArea>
 #include <QMessageBox>
 
@@ -124,7 +125,7 @@ void ClientWindow::setupUI() {
     connectionsWidget->setVisible( false );
     experiencesWidget = new ExperiencesWidget( client->user, contentWidget );
     experiencesWidget->setVisible( false );
-    educationsWidget = new QWidget( contentWidget );
+    educationsWidget = new EducationsWidget( client->user, contentWidget );
     educationsWidget->setVisible( false );
 
     QWidget *contentFiller = new QWidget( contentWidget );

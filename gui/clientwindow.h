@@ -41,7 +41,7 @@ private:
     ProfileWidget *profileWidget;
     QWidget *connectionsWidget;
     ExperiencesWidget *experiencesWidget;
-    QWidget *educationsWidget;
+    EducationsWidget *educationsWidget;
 
     /** Realizza la UI. Mostra la GUI. */
     void setupUI();

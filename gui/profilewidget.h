@@ -33,7 +33,7 @@ private:
 
     QWidget *backgroundTab;
     ExperiencesWidget *experiencesWidget;
-    QWidget *educationsWidget;
+    EducationsWidget *educationsWidget;
 
     QWidget *connectionsTab;
     QWidget *otherInfoTab;

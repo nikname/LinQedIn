@@ -6,6 +6,7 @@
 #include "smartlavoro.h"
 #include "smarttitolo.h"
 #include "experienceswidget.h"
+#include "educationswidget.h"
 
 // COSTRUTTORE ProfileWidget
 ProfileWidget::ProfileWidget( const SmartUtente& su, QWidget *parent ) :
@@ -110,7 +111,7 @@ ProfileWidget::ProfileWidget( const SmartUtente& su, QWidget *parent ) :
     QVBoxLayout *backgroundTabLayout = new QVBoxLayout( backgroundTab );
 
     experiencesWidget = new ExperiencesWidget( su, infoTabs );
-    educationsWidget = new QWidget( infoTabs );
+    educationsWidget = new EducationsWidget( su, infoTabs );
 
     backgroundTabLayout->addWidget( experiencesWidget );
     backgroundTabLayout->addWidget( educationsWidget );
