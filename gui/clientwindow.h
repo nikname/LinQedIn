@@ -4,17 +4,17 @@
 #include <QMainWindow>
 #include "smartutente.h"
 
+class ConnectionsWidget;
+class EducationsWidget;
+class ExperiencesWidget;
 class LinQedInClient;
-class QMenu;
+class ProfileWidget;
 class QAction;
 class QLabel;
 class QLineEdit;
+class QMenu;
 class QPushButton;
 class QScrollArea;
-class ProfileWidget;
-class ConnectionsWidget;
-class ExperiencesWidget;
-class EducationsWidget;
 
 class ClientWindow : public QMainWindow {
     Q_OBJECT
@@ -43,7 +43,7 @@ private:
     QScrollArea *scrollArea;
     QWidget *contentWidget;
     ProfileWidget *profileWidget;
-    QWidget *connectionsWidget;
+    ConnectionsWidget *connectionsWidget;
     ExperiencesWidget *experiencesWidget;
     EducationsWidget *educationsWidget;
 

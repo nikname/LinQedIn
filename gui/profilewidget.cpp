@@ -1,40 +1,32 @@
-#include <QVBoxLayout>
 #include <QLabel>
 #include <QPushButton>
+#include <QVBoxLayout>
+#include "connectionswidget.h"
+#include "educationswidget.h"
+#include "experienceswidget.h"
 #include "profilewidget.h"
-#include "utente.h"
 #include "smartlavoro.h"
 #include "smarttitolo.h"
-#include "experienceswidget.h"
-#include "educationswidget.h"
+#include "utente.h"
 
 // COSTRUTTORE ProfileWidget
 ProfileWidget::ProfileWidget( const SmartUtente& su, QWidget *parent ) :
     QWidget( parent )
 {
-    QVBoxLayout *layout = new QVBoxLayout( this );
+    initUI( su );
+    setupUI();
 
+}
+
+// METODO ProfileWidget::initUI
+void ProfileWidget::initUI( const SmartUtente& su ) {
     header = new QWidget( this );
 
-    QHBoxLayout *headerLayout = new QHBoxLayout( header );
-
     profilePicWidget = new QWidget( header );
-    profilePicWidget->setFixedSize( 140, 140 );
-
-    QVBoxLayout *profilePicLayout = new QVBoxLayout( profilePicWidget );
-    profilePicLayout->setMargin( 20 );
-
     profilePicLabel = new QLabel( profilePicWidget );
-    profilePicLabel->setPixmap( QPixmap( ":/icons/icon/account-circle.png" ) );
-
-    profilePicLayout->addWidget( profilePicLabel, 0, Qt::AlignCenter );
 
     profileSummary = new QWidget( header );
-
-    QVBoxLayout *profileSummaryLayout = new QVBoxLayout( profileSummary );
-
     nameSurnameLabel = new QLabel( "<h1>" + su->getName() + " " + su->getSurname() + "</h1>" );
-    nameSurnameLabel->setStyleSheet( "color: rgba( 0, 0, 0, 0.87 )" );
 
     QVector<SmartLavoro> experiencesList = su->getExperiencesList();
     if( experiencesList.size() == 0 )
@@ -43,20 +35,54 @@ ProfileWidget::ProfileWidget( const SmartUtente& su, QWidget *parent ) :
         SmartLavoro aux = experiencesList.last();
         lastExperienceLabel = new QLabel( aux->getTitle() + " at " + aux->getCompanyName() );
     }
-    lastExperienceLabel->setStyleSheet( "color: rgba( 0, 0, 0, 0.54 );" );
 
     QVector<SmartTitolo> educationsList = su->getEducationsList();
     if( educationsList.size() == 0 )
-        lastEducationLabel = new QLabel( "" );
+        lastEducationLabel = new QLabel( "--" );
     else {
         SmartTitolo aux = educationsList.last();
-        lastEducationLabel = new QLabel(
-            "Eduction: " + aux->getFieldOfStudy() + " at " + aux->getSchool() );
+        lastEducationLabel = new QLabel( aux->getFieldOfStudy() + " at " + aux->getSchool() );
     }
-    lastEducationLabel->setStyleSheet( "color: rgba( 0, 0, 0, 0.54 );" );
 
     QVector<QString> contactsList = su->getContactsList();
     connectionsNumber = new QLabel( QString::number( contactsList.size() ) + tr( " connections" ) );
+
+    infoTabs = new QWidget( this );
+
+    infoTabsButtonsWidget = new QWidget( infoTabs );
+    backgroundTabButton = new QPushButton( tr( "Background" ), infoTabsButtonsWidget );
+    connectionsTabButton = new QPushButton( tr( "Connections" ), infoTabsButtonsWidget );
+    otherInfoTabButton = new QPushButton( tr( "Other info" ), infoTabsButtonsWidget );
+    addContactButton = new QPushButton( infoTabsButtonsWidget );
+
+    backgroundTab = new QWidget( infoTabs );
+    experiencesWidget = new ExperiencesWidget( su, infoTabs );
+    educationsWidget = new EducationsWidget( su, infoTabs );
+
+    //connectionsTab = new ConnectionsWidget( su, infoTabs );
+    otherInfoTab = new QWidget( infoTabs );
+}
+
+// METODO ProfileWidget::setupUI
+void ProfileWidget::setupUI() {
+    QVBoxLayout *layout = new QVBoxLayout( this );
+
+    QHBoxLayout *headerLayout = new QHBoxLayout( header );
+
+    profilePicWidget->setFixedSize( 140, 140 );
+
+    QVBoxLayout *profilePicLayout = new QVBoxLayout( profilePicWidget );
+    profilePicLayout->setMargin( 20 );
+
+    profilePicLabel->setPixmap( QPixmap( ":/icons/icon/account-circle.png" ) );
+
+    profilePicLayout->addWidget( profilePicLabel, 0, Qt::AlignCenter );
+
+    QVBoxLayout *profileSummaryLayout = new QVBoxLayout( profileSummary );
+
+    nameSurnameLabel->setStyleSheet( "color: rgba( 0, 0, 0, 0.87 )" );
+    lastExperienceLabel->setStyleSheet( "color: rgba( 0, 0, 0, 0.54 );" );
+    lastEducationLabel->setStyleSheet( "color: rgba( 0, 0, 0, 0.54 );" );
 
     QWidget *profileSummaryFiller = new QWidget( profileSummary );
     profileSummaryFiller->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Expanding );
@@ -70,25 +96,17 @@ ProfileWidget::ProfileWidget( const SmartUtente& su, QWidget *parent ) :
     headerLayout->addWidget( profilePicWidget );
     headerLayout->addWidget( profileSummary );
 
-    infoTabs = new QWidget( this );
-
     QVBoxLayout *infoTabLayout = new QVBoxLayout( infoTabs );
-
-    infoTabsButtonsWidget = new QWidget( infoTabs );
 
     QHBoxLayout *infoTabsButtonLayout = new QHBoxLayout( infoTabsButtonsWidget );
 
-    backgroundTabButton = new QPushButton( tr( "Background" ), infoTabsButtonsWidget );
     setProfileButtonProperties( backgroundTabButton );
     connect( backgroundTabButton, SIGNAL( clicked() ), this, SLOT( showBackgroundTab() ) );
-    connectionsTabButton = new QPushButton( tr( "Connections" ), infoTabsButtonsWidget );
     setProfileButtonProperties( connectionsTabButton );
     connect( connectionsTabButton, SIGNAL( clicked() ), this, SLOT( showConnectionsTab() ) );
-    otherInfoTabButton = new QPushButton( tr( "Other info" ), infoTabsButtonsWidget );
     setProfileButtonProperties( otherInfoTabButton );
     connect( otherInfoTabButton, SIGNAL( clicked() ), this, SLOT( showOtherInfoTab() ) );
 
-    addContactButton = new QPushButton( infoTabsButtonsWidget );
     addContactButton->setFixedSize( 50, 50 );
     addContactButton->setIcon( QIcon( QPixmap( ":/icons/icon/account-plus.png" ) ) );
     addContactButton->setStyleSheet(
@@ -106,25 +124,17 @@ ProfileWidget::ProfileWidget( const SmartUtente& su, QWidget *parent ) :
     infoTabsButtonLayout->addWidget( buttonsFiller );
     infoTabsButtonLayout->addWidget( addContactButton );
 
-    backgroundTab = new QWidget( infoTabs );
-
     QVBoxLayout *backgroundTabLayout = new QVBoxLayout( backgroundTab );
-
-    experiencesWidget = new ExperiencesWidget( su, infoTabs );
-    educationsWidget = new EducationsWidget( su, infoTabs );
 
     backgroundTabLayout->addWidget( experiencesWidget );
     backgroundTabLayout->addWidget( educationsWidget );
 
-    connectionsTab = new QWidget( infoTabs );
-    connectionsTab->setVisible( false );
-
-    otherInfoTab = new QWidget( infoTabs );
+    //connectionsTab->setVisible( false );
     otherInfoTab->setVisible( false );
 
     infoTabLayout->addWidget( infoTabsButtonsWidget );
     infoTabLayout->addWidget( backgroundTab );
-    infoTabLayout->addWidget( connectionsTab );
+    //infoTabLayout->addWidget( connectionsTab );
     infoTabLayout->addWidget( otherInfoTab );
 
     layout->addWidget( header );
@@ -134,21 +144,13 @@ ProfileWidget::ProfileWidget( const SmartUtente& su, QWidget *parent ) :
     setLayout( layout );
 }
 
-
 // METODO ProfileWidget::setProfileButtonProperties( QPushButton* )
 void ProfileWidget::setProfileButtonProperties( QPushButton *button ) {
     button->setFixedHeight( 40 );
     button->setStyleSheet(
-        "QPushButton {"
-            "padding: 0 10px;"
-            "border: 3px solid white;"
-            "font: bold;"
-            "color: rgba( 0, 0, 0, 0.54 );"
-            "outline: 0;"
-        "}"
-        "QPushButton:hover {"
-            "border-bottom-color: #069;"
-        "}"
+        "QPushButton { padding: 0 10px; border: 3px solid white; font: bold;"
+            "color: rgba( 0, 0, 0, 0.54 ); outline: 0; }"
+        "QPushButton:hover { border-bottom-color: #069; }"
     );
 }
 
@@ -158,27 +160,14 @@ void ProfileWidget::setProfileButtonSelected( QPushButton *buttonSelected ) {
     for( int i = 0; i < 3; i++ ) {
         if( buttonSelected != buttons[i] ) {
             buttons[i]->setStyleSheet(
-                "QPushButton {"
-                    "padding: 0 10px;"
-                    "border: 3px solid white;"
-                    "font: bold;"
-                    "color: rgba( 0, 0, 0, 0.54 );"
-                    "outline: 0;"
-                "}"
-                "QPushButton:hover {"
-                    "border-bottom-color: #069;"
-                "}"
+                "QPushButton { padding: 0 10px; border: 3px solid white; font: bold;"
+                    "color: rgba( 0, 0, 0, 0.54 ); outline: 0; }"
+                "QPushButton:hover { border-bottom-color: #069; }"
             );
         } else {
             buttonSelected->setStyleSheet(
-                "QPushButton {"
-                    "padding: 0 10px;"
-                    "border: 3px solid white;"
-                    "font: bold;"
-                    "color: rgba( 0, 0, 0, 0.87 );"
-                    "border-bottom-color: #069;"
-                    "outline: 0;"
-                "}"
+                "QPushButton { padding: 0 10px; border: 3px solid white; font: bold;"
+                    "color: rgba( 0, 0, 0, 0.87 ); border-bottom-color: #069; outline: 0; }"
             );
         }
     }
@@ -188,21 +177,21 @@ void ProfileWidget::setProfileButtonSelected( QPushButton *buttonSelected ) {
 void ProfileWidget::showBackgroundTab() {
     backgroundTab->setVisible( true );
     setProfileButtonSelected( backgroundTabButton );
-    connectionsTab->setVisible( false );
+    //connectionsTab->setVisible( false );
     otherInfoTab->setVisible( false );
 }
 
 // SLOT ProfileWidget::showConnectionsTab()
 void ProfileWidget::showConnectionsTab() {
     backgroundTab->setVisible( false );
-    connectionsTab->setVisible( true );
+    //connectionsTab->setVisible( true );
     setProfileButtonSelected( connectionsTabButton );
     otherInfoTab->setVisible( false );
 }
 // SLOT ProfileWidget::showOtherInfoTab()
 void ProfileWidget::showOtherInfoTab() {
     backgroundTab->setVisible( false );
-    connectionsTab->setVisible( false );
+    //connectionsTab->setVisible( false );
     otherInfoTab->setVisible( true );
     setProfileButtonSelected( otherInfoTabButton );
 }

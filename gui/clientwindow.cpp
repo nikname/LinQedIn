@@ -6,6 +6,7 @@
 #include <QPushButton>
 #include <QScrollArea>
 #include "clientwindow.h"
+#include "connectionswidget.h"
 #include "educationswidget.h"
 #include "experienceswidget.h"
 #include "linqedin_client.h"
@@ -55,7 +56,7 @@ void ClientWindow::initUI() {
     scrollArea = new QScrollArea( mainWidget );
     contentWidget = new QWidget( mainWidget );
     profileWidget = new ProfileWidget( client->user, contentWidget );
-    connectionsWidget = new QWidget( contentWidget );
+    connectionsWidget = new ConnectionsWidget( client->user, client->db, contentWidget );
     experiencesWidget = new ExperiencesWidget( client->user, contentWidget );
     educationsWidget = new EducationsWidget( client->user, contentWidget );
 }
@@ -144,17 +145,18 @@ void ClientWindow::setupUI() {
     scrollArea->setWidget( contentWidget );
     scrollArea->setWidgetResizable( true );
     scrollArea->setVerticalScrollBarPolicy( Qt::ScrollBarAlwaysOn );
-    scrollArea->setStyleSheet(
-        "QScrollBar:vertical { padding-left: 2px; width: 6px; }"
-        "QScrollBar::handle:vertical { background: rgba(0,0,0,0.38); border-radius: 2px;"
-            "min-height: 10px; }"
-        "QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical { border: none; }"
-    );
 
     mainLayout->addWidget( menuWidget );
     mainLayout->addWidget( scrollArea );
     mainLayout->setMargin( 0 );
     mainLayout->setSpacing( 0 );
+
+    setStyleSheet(
+        "QScrollBar:vertical { padding-left: 2px; width: 6px; }"
+        "QScrollBar::handle:vertical { background: rgba(0,0,0,0.38); border-radius: 2px;"
+            "min-height: 10px; }"
+        "QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical { border: none; }"
+    );
 
     setCentralWidget( mainWidget );
     setMinimumSize( 800, 600 );

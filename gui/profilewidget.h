@@ -4,10 +4,11 @@
 #include <QWidget>
 #include "smartutente.h"
 
+class ConnectionsWidget;
+class EducationsWidget;
+class ExperiencesWidget;
 class QLabel;
 class QPushButton;
-class ExperiencesWidget;
-class EducationsWidget;
 
 class ProfileWidget : public QWidget {
     Q_OBJECT
@@ -35,8 +36,17 @@ private:
     ExperiencesWidget *experiencesWidget;
     EducationsWidget *educationsWidget;
 
-    QWidget *connectionsTab;
+    //ConnectionsWidget *connectionsTab;
     QWidget *otherInfoTab;
+
+    /** Inizializza la UI.
+     *
+     * @param SmartUtente  Utente del quale visualizzare il profilo.
+     */
+    void initUI( const SmartUtente& );
+
+    /** Realizza la UI. Mostra la GUI. */
+    void setupUI();
 
     /** Applica delle proprietà dei pulsanti del menu interno al profilo.
      *
