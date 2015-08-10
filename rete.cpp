@@ -8,13 +8,13 @@
 // CLASSE Rete_rapp
 class Rete::Rete_rapp {
 public:
-    QList<QString> contactsList;
+    QList<SmartUtente> contactsList;
 
     /** Costruttore di default.
-     *  Inizializza il campo contactsList con una QList di QString vuota.
+     *  Inizializza il campo contactsList con una QList di SmartUtente vuota.
      */
     Rete_rapp() :
-        contactsList( QList<QString>() ) {}
+        contactsList( QList<SmartUtente>() ) {}
 
     /** Distruttore Rete_rapp.
      *  Invoca il metodo clear() sulla lista dei contatti dell'utente.
@@ -36,19 +36,19 @@ Rete::Rete() :
     user_ref( 1 ) {}
 
 // METODO addContact di Rete
-void Rete::addContact( const QString& un ) {
-    contacts->contactsList.append( un );
+void Rete::addContact( const SmartUtente& su ) {
+    contacts->contactsList.append( su );
 }
 
 // METODO removeContact di Rete
-void Rete::removeContact( const QString& un ) {
-    contacts->contactsList.removeOne( un );
+void Rete::removeContact( const SmartUtente& su ) {
+    contacts->contactsList.removeOne( su );
 }
 
 // METODO getContactsList di Rete
-QVector<QString> Rete::getContactsList() const {
-    QVector<QString> v;
-    QListIterator<QString> it( contacts->contactsList );
+QVector<SmartUtente> Rete::getContactsList() const {
+    QVector<SmartUtente> v;
+    QListIterator<SmartUtente> it( contacts->contactsList );
     while( it.hasNext() )
         v.push_back( it.next() );
     return v;

@@ -5,17 +5,14 @@
 #include "utente.h"
 
 // COSTRUTTORE ConnectionsWidget
-ConnectionsWidget::ConnectionsWidget( const SmartUtente& su, Database *db, QWidget *parent ) :
+ConnectionsWidget::ConnectionsWidget( const SmartUtente& su, QWidget *parent ) :
     QWidget( parent )
 {
     QVBoxLayout *layout = new QVBoxLayout( this );
 
-    QVector<QString> aux = su->getContactsList();
+    QVector<SmartUtente> aux = su->getContactsList();
     for( int i = 0; i < aux.size(); i++ ) {
-        if( db->contains( aux[i] ) ) {
-            SmartUtente su = db->find( aux[i] );
-            layout->addWidget( new QLabel( su->getName() + " " + su->getSurname() ) );
-        }
+        layout->addWidget( new QLabel( aux[i]->getName() + " " + aux[i]->getSurname() ) );
     }
 
     setLayout( layout );

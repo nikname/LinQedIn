@@ -90,7 +90,11 @@ void Database::parseNet( QXmlStreamReader& xmlReader, SmartUtente su ) {
         if( xmlReader.name() == "contact" &&
                 xmlReader.tokenType() != QXmlStreamReader::EndElement ) {
             xmlReader.readNext(); // xmlReader è sul contenuto dell'elemento <contact>
-            su->addContact( xmlReader.text().toString() );
+
+            if( contains( xmlReader.text().toString() ) ) {
+                SmartUtente aux = find( xmlReader.text().toString() );
+                su->addContact( aux );
+            }
         }
         xmlReader.readNext(); // xmlReader è su </contact> o </net>
     }
@@ -305,9 +309,9 @@ void Database::saveUsersList() const {
 
         // <net>
         xmlWriter.writeStartElement( "net" );
-        QVectorIterator<QString> contacts_it( u->getContactsList() );
+        QVectorIterator<SmartUtente> contacts_it( u->getContactsList() );
         while( contacts_it.hasNext() ) {
-            xmlWriter.writeTextElement( "contact", contacts_it.next() );
+            xmlWriter.writeTextElement( "contact", contacts_it.next()->getUsername() );
         }
         xmlWriter.writeEndElement();
         // </net>

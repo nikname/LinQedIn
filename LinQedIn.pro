@@ -37,8 +37,6 @@ SOURCES += main.cpp\
     gui/adduserdialog.cpp \
     gui/changeusertypedialog.cpp \
     gui/usersearchwidget.cpp \
-    gui/tabprofilo.cpp \
-    gui/tabrete.cpp \
     utente_executive.cpp \
     gui/adminsearchwidget.cpp \
     gui/userlistwidget.cpp \
@@ -75,8 +73,6 @@ HEADERS  += \
     gui/adduserdialog.h \
     gui/changeusertypedialog.h \
     gui/usersearchwidget.h \
-    gui/tabprofilo.h \
-    gui/tabrete.h \
     utente_executive.h \
     gui/userlistwidget.h \
     gui/adminsearchwidget.h \

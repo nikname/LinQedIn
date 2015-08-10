@@ -44,7 +44,7 @@ void ProfileWidget::initUI( const SmartUtente& su ) {
         lastEducationLabel = new QLabel( aux->getFieldOfStudy() + " at " + aux->getSchool() );
     }
 
-    QVector<QString> contactsList = su->getContactsList();
+    QVector<SmartUtente> contactsList = su->getContactsList();
     connectionsNumber = new QLabel( QString::number( contactsList.size() ) + tr( " connections" ) );
 
     infoTabs = new QWidget( this );

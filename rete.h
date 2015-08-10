@@ -32,21 +32,21 @@ private:
 public:
     /** Aggiunge un contatto alla lista dei contatti dell'utente.
      *
-     * @param QString  Username dell'utente da aggiungere.
+     * @param SmartUtente  Utente da aggiungere.
      */
-    void addContact( const QString& );
+    void addContact( const SmartUtente& );
 
     /** Rimuove un contatto dalla lista dei contatti dell'utente.
      *
-     * @param QString  Username dell'utente da rimuovere.
+     * @param SmartUtente  Utente da rimuovere.
      */
-    void removeContact( const QString& );
+    void removeContact( const SmartUtente& );
 
     /** Ritorna un QVector di SmartUtente contenente i contatti nella rete dell'utente.
      *
-     * @return QVector<QString>  Vettore dei contatti nella rete dell'utente.
+     * @return QVector<SmartUtente>  Vettore dei contatti nella rete dell'utente.
      */
-    QVector<QString> getContactsList() const;
+    QVector<SmartUtente> getContactsList() const;
 
     /** Ridefinizione operatore delete.
      *  Se il campo user_ref è 0 invoca la delete standard su contacts,

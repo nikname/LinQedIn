@@ -90,17 +90,17 @@ void Utente::setMaritialStatus( const QString& ms ) {
 }
 
 // METODO addContact Utente
-void Utente::addContact( const QString& un ) {
-    net->addContact( un );
+void Utente::addContact( const SmartUtente& su ) {
+    net->addContact( su );
 }
 
 // METODO removeContact Utente
-void Utente::removeContact( const QString& un ) {
-    net->removeContact( un );
+void Utente::removeContact( const SmartUtente& su ) {
+    net->removeContact( su );
 }
 
 // METODO getContactsList Utente
-QVector<QString> Utente::getContactsList() const {
+QVector<SmartUtente> Utente::getContactsList() const {
     return net->getContactsList();
 }
 
@@ -157,12 +157,12 @@ QDebug operator <<( QDebug qdbg, const Utente& u ) {
     qdbg << " Data di nascita: " << u.getBirthday().toString( "dd/MM/yyyy" ) << "\n";
     qdbg << " Stato civile: " << u.getMaritialStatus() << "\n";
     qdbg << "CONTATTI: " << "\n";
-    QVector<QString> c = u.getContactsList();
+    QVector<SmartUtente> c = u.getContactsList();
     if( c.size() == 0 )
         qdbg << " ** Nessun contatto! **" << "\n";
     else {
         for( int i = 0; i < c.size(); i++ )
-            qdbg << " " << c[i] << "\n";
+            qdbg << " " << c[i]->getName() << c[i]->getSurname() << "\n";
     }
     qdbg << "FORMAZIONE: " << "\n";
     QVector<SmartTitolo> ed = u.getEducationsList();

@@ -56,7 +56,7 @@ void ClientWindow::initUI() {
     scrollArea = new QScrollArea( mainWidget );
     contentWidget = new QWidget( mainWidget );
     profileWidget = new ProfileWidget( client->user, contentWidget );
-    connectionsWidget = new ConnectionsWidget( client->user, client->db, contentWidget );
+    connectionsWidget = new ConnectionsWidget( client->user, contentWidget );
     experiencesWidget = new ExperiencesWidget( client->user, contentWidget );
     educationsWidget = new EducationsWidget( client->user, contentWidget );
 }
@@ -304,7 +304,9 @@ void ClientWindow::updateUserInfoSlot( const QString& value, const QString& fiel
 
 // SLOT
 void ClientWindow::updateContactsSlot( const QString& un ) {
-    client->user->removeContact( un );
-    emit updateContactsListSignal( client->user );
-    client->db->saveUsersList();
+    if( client->db->contains( un ) ) {
+        client->user->removeContact( client->db->find( un ) );
+        emit updateContactsListSignal( client->user );
+        client->db->saveUsersList();
+    }
 }
