@@ -15,11 +15,6 @@ EducationsWidget::EducationsWidget( const SmartUtente& su, QWidget *parent ) :
 
     QVBoxLayout *wrapperLayout = new QVBoxLayout( widgetsWrapper );
 
-    educationsLabel = new QLabel( tr( "Educations" ), this );
-    educationsLabel->setStyleSheet( "color: rgba( 0, 0, 0, 0.54 )" );
-
-    wrapperLayout->addWidget( educationsLabel );
-
     educationsList = su->getEducationsList();
     for( int i = 0; i < educationsList.size(); i++ ) {
         TitleWidget *aux = new TitleWidget( educationsList[i], this );

@@ -13,7 +13,6 @@ private:
     QVector<SmartUtente> contactsList;
 
     QWidget *widgetsWrapper;
-    QLabel *connectionsLabel;
     QWidget *contactsWidget;
     QVector<UserPreviewWidget*> userPreviewWidget;
 public:

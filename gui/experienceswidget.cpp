@@ -15,11 +15,6 @@ ExperiencesWidget::ExperiencesWidget( const SmartUtente& su, QWidget *parent ) :
 
     QVBoxLayout *wrapperLayout = new QVBoxLayout( widgetsWrapper );
 
-    experiencesLabel = new QLabel( tr( "Experiences" ), this );
-    experiencesLabel->setStyleSheet( "color: rgba( 0, 0, 0, 0.54 )" );
-
-    wrapperLayout->addWidget( experiencesLabel );
-
     experiencesList = su->getExperiencesList();
     for( int i = 0; i < experiencesList.size(); i++ ) {
         wrapperLayout->addWidget( new JobWidget( experiencesList[i], this ) );

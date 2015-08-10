@@ -56,8 +56,12 @@ void ProfileWidget::initUI( const SmartUtente& su ) {
     addContactButton = new QPushButton( infoTabsButtonsWidget );
 
     backgroundTab = new QWidget( infoTabs );
-    experiencesWidget = new ExperiencesWidget( su, infoTabs );
-    educationsWidget = new EducationsWidget( su, infoTabs );
+
+    experiencesLabel = new QLabel( tr( "Experiences" ), backgroundTab );
+    experiencesWidget = new ExperiencesWidget( su, backgroundTab );
+
+    educationsLabel = new QLabel( tr( "Educations" ), backgroundTab );
+    educationsWidget = new EducationsWidget( su, backgroundTab );
 
     connectionsTab = new ConnectionsWidget( su, infoTabs );
     otherInfoTab = new QWidget( infoTabs );
@@ -126,7 +130,12 @@ void ProfileWidget::setupUI() {
 
     QVBoxLayout *backgroundTabLayout = new QVBoxLayout( backgroundTab );
 
+    experiencesLabel->setStyleSheet( "color: rgba( 0, 0, 0, 0.54 )" );
+    educationsLabel->setStyleSheet( "color: rgba( 0, 0, 0, 0.54 )" );
+
+    backgroundTabLayout->addWidget( experiencesLabel );
     backgroundTabLayout->addWidget( experiencesWidget );
+    backgroundTabLayout->addWidget( educationsLabel );
     backgroundTabLayout->addWidget( educationsWidget );
 
     connectionsTab->setVisible( false );

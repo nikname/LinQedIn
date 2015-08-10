@@ -33,7 +33,9 @@ private:
     QPushButton *addContactButton;
 
     QWidget *backgroundTab;
+    QLabel *experiencesLabel;
     ExperiencesWidget *experiencesWidget;
+    QLabel *educationsLabel;
     EducationsWidget *educationsWidget;
 
     ConnectionsWidget *connectionsTab;

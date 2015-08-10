@@ -14,7 +14,6 @@ private:
     QVector<SmartTitolo> educationsList;
 
     QWidget *widgetsWrapper;
-    QLabel *educationsLabel;
     QVector<TitleWidget*> titlesList;
 public:
     /** */

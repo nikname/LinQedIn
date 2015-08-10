@@ -18,6 +18,12 @@ private:
     QWidget *toolWidget;
     QPushButton *viewContactButton;
     QPushButton *removeContactButton;
+
+    /** Applica delle proprietà ai pulsanti degli strumenti della preview.
+     *
+     * @param QPushButton  Pulsante al quale applicare le proprietà.
+     */
+    void setToolButtonProperties( QPushButton* );
 public:
     /** */
     explicit UserPreviewWidget( const SmartUtente&, QWidget *parent = 0 );

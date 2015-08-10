@@ -12,12 +12,8 @@ ConnectionsWidget::ConnectionsWidget( const SmartUtente& su, QWidget *parent ) :
     QVBoxLayout *layout = new QVBoxLayout( this );
 
     widgetsWrapper = new QWidget( this );
-    widgetsWrapper->setStyleSheet( "background: white" );
 
     QVBoxLayout *wrapperLayout = new QVBoxLayout( widgetsWrapper );
-
-    connectionsLabel = new QLabel( tr( "Connections" ), this );
-    connectionsLabel->setStyleSheet( "color: rgba( 0, 0, 0, 0.54 )" );
 
     QWidget *usersGridWidget = new QWidget( widgetsWrapper );
 
@@ -32,7 +28,6 @@ ConnectionsWidget::ConnectionsWidget( const SmartUtente& su, QWidget *parent ) :
         j = ( j + 1 ) % 2;
     }
 
-    wrapperLayout->addWidget( connectionsLabel );
     wrapperLayout->addWidget( usersGridWidget );
 
     layout->addWidget( widgetsWrapper );

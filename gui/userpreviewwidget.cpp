@@ -10,12 +10,23 @@
 UserPreviewWidget::UserPreviewWidget( const SmartUtente& su, QWidget *parent ) :
     QWidget( parent )
 {
-    QHBoxLayout *layout = new QHBoxLayout( this );
+    QVBoxLayout *layout = new QVBoxLayout( this );
 
-    profilePicLabel = new QLabel( this );
+    QWidget *wrapper = new QWidget( this );
+
+    QHBoxLayout *wrapperLayout = new QHBoxLayout( wrapper );
+
+    QWidget *profilePicWidget = new QWidget( wrapper );
+    profilePicWidget->setFixedSize( 100, 100 );
+
+    QVBoxLayout *profilePicLayout = new QVBoxLayout( profilePicWidget );
+
+    profilePicLabel = new QLabel( profilePicWidget );
     profilePicLabel->setPixmap( QPixmap( ":/icons/icon/account-circle.png" ) );
 
-    QWidget *rightWidget = new QWidget( this );
+    profilePicLayout->addWidget( profilePicLabel, 0, Qt::AlignCenter );
+
+    QWidget *rightWidget = new QWidget( wrapper );
 
     QVBoxLayout *rightLayout = new QVBoxLayout( rightWidget );
     rightLayout->setMargin( 0 );
@@ -36,6 +47,7 @@ UserPreviewWidget::UserPreviewWidget( const SmartUtente& su, QWidget *parent ) :
         lastJobLabel = new QLabel(
                     lastJob->getTitle() + " at " + lastJob->getCompanyName(), infoPreviewWidget );
     }
+    lastJobLabel->setStyleSheet( "QLabel { color: rgba(0,0,0,0.54); }" );
 
     infoPreviewLayout->addWidget( userLabel );
     infoPreviewLayout->addWidget( lastJobLabel );
@@ -51,11 +63,11 @@ UserPreviewWidget::UserPreviewWidget( const SmartUtente& su, QWidget *parent ) :
 
     viewContactButton = new QPushButton( toolWidget );
     viewContactButton->setIcon( QIcon( QPixmap( ":/icons/icon/magnify-black.png" ) ) );
-    viewContactButton->setFixedSize( 24, 24 );
+    setToolButtonProperties( viewContactButton );
 
     removeContactButton = new QPushButton( toolWidget );
     removeContactButton->setIcon( QIcon( QPixmap( ":/icons/icon/close-black.png" ) ) );
-    removeContactButton->setFixedSize( 24, 24 );
+    setToolButtonProperties( removeContactButton );
 
     toolLayout->addWidget( toolFiller );
     toolLayout->addWidget( viewContactButton );
@@ -64,10 +76,22 @@ UserPreviewWidget::UserPreviewWidget( const SmartUtente& su, QWidget *parent ) :
     rightLayout->addWidget( toolWidget );
     rightLayout->addWidget( infoPreviewWidget );
 
-    layout->addWidget( profilePicLabel );
-    layout->addWidget( rightWidget );
-    layout->setMargin( 0 );
+    wrapperLayout->addWidget( profilePicWidget );
+    wrapperLayout->addWidget( rightWidget );
+    wrapperLayout->setMargin( 0 );
+
+    layout->addWidget( wrapper );
+
+    wrapper->setStyleSheet( "background: white" );
 
     setMaximumWidth( 350 );
-    setStyleSheet( "background: red" );
+}
+
+// METODO UserPreviewWidget::setToolButtonProperties
+void UserPreviewWidget::setToolButtonProperties( QPushButton* button ) {
+    button->setFixedSize( 24, 24 );
+    button->setStyleSheet(
+        "QPushButton { border-radius: 12px; outline: 0; }"
+        "QPushButton:pressed { background: rgba(0,0,0,0.12); }"
+    );
 }
