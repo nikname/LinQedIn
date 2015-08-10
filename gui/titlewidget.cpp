@@ -1,4 +1,4 @@
-#include <QVBoxLayout>
+#include <QBoxLayout>
 #include <QLabel>
 #include "titlewidget.h"
 #include "titolo.h"
@@ -7,32 +7,47 @@
 TitleWidget::TitleWidget( const SmartTitolo& st, QWidget *parent ) :
     QWidget( parent )
 {
-    QVBoxLayout *layout = new QVBoxLayout( this );
+    initUI( st );
+    setupUI();
+}
+
+// METODO TitleWidget::initUI
+void TitleWidget::initUI( const SmartTitolo& st ) {
+    titleIconLabel = new QLabel( this );
 
     schoolLabel = new QLabel( st->getSchool() );
-    schoolLabel->setStyleSheet( "QLabel { color: rgba( 0, 0, 0, 0.87 ); font: bold; }" );
     fieldOfStudyLabel = new QLabel( st->getFieldOfStudy() );
-    fieldOfStudyLabel->setStyleSheet( "QLabel { color: rgba( 0, 0, 0, 0.87 ); }" );
     dateAttendedLabel = new QLabel( st->getDateAttended().toString( "yyyy/MM/dd" ) );
+}
+
+// METODO TitleWidget::setupUI
+void TitleWidget::setupUI() {
+    titleIconLabel->setPixmap( QPixmap( ":/icons/icon/school.png" ) );
+    titleIconLabel->setMargin( 10 );
+
+    QWidget *rightWidget = new QWidget( this );
+
+    schoolLabel->setStyleSheet( "QLabel { color: rgba( 0, 0, 0, 0.87 ); font: bold; }" );
+    fieldOfStudyLabel->setStyleSheet( "QLabel { color: rgba( 0, 0, 0, 0.87 ); }" );
     dateAttendedLabel->setStyleSheet( "QLabel { color: rgba( 0, 0, 0, 0.54 ); }" );
-    degreeLabel = new QLabel( st->getDegree() );
-    gradeLabel = new QLabel( st->getGrade() );
 
-    QWidget *moreInfoWidget = new QWidget( this );
-
-    QHBoxLayout *moreInfoLayout = new QHBoxLayout( moreInfoWidget );
-    moreInfoLayout->setMargin( 0 );
+    QWidget *moreInfoWidget = new QWidget( rightWidget );
 
     QWidget *moreInfoFiller = new QWidget( moreInfoWidget );
-    moreInfoFiller->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Expanding );
+    moreInfoFiller->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Fixed );
 
+    QHBoxLayout *moreInfoLayout = new QHBoxLayout( moreInfoWidget );
     moreInfoLayout->addWidget( fieldOfStudyLabel );
     moreInfoLayout->addSpacing( 30 );
     moreInfoLayout->addWidget( dateAttendedLabel );
     moreInfoLayout->addWidget( moreInfoFiller );
+    moreInfoLayout->setMargin( 0 );
 
-    layout->addWidget( schoolLabel );
-    layout->addWidget( moreInfoWidget );
+    QVBoxLayout *rightLayout = new QVBoxLayout( rightWidget );
+    rightLayout->addWidget( schoolLabel );
+    rightLayout->addWidget( moreInfoWidget );
 
-    setLayout( layout );
+    QHBoxLayout *layout = new QHBoxLayout( this );
+    layout->addWidget( titleIconLabel );
+    layout->addWidget( rightWidget );
 }

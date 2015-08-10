@@ -1,5 +1,5 @@
-#include <QVBoxLayout>
 #include <QLabel>
+#include <QVBoxLayout>
 #include "educationswidget.h"
 #include "utente.h"
 #include "titlewidget.h"
@@ -8,19 +8,27 @@
 EducationsWidget::EducationsWidget( const SmartUtente& su, QWidget *parent ) :
     QWidget( parent )
 {
-    QVBoxLayout *layout = new QVBoxLayout( this );
+    titlesList = su->getEducationsList();
 
-    widgetsWrapper = new QWidget( this );
-    widgetsWrapper->setStyleSheet( "background: white" );
+    initUI();
+    setupUI();
+}
 
-    QVBoxLayout *wrapperLayout = new QVBoxLayout( widgetsWrapper );
+// METODO EducationsWidget::initUI
+void EducationsWidget::initUI() {
+    for( int i = 0; i < titlesList.size(); i++ )
+        titleWidgetsList.append( new TitleWidget( titlesList[i], this ) );
+}
 
-    educationsList = su->getEducationsList();
-    for( int i = 0; i < educationsList.size(); i++ ) {
-        TitleWidget *aux = new TitleWidget( educationsList[i], this );
-        titlesList.append( aux );
-        wrapperLayout->addWidget( aux );
-        if( i < educationsList.size() - 1 ) {
+// METODO EducationsWidget::setupUI
+void EducationsWidget::setupUI() {
+    QWidget *wrapper = new QWidget( this );
+    wrapper->setStyleSheet( "background: white" );
+
+    QVBoxLayout *wrapperLayout = new QVBoxLayout( wrapper );
+    for( int i = titleWidgetsList.size() - 1; i >= 0; i-- ) {
+        wrapperLayout->addWidget( titleWidgetsList[i] );
+        if( i > 0 ) {
             QFrame *line = new QFrame( this );
             line->setFrameShape( QFrame::HLine );
             line->setStyleSheet( "color: rgba( 0, 0, 0, 0.12 )" );
@@ -31,10 +39,8 @@ EducationsWidget::EducationsWidget( const SmartUtente& su, QWidget *parent ) :
     QWidget *bottomFiller = new QWidget( this );
     bottomFiller->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Expanding );
 
-    wrapperLayout->addWidget( bottomFiller );
-
-    layout->addWidget( widgetsWrapper );
+    QVBoxLayout *layout = new QVBoxLayout( this );
+    layout->addWidget( wrapper );
+    layout->addWidget( bottomFiller );
     layout->setMargin( 0 );
-
-    setLayout( layout );
 }

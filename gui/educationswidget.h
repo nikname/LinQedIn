@@ -11,10 +11,15 @@ class TitleWidget;
 class EducationsWidget : public QWidget {
     Q_OBJECT
 private:
-    QVector<SmartTitolo> educationsList;
+    QVector<SmartTitolo> titlesList;
 
-    QWidget *widgetsWrapper;
-    QVector<TitleWidget*> titlesList;
+    QVector<TitleWidget*> titleWidgetsList;
+
+    /** Inizializza la UI. */
+    void initUI();
+
+    /** Realizza la UI. Mostra la GUI. */
+    void setupUI();
 public:
     /** */
     explicit EducationsWidget( const SmartUtente&, QWidget *parent = 0 );

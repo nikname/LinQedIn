@@ -2,19 +2,24 @@
 #define EXPERIENCESWIDGET_H
 
 #include <QWidget>
-#include "smartutente.h"
 #include "smartlavoro.h"
+#include "smartutente.h"
 
-class QLabel;
 class JobWidget;
+class QLabel;
 
 class ExperiencesWidget : public QWidget {
     Q_OBJECT
 private:
-    QVector<SmartLavoro> experiencesList;
+    QVector<SmartLavoro> jobsList;
 
-    QWidget *widgetsWrapper;
-    QVector<JobWidget*> jobsWidget;
+    QVector<JobWidget*> jobWidgetsList;
+
+    /** Inizializza la UI. */
+    void initUI();
+
+    /** Realizza la UI. Mostra la GUI. */
+    void setupUI();
 public:
     /** */
     explicit ExperiencesWidget( const SmartUtente&, QWidget *parent = 0 );
