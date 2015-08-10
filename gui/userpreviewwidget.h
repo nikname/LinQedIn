@@ -1,5 +1,5 @@
-#ifndef USERGRIDWIDGET_H
-#define USERGRIDWIDGET_H
+#ifndef USERPREVIEWWIDGET_H
+#define USERPREVIEWWIDGET_H
 
 #include <QWidget>
 #include "smartutente.h"
@@ -7,11 +7,9 @@
 class QLabel;
 class QPushButton;
 
-class UserGridWidget : public QWidget {
+class UserPreviewWidget : public QWidget {
     Q_OBJECT
 private:
-    QWidget *widgetsWrapper;
-
     QLabel *profilePicLabel;
 
     QLabel *userLabel;
@@ -22,11 +20,11 @@ private:
     QPushButton *removeContactButton;
 public:
     /** */
-    explicit UserGridWidget( const SmartUtente&, QWidget *parent = 0 );
+    explicit UserPreviewWidget( const SmartUtente&, QWidget *parent = 0 );
 signals:
 
 public slots:
 
 };
 
-#endif // USERGRIDWIDGET_H
+#endif // USERPREVIEWWIDGET_H

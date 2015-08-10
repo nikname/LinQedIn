@@ -47,7 +47,7 @@ SOURCES += main.cpp\
     gui/educationswidget.cpp \
     gui/titlewidget.cpp \
     gui/connectionswidget.cpp \
-    gui/usergridwidget.cpp
+    gui/userpreviewwidget.cpp
 
 HEADERS  += \
     profilo.h \
@@ -85,7 +85,7 @@ HEADERS  += \
     gui/titlewidget.h \
     gui/connectionswidget.h \
     gui/userlistgridwidget.h \
-    gui/usergridwidget.h
+    gui/userpreviewwidget.h
 
 FORMS    +=
 

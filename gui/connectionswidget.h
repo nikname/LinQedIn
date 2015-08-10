@@ -5,7 +5,7 @@
 #include "smartutente.h"
 
 class QLabel;
-class UserGridWidget;
+class UserPreviewWidget;
 
 class ConnectionsWidget : public QWidget {
     Q_OBJECT
@@ -15,7 +15,7 @@ private:
     QWidget *widgetsWrapper;
     QLabel *connectionsLabel;
     QWidget *contactsWidget;
-    QVector<UserGridWidget*> userGridWidget;
+    QVector<UserPreviewWidget*> userPreviewWidget;
 public:
     /** Costruttore esplicito ad 1 parametro con 1 parametro di default.
      *

@@ -74,7 +74,7 @@ void ProfileWidget::setupUI() {
     QVBoxLayout *profilePicLayout = new QVBoxLayout( profilePicWidget );
     profilePicLayout->setMargin( 20 );
 
-    profilePicLabel->setPixmap( QPixmap( ":/icons/icon/account-circle.png" ) );
+    profilePicLabel->setPixmap( QPixmap( ":/icons/icon/account-circle-100.png" ) );
 
     profilePicLayout->addWidget( profilePicLabel, 0, Qt::AlignCenter );
 
