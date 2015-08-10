@@ -34,6 +34,7 @@ EducationsWidget::EducationsWidget( const SmartUtente& su, QWidget *parent ) :
     wrapperLayout->addWidget( bottomFiller );
 
     layout->addWidget( widgetsWrapper );
+    layout->setMargin( 0 );
 
     setLayout( layout );
 }

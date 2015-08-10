@@ -81,6 +81,7 @@ UserPreviewWidget::UserPreviewWidget( const SmartUtente& su, QWidget *parent ) :
     wrapperLayout->setMargin( 0 );
 
     layout->addWidget( wrapper );
+    layout->setMargin( 0 );
 
     wrapper->setStyleSheet( "background: white" );
 

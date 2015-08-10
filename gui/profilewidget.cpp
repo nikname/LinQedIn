@@ -15,7 +15,6 @@ ProfileWidget::ProfileWidget( const SmartUtente& su, QWidget *parent ) :
 {
     initUI( su );
     setupUI();
-
 }
 
 // METODO ProfileWidget::initUI
@@ -71,6 +70,8 @@ void ProfileWidget::initUI( const SmartUtente& su ) {
 void ProfileWidget::setupUI() {
     QVBoxLayout *layout = new QVBoxLayout( this );
 
+    header->setStyleSheet( "background: white" );
+
     QHBoxLayout *headerLayout = new QHBoxLayout( header );
 
     profilePicWidget->setFixedSize( 140, 140 );
@@ -101,6 +102,9 @@ void ProfileWidget::setupUI() {
     headerLayout->addWidget( profileSummary );
 
     QVBoxLayout *infoTabLayout = new QVBoxLayout( infoTabs );
+    infoTabLayout->setMargin( 0 );
+
+    infoTabsButtonsWidget->setStyleSheet( "background: white" );
 
     QHBoxLayout *infoTabsButtonLayout = new QHBoxLayout( infoTabsButtonsWidget );
 
@@ -129,9 +133,10 @@ void ProfileWidget::setupUI() {
     infoTabsButtonLayout->addWidget( addContactButton );
 
     QVBoxLayout *backgroundTabLayout = new QVBoxLayout( backgroundTab );
+    backgroundTabLayout->setMargin( 0 );
 
-    experiencesLabel->setStyleSheet( "color: rgba( 0, 0, 0, 0.54 )" );
-    educationsLabel->setStyleSheet( "color: rgba( 0, 0, 0, 0.54 )" );
+    experiencesLabel->setStyleSheet( "QLabel { color: rgba(0,0,0,0.54); padding-left: 10px; }" );
+    educationsLabel->setStyleSheet( "QLabel { color: rgba(0,0,0,0.54); padding-left: 10px; }" );
 
     backgroundTabLayout->addWidget( experiencesLabel );
     backgroundTabLayout->addWidget( experiencesWidget );
@@ -149,7 +154,6 @@ void ProfileWidget::setupUI() {
     layout->addWidget( header );
     layout->addWidget( infoTabs );
 
-    setStyleSheet( "background: white; color: black;" );
     setLayout( layout );
 }
 

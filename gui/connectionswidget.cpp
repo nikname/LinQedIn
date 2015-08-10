@@ -31,6 +31,7 @@ ConnectionsWidget::ConnectionsWidget( const SmartUtente& su, QWidget *parent ) :
     wrapperLayout->addWidget( usersGridWidget );
 
     layout->addWidget( widgetsWrapper );
+    layout->setMargin( 0 );
 
     setLayout( layout );
 }
