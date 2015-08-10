@@ -36,7 +36,7 @@ private:
     ExperiencesWidget *experiencesWidget;
     EducationsWidget *educationsWidget;
 
-    //ConnectionsWidget *connectionsTab;
+    ConnectionsWidget *connectionsTab;
     QWidget *otherInfoTab;
 
     /** Inizializza la UI.

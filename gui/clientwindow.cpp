@@ -156,6 +156,10 @@ void ClientWindow::setupUI() {
         "QScrollBar::handle:vertical { background: rgba(0,0,0,0.38); border-radius: 2px;"
             "min-height: 10px; }"
         "QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical { border: none; }"
+        "QScrollBar:horizontal { padding-top: 2px; height: 6px; }"
+        "QScrollBar::handle:horizontal { background: rgba(0,0,0,0.38); border-radius: 2px;"
+            "min-height: 10px; }"
+        "QScrollBar::add-line:horizontal, QScrollBar::sub-line:horizontal { border: none; }"
     );
 
     setCentralWidget( mainWidget );

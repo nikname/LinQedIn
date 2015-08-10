@@ -15,7 +15,7 @@ private:
 
     QWidget *widgetsWrapper;
     QLabel *educationsLabel;
-    QVector<TitleWidget*> titlesWidget;
+    QVector<TitleWidget*> titlesList;
 public:
     /** */
     explicit EducationsWidget( const SmartUtente&, QWidget *parent = 0 );

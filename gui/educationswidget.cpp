@@ -22,7 +22,9 @@ EducationsWidget::EducationsWidget( const SmartUtente& su, QWidget *parent ) :
 
     educationsList = su->getEducationsList();
     for( int i = 0; i < educationsList.size(); i++ ) {
-        wrapperLayout->addWidget( new TitleWidget( educationsList[i], this ) );
+        TitleWidget *aux = new TitleWidget( educationsList[i], this );
+        titlesList.append( aux );
+        wrapperLayout->addWidget( aux );
         if( i < educationsList.size() - 1 ) {
             QFrame *line = new QFrame( this );
             line->setFrameShape( QFrame::HLine );

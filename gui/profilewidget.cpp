@@ -59,7 +59,7 @@ void ProfileWidget::initUI( const SmartUtente& su ) {
     experiencesWidget = new ExperiencesWidget( su, infoTabs );
     educationsWidget = new EducationsWidget( su, infoTabs );
 
-    //connectionsTab = new ConnectionsWidget( su, infoTabs );
+    connectionsTab = new ConnectionsWidget( su, infoTabs );
     otherInfoTab = new QWidget( infoTabs );
 }
 
@@ -129,12 +129,12 @@ void ProfileWidget::setupUI() {
     backgroundTabLayout->addWidget( experiencesWidget );
     backgroundTabLayout->addWidget( educationsWidget );
 
-    //connectionsTab->setVisible( false );
+    connectionsTab->setVisible( false );
     otherInfoTab->setVisible( false );
 
     infoTabLayout->addWidget( infoTabsButtonsWidget );
     infoTabLayout->addWidget( backgroundTab );
-    //infoTabLayout->addWidget( connectionsTab );
+    infoTabLayout->addWidget( connectionsTab );
     infoTabLayout->addWidget( otherInfoTab );
 
     layout->addWidget( header );
@@ -177,21 +177,21 @@ void ProfileWidget::setProfileButtonSelected( QPushButton *buttonSelected ) {
 void ProfileWidget::showBackgroundTab() {
     backgroundTab->setVisible( true );
     setProfileButtonSelected( backgroundTabButton );
-    //connectionsTab->setVisible( false );
+    connectionsTab->setVisible( false );
     otherInfoTab->setVisible( false );
 }
 
 // SLOT ProfileWidget::showConnectionsTab()
 void ProfileWidget::showConnectionsTab() {
     backgroundTab->setVisible( false );
-    //connectionsTab->setVisible( true );
+    connectionsTab->setVisible( true );
     setProfileButtonSelected( connectionsTabButton );
     otherInfoTab->setVisible( false );
 }
 // SLOT ProfileWidget::showOtherInfoTab()
 void ProfileWidget::showOtherInfoTab() {
     backgroundTab->setVisible( false );
-    //connectionsTab->setVisible( false );
+    connectionsTab->setVisible( false );
     otherInfoTab->setVisible( true );
     setProfileButtonSelected( otherInfoTabButton );
 }

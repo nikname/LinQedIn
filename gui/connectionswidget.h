@@ -4,10 +4,18 @@
 #include <QWidget>
 #include "smartutente.h"
 
-class Database;
+class QLabel;
+class UserGridWidget;
 
 class ConnectionsWidget : public QWidget {
     Q_OBJECT
+private:
+    QVector<SmartUtente> contactsList;
+
+    QWidget *widgetsWrapper;
+    QLabel *connectionsLabel;
+    QWidget *contactsWidget;
+    QVector<UserGridWidget*> userGridWidget;
 public:
     /** Costruttore esplicito ad 1 parametro con 1 parametro di default.
      *
