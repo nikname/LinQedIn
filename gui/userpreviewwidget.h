@@ -14,16 +14,29 @@ private:
 
     QLabel *userLabel;
     QLabel *lastJobLabel;
-
-    QWidget *toolWidget;
-    QPushButton *viewContactButton;
+    QPushButton *contactInfoButton;
     QPushButton *removeContactButton;
+
+    /** Inizializza la UI.
+     *
+     * @param  SmartUtente  Utente del quale visualizzare l'anteprima.
+     */
+    void initUI( const SmartUtente& );
+
+    /** Realizza la UI. Mostra la GUI. */
+    void setupUI();
 
     /** Applica delle proprietà ai pulsanti degli strumenti della preview.
      *
      * @param QPushButton  Pulsante al quale applicare le proprietà.
      */
-    void setToolButtonProperties( QPushButton* );
+    void setToolButtonProperties( QPushButton * );
+
+    /** Reimplementazione.
+     *
+     * @param QPaintEvent
+     */
+    void paintEvent( QPaintEvent * );
 public:
     /** */
     explicit UserPreviewWidget( const SmartUtente&, QWidget *parent = 0 );

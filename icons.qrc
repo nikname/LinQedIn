@@ -20,6 +20,7 @@
         <file>icon/account-circle.png</file>
         <file>icon/factory.png</file>
         <file>icon/school.png</file>
+        <file>icon/information-outline.png</file>
     </qresource>
     <qresource prefix="/"/>
 </RCC>

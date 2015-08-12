@@ -1,7 +1,9 @@
 #include <QGridLayout>
 #include <QBoxLayout>
 #include <QLabel>
+#include <QPainter>
 #include <QPushButton>
+#include <QStyleOption>
 #include "userpreviewwidget.h"
 #include "utente.h"
 #include "smartlavoro.h"
@@ -10,89 +12,81 @@
 UserPreviewWidget::UserPreviewWidget( const SmartUtente& su, QWidget *parent ) :
     QWidget( parent )
 {
-    QVBoxLayout *layout = new QVBoxLayout( this );
+    initUI( su );
+    setupUI();
+}
 
-    QWidget *wrapper = new QWidget( this );
+// METODO UserPreviewWidget::initUI
+void UserPreviewWidget::initUI( const SmartUtente& su ) {
+    profilePicLabel = new QLabel( this );
 
-    QHBoxLayout *wrapperLayout = new QHBoxLayout( wrapper );
-
-    QWidget *profilePicWidget = new QWidget( wrapper );
-    profilePicWidget->setFixedSize( 100, 100 );
-
-    QVBoxLayout *profilePicLayout = new QVBoxLayout( profilePicWidget );
-
-    profilePicLabel = new QLabel( profilePicWidget );
-    profilePicLabel->setPixmap( QPixmap( ":/icons/icon/account-circle.png" ) );
-
-    profilePicLayout->addWidget( profilePicLabel, 0, Qt::AlignCenter );
-
-    QWidget *rightWidget = new QWidget( wrapper );
-
-    QVBoxLayout *rightLayout = new QVBoxLayout( rightWidget );
-    rightLayout->setMargin( 0 );
-    rightLayout->setSpacing( 0 );
-
-    QWidget *infoPreviewWidget = new QWidget( rightWidget );
-
-    QVBoxLayout *infoPreviewLayout = new QVBoxLayout( infoPreviewWidget );
-
-    userLabel = new QLabel( su->getName() + " " + su->getSurname(), infoPreviewWidget );
-    userLabel->setStyleSheet( "QLabel { font: bold; color: rgba(0,0,0,0.87); }" );
+    userLabel = new QLabel( su->getName() + " " + su->getSurname(), this );
 
     QVector<SmartLavoro> experiencesList = su->getExperiencesList();
     if( experiencesList.size() == 0 )
-        lastJobLabel = new QLabel( "--", infoPreviewWidget );
+        lastJobLabel = new QLabel( "--", this );
     else {
         SmartLavoro lastJob = experiencesList.last();
-        lastJobLabel = new QLabel(
-                    lastJob->getTitle() + " at " + lastJob->getCompanyName(), infoPreviewWidget );
+        lastJobLabel = new QLabel( lastJob->getTitle() + " at " + lastJob->getCompanyName(), this );
     }
+
+    contactInfoButton = new QPushButton( this );
+    removeContactButton = new QPushButton( this );
+}
+
+// METODO UserPreviewWidget::setupUI
+void UserPreviewWidget::setupUI() {
+    profilePicLabel->setPixmap( QPixmap( ":/icons/icon/account-circle.png" ) );
+    profilePicLabel->setMargin( 10 );
+
+    QWidget *infoPreviewWidget = new QWidget( this );
+
+    userLabel->setStyleSheet( "QLabel { font: bold; color: rgba(0,0,0,0.87); }" );
     lastJobLabel->setStyleSheet( "QLabel { color: rgba(0,0,0,0.54); }" );
 
+    QVBoxLayout *infoPreviewLayout = new QVBoxLayout( infoPreviewWidget );
     infoPreviewLayout->addWidget( userLabel );
     infoPreviewLayout->addWidget( lastJobLabel );
 
-    toolWidget = new QWidget( rightWidget );
+    QWidget *toolWidget = new QWidget( this );
 
-    QHBoxLayout *toolLayout = new QHBoxLayout( toolWidget );
-    toolLayout->setMargin( 0 );
-    toolLayout->setSpacing( 0 );
-
-    QWidget *toolFiller = new QWidget( toolWidget );
-    toolFiller->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Fixed );
-
-    viewContactButton = new QPushButton( toolWidget );
-    viewContactButton->setIcon( QIcon( QPixmap( ":/icons/icon/magnify-black.png" ) ) );
-    setToolButtonProperties( viewContactButton );
-
-    removeContactButton = new QPushButton( toolWidget );
+    contactInfoButton->setIcon( QIcon( QPixmap( ":/icons/icon/information-outline.png" ) ) );
+    setToolButtonProperties( contactInfoButton );
     removeContactButton->setIcon( QIcon( QPixmap( ":/icons/icon/close-black.png" ) ) );
     setToolButtonProperties( removeContactButton );
 
-    toolLayout->addWidget( toolFiller );
-    toolLayout->addWidget( viewContactButton );
+    QVBoxLayout *toolLayout = new QVBoxLayout( toolWidget );
     toolLayout->addWidget( removeContactButton );
+    toolLayout->addWidget( contactInfoButton );
+    toolLayout->setMargin( 0 );
 
-    rightLayout->addWidget( toolWidget );
-    rightLayout->addWidget( infoPreviewWidget );
+    QWidget *filler = new QWidget( this );
+    filler->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Fixed );
 
-    wrapperLayout->addWidget( profilePicWidget );
-    wrapperLayout->addWidget( rightWidget );
-    wrapperLayout->setMargin( 0 );
-
-    layout->addWidget( wrapper );
-    layout->setMargin( 0 );
-
-    wrapper->setStyleSheet( "background: white" );
+    QHBoxLayout *layout = new QHBoxLayout( this );
+    layout->addWidget( profilePicLabel );
+    layout->addWidget( infoPreviewWidget );
+    layout->addWidget( filler );
+    layout->addWidget( toolWidget );
+    layout->setSpacing( 0 );
 
     setMaximumWidth( 350 );
+    setStyleSheet( "background: white" );
 }
 
 // METODO UserPreviewWidget::setToolButtonProperties
-void UserPreviewWidget::setToolButtonProperties( QPushButton* button ) {
+void UserPreviewWidget::setToolButtonProperties( QPushButton *button ) {
     button->setFixedSize( 24, 24 );
     button->setStyleSheet(
         "QPushButton { border-radius: 12px; outline: 0; }"
         "QPushButton:pressed { background: rgba(0,0,0,0.12); }"
     );
+}
+
+// METODO UserPrwview::paintEvent
+void UserPreviewWidget::paintEvent( QPaintEvent *) {
+    QStyleOption opt;
+    opt.init( this );
+    QPainter p( this );
+    style()->drawPrimitive( QStyle::PE_Widget, &opt, &p, this );
 }
