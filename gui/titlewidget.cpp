@@ -1,5 +1,6 @@
 #include <QBoxLayout>
 #include <QLabel>
+#include <QPushButton>
 #include "titlewidget.h"
 #include "titolo.h"
 
@@ -18,6 +19,9 @@ void TitleWidget::initUI( const SmartTitolo& st ) {
     schoolLabel = new QLabel( st->getSchool() );
     fieldOfStudyLabel = new QLabel( st->getFieldOfStudy() );
     dateAttendedLabel = new QLabel( st->getDateAttended().toString( "yyyy/MM/dd" ) );
+
+    removeTitleButton = new QPushButton( this );
+    editTitleButton = new QPushButton( this );
 }
 
 // METODO TitleWidget::setupUI
@@ -25,13 +29,13 @@ void TitleWidget::setupUI() {
     titleIconLabel->setPixmap( QPixmap( ":/icons/icon/school.png" ) );
     titleIconLabel->setMargin( 10 );
 
-    QWidget *rightWidget = new QWidget( this );
+    QWidget *titleInfoWidget = new QWidget( this );
 
     schoolLabel->setStyleSheet( "QLabel { color: rgba( 0, 0, 0, 0.87 ); font: bold; }" );
     fieldOfStudyLabel->setStyleSheet( "QLabel { color: rgba( 0, 0, 0, 0.87 ); }" );
     dateAttendedLabel->setStyleSheet( "QLabel { color: rgba( 0, 0, 0, 0.54 ); }" );
 
-    QWidget *moreInfoWidget = new QWidget( rightWidget );
+    QWidget *moreInfoWidget = new QWidget( titleInfoWidget );
 
     QWidget *moreInfoFiller = new QWidget( moreInfoWidget );
     moreInfoFiller->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Fixed );
@@ -43,11 +47,33 @@ void TitleWidget::setupUI() {
     moreInfoLayout->addWidget( moreInfoFiller );
     moreInfoLayout->setMargin( 0 );
 
-    QVBoxLayout *rightLayout = new QVBoxLayout( rightWidget );
-    rightLayout->addWidget( schoolLabel );
-    rightLayout->addWidget( moreInfoWidget );
+    QVBoxLayout *titleInfoLayout = new QVBoxLayout( titleInfoWidget );
+    titleInfoLayout->addWidget( schoolLabel );
+    titleInfoLayout->addWidget( moreInfoWidget );
+
+    QWidget *toolWidget = new QWidget( this );
+
+    removeTitleButton->setIcon( QIcon( QPixmap( ":/icons/icon/delete.png" ) ) );
+    setToolButtonProperties( removeTitleButton );
+    editTitleButton->setIcon( QIcon( QPixmap( ":/icons/icon/pencil.png" ) ) );
+    setToolButtonProperties( editTitleButton );
+
+    QVBoxLayout *toolLayout = new QVBoxLayout( toolWidget );
+    toolLayout->addWidget( removeTitleButton );
+    toolLayout->addWidget( editTitleButton );
+    toolLayout->setMargin( 0 );
 
     QHBoxLayout *layout = new QHBoxLayout( this );
     layout->addWidget( titleIconLabel );
-    layout->addWidget( rightWidget );
+    layout->addWidget( titleInfoWidget );
+    layout->addWidget( toolWidget );
+}
+
+// METODO TitleWidget::setToolButtonProperties
+void TitleWidget::setToolButtonProperties( QPushButton *button ) {
+    button->setFixedSize( 24, 24 );
+    button->setStyleSheet(
+        "QPushButton { border-radius: 12px; outline: 0; }"
+        "QPushButton:pressed { background: rgba(0,0,0,0.12); }"
+    );
 }

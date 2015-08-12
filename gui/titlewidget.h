@@ -5,6 +5,7 @@
 #include "smarttitolo.h"
 
 class QLabel;
+class QPushButton;
 
 class TitleWidget : public QWidget {
     Q_OBJECT
@@ -13,9 +14,10 @@ private:
 
     QLabel *schoolLabel;
     QLabel *dateAttendedLabel;
-    QLabel *degreeLabel;
     QLabel *fieldOfStudyLabel;
-    QLabel *gradeLabel;
+
+    QPushButton *removeTitleButton;
+    QPushButton *editTitleButton;
 
     /** Inizializza la UI.
      *
@@ -25,6 +27,12 @@ private:
 
     /** Realizza la UI. Mostra la GUI. */
     void setupUI();
+
+    /** Applica delle proprietà ai pulsanti degli strumenti della preview.
+     *
+     * @param QPushButton  Pulsante al quale applicare le proprietà.
+     */
+    void setToolButtonProperties( QPushButton * );
 public:
     /** */
     explicit TitleWidget( const SmartTitolo&, QWidget *parent = 0 );

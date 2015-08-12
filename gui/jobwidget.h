@@ -5,6 +5,7 @@
 #include "smartlavoro.h"
 
 class QLabel;
+class QPushButton;
 
 class JobWidget : public QWidget {
     Q_OBJECT
@@ -15,6 +16,9 @@ private:
     QLabel *titleLabel;
     QLabel *periodLabel;
 
+    QPushButton *removeJobButton;
+    QPushButton *editJobButton;
+
     /** Inizializza la UI.
      *
      * @param SmartLavoro  Esperienza lavorativa.
@@ -23,6 +27,12 @@ private:
 
     /** Realizza la UI. Mostra la GUI. */
     void setupUI();
+
+    /** Applica delle proprietà ai pulsanti degli strumenti della preview.
+     *
+     * @param QPushButton  Pulsante al quale applicare le proprietà.
+     */
+    void setToolButtonProperties( QPushButton * );
 public:
     /** */
     explicit JobWidget( const SmartLavoro&, QWidget *parent = 0 );
