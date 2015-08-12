@@ -37,28 +37,23 @@ void ClientWindow::initUI() {
     helpMenu = menuBar()->addMenu( tr( "&Help" ) );
     aboutAct = new QAction( tr( "About" ), this );
 
-    mainWidget = new QWidget( this );
-    menuWidget = new QWidget( mainWidget );
+    homeButton = new QPushButton( this );
+    backButton = new QPushButton( this );
 
-    linqedinLabel = new QLabel( "<h2>LinQedIn</h2>", menuWidget );
+    profileButton = new QPushButton( tr( "Profile" ), this );
+    connectionsButton = new QPushButton( tr( "Connections" ), this );
+    experiencesButton = new QPushButton( tr( "Experiences" ), this );
+    educationsButton = new QPushButton( tr( "Educations" ), this );
 
-    profileButton = new QPushButton( tr( "Profile" ), menuWidget );
-    connectionsButton = new QPushButton( tr( "Connections" ), menuWidget );
-    experiencesButton = new QPushButton( tr( "Experiences" ), menuWidget );
-    educationsButton = new QPushButton( tr( "Educations" ), menuWidget );
+    openSearchButton = new QPushButton( this );
+    closeSearchButton = new QPushButton( this );
+    searchText = new QLineEdit( this );
+    searchButton = new QPushButton( this );
 
-    openSearchButton = new QPushButton( menuWidget );
-    searchWidget = new QWidget( menuWidget );
-    closeSearchButton = new QPushButton( searchWidget );
-    searchText = new QLineEdit( searchWidget );
-    searchButton = new QPushButton( searchWidget );
-
-    scrollArea = new QScrollArea( mainWidget );
-    contentWidget = new QWidget( mainWidget );
-    profileWidget = new ProfileWidget( client->user, contentWidget );
-    connectionsWidget = new ConnectionsWidget( client->user, contentWidget );
-    experiencesWidget = new ExperiencesWidget( client->user, contentWidget );
-    educationsWidget = new EducationsWidget( client->user, contentWidget );
+    profileWidget = new ProfileWidget( client->user, this );
+    connectionsWidget = new ConnectionsWidget( client->user, this );
+    experiencesWidget = new ExperiencesWidget( client->user, this );
+    educationsWidget = new EducationsWidget( client->user, this );
 }
 
 // METODO ClientWindow::setupUI
@@ -66,23 +61,26 @@ void ClientWindow::setupUI() {
     createMenuActions();
     createMenus();
 
-    mainWidget->setStyleSheet( "background: #EEE" );
+    QWidget *centralWidget = new QWidget( this );
+    centralWidget->setStyleSheet( "background: #EEE" );
 
-    QVBoxLayout *mainLayout = new QVBoxLayout( mainWidget );
-
+    QWidget *menuWidget = new QWidget( this );
     menuWidget->setFixedHeight( 50 );
     menuWidget->setStyleSheet( "background: #069; color: white;" );
 
-    QHBoxLayout* menuLayout = new QHBoxLayout( menuWidget );
+    homeButton->setIcon( QIcon( QPixmap( ":/icons/icon/home.png" ) ) );
+    setButtonProperties( homeButton );
+    backButton->setIcon( QIcon( QPixmap( ":/icons/icon/arrow-left" ) ) );
+    setButtonProperties( backButton );
+    backButton->setVisible( false );
 
     setMenuButtonProperties( profileButton );
-    setMenuButtonProperties( connectionsButton );
-    setMenuButtonProperties( experiencesButton );
-    setMenuButtonProperties( educationsButton );
-
     connect( profileButton, SIGNAL( clicked() ), this, SLOT( showProfile() ) );
+    setMenuButtonProperties( connectionsButton );
     connect( connectionsButton, SIGNAL( clicked() ), this, SLOT( showConnections() ) );
+    setMenuButtonProperties( experiencesButton );
     connect( experiencesButton, SIGNAL( clicked() ), this, SLOT( showExperiences() ) );
+    setMenuButtonProperties( educationsButton );
     connect( educationsButton, SIGNAL( clicked() ), this, SLOT( showEducations() ) );
 
     setMenuButtonSelected( profileButton );
@@ -91,52 +89,59 @@ void ClientWindow::setupUI() {
     middleFiller->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Expanding );
 
     openSearchButton->setIcon( QIcon( QPixmap( ":/icons/icon/magnify.png" ) ) );
-    setSearchAreaButtonProperties( openSearchButton );
+    setButtonProperties( openSearchButton );
     connect( openSearchButton, SIGNAL( clicked() ), this, SLOT( openSearchBox() ) );
 
+    searchWidget = new QWidget( this );
     searchWidget->setFixedHeight( 50 );
     searchWidget->setVisible( false );
 
-    QHBoxLayout *searchLayout = new QHBoxLayout( searchWidget );
-
     closeSearchButton->setIcon( QIcon( QPixmap( ":/icons/icon/close.png" ) ) );
-    setSearchAreaButtonProperties( closeSearchButton );
+    setButtonProperties( closeSearchButton );
     connect( closeSearchButton, SIGNAL( clicked() ), this, SLOT( closeSearchBox() ) );
+
     searchText->setPlaceholderText( tr( "Search" ) );
     searchText->setStyleSheet(
         "QLineEdit { border: 1px solid white; border-top: none; border-right: none;"
             "border-left: none; padding: 0 10px; color: white; }"
     );
-    searchButton->setIcon( QIcon( QPixmap( ":/icons/icon/magnify.png" ) ) );
-    setSearchAreaButtonProperties( searchButton );
 
-    searchLayout->addWidget( closeSearchButton, 0, Qt::AlignVCenter );
-    searchLayout->addWidget( searchText, 0, Qt::AlignVCenter );
-    searchLayout->addWidget( searchButton, 0, Qt::AlignVCenter );
+    searchButton->setIcon( QIcon( QPixmap( ":/icons/icon/magnify.png" ) ) );
+    setButtonProperties( searchButton );
+    connect( searchButton, SIGNAL( clicked() ), this, SLOT( searchUsers() ) );
+
+    QHBoxLayout *searchLayout = new QHBoxLayout( searchWidget );
+    searchLayout->addWidget( closeSearchButton );
+    searchLayout->addWidget( searchText );
+    searchLayout->addWidget( searchButton );
     searchLayout->setMargin( 0 );
 
-    menuLayout->addWidget( linqedinLabel, 0, Qt::AlignVCenter );
-    menuLayout->addSpacing( 30 );
-    menuLayout->addWidget( profileButton, 0, Qt::AlignVCenter );
-    menuLayout->addWidget( connectionsButton, 0, Qt::AlignVCenter );
-    menuLayout->addWidget( experiencesButton, 0, Qt::AlignVCenter );
-    menuLayout->addWidget( educationsButton, 0, Qt::AlignVCenter );
+    QHBoxLayout* menuLayout = new QHBoxLayout( menuWidget );
+    menuLayout->addWidget( homeButton );
+    menuLayout->addWidget( backButton );;
+    menuLayout->addSpacing( 20 );
+    menuLayout->addWidget( profileButton );
+    menuLayout->addWidget( connectionsButton );
+    menuLayout->addWidget( experiencesButton );
+    menuLayout->addWidget( educationsButton );
     menuLayout->addWidget( middleFiller );
-    menuLayout->addWidget( openSearchButton, 0, Qt::AlignVCenter );
-    menuLayout->addWidget( searchWidget, 0, Qt::AlignVCenter );
-    menuLayout->setMargin( 0 );
-    menuLayout->setContentsMargins( 20, 0, 20, 0 );
+    menuLayout->addWidget( openSearchButton );
+    menuLayout->addWidget( searchWidget );
+    menuLayout->setContentsMargins( 0, 0, 0, 0 );
 
-    QVBoxLayout *contentLayout = new QVBoxLayout( contentWidget );
+    QScrollArea *scrollArea = new QScrollArea( centralWidget );
+
+    QWidget *contentWidget = new QWidget( scrollArea );
 
     connectionsWidget->setVisible( false );
     experiencesWidget->setVisible( false );
     educationsWidget->setVisible( false );
 
     QWidget *contentFiller = new QWidget( contentWidget );
-    contentFiller->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Expanding );
+    contentFiller->setSizePolicy( QSizePolicy::Fixed, QSizePolicy::Expanding );
 
-    contentLayout->addWidget( profileWidget, 0, Qt::AlignTop );
+    QVBoxLayout *contentLayout = new QVBoxLayout( contentWidget );
+    contentLayout->addWidget( profileWidget );
     contentLayout->addWidget( connectionsWidget );
     contentLayout->addWidget( experiencesWidget );
     contentLayout->addWidget( educationsWidget );
@@ -146,10 +151,11 @@ void ClientWindow::setupUI() {
     scrollArea->setWidgetResizable( true );
     scrollArea->setVerticalScrollBarPolicy( Qt::ScrollBarAlwaysOn );
 
-    mainLayout->addWidget( menuWidget );
-    mainLayout->addWidget( scrollArea );
-    mainLayout->setMargin( 0 );
-    mainLayout->setSpacing( 0 );
+    QVBoxLayout *centralLayout = new QVBoxLayout( centralWidget );
+    centralLayout->addWidget( menuWidget );
+    centralLayout->addWidget( scrollArea );
+    centralLayout->setMargin( 0 );
+    centralLayout->setSpacing( 0 );
 
     setStyleSheet(
         "QScrollBar:vertical { padding-left: 2px; width: 6px; }"
@@ -162,9 +168,8 @@ void ClientWindow::setupUI() {
         "QScrollBar::add-line:horizontal, QScrollBar::sub-line:horizontal { border: none; }"
     );
 
-    setCentralWidget( mainWidget );
+    setCentralWidget( centralWidget );
     setMinimumSize( 800, 600 );
-
     setWindowTitle( "LinQedIn Client" );
 }
 
@@ -218,8 +223,8 @@ void ClientWindow::setMenuButtonSelected( QPushButton *buttonSelected ) {
     }
 }
 
-// METODO ClientWindow::setSearchAreaButtonProperties( QPushButton* )
-void ClientWindow::setSearchAreaButtonProperties( QPushButton* button ) {
+// METODO ClientWindow::setButtonProperties( QPushButton* )
+void ClientWindow::setButtonProperties( QPushButton* button ) {
     button->setFixedSize( 50, 50 );
     button->setStyleSheet(
         "QPushButton { border-radius: 25px; outline: 0; }"
@@ -291,6 +296,11 @@ void ClientWindow::showEducations() {
     experiencesWidget->setVisible( false );
     educationsWidget->setVisible( true );
     setMenuButtonSelected( educationsButton );
+}
+
+// SLOT ClientWindow::searchUsers
+void ClientWindow::searchUsers() {
+
 }
 
 // SLOT

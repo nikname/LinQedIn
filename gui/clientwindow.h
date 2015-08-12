@@ -27,21 +27,20 @@ private:
     QMenu *helpMenu;
     QAction *aboutAct;
 
-    QWidget *mainWidget;
-    QWidget *menuWidget;
-    QLabel *linqedinLabel;
+    QPushButton *homeButton;
+    QPushButton *backButton;
+
     QPushButton *profileButton;
     QPushButton *connectionsButton;
     QPushButton *educationsButton;
     QPushButton *experiencesButton;
     QPushButton *openSearchButton;
+
     QWidget *searchWidget;
     QPushButton *closeSearchButton;
     QLineEdit *searchText;
     QPushButton *searchButton;
 
-    QScrollArea *scrollArea;
-    QWidget *contentWidget;
     ProfileWidget *profileWidget;
     ConnectionsWidget *connectionsWidget;
     ExperiencesWidget *experiencesWidget;
@@ -73,11 +72,11 @@ private:
      */
     void setMenuButtonSelected( QPushButton* );
 
-    /** Applica delle proprietà ai pulsanti dell'area di ricerca.
+    /** Applica delle proprietà agli altri pulsanti dell'area del menu.
      *
      * @param QPushButton*  Pulsante al quale applicare le proprietà.
      */
-    void setSearchAreaButtonProperties( QPushButton* );
+    void setButtonProperties( QPushButton* );
 public:
     /** Costruttore esplicito a 2 parametri con 2 parametri di deafult.
      *
@@ -114,6 +113,9 @@ private slots:
 
     /** Mostra i titoli di studio dell'utente. */
     void showEducations();
+
+    /** Esegue la ricerca di utenti nel database. */
+    void searchUsers();
 
     /** */
     void updateUserInfoSlot( const QString&, const QString& );

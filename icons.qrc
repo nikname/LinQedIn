@@ -22,6 +22,8 @@
         <file>icon/school.png</file>
         <file>icon/information-outline.png</file>
         <file>icon/pencil.png</file>
+        <file>icon/arrow-left.png</file>
+        <file>icon/home.png</file>
     </qresource>
     <qresource prefix="/"/>
 </RCC>
