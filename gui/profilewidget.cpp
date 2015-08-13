@@ -2,6 +2,7 @@
 #include <QPushButton>
 #include <QVBoxLayout>
 #include "connectionswidget.h"
+#include "editprofiledialog.h"
 #include "educationswidget.h"
 #include "experienceswidget.h"
 #include "profilewidget.h"
@@ -84,6 +85,7 @@ void ProfileWidget::setupUI() {
         "QPushButton { border-radius: 12px; outline: 0; }"
         "QPushButton:pressed { background: rgba(0,0,0,0.12); }"
     );
+    connect( editProfileButton, SIGNAL( clicked() ), this, SLOT( openEditProfileDialog() ) );
 
     QWidget *profileSummaryFiller = new QWidget( profileSummary );
     profileSummaryFiller->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Expanding );
@@ -215,4 +217,11 @@ void ProfileWidget::showOtherInfoTab() {
     connectionsTab->setVisible( false );
     otherInfoTab->setVisible( true );
     setProfileButtonSelected( otherInfoTabButton );
+}
+
+// SLOT ProfileWidget::openEditProfileDialog
+void ProfileWidget::openEditProfileDialog() {
+    EditProfileDialog *editProfileDialog = new EditProfileDialog( this );
+
+    editProfileDialog->exec();
 }

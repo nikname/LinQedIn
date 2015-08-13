@@ -77,6 +77,9 @@ private slots:
 
     /** Mostra la scheda delle altre informazioni dell'utente. */
     void showOtherInfoTab();
+
+    /** */
+    void openEditProfileDialog();
 };
 
 #endif // PROFILEWIDGET_H
