@@ -1,4 +1,7 @@
 #include <QLabel>
+#include <QPainter>
+#include <QPushButton>
+#include <QStyleOption>
 #include <QVBoxLayout>
 #include "experienceswidget.h"
 #include "jobwidget.h"
@@ -18,29 +21,38 @@ ExperiencesWidget::ExperiencesWidget( const SmartUtente& su, QWidget *parent ) :
 void ExperiencesWidget::initUI() {
     for( int i = 0; i < jobsList.size(); i++ )
         jobWidgetsList.append( new JobWidget( jobsList[i], this ) );
+
+    addJobButton = new QPushButton( this );
 }
 
 // METODO ExperiencesWidget::setupUI
 void ExperiencesWidget::setupUI() {
-    QWidget *wrapper = new QWidget( this );
-    wrapper->setStyleSheet( "background: white" );
-
-    QVBoxLayout *wrapperLayout = new QVBoxLayout( wrapper );
+    QVBoxLayout *layout = new QVBoxLayout( this );
     for( int i = jobWidgetsList.size() - 1; i >= 0; i-- ) {
-        wrapperLayout->addWidget( jobWidgetsList[i] );
-        if( i > 0 ) {
-            QFrame *line = new QFrame( this );
-            line->setFrameShape( QFrame::HLine );
-            line->setStyleSheet( "color: rgba( 0, 0, 0, 0.12 )" );
-            wrapperLayout->addWidget( line );
-        }
+        layout->addWidget( jobWidgetsList[i] );
+
+        QFrame *line = new QFrame( this );
+        line->setFrameShape( QFrame::HLine );
+        line->setStyleSheet( "color: rgba(0,0,0,0.12)" );
+        layout->addWidget( line );
     }
 
-    QWidget *bottomFiller = new QWidget( this );
-    bottomFiller->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Expanding );
+    addJobButton->setIcon( QIcon( QPixmap( ":/icons/icon/plus.png" ) ) );
+    addJobButton->setFixedSize( 50, 50 );
+    addJobButton->setStyleSheet(
+        "QPushButton { background: #003D5C; border-radius: 25px; outline: none; }"
+        "QPushButton:pressed { background: #3385AD; outline: none; }"
+    );
 
-    QVBoxLayout *layout = new QVBoxLayout( this );
-    layout->addWidget( wrapper );
-    layout->addWidget( bottomFiller );
-    layout->setMargin( 0 );
+    layout->addWidget( addJobButton, 0, Qt::AlignRight );
+
+    setStyleSheet( "background: white" );
+}
+
+// METODO ExperiencesWidget::paintEvent
+void ExperiencesWidget::paintEvent( QPaintEvent *) {
+    QStyleOption opt;
+    opt.init( this );
+    QPainter p( this );
+    style()->drawPrimitive( QStyle::PE_Widget, &opt, &p, this );
 }
