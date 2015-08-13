@@ -13,9 +13,6 @@ class QPushButton;
 class ProfileWidget : public QWidget {
     Q_OBJECT
 private:
-    QWidget *header;
-
-    QWidget *profilePicWidget;
     QLabel *profilePicLabel;
 
     QWidget *profileSummary;
@@ -24,13 +21,12 @@ private:
     QLabel *lastEducationLabel;
     QLabel *connectionsNumber;
 
-    QWidget *infoTabs;
-
-    QWidget *infoTabsButtonsWidget;
     QPushButton *backgroundTabButton;
     QPushButton *connectionsTabButton;
     QPushButton *otherInfoTabButton;
+
     QPushButton *addContactButton;
+    QPushButton *removeContactButton;
 
     QWidget *backgroundTab;
     QLabel *experiencesLabel;
@@ -39,6 +35,7 @@ private:
     EducationsWidget *educationsWidget;
 
     ConnectionsWidget *connectionsTab;
+
     QWidget *otherInfoTab;
 
     /** Inizializza la UI.

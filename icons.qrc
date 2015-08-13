@@ -24,6 +24,7 @@
         <file>icon/pencil.png</file>
         <file>icon/arrow-left.png</file>
         <file>icon/home.png</file>
+        <file>icon/account-remove-white.png</file>
     </qresource>
     <qresource prefix="/"/>
 </RCC>
