@@ -20,6 +20,7 @@ private:
     QLabel *lastExperienceLabel;
     QLabel *lastEducationLabel;
     QLabel *connectionsNumber;
+    QPushButton *editProfileButton;
 
     QPushButton *backgroundTabButton;
     QPushButton *connectionsTabButton;

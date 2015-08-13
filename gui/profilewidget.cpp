@@ -44,6 +44,7 @@ void ProfileWidget::initUI( const SmartUtente& su ) {
     connectionsNumber = new QLabel(
                 QString::number( contactsList.size() ) + tr( " connections" ), this );
 
+    editProfileButton = new QPushButton( this );
 
     backgroundTabButton = new QPushButton( tr( "Background" ), this );
     connectionsTabButton = new QPushButton( tr( "Connections" ), this );
@@ -73,14 +74,22 @@ void ProfileWidget::setupUI() {
     profilePicLabel->setPixmap( QPixmap( ":/icons/icon/account-circle-100.png" ) );
     profilePicLabel->setMargin( 20 );
 
-    nameSurnameLabel->setStyleSheet( "color: rgba( 0, 0, 0, 0.87 )" );
-    lastExperienceLabel->setStyleSheet( "color: rgba( 0, 0, 0, 0.54 );" );
-    lastEducationLabel->setStyleSheet( "color: rgba( 0, 0, 0, 0.54 );" );
+    nameSurnameLabel->setStyleSheet( "color: rgba(0,0,0,0.87)" );
+    lastExperienceLabel->setStyleSheet( "color: rgba(0,0,0,0.54);" );
+    lastEducationLabel->setStyleSheet( "color: rgba(0,0,0,0.54);" );
+
+    editProfileButton->setIcon( QIcon( QPixmap( ":/icons/icon/pencil.png" ) ) );
+    editProfileButton->setFixedSize( 24, 24 );
+    editProfileButton->setStyleSheet(
+        "QPushButton { border-radius: 12px; outline: 0; }"
+        "QPushButton:pressed { background: rgba(0,0,0,0.12); }"
+    );
 
     QWidget *profileSummaryFiller = new QWidget( profileSummary );
     profileSummaryFiller->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Expanding );
 
     QVBoxLayout *profileSummaryLayout = new QVBoxLayout( profileSummary );
+    profileSummaryLayout->addWidget( editProfileButton, 0, Qt::AlignRight );
     profileSummaryLayout->addWidget( nameSurnameLabel );
     profileSummaryLayout->addWidget( lastExperienceLabel );
     profileSummaryLayout->addWidget( lastEducationLabel );
@@ -161,7 +170,7 @@ void ProfileWidget::setProfileButtonProperties( QPushButton *button ) {
     button->setFixedHeight( 40 );
     button->setStyleSheet(
         "QPushButton { padding: 0 10px; border: 3px solid white; font: bold;"
-            "color: rgba( 0, 0, 0, 0.54 ); outline: 0; }"
+            "color: rgba(0,0,0,0.54); outline: 0; }"
         "QPushButton:hover { border-bottom-color: #069; }"
     );
 }
@@ -173,13 +182,13 @@ void ProfileWidget::setProfileButtonSelected( QPushButton *buttonSelected ) {
         if( buttonSelected != buttons[i] ) {
             buttons[i]->setStyleSheet(
                 "QPushButton { padding: 0 10px; border: 3px solid white; font: bold;"
-                    "color: rgba( 0, 0, 0, 0.54 ); outline: 0; }"
+                    "color: rgba(0,0,0,0.54); outline: 0; }"
                 "QPushButton:hover { border-bottom-color: #069; }"
             );
         } else {
             buttonSelected->setStyleSheet(
                 "QPushButton { padding: 0 10px; border: 3px solid white; font: bold;"
-                    "color: rgba( 0, 0, 0, 0.87 ); border-bottom-color: #069; outline: 0; }"
+                    "color: rgba(0,0,0,0.87); border-bottom-color: #069; outline: 0; }"
             );
         }
     }
