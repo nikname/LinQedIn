@@ -44,7 +44,11 @@ public:
 signals:
 
 public slots:
+    /** */
+    void checkInput( const QString& );
 
+    /** */
+    void updateProfileInfo();
 };
 
 #endif // EDITPROFILEDIALOG_H

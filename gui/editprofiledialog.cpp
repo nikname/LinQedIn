@@ -33,8 +33,10 @@ void EditProfileDialog::setupUI() {
 
     nameEdit->setPlaceholderText( tr( "Name" ) );
     setLineEditProperties( nameEdit );
+    connect( nameEdit, SIGNAL( textChanged( QString ) ), this, SLOT( checkInput( QString ) ) );
     surnameEdit->setPlaceholderText( tr( "Surname" ) );
     setLineEditProperties( surnameEdit );
+    connect( surnameEdit, SIGNAL( textChanged( QString ) ), this, SLOT( checkInput( QString ) ) );
 
     QWidget *buttonsWidget = new QWidget( this );
 
@@ -43,9 +45,10 @@ void EditProfileDialog::setupUI() {
 
     setButtonProperties( rejectButton );
     setButtonProperties( acceptButton );
+    acceptButton->setDisabled( true );
 
     connect( rejectButton, SIGNAL( clicked() ), this, SLOT( reject() ) );
-    connect( acceptButton, SIGNAL( clicked() ), this, SLOT( accept() ) );
+    connect( acceptButton, SIGNAL( clicked() ), this, SLOT( updateProfileInfo() ) );
 
     QHBoxLayout *buttonLayout = new QHBoxLayout( buttonsWidget );
     buttonLayout->addWidget( buttonsFiller );
@@ -77,8 +80,8 @@ void EditProfileDialog::setButtonProperties( QPushButton *button ) {
 // METODO EditProfileDialog::setLineEditProperties( QLineEdit * )
 void EditProfileDialog::setLineEditProperties( QLineEdit *lineEdit ) {
     lineEdit->setStyleSheet(
-        "QLineEdit { border: 1px solid #069; border-top: none; border-right: none; border-left: none;"
-            "color: rgba(0,0,0,0.87); }"
+        "QLineEdit { border: 1px solid #069; border-top: none; border-right: none;"
+            "border-left: none; color: rgba(0,0,0,0.87); }"
     );
 }
 
@@ -88,4 +91,16 @@ void EditProfileDialog::paintEvent( QPaintEvent *) {
     opt.init( this );
     QPainter p( this );
     style()->drawPrimitive( QStyle::PE_Widget, &opt, &p, this );
+}
+
+// SLOT EditProfileDialog::checkInput( QString )
+void EditProfileDialog::checkInput( const QString& input ) {
+    if( input.isEmpty() )
+        acceptButton->setDisabled( true );
+    else acceptButton->setDisabled( false );
+}
+
+// SLOT EditProfileDialog::updateProfileInfo()
+void EditProfileDialog::updateProfileInfo() {
+    //emit updateProfileInfoSignal( nameEdit->text(), surnameEdit->text() );
 }
