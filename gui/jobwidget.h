@@ -39,7 +39,8 @@ public:
 signals:
 
 public slots:
-
+    /** */
+    void openEditJobDialog();
 };
 
 #endif // JOBWIDGET_H

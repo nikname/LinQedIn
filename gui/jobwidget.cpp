@@ -1,6 +1,7 @@
 #include <QBoxLayout>
 #include <QLabel>
 #include <QPushButton>
+#include "editjobdialog.h"
 #include "jobwidget.h"
 #include "lavoro.h"
 
@@ -58,6 +59,7 @@ void JobWidget::setupUI() {
     setToolButtonProperties( removeJobButton );
     editJobButton->setIcon( QIcon( QPixmap( ":/icons/icon/pencil.png" ) ) );
     setToolButtonProperties( editJobButton );
+    connect( editJobButton, SIGNAL( clicked() ), this, SLOT( openEditJobDialog() ) );
 
     QVBoxLayout *toolLayout = new QVBoxLayout( toolWidget );
     toolLayout->addWidget( removeJobButton );
@@ -77,4 +79,11 @@ void JobWidget::setToolButtonProperties( QPushButton *button ) {
         "QPushButton { border-radius: 12px; outline: 0; }"
         "QPushButton:pressed { background: rgba(0,0,0,0.12); }"
     );
+}
+
+// SLOT JobWidget::openEditJobDialog
+void JobWidget::openEditJobDialog() {
+    EditJobDialog *editJobDialog = new EditJobDialog( this );
+
+    editJobDialog->exec();
 }

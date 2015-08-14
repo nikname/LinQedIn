@@ -1,5 +1,5 @@
-#ifndef EDITPROFILEDIALOG_H
-#define EDITPROFILEDIALOG_H
+#ifndef EDITJOBDIALOG_H
+#define EDITJOBDIALOG_H
 
 #include <QDialog>
 
@@ -7,13 +7,15 @@ class QLabel;
 class QLineEdit;
 class QPushButton;
 
-class EditProfileDialog : public QDialog {
+class EditJobDialog : public QDialog {
     Q_OBJECT
 private:
     QLabel *titleLabel;
 
-    QLineEdit *nameEdit;
-    QLineEdit *surnameEdit;
+    QLineEdit *companyNameEdit;
+    QLineEdit *titleEdit;
+    QLineEdit *beginEdit;
+    QLineEdit *endEdit;
 
     QPushButton *rejectButton;
     QPushButton *acceptButton;
@@ -40,16 +42,11 @@ public:
      *
      * @param QWidget  Puntatore al QWidget padre. Se nullo si riferisce a quello top-level.
      */
-    explicit EditProfileDialog( QWidget *parent = 0 );
+    explicit EditJobDialog( QWidget *parent = 0 );
 signals:
-    /** */
-    void updateProfileInfoSignal( const QString&, const QString& );
-public slots:
-    /** */
-    void checkInput( const QString& );
 
-    /** */
-    void updateProfileInfo();
+public slots:
+
 };
 
-#endif // EDITPROFILEDIALOG_H
+#endif // EDITJOBDIALOG_H
