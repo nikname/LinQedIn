@@ -29,6 +29,12 @@ ClientWindow::~ClientWindow() {
     delete client;
 }
 
+// METODO ClientWindow::closeEvent( QCloseEvent* )
+void ClientWindow::closeEvent( QCloseEvent *event ) {
+    client->saveDatabase();
+    close();
+}
+
 // METODO ClientWindow::initUI
 void ClientWindow::initUI() {
     menu = menuBar()->addMenu( tr( "&Menu" ) );
@@ -133,6 +139,9 @@ void ClientWindow::setupUI() {
 
     QWidget *contentWidget = new QWidget( scrollArea );
 
+    connect( profileWidget, SIGNAL( updateProfileInfoSignal( QString, QString ) ),
+             this, SLOT( updateProfileInfoSlot( QString, QString ) ) );
+
     connectionsWidget->setVisible( false );
     experiencesWidget->setVisible( false );
     educationsWidget->setVisible( false );
@@ -234,9 +243,9 @@ void ClientWindow::setButtonProperties( QPushButton* button ) {
 
 // SLOT ClientWindow::logout
 void ClientWindow::logout() {
-    MainWindow *mainWindow = new MainWindow;
-
     this->close();
+
+    new MainWindow;
 }
 
 // SLOT ClientWindow::about
@@ -303,17 +312,10 @@ void ClientWindow::searchUsers() {
 
 }
 
-// SLOT
-void ClientWindow::updateUserInfoSlot( const QString& value, const QString& field ) {
-    if( field == "Name" )
-        client->user->setName( value );
-    else if( field == "Surname" )
-        client->user->setSurname( value );
-    else if( field == "Maritial Status" )
-        client->user->setMaritialStatus( value );
-    else {}
-
-    client->db->saveUsersList();
+// SLOT ClientWindow::updateProfileInfoSlot( QString, QString )
+void ClientWindow::updateProfileInfoSlot( const QString& n, const QString& s ) {
+    client->user->setName( n );
+    client->user->setSurname( s );
 }
 
 // SLOT

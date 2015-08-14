@@ -1,5 +1,6 @@
 #include "linqedin_client.h"
 
+// COSTRUTTORE LinQedInClient
 LinQedInClient::LinQedInClient( QString un ) : db( new Database ) {
     db->loadUsersList();
     if( db->contains( un ) ) {
@@ -10,18 +11,7 @@ LinQedInClient::LinQedInClient( QString un ) : db( new Database ) {
     }
 }
 
-void LinQedInClient::showProfilo() {
-    // user->getUsername();
-    // user->getProfile();
-    // user->getNet();
-    // user->getExperiences();
-    // user->getEducations();
-}
-
-void LinQedInClient::insertRete( QString un ) {
-    //user->getNet().addContact( un );
-}
-
-void LinQedInClient::removeRete( QString un ) {
-    //user->getNet().removeContact( un );
+// METODO LinQedInClient::saveDatabase
+void LinQedInClient::saveDatabase() {
+    db->saveUsersList();
 }

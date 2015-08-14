@@ -42,7 +42,8 @@ public:
      */
     explicit EditProfileDialog( QWidget *parent = 0 );
 signals:
-
+    /** */
+    void updateProfileInfoSignal( const QString&, const QString& );
 public slots:
     /** */
     void checkInput( const QString& );

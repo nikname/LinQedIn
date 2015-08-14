@@ -16,23 +16,8 @@ public:
      */
     LinQedInClient( QString );
 
-    /** Permette di aggiornare le informazioni del profilo. */
-    void aggiornaProfilo();
-
-    /** Visualizza le informazioni del profilo. */
-    void showProfilo();
-
-    /** Aggiunge un contatto nella rete dell'utente.
-     *
-     * @param QString  Username dell'utente da aggiungere alla lista dei contatti.
-     */
-    void insertRete( QString );
-
-    /** Rimuove un contatto dalla lista dei contatti.
-     *
-     * @param QString  Username dell'utente da rimuovere dalla lista dei contatti.
-     */
-    void removeRete( QString );
+    /** Salva lo stato del database. */
+    void saveDatabase();
 };
 
 #endif // LINQEDIN_CLIENT_H

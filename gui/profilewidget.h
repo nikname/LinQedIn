@@ -67,7 +67,8 @@ public:
      */
     explicit ProfileWidget( const SmartUtente&, QWidget *parent = 0 );
 signals:
-
+    /** */
+    void updateProfileInfoSignal( const QString&, const QString& );
 private slots:
     /** Mostra la scheda della panoramica dell'utente. */
     void showBackgroundTab();
@@ -80,6 +81,9 @@ private slots:
 
     /** */
     void openEditProfileDialog();
+
+    /** */
+    void updateProfileInfoSlot( const QString&, const QString& );
 };
 
 #endif // PROFILEWIDGET_H

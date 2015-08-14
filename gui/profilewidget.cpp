@@ -222,6 +222,14 @@ void ProfileWidget::showOtherInfoTab() {
 // SLOT ProfileWidget::openEditProfileDialog
 void ProfileWidget::openEditProfileDialog() {
     EditProfileDialog *editProfileDialog = new EditProfileDialog( this );
+    connect( editProfileDialog, SIGNAL( updateProfileInfoSignal( const QString&, const QString& ) ),
+             this, SLOT( updateProfileInfoSlot( const QString&, const QString& ) ) );
 
     editProfileDialog->exec();
+}
+
+// SLOT ProfileWidget::updateProfileInfoSlot( QString, QString )
+void ProfileWidget::updateProfileInfoSlot( const QString& n, const QString& s ) {
+    nameSurnameLabel->setText( "<h1>" + n + " " + s + "</h1>" );
+    emit updateProfileInfoSignal( n, s );
 }

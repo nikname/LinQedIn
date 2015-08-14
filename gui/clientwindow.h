@@ -77,6 +77,12 @@ private:
      * @param QPushButton*  Pulsante al quale applicare le proprietà.
      */
     void setButtonProperties( QPushButton* );
+protected:
+    /** Override. Salva su file (XML) i dati dell'utente.
+     *
+     * @param QCloseEvent*
+     */
+    void closeEvent( QCloseEvent* );
 public:
     /** Costruttore esplicito a 2 parametri con 2 parametri di deafult.
      *
@@ -118,7 +124,7 @@ private slots:
     void searchUsers();
 
     /** */
-    void updateUserInfoSlot( const QString&, const QString& );
+    void updateProfileInfoSlot( const QString&, const QString& );
 
     void updateContactsSlot( const QString& );
 signals:

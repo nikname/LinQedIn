@@ -2,6 +2,7 @@
 #include <QLineEdit>
 #include <QPainter>
 #include <QPushButton>
+#include <QDebug>
 #include <QStyleOption>
 #include <QVBoxLayout>
 #include "editprofiledialog.h"
@@ -102,5 +103,7 @@ void EditProfileDialog::checkInput( const QString& input ) {
 
 // SLOT EditProfileDialog::updateProfileInfo()
 void EditProfileDialog::updateProfileInfo() {
-    //emit updateProfileInfoSignal( nameEdit->text(), surnameEdit->text() );
+    emit updateProfileInfoSignal( nameEdit->text(), surnameEdit->text() );
+
+    this->close();
 }
