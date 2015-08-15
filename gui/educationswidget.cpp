@@ -29,6 +29,8 @@ void EducationsWidget::initUI() {
 void EducationsWidget::setupUI() {
     QVBoxLayout *layout = new QVBoxLayout( this );
     for( int i = titleWidgetsList.size() - 1; i >= 0; i-- ) {
+        connect( titleWidgetsList[i], SIGNAL( updateEducationsSignal() ),
+                 this, SIGNAL( updateEducationsSignal() ) );
         layout->addWidget( titleWidgetsList[i] );
 
         QFrame *line = new QFrame( this );

@@ -10,6 +10,8 @@ class QPushButton;
 class TitleWidget : public QWidget {
     Q_OBJECT
 private:
+    SmartTitolo title;
+
     QLabel *titleIconLabel;
 
     QLabel *schoolLabel;
@@ -37,9 +39,14 @@ public:
     /** */
     explicit TitleWidget( const SmartTitolo&, QWidget *parent = 0 );
 signals:
-
+    /** */
+    void updateEducationsSignal();
 public slots:
+    /** */
+    void openEditTitleDialog();
 
+    /** */
+    void updateTitleInfoSlot( const QString&, int, int, int, const QString& );
 };
 
 #endif // TITLEWIDGET_H

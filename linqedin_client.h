@@ -16,8 +16,20 @@ public:
      */
     LinQedInClient( QString );
 
-    /** Salva lo stato del database. */
-    void saveDatabase();
+    /** Salva tutte le informazioni dell'utente sul database. */
+    void saveUserInfo();
+
+    /** Salva le informazioni del profilo dell'utente sul database. */
+    void saveProfile();
+
+    /** Salva la lista dei contatti dell'utente sul database. */
+    void saveNet();
+
+    /** Salva la lista delle esperienze lavorative dell'utente sul database. */
+    void saveExperiences();
+
+    /** Salva la lista dei titoli di studio dell'utente sul database. */
+    void saveEducations();
 };
 
 #endif // LINQEDIN_CLIENT_H

@@ -29,6 +29,8 @@ void ExperiencesWidget::initUI() {
 void ExperiencesWidget::setupUI() {
     QVBoxLayout *layout = new QVBoxLayout( this );
     for( int i = jobWidgetsList.size() - 1; i >= 0; i-- ) {
+        connect( jobWidgetsList[i], SIGNAL( updateExperiencesSignal() ),
+                 this, SIGNAL( updateExperiencesSignal() ) );
         layout->addWidget( jobWidgetsList[i] );
 
         QFrame *line = new QFrame( this );

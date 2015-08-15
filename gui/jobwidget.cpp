@@ -7,7 +7,8 @@
 
 // COSTRUTTORE JobWidget
 JobWidget::JobWidget( const SmartLavoro& sl, QWidget *parent ) :
-    QWidget( parent )
+    QWidget( parent ),
+    job( sl )
 {
     initUI( sl );
     setupUI();
@@ -84,6 +85,22 @@ void JobWidget::setToolButtonProperties( QPushButton *button ) {
 // SLOT JobWidget::openEditJobDialog
 void JobWidget::openEditJobDialog() {
     EditJobDialog *editJobDialog = new EditJobDialog( this );
+    connect( editJobDialog, SIGNAL( updateJobInfoSignal( const QString&, const QString&, int, int ) ),
+             this, SLOT( updateJobInfoSlot( const QString&, const QString&, int, int ) ) );
 
     editJobDialog->exec();
+}
+
+// SLOT JobWidget::updateJobInfoSlot( QString, QString, int, int )
+void JobWidget::updateJobInfoSlot( const QString& cn, const QString& t, int b, int e ) {
+    job->setCompanyName( cn );
+    job->setTitle( t );
+    job->setBegin( QDate( b, 1, 1 ) );
+    job->setEnd( QDate( e, 1, 1 ) );
+
+    companyNameLabel->setText( cn );
+    titleLabel->setText( t );
+    periodLabel->setText( QString::number( b ) + " - " + QString::number( e ) );
+
+    emit updateExperiencesSignal();
 }

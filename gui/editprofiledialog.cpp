@@ -9,7 +9,7 @@
 
 // COSTRUTTORE EditProfileDialog
 EditProfileDialog::EditProfileDialog( QWidget *parent ) :
-    QDialog( parent )
+    EditDialog( parent )
 {
     initUI();
     setupUI();
@@ -44,9 +44,8 @@ void EditProfileDialog::setupUI() {
     QWidget *buttonsFiller = new QWidget( buttonsWidget );
     buttonsFiller->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Fixed );
 
-    setButtonProperties( rejectButton );
-    setButtonProperties( acceptButton );
-    acceptButton->setDisabled( true );
+    setButtonEnabled( rejectButton, true );
+    setButtonDisabled( acceptButton, true );
 
     connect( rejectButton, SIGNAL( clicked() ), this, SLOT( reject() ) );
     connect( acceptButton, SIGNAL( clicked() ), this, SLOT( updateProfileInfo() ) );
@@ -69,36 +68,11 @@ void EditProfileDialog::setupUI() {
     setFixedWidth( 300 );
 }
 
-// METODO EditProfileDialog::setButtonProperties( QPushButton * )
-void EditProfileDialog::setButtonProperties( QPushButton *button ) {
-    button->setStyleSheet(
-        "QPushButton { font: bold; border: 5px solid white; background: white; color: #069;"
-                "outline: none; }"
-        "QPushButton:pressed { background: #EEE; border: 5px solid #EEE; }"
-    );
-}
-
-// METODO EditProfileDialog::setLineEditProperties( QLineEdit * )
-void EditProfileDialog::setLineEditProperties( QLineEdit *lineEdit ) {
-    lineEdit->setStyleSheet(
-        "QLineEdit { border: 1px solid #069; border-top: none; border-right: none;"
-            "border-left: none; color: rgba(0,0,0,0.87); }"
-    );
-}
-
-// METODO EditProfileDialog::paintEvent
-void EditProfileDialog::paintEvent( QPaintEvent *) {
-    QStyleOption opt;
-    opt.init( this );
-    QPainter p( this );
-    style()->drawPrimitive( QStyle::PE_Widget, &opt, &p, this );
-}
-
 // SLOT EditProfileDialog::checkInput( QString )
 void EditProfileDialog::checkInput( const QString& input ) {
-    if( input.isEmpty() )
-        acceptButton->setDisabled( true );
-    else acceptButton->setDisabled( false );
+    if( nameEdit->text().isEmpty() || surnameEdit->text().isEmpty() )
+        setButtonDisabled( acceptButton, true );
+    else setButtonEnabled( acceptButton, true );
 }
 
 // SLOT EditProfileDialog::updateProfileInfo()

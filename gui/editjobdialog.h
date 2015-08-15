@@ -2,12 +2,13 @@
 #define EDITJOBDIALOG_H
 
 #include <QDialog>
+#include "editdialog.h"
 
 class QLabel;
 class QLineEdit;
 class QPushButton;
 
-class EditJobDialog : public QDialog {
+class EditJobDialog : public EditDialog {
     Q_OBJECT
 private:
     QLabel *titleLabel;
@@ -25,18 +26,6 @@ private:
 
     /** Realizza la UI. Mostra la GUI. */
     void setupUI();
-
-    /** */
-    void setButtonProperties( QPushButton * );
-
-    /** */
-    void setLineEditProperties( QLineEdit * );
-
-    /** Reimplementazione.
-     *
-     * @param QPaintEvent
-     */
-    void paintEvent( QPaintEvent * );
 public:
     /** Costruttore esplicito ad 1 parametro con 1 parametro di default.
      *
@@ -44,9 +33,14 @@ public:
      */
     explicit EditJobDialog( QWidget *parent = 0 );
 signals:
-
+    /** */
+    void updateJobInfoSignal( const QString&, const QString&, int, int );
 public slots:
+    /** */
+    void checkInput( const QString& );
 
+    /** */
+    void updateJobInfo();
 };
 
 #endif // EDITJOBDIALOG_H

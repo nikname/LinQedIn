@@ -10,6 +10,8 @@ class QPushButton;
 class JobWidget : public QWidget {
     Q_OBJECT
 private:
+    SmartLavoro job;
+
     QLabel *jobIconLabel;
 
     QLabel *companyNameLabel;
@@ -37,10 +39,14 @@ public:
     /** */
     explicit JobWidget( const SmartLavoro&, QWidget *parent = 0 );
 signals:
-
+    /** */
+    void updateExperiencesSignal();
 public slots:
     /** */
     void openEditJobDialog();
+
+    /** */
+    void updateJobInfoSlot( const QString&, const QString&, int, int );
 };
 
 #endif // JOBWIDGET_H

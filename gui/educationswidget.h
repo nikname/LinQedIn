@@ -32,7 +32,8 @@ public:
     /** */
     explicit EducationsWidget( const SmartUtente&, QWidget *parent = 0 );
 signals:
-
+    /** */
+    void updateEducationsSignal();
 public slots:
 
 };

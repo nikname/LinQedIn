@@ -1,15 +1,12 @@
 #include <QLabel>
 #include <QLineEdit>
-#include <QPainter>
 #include <QPushButton>
-#include <QDebug>
-#include <QStyleOption>
-#include <QVBoxLayout>
+#include <QBoxLayout>
 #include "editjobdialog.h"
 
 // COSTRUTTORE EditJobDialog
 EditJobDialog::EditJobDialog( QWidget *parent ) :
-    QDialog( parent )
+    EditDialog( parent )
 {
     initUI();
     setupUI();
@@ -36,24 +33,39 @@ void EditJobDialog::setupUI() {
 
     companyNameEdit->setPlaceholderText( tr( "Company Name" ) );
     setLineEditProperties( companyNameEdit );
+    connect( companyNameEdit, SIGNAL( textChanged( QString ) ),
+             this, SLOT( checkInput( QString ) ) );
     titleEdit->setPlaceholderText( tr( "Title" ) );
     setLineEditProperties( titleEdit );
+    connect( titleEdit, SIGNAL( textChanged( QString ) ), this, SLOT( checkInput( QString ) ) );
+
+    QWidget *periodWidget = new QWidget( this );
+
     beginEdit->setPlaceholderText( "Begin Year" );
     setLineEditProperties( beginEdit );
+    connect( beginEdit, SIGNAL( textChanged( QString ) ), this, SLOT( checkInput( QString ) ) );
     endEdit->setPlaceholderText( tr( "End Year" ) );
     setLineEditProperties( endEdit );
+    connect( endEdit, SIGNAL( textChanged( QString ) ), this, SLOT( checkInput( QString ) ) );
+
+    QLabel *separatorLabel = new QLabel( " - ", this );
+
+    QHBoxLayout *periodLayout = new QHBoxLayout( periodWidget );
+    periodLayout->addWidget( beginEdit );
+    periodLayout->addWidget( separatorLabel );
+    periodLayout->addWidget( endEdit );
+    periodLayout->setMargin( 0 );
 
     QWidget *buttonsWidget = new QWidget( this );
 
     QWidget *buttonsFiller = new QWidget( buttonsWidget );
     buttonsFiller->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Fixed );
 
-    setButtonProperties( rejectButton );
-    setButtonProperties( acceptButton );
-    acceptButton->setDisabled( true );
+    setButtonEnabled( rejectButton, true );
+    setButtonDisabled( acceptButton, true );
 
     connect( rejectButton, SIGNAL( clicked() ), this, SLOT( reject() ) );
-    connect( acceptButton, SIGNAL( clicked() ), this, SLOT( accept() ) );
+    connect( acceptButton, SIGNAL( clicked() ), this, SLOT( updateJobInfo() ) );
 
     QHBoxLayout *buttonLayout = new QHBoxLayout( buttonsWidget );
     buttonLayout->addWidget( buttonsFiller );
@@ -64,8 +76,7 @@ void EditJobDialog::setupUI() {
     layout->addWidget( titleLabel );
     layout->addWidget( companyNameEdit );
     layout->addWidget( titleEdit );
-    layout->addWidget( beginEdit );
-    layout->addWidget( endEdit );
+    layout->addWidget( periodWidget );
     layout->addSpacing( 10 );
     layout->addWidget( buttonsWidget );
     layout->setMargin( 20 );
@@ -75,27 +86,18 @@ void EditJobDialog::setupUI() {
     setFixedWidth( 300 );
 }
 
-// METODO EditJobDialog::setButtonProperties( QPushButton * )
-void EditJobDialog::setButtonProperties( QPushButton *button ) {
-    button->setStyleSheet(
-        "QPushButton { font: bold; border: 5px solid white; background: white; color: #069;"
-                "outline: none; }"
-        "QPushButton:pressed { background: #EEE; border: 5px solid #EEE; }"
-    );
+// SLOT EditJobDialog::checkInput( QString )
+void EditJobDialog::checkInput( const QString& input ) {
+    if( companyNameEdit->text().isEmpty() || titleEdit->text().isEmpty() ||
+            beginEdit->text().isEmpty() || endEdit->text().isEmpty() )
+        setButtonDisabled( acceptButton, true );
+    else setButtonEnabled( acceptButton, true );
 }
 
-// METODO EditJobDialog::setLineEditProperties( QLineEdit * )
-void EditJobDialog::setLineEditProperties( QLineEdit *lineEdit ) {
-    lineEdit->setStyleSheet(
-        "QLineEdit { border: 1px solid #069; border-top: none; border-right: none;"
-            "border-left: none; color: rgba(0,0,0,0.87); }"
-    );
-}
+// SLOT EditJobDialog::updateJobInfo
+void EditJobDialog::updateJobInfo() {
+    emit updateJobInfoSignal( companyNameEdit->text(), titleEdit->text(),
+                              beginEdit->text().toInt(), endEdit->text().toInt() );
 
-// METODO EditJobDialog::paintEvent
-void EditJobDialog::paintEvent( QPaintEvent *) {
-    QStyleOption opt;
-    opt.init( this );
-    QPainter p( this );
-    style()->drawPrimitive( QStyle::PE_Widget, &opt, &p, this );
+    this->close();
 }

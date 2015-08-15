@@ -11,7 +11,27 @@ LinQedInClient::LinQedInClient( QString un ) : db( new Database ) {
     }
 }
 
-// METODO LinQedInClient::saveDatabase
-void LinQedInClient::saveDatabase() {
+// METODO LinQedInClient::saveUserInfo
+void LinQedInClient::saveUserInfo() {
+    db->saveUsersList();
+}
+
+// METODO LinQedInClient::saveProfile
+void LinQedInClient::saveProfile() {
+    db->saveUsersList();
+}
+
+// METODO LinQedInClient::saveNet
+void LinQedInClient::saveNet() {
+    db->saveUsersList();
+}
+
+// METODO LinQedInClient::saveExperiences
+void LinQedInClient::saveExperiences() {
+    db->saveUsersList();
+}
+
+// METODO LinQedInClient::saveEducations
+void LinQedInClient::saveEducations() {
     db->saveUsersList();
 }

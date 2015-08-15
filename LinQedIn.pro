@@ -49,7 +49,9 @@ SOURCES += main.cpp\
     gui/connectionswidget.cpp \
     gui/userpreviewwidget.cpp \
     gui/editprofiledialog.cpp \
-    gui/editjobdialog.cpp
+    gui/editjobdialog.cpp \
+    gui/editdialog.cpp \
+    gui/edittitledialog.cpp
 
 HEADERS  += \
     profilo.h \
@@ -89,7 +91,9 @@ HEADERS  += \
     gui/userlistgridwidget.h \
     gui/userpreviewwidget.h \
     gui/editprofiledialog.h \
-    gui/editjobdialog.h
+    gui/editjobdialog.h \
+    gui/editdialog.h \
+    gui/edittitledialog.h
 
 FORMS    +=
 

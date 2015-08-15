@@ -31,7 +31,8 @@ ClientWindow::~ClientWindow() {
 
 // METODO ClientWindow::closeEvent( QCloseEvent* )
 void ClientWindow::closeEvent( QCloseEvent *event ) {
-    client->saveDatabase();
+    client->saveUserInfo();
+
     close();
 }
 
@@ -141,6 +142,10 @@ void ClientWindow::setupUI() {
 
     connect( profileWidget, SIGNAL( updateProfileInfoSignal( QString, QString ) ),
              this, SLOT( updateProfileInfoSlot( QString, QString ) ) );
+    connect( experiencesWidget, SIGNAL( updateExperiencesSignal() ),
+             this, SLOT( updateExperiencesSlot() ) );
+    connect( educationsWidget, SIGNAL( updateEducationsSignal() ),
+             this, SLOT( updateEducationsSlot() ) );
 
     connectionsWidget->setVisible( false );
     experiencesWidget->setVisible( false );
@@ -316,6 +321,8 @@ void ClientWindow::searchUsers() {
 void ClientWindow::updateProfileInfoSlot( const QString& n, const QString& s ) {
     client->user->setName( n );
     client->user->setSurname( s );
+
+    client->saveProfile();
 }
 
 // SLOT
@@ -326,3 +333,14 @@ void ClientWindow::updateContactsSlot( const QString& un ) {
         client->db->saveUsersList();
     }
 }
+
+// SLOT ClientWindow::updateExperiencesSlot
+void ClientWindow::updateExperiencesSlot() {
+    client->saveExperiences();
+}
+
+// SLOT ClientWindow::updateEducationsSlot
+void ClientWindow::updateEducationsSlot() {
+    client->saveEducations();
+}
+

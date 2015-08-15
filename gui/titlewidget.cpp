@@ -1,12 +1,14 @@
 #include <QBoxLayout>
 #include <QLabel>
 #include <QPushButton>
+#include "edittitledialog.h"
 #include "titlewidget.h"
 #include "titolo.h"
 
 // COSTRUTTORE TitleWidget
 TitleWidget::TitleWidget( const SmartTitolo& st, QWidget *parent ) :
-    QWidget( parent )
+    QWidget( parent ),
+    title( st )
 {
     initUI( st );
     setupUI();
@@ -57,6 +59,7 @@ void TitleWidget::setupUI() {
     setToolButtonProperties( removeTitleButton );
     editTitleButton->setIcon( QIcon( QPixmap( ":/icons/icon/pencil.png" ) ) );
     setToolButtonProperties( editTitleButton );
+    connect( editTitleButton, SIGNAL( clicked() ), this, SLOT( openEditTitleDialog() ) );
 
     QVBoxLayout *toolLayout = new QVBoxLayout( toolWidget );
     toolLayout->addWidget( removeTitleButton );
@@ -76,4 +79,29 @@ void TitleWidget::setToolButtonProperties( QPushButton *button ) {
         "QPushButton { border-radius: 12px; outline: 0; }"
         "QPushButton:pressed { background: rgba(0,0,0,0.12); }"
     );
+}
+
+
+// SLOT TitleWidget::openEditTitleDialog
+void TitleWidget::openEditTitleDialog() {
+    EditTitleDialog *editTitleDialog = new EditTitleDialog( this );
+    connect( editTitleDialog, SIGNAL( updateTitleInfoSignal( QString, int, int, int, QString ) ),
+             this, SLOT( updateTitleInfoSlot( QString, int, int, int, QString ) ) );
+
+    editTitleDialog->exec();
+}
+
+// SLOT TitleWidget::updateTitleInfoSlot( QString, int, int, int, QString )
+void TitleWidget::updateTitleInfoSlot( const QString& s, int d, int m, int y, const QString& fos ) {
+    title->setSchool( s );
+    title->setDateAttended( QDate( y, m, d ) );
+    title->setFieldOfStudy( fos );
+
+    schoolLabel->setText( s );
+    dateAttendedLabel->setText( QString::number( d ) + "/" +
+                                QString::number( m ) + "/" +
+                                QString::number( y ) );
+    fieldOfStudyLabel->setText( fos );
+
+    emit updateEducationsSignal();
 }
