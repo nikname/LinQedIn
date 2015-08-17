@@ -32,10 +32,13 @@ public:
     /** */
     explicit ExperiencesWidget( const SmartUtente&, QWidget *parent = 0 );
 signals:
-
+    /** */
+    void jobToAddSignal( const SmartLavoro& );
 public slots:
     /** */
     void openAddJobDialog();
+    /** */
+    void addNewJobSlot( const QString&, const QString&, int, int );
 };
 
 #endif // EXPERIENCESWIDGET_H

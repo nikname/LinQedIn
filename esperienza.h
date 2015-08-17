@@ -3,7 +3,7 @@
 #include <QDebug>
 #include <QString>
 #include <QDate>
-#include "lavoro.h"
+#include "smartlavoro.h"
 
 class Esperienza {
 
@@ -45,9 +45,9 @@ public:
 
         /** Ritorna l'elemento puntato ed avanza l'Iteratore.
          *
-         * @return Lavoro*  Esperienza lavorativa puntata dall'Iteratore.
+         * @return SmartLavoro  Esperienza lavorativa puntata dall'Iteratore.
          */
-        Lavoro* next();
+        SmartLavoro next();
     };
 
     friend class Iteratore::Iteratore_rapp; // Necessaria per avanzare sulla lista.
@@ -60,15 +60,15 @@ public:
 
     /** Aggiunge un'esperienza alle esperienze lavorative.
      *
-     * @param Lavoro*  Esperienza da aggiungere alle esperienze lavorative.
+     * @param SmartLavoro  Esperienza da aggiungere alle esperienze lavorative.
      */
-    void addExperience( Lavoro* );
+    void addExperience( SmartLavoro );
 
     /** Rimuove un'esperienza dalle esperienze lavorative.
      *
-     * @param Lavoro*  Esperienza da riumuovere dalle esperienze lavorative.
+     * @param SmartLavoro  Esperienza da riumuovere dalle esperienze lavorative.
      */
-    void removeExperience( Lavoro* );
+    void removeExperience( SmartLavoro );
 
     /** Ritorna un vettore di puntatori ai titoli di studio dell'utente.
      *

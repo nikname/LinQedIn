@@ -176,16 +176,16 @@ public:
     /** Aggiunge un'esperienza alle esperienze lavorative.
      *  Invoca il metodo addExperience() del campo dati experiences dell'utente.
      *
-     * @param Lavoro*  Esperienza da aggiungere alle esperienze lavorative.
+     * @param SmartLavoro  Esperienza da aggiungere alle esperienze lavorative.
      */
-    void addExperience( Lavoro* );
+    void addExperience( SmartLavoro );
 
     /** Rimuove un'esperienza dalle esperienze lavorative.
      *  Invoca il metodo removeExperience() del campo dati experiences dell'utente.
      *
-     * @param Lavoro*  Esperienza da riumuovere dalle esperienze lavorative.
+     * @param SmartLavoro  Esperienza da riumuovere dalle esperienze lavorative.
      */
-    void removeExperience( Lavoro* );
+    void removeExperience( SmartLavoro );
 
     /** Ritorna un vettore di puntatori ai titoli di studio dell'utente.
      *  Invoca il metodo getExperiencesList() del campo dati experiences dell'utente.

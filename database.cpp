@@ -9,6 +9,7 @@
 #include "utente_executive.h"
 #include "utente_business.h"
 #include "rete.h"
+#include "lavoro.h"
 
 // CLASSE Database::Database_rapp
 class Database::Database_rapp {
@@ -140,7 +141,7 @@ void Database::parseExperience( QXmlStreamReader& xmlReader, SmartUtente u ) {
             parseDate( xmlReader, u );
         xmlReader.readNext();
     }
-    u->addExperience( j );
+    u->addExperience( SmartLavoro( j ) );
 }
 
 // METODO Database::parseUser
@@ -351,7 +352,7 @@ void Database::saveUsersList() const {
         Esperienza::Iteratore it_ex( u->getExperiencesIterator() );
         while( it_ex.hasNext() ) {
             // <job>
-            Lavoro* j = it_ex.next();
+            SmartLavoro j = it_ex.next();
             xmlWriter.writeStartElement( "job" );
             xmlWriter.writeTextElement( "companyName", j->getCompanyName() );
             xmlWriter.writeTextElement( "title", j->getTitle() );

@@ -3,6 +3,7 @@
 #include <QPushButton>
 #include <QBoxLayout>
 #include "addjobdialog.h"
+#include "lavoro.h"
 
 // COSTRUTTORE AddJobDialog
 AddJobDialog::AddJobDialog( QWidget *parent ) :
@@ -17,12 +18,22 @@ void AddJobDialog::initUI() {
     titleLabel = new QLabel( tr( "Add New Job" ) );
 
     companyNameEdit = new QLineEdit( this );
+    connect( companyNameEdit, SIGNAL( textChanged( QString ) ),
+             this, SLOT( checkInput( QString ) ) );
     titleEdit = new QLineEdit( this );
+    connect( titleEdit, SIGNAL( textChanged( QString ) ),
+             this, SLOT( checkInput( QString ) ) );
     beginEdit = new QLineEdit( this );
+    connect( beginEdit, SIGNAL( textChanged( QString ) ),
+             this, SLOT( checkInput( QString ) ) );
     endEdit = new QLineEdit( this );
+    connect( endEdit, SIGNAL( textChanged( QString ) ),
+             this, SLOT( checkInput( QString ) ) );
 
     acceptButton = new QPushButton( "OK", this );
+    connect( acceptButton, SIGNAL( clicked() ), this, SLOT( addNewJob() ) );
     rejectButton = new QPushButton( tr( "CANCEL" ), this );
+    connect( rejectButton, SIGNAL( clicked() ), this, SLOT( reject() ) );
 }
 
 // METODO AddJobDialog::setupUI
@@ -33,23 +44,15 @@ void AddJobDialog::setupUI() {
 
     companyNameEdit->setPlaceholderText( tr( "Company Name" ) );
     setLineEditProperties( companyNameEdit );
-    connect( companyNameEdit, SIGNAL( textChanged( QString ) ),
-             this, SLOT( checkInput( QString ) ) );
     titleEdit->setPlaceholderText( tr( "Title" ) );
     setLineEditProperties( titleEdit );
-    connect( titleEdit, SIGNAL( textChanged( QString ) ),
-             this, SLOT( checkInput( QString ) ) );
 
     QWidget *periodWidget = new QWidget( this );
 
     beginEdit->setPlaceholderText( "Begin Year" );
     setLineEditProperties( beginEdit );
-    connect( beginEdit, SIGNAL( textChanged( QString ) ),
-             this, SLOT( checkInput( QString ) ) );
     endEdit->setPlaceholderText( tr( "End Year" ) );
     setLineEditProperties( endEdit );
-    connect( endEdit, SIGNAL( textChanged( QString ) ),
-             this, SLOT( checkInput( QString ) ) );
 
     QLabel *separatorLabel = new QLabel( " - ", this );
 
@@ -66,9 +69,6 @@ void AddJobDialog::setupUI() {
 
     setButtonEnabled( rejectButton, true );
     setButtonDisabled( acceptButton, true );
-
-    connect( rejectButton, SIGNAL( clicked() ), this, SLOT( reject() ) );
-    connect( acceptButton, SIGNAL( clicked() ), this, SLOT( addNewJob() ) );
 
     QHBoxLayout *buttonLayout = new QHBoxLayout( buttonsWidget );
     buttonLayout->addWidget( buttonsFiller );
@@ -98,7 +98,7 @@ void AddJobDialog::checkInput( const QString& input ) {
 }
 
 // SLOT AddJobDialog::addNewJob()
-void AddJobDialog::addNewJob() {
+void AddJobDialog::addNewJob() {    
     emit addNewJobSignal( companyNameEdit->text(), titleEdit->text(),
                           beginEdit->text().toInt(), endEdit->text().toInt() );
 

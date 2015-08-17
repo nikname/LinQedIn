@@ -7,6 +7,7 @@
 #include "userpreviewwidget.h"
 #include "utente.h"
 #include "smartlavoro.h"
+#include "lavoro.h"
 
 // COSTRUTTORE UserPreviewWidget
 UserPreviewWidget::UserPreviewWidget( const SmartUtente& su, QWidget *parent ) :

@@ -7,6 +7,7 @@
 #include "experienceswidget.h"
 #include "jobwidget.h"
 #include "utente.h"
+#include "lavoro.h"
 
 // COSTRUTTORE ExperiencesWidget
 ExperiencesWidget::ExperiencesWidget( const SmartUtente& su, QWidget *parent ) :
@@ -63,7 +64,17 @@ void ExperiencesWidget::paintEvent( QPaintEvent *) {
 void ExperiencesWidget::openAddJobDialog() {
     AddJobDialog *addJobDialog = new AddJobDialog( this );
     connect( addJobDialog, SIGNAL( addNewJobSignal( QString, QString, int, int ) ),
-             this, SIGNAL( addNewJobSignal( QString, QString, int, int ) ) );
+             this, SLOT( addNewJobSlot( QString, QString, int, int ) ) );
 
     addJobDialog->exec();
+}
+
+// SLOT ExperiencesWidget::addNewJobSlot
+void ExperiencesWidget::addNewJobSlot( const QString& cn, const QString& t, int b, int e ) {
+    SmartLavoro aux = SmartLavoro( new Lavoro( cn, t, "", QDate( b, 1, 1 ), QDate( e, 1, 1 ) ) );
+
+    jobsList.append( aux );
+    jobWidgetsList.append( new JobWidget( aux, this ) );
+
+    emit jobToAddSignal( aux );
 }

@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include "smartutente.h"
+#include "smartlavoro.h"
 
 class ConnectionsWidget;
 class EducationsWidget;
@@ -83,6 +84,9 @@ private slots:
 
     /** */
     void updateProfileInfoSlot( const QString&, const QString& );
+
+    /** */
+    void jobToAddSlot( const SmartLavoro& );
 };
 
 #endif // PROFILEWIDGET_H

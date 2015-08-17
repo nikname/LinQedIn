@@ -125,12 +125,12 @@ Formazione::Iteratore Utente::getEducationsIterator() const {
 }
 
 // METODO addExperience Utente
-void Utente::addExperience( Lavoro* l ) {
+void Utente::addExperience( SmartLavoro l ) {
     experiences->addExperience( l );
 }
 
 // METODO removeExperience Utente
-void Utente::removeExperience( Lavoro* l ) {
+void Utente::removeExperience( SmartLavoro l ) {
     experiences->removeExperience( l );
 }
 

@@ -6,13 +6,13 @@
 // CLASSE Esperienza_rapp
 class Esperienza::Esperienza_rapp {
 public:
-    QList<Lavoro*> experiencesList; // Puntatore per permetterne la modifica
+    QList<SmartLavoro> experiencesList; // Puntatore per permetterne la modifica
 
     /** Costruttore di default ridefinito.
-     *  Inizializza il campo experiencesList con una QList di Lavoro* vuota.
+     *  Inizializza il campo experiencesList con una QList di SmartLavoro vuota.
      */
     Esperienza_rapp() :
-        experiencesList( QList<Lavoro*>() ) {}
+        experiencesList( QList<SmartLavoro>() ) {}
 
     /** Distruttore Esperienza_rapp.
      *  Invoca il metodo clear() sulla lista delle esperienze lavorative dell'utente.
@@ -31,14 +31,14 @@ public:
 // CLASSE Iteratore_rapp
 class Esperienza::Iteratore::Iteratore_rapp {
 public:
-    QListIterator<Lavoro*> it;
+    QListIterator<SmartLavoro> it;
 
     /** Costruttore ad 1 parametro.
      *  Costruttore di default non disponibile.
      *
-     * @param QList<Lavoro*>  Lista di Lavoro* sulla quale iterare.
+     * @param QList<SmartLavoro>  Lista di SmartLavoro sulla quale iterare.
      */
-    Iteratore_rapp( QList<Lavoro*> list ) : it( list ) {}
+    Iteratore_rapp( QList<SmartLavoro> list ) : it( list ) {}
 };
 
 // METODO hasNext Iteratore
@@ -49,7 +49,7 @@ bool Esperienza::Iteratore::hasNext() const {
 }
 
 // METODO next Iteratore
-Lavoro* Esperienza::Iteratore::next() {
+SmartLavoro Esperienza::Iteratore::next() {
     return iterator->it.next();
 }
 
@@ -66,19 +66,19 @@ Esperienza::Esperienza() :
     user_ref( 1 ) {}
 
 // METODO addExperience Esperienza
-void Esperienza::addExperience( Lavoro* l ) {
+void Esperienza::addExperience( SmartLavoro l ) {
     experiences->experiencesList.append( l );
 }
 
 // METODO removeExperience Esperienza
-void Esperienza::removeExperience( Lavoro* l ) {
+void Esperienza::removeExperience( SmartLavoro l ) {
     experiences->experiencesList.removeAll( l );
 }
 
 // METODO getExperiencesList Esperienza
 QVector<SmartLavoro> Esperienza::getExperiencesList() const {
     QVector<SmartLavoro> v;
-    QListIterator<Lavoro*> it( experiences->experiencesList ); // QMutableListIterator ?
+    QListIterator<SmartLavoro> it( experiences->experiencesList ); // QMutableListIterator ?
     while( it.hasNext() )
         v.push_back( SmartLavoro( it.next() ) );
     return v;
