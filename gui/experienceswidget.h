@@ -35,6 +35,8 @@ signals:
     /** */
     void updateExperiencesSignal();
 public slots:
+    /** */
+    void openAddJobDialog();
 };
 
 #endif // EXPERIENCESWIDGET_H

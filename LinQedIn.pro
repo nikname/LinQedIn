@@ -51,7 +51,8 @@ SOURCES += main.cpp\
     gui/editprofiledialog.cpp \
     gui/editjobdialog.cpp \
     gui/linqedindialog.cpp \
-    gui/edittitledialog.cpp
+    gui/edittitledialog.cpp \
+    gui/addjobdialog.cpp
 
 HEADERS  += \
     profilo.h \
@@ -93,7 +94,8 @@ HEADERS  += \
     gui/editprofiledialog.h \
     gui/editjobdialog.h \
     gui/linqedindialog.h \
-    gui/edittitledialog.h
+    gui/edittitledialog.h \
+    gui/addjobdialog.h
 
 FORMS    +=
 

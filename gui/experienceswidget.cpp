@@ -3,6 +3,7 @@
 #include <QPushButton>
 #include <QStyleOption>
 #include <QVBoxLayout>
+#include "addjobdialog.h"
 #include "experienceswidget.h"
 #include "jobwidget.h"
 #include "utente.h"
@@ -45,6 +46,7 @@ void ExperiencesWidget::setupUI() {
         "QPushButton { background: #003D5C; border-radius: 25px; outline: none; }"
         "QPushButton:pressed { background: #3385AD; outline: none; }"
     );
+    connect( addJobButton, SIGNAL( clicked() ), this, SLOT( openAddJobDialog() ) );
 
     layout->addWidget( addJobButton, 0, Qt::AlignRight );
 
@@ -57,4 +59,13 @@ void ExperiencesWidget::paintEvent( QPaintEvent *) {
     opt.init( this );
     QPainter p( this );
     style()->drawPrimitive( QStyle::PE_Widget, &opt, &p, this );
+}
+
+// SLOT ExperiencesWidget::openAddJobDialog
+void ExperiencesWidget::openAddJobDialog() {
+    AddJobDialog *addJobDialog = new AddJobDialog( this );
+    connect( addJobDialog, SIGNAL( addNewJobSignal( QString, QString, int, int ) ),
+             this, SIGNAL( addNewJobSignal( QString, QString, int, int ) ) );
+
+    addJobDialog->exec();
 }
