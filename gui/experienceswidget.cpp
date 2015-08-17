@@ -39,14 +39,14 @@ void ExperiencesWidget::setupUI() {
         layout->addWidget( line );
     }
 
-    addJobButton->setIcon( QIcon( QPixmap( ":/icons/icon/plus.png" ) ) );
-    addJobButton->setFixedSize( 50, 50 );
+    addJobButton->setIcon( QIcon( QPixmap( ":/icons/icon/plus-black.png" ) ) );
+    addJobButton->setFixedSize( 25, 25 );
     addJobButton->setStyleSheet(
-        "QPushButton { background: #003D5C; border-radius: 25px; outline: none; }"
-        "QPushButton:pressed { background: #3385AD; outline: none; }"
+        "QPushButton { border-radius: 12px; outline: none; }"
+        "QPushButton:pressed { background: rgba(0,0,0,0.12); }"
     );
 
-    layout->addWidget( addJobButton, 0, Qt::AlignRight );
+    layout->addWidget( addJobButton, 0, Qt::AlignCenter );
 
     setStyleSheet( "background: white" );
 }
