@@ -32,8 +32,7 @@ public:
     /** */
     explicit ExperiencesWidget( const SmartUtente&, QWidget *parent = 0 );
 signals:
-    /** */
-    void updateExperiencesSignal();
+
 public slots:
 };
 

@@ -9,9 +9,9 @@
 
 // COSTRUTTORE ExperiencesWidget
 ExperiencesWidget::ExperiencesWidget( const SmartUtente& su, QWidget *parent ) :
-    QWidget( parent )
+    QWidget( parent ),
+    jobsList( su->getExperiencesList() )
 {
-    jobsList = su->getExperiencesList();
 
     initUI();
     setupUI();
@@ -29,8 +29,6 @@ void ExperiencesWidget::initUI() {
 void ExperiencesWidget::setupUI() {
     QVBoxLayout *layout = new QVBoxLayout( this );
     for( int i = jobWidgetsList.size() - 1; i >= 0; i-- ) {
-        connect( jobWidgetsList[i], SIGNAL( updateExperiencesSignal() ),
-                 this, SIGNAL( updateExperiencesSignal() ) );
         layout->addWidget( jobWidgetsList[i] );
 
         QFrame *line = new QFrame( this );
@@ -40,7 +38,7 @@ void ExperiencesWidget::setupUI() {
     }
 
     addJobButton->setIcon( QIcon( QPixmap( ":/icons/icon/plus-black.png" ) ) );
-    addJobButton->setFixedSize( 25, 25 );
+    addJobButton->setFixedSize( 24, 24 );
     addJobButton->setStyleSheet(
         "QPushButton { border-radius: 12px; outline: none; }"
         "QPushButton:pressed { background: rgba(0,0,0,0.12); }"

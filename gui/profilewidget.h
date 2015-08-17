@@ -13,6 +13,8 @@ class QPushButton;
 class ProfileWidget : public QWidget {
     Q_OBJECT
 private:
+    SmartUtente user;
+
     QLabel *profilePicLabel;
 
     QWidget *profileSummary;
@@ -22,6 +24,7 @@ private:
     QLabel *connectionsNumber;
     QPushButton *editProfileButton;
 
+    QVector<QPushButton *> tabButtons;
     QPushButton *backgroundTabButton;
     QPushButton *connectionsTabButton;
     QPushButton *otherInfoTabButton;
@@ -39,11 +42,8 @@ private:
 
     QWidget *otherInfoTab;
 
-    /** Inizializza la UI.
-     *
-     * @param SmartUtente  Utente del quale visualizzare il profilo.
-     */
-    void initUI( const SmartUtente& );
+    /** Inizializza la UI. */
+    void initUI();
 
     /** Realizza la UI. Mostra la GUI. */
     void setupUI();
@@ -67,8 +67,7 @@ public:
      */
     explicit ProfileWidget( const SmartUtente&, QWidget *parent = 0 );
 signals:
-    /** */
-    void updateProfileInfoSignal( const QString&, const QString& );
+
 private slots:
     /** Mostra la scheda della panoramica dell'utente. */
     void showBackgroundTab();

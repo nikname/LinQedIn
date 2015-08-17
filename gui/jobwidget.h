@@ -21,11 +21,8 @@ private:
     QPushButton *removeJobButton;
     QPushButton *editJobButton;
 
-    /** Inizializza la UI.
-     *
-     * @param SmartLavoro  Esperienza lavorativa.
-     */
-    void initUI( const SmartLavoro& );
+    /** Inizializza la UI. */
+    void initUI();
 
     /** Realizza la UI. Mostra la GUI. */
     void setupUI();
@@ -39,8 +36,7 @@ public:
     /** */
     explicit JobWidget( const SmartLavoro&, QWidget *parent = 0 );
 signals:
-    /** */
-    void updateExperiencesSignal();
+
 public slots:
     /** */
     void openEditJobDialog();

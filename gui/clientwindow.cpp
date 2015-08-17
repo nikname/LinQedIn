@@ -46,15 +46,19 @@ void ClientWindow::initUI() {
 
     linqedinLabel = new QLabel( "<h2>LinQedIn</h2>", this );
 
-    sectionButtons = QVector<QPushButton *>();
     profileButton = new QPushButton( tr( "Profile" ), this );
+    connect( profileButton, SIGNAL( clicked() ), this, SLOT( showProfile() ) );
+
     sectionButtons.append( profileButton );
 
     openSearchButton = new QPushButton( this );
+    connect( openSearchButton, SIGNAL( clicked() ), this, SLOT( openSearchBox() ) );
 
     closeSearchButton = new QPushButton( this );
+    connect( closeSearchButton, SIGNAL( clicked() ), this, SLOT( closeSearchBox() ) );
     searchText = new QLineEdit( this );
     searchButton = new QPushButton( this );
+    connect( searchButton, SIGNAL( clicked() ), this, SLOT( searchUsers() ) );
 
     profileWidget = new ProfileWidget( client->user, this );
 }
@@ -78,7 +82,6 @@ void ClientWindow::setupUI() {
     backButton->setVisible( false );
 
     setMenuButtonProperties( profileButton );
-    connect( profileButton, SIGNAL( clicked() ), this, SLOT( showProfile() ) );
 
     setMenuButtonSelected( profileButton );
 
@@ -87,7 +90,6 @@ void ClientWindow::setupUI() {
 
     openSearchButton->setIcon( QIcon( QPixmap( ":/icons/icon/magnify.png" ) ) );
     setButtonProperties( openSearchButton );
-    connect( openSearchButton, SIGNAL( clicked() ), this, SLOT( openSearchBox() ) );
 
     searchWidget = new QWidget( this );
     searchWidget->setFixedHeight( 50 );
@@ -95,7 +97,6 @@ void ClientWindow::setupUI() {
 
     closeSearchButton->setIcon( QIcon( QPixmap( ":/icons/icon/close.png" ) ) );
     setButtonProperties( closeSearchButton );
-    connect( closeSearchButton, SIGNAL( clicked() ), this, SLOT( closeSearchBox() ) );
 
     searchText->setPlaceholderText( tr( "Search" ) );
     searchText->setStyleSheet(
@@ -105,7 +106,6 @@ void ClientWindow::setupUI() {
 
     searchButton->setIcon( QIcon( QPixmap( ":/icons/icon/magnify.png" ) ) );
     setButtonProperties( searchButton );
-    connect( searchButton, SIGNAL( clicked() ), this, SLOT( searchUsers() ) );
 
     QHBoxLayout *searchLayout = new QHBoxLayout( searchWidget );
     searchLayout->addWidget( closeSearchButton );
@@ -128,9 +128,6 @@ void ClientWindow::setupUI() {
     QScrollArea *scrollArea = new QScrollArea( centralWidget );
 
     QWidget *contentWidget = new QWidget( scrollArea );
-
-    connect( profileWidget, SIGNAL( updateProfileInfoSignal( QString, QString ) ),
-             this, SLOT( updateProfileInfoSlot( QString, QString ) ) );
 
     QWidget *contentFiller = new QWidget( contentWidget );
     contentFiller->setSizePolicy( QSizePolicy::Fixed, QSizePolicy::Expanding );
@@ -195,7 +192,6 @@ void ClientWindow::setMenuButtonProperties( QPushButton *button ) {
 
 // METODO ClientWindow::setMenuButtonSelected
 void ClientWindow::setMenuButtonSelected( QPushButton *button ) {
-
     for( int i = 0; i < sectionButtons.size(); i++ ) {
         QPushButton *aux = sectionButtons[i];
         if( aux ) {
@@ -207,7 +203,8 @@ void ClientWindow::setMenuButtonSelected( QPushButton *button ) {
                 );
             } else {
                 aux->setStyleSheet(
-                    "QPushButton { padding: 0 10px; border: 3px solid #069; font: bold; outline: 0; }"
+                    "QPushButton { padding: 0 10px; border: 3px solid #069; font: bold;"
+                        "outline: 0; }"
                     "QPushButton:hover { border-bottom-color: white; }"
                     "QPushButton:pressed { border-bottom-color: white; background: #3385AD; }"
                 );
@@ -266,14 +263,6 @@ void ClientWindow::searchUsers() {
 
 }
 
-// SLOT ClientWindow::updateProfileInfoSlot( QString, QString )
-void ClientWindow::updateProfileInfoSlot( const QString& n, const QString& s ) {
-    client->user->setName( n );
-    client->user->setSurname( s );
-
-    client->saveProfile();
-}
-
 // SLOT
 void ClientWindow::updateContactsSlot( const QString& un ) {
     if( client->db->contains( un ) ) {
@@ -281,15 +270,5 @@ void ClientWindow::updateContactsSlot( const QString& un ) {
         emit updateContactsListSignal( client->user );
         client->db->saveUsersList();
     }
-}
-
-// SLOT ClientWindow::updateExperiencesSlot
-void ClientWindow::updateExperiencesSlot() {
-    client->saveExperiences();
-}
-
-// SLOT ClientWindow::updateEducationsSlot
-void ClientWindow::updateEducationsSlot() {
-    client->saveEducations();
 }
 

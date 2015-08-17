@@ -111,16 +111,7 @@ private slots:
     void searchUsers();
 
     /** */
-    void updateProfileInfoSlot( const QString&, const QString& );
-
-    /** */
     void updateContactsSlot( const QString& );
-
-    /** */
-    void updateExperiencesSlot();
-
-    /** */
-    void updateEducationsSlot();
 signals:
     /** */
     void updateContactsListSignal( const SmartUtente& );
