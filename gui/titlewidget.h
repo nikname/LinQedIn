@@ -21,11 +21,8 @@ private:
     QPushButton *removeTitleButton;
     QPushButton *editTitleButton;
 
-    /** Inizializza la UI.
-     *
-     * @param SmartTitolo  Titolo di studio.
-     */
-    void initUI( const SmartTitolo& );
+    /** Inizializza la UI. */
+    void initUI();
 
     /** Realizza la UI. Mostra la GUI. */
     void setupUI();

@@ -12,20 +12,22 @@
 
 // COSTRUTTORE ProfileWidget
 ProfileWidget::ProfileWidget( const SmartUtente& su, QWidget *parent ) :
-    QWidget( parent )
+    QWidget( parent ),
+    user( su )
 {
-    initUI( su );
+    initUI();
     setupUI();
 }
 
 // METODO ProfileWidget::initUI
-void ProfileWidget::initUI( const SmartUtente& su ) {
+void ProfileWidget::initUI() {
     profilePicLabel = new QLabel( this );
 
     profileSummary = new QWidget( this );
-    nameSurnameLabel = new QLabel( "<h1>" + su->getName() + " " + su->getSurname() + "</h1>", this );
+    nameSurnameLabel = new QLabel(
+                "<h1>" + user->getName() + " " + user->getSurname() + "</h1>", this );
 
-    QVector<SmartLavoro> experiencesList = su->getExperiencesList();
+    QVector<SmartLavoro> experiencesList = user->getExperiencesList();
     if( experiencesList.size() == 0 )
         lastExperienceLabel = new QLabel( "--", this );
     else {
@@ -33,7 +35,7 @@ void ProfileWidget::initUI( const SmartUtente& su ) {
         lastExperienceLabel = new QLabel( aux->getTitle() + " at " + aux->getCompanyName(), this );
     }
 
-    QVector<SmartTitolo> educationsList = su->getEducationsList();
+    QVector<SmartTitolo> educationsList = user->getEducationsList();
     if( educationsList.size() == 0 )
         lastEducationLabel = new QLabel( "--", this );
     else {
@@ -41,15 +43,23 @@ void ProfileWidget::initUI( const SmartUtente& su ) {
         lastEducationLabel = new QLabel( aux->getFieldOfStudy() + " at " + aux->getSchool(), this );
     }
 
-    QVector<SmartUtente> contactsList = su->getContactsList();
+    QVector<SmartUtente> contactsList = user->getContactsList();
     connectionsNumber = new QLabel(
                 QString::number( contactsList.size() ) + tr( " connections" ), this );
 
     editProfileButton = new QPushButton( this );
+    connect( editProfileButton, SIGNAL( clicked() ), this, SLOT( openEditProfileDialog() ) );
 
     backgroundTabButton = new QPushButton( tr( "Background" ), this );
+    connect( backgroundTabButton, SIGNAL( clicked() ), this, SLOT( showBackgroundTab() ) );
     connectionsTabButton = new QPushButton( tr( "Connections" ), this );
+    connect( connectionsTabButton, SIGNAL( clicked() ), this, SLOT( showConnectionsTab() ) );
     otherInfoTabButton = new QPushButton( tr( "Other info" ), this );
+    connect( otherInfoTabButton, SIGNAL( clicked() ), this, SLOT( showOtherInfoTab() ) );
+
+    tabButtons.append( backgroundTabButton );
+    tabButtons.append( connectionsTabButton );
+    tabButtons.append( otherInfoTabButton );
 
     addContactButton = new QPushButton( this );
     removeContactButton = new QPushButton( this );
@@ -57,12 +67,12 @@ void ProfileWidget::initUI( const SmartUtente& su ) {
     backgroundTab = new QWidget( this );
 
     experiencesLabel = new QLabel( tr( "Experiences" ), backgroundTab );
-    experiencesWidget = new ExperiencesWidget( su, backgroundTab );
+    experiencesWidget = new ExperiencesWidget( user, backgroundTab );
 
     educationsLabel = new QLabel( tr( "Educations" ), backgroundTab );
-    educationsWidget = new EducationsWidget( su, backgroundTab );
+    educationsWidget = new EducationsWidget( user, backgroundTab );
 
-    connectionsTab = new ConnectionsWidget( su, this );
+    connectionsTab = new ConnectionsWidget( user, this );
 
     otherInfoTab = new QWidget( this );
 }
@@ -85,7 +95,6 @@ void ProfileWidget::setupUI() {
         "QPushButton { border-radius: 12px; outline: 0; }"
         "QPushButton:pressed { background: rgba(0,0,0,0.12); }"
     );
-    connect( editProfileButton, SIGNAL( clicked() ), this, SLOT( openEditProfileDialog() ) );
 
     QWidget *profileSummaryFiller = new QWidget( profileSummary );
     profileSummaryFiller->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Expanding );
@@ -108,11 +117,8 @@ void ProfileWidget::setupUI() {
     infoTabsButtonsWidget->setStyleSheet( "background: white" );
 
     setProfileButtonProperties( backgroundTabButton );
-    connect( backgroundTabButton, SIGNAL( clicked() ), this, SLOT( showBackgroundTab() ) );
     setProfileButtonProperties( connectionsTabButton );
-    connect( connectionsTabButton, SIGNAL( clicked() ), this, SLOT( showConnectionsTab() ) );
     setProfileButtonProperties( otherInfoTabButton );
-    connect( otherInfoTabButton, SIGNAL( clicked() ), this, SLOT( showOtherInfoTab() ) );
 
     addContactButton->setFixedSize( 50, 50 );
     addContactButton->setIcon( QIcon( QPixmap( ":/icons/icon/account-plus.png" ) ) );
@@ -178,21 +184,23 @@ void ProfileWidget::setProfileButtonProperties( QPushButton *button ) {
 }
 
 // METODO ProfileWidget::setProfileButtonSelected( QPushButton* )
-void ProfileWidget::setProfileButtonSelected( QPushButton *buttonSelected ) {
-    QPushButton* buttons[3] = { backgroundTabButton, connectionsTabButton, otherInfoTabButton };
-    for( int i = 0; i < 3; i++ ) {
-        if( buttonSelected != buttons[i] ) {
-            buttons[i]->setStyleSheet(
-                "QPushButton { padding: 0 10px; border: 3px solid white; font: bold;"
-                    "color: rgba(0,0,0,0.54); outline: 0; }"
-                "QPushButton:hover { border-bottom-color: #069; }"
-            );
-        } else {
-            buttonSelected->setStyleSheet(
-                "QPushButton { padding: 0 10px; border: 3px solid white; font: bold;"
-                    "color: rgba(0,0,0,0.87); border-bottom-color: #069; outline: 0; }"
-            );
-        }
+void ProfileWidget::setProfileButtonSelected( QPushButton *button ) {
+    for( int i = 0; i < tabButtons.size(); i++ ) {
+        QPushButton *aux = tabButtons[i];
+        if( aux ) {
+            if( aux == button ) {
+                aux->setStyleSheet(
+                    "QPushButton { padding: 0 10px; border: 3px solid white; font: bold;"
+                        "color: rgba(0,0,0,0.87); border-bottom-color: #069; outline: 0; }"
+                );
+            } else {
+                aux->setStyleSheet(
+                    "QPushButton { padding: 0 10px; border: 3px solid white; font: bold;"
+                        "color: rgba(0,0,0,0.54); outline: 0; }"
+                    "QPushButton:hover { border-bottom-color: #069; }"
+                );
+            }
+        } else { } // throw ...
     }
 }
 
@@ -231,5 +239,7 @@ void ProfileWidget::openEditProfileDialog() {
 // SLOT ProfileWidget::updateProfileInfoSlot( QString, QString )
 void ProfileWidget::updateProfileInfoSlot( const QString& n, const QString& s ) {
     nameSurnameLabel->setText( "<h1>" + n + " " + s + "</h1>" );
-    emit updateProfileInfoSignal( n, s );
+
+    user->setName( n );
+    user->setSurname( s );
 }

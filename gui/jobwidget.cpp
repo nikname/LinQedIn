@@ -10,21 +10,22 @@ JobWidget::JobWidget( const SmartLavoro& sl, QWidget *parent ) :
     QWidget( parent ),
     job( sl )
 {
-    initUI( sl );
+    initUI();
     setupUI();
 }
 
 // METODO JobWidget::initUI
-void JobWidget::initUI( const SmartLavoro& sl ) {
+void JobWidget::initUI() {
     jobIconLabel = new QLabel( this );
 
-    companyNameLabel = new QLabel( sl->getCompanyName(), this );
-    titleLabel = new QLabel( sl->getTitle(), this );
-    periodLabel = new QLabel( sl->getBegin().toString( "yyyy/MM/dd" ) + " - " +
-                              sl->getEnd().toString( "yyyy/MM/dd" ), this );
+    companyNameLabel = new QLabel( job->getCompanyName(), this );
+    titleLabel = new QLabel( job->getTitle(), this );
+    periodLabel = new QLabel( job->getBegin().toString( "yyyy/MM/dd" ) + " - " +
+                              job->getEnd().toString( "yyyy/MM/dd" ), this );
 
     removeJobButton = new QPushButton( this );
     editJobButton = new QPushButton( this );
+    connect( editJobButton, SIGNAL( clicked() ), this, SLOT( openEditJobDialog() ) );
 }
 
 // METODO JobWidget::setupUI
@@ -34,9 +35,9 @@ void JobWidget::setupUI() {
 
     QWidget *jobInfoWidget = new QWidget( this );
 
-    companyNameLabel->setStyleSheet( "QLabel { color: rgba( 0, 0, 0, 0.87 ); font: bold; }" );
-    titleLabel->setStyleSheet( "QLabel { color: rgba( 0, 0, 0, 0.87 ); }" );
-    periodLabel->setStyleSheet( "QLabel { color: rgba( 0, 0, 0, 0.54 ); }" );
+    companyNameLabel->setStyleSheet( "QLabel { color: rgba(0,0,0,0.87); font: bold; }" );
+    titleLabel->setStyleSheet( "QLabel { color: rgba(0,0,0,0.87); }" );
+    periodLabel->setStyleSheet( "QLabel { color: rgba(0,0,0,0.54); }" );
 
     QWidget *moreInfoWidget = new QWidget( jobInfoWidget );
 
@@ -60,7 +61,6 @@ void JobWidget::setupUI() {
     setToolButtonProperties( removeJobButton );
     editJobButton->setIcon( QIcon( QPixmap( ":/icons/icon/pencil.png" ) ) );
     setToolButtonProperties( editJobButton );
-    connect( editJobButton, SIGNAL( clicked() ), this, SLOT( openEditJobDialog() ) );
 
     QVBoxLayout *toolLayout = new QVBoxLayout( toolWidget );
     toolLayout->addWidget( removeJobButton );
@@ -85,13 +85,13 @@ void JobWidget::setToolButtonProperties( QPushButton *button ) {
 // SLOT JobWidget::openEditJobDialog
 void JobWidget::openEditJobDialog() {
     EditJobDialog *editJobDialog = new EditJobDialog( this );
-    connect( editJobDialog, SIGNAL( updateJobInfoSignal( const QString&, const QString&, int, int ) ),
-             this, SLOT( updateJobInfoSlot( const QString&, const QString&, int, int ) ) );
+    connect( editJobDialog, SIGNAL( updateJobInfoSignal( QString, QString, int, int ) ),
+             this, SLOT( updateJobInfoSlot( QString, QString, int, int ) ) );
 
     editJobDialog->exec();
 }
 
-// SLOT JobWidget::updateJobInfoSlot( QString, QString, int, int )
+// SLOT JobWidget::updateJobInfoSlot
 void JobWidget::updateJobInfoSlot( const QString& cn, const QString& t, int b, int e ) {
     job->setCompanyName( cn );
     job->setTitle( t );
@@ -101,6 +101,4 @@ void JobWidget::updateJobInfoSlot( const QString& cn, const QString& t, int b, i
     companyNameLabel->setText( cn );
     titleLabel->setText( t );
     periodLabel->setText( QString::number( b ) + " - " + QString::number( e ) );
-
-    emit updateExperiencesSignal();
 }

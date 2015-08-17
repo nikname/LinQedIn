@@ -10,20 +10,21 @@ TitleWidget::TitleWidget( const SmartTitolo& st, QWidget *parent ) :
     QWidget( parent ),
     title( st )
 {
-    initUI( st );
+    initUI();
     setupUI();
 }
 
 // METODO TitleWidget::initUI
-void TitleWidget::initUI( const SmartTitolo& st ) {
+void TitleWidget::initUI() {
     titleIconLabel = new QLabel( this );
 
-    schoolLabel = new QLabel( st->getSchool() );
-    fieldOfStudyLabel = new QLabel( st->getFieldOfStudy() );
-    dateAttendedLabel = new QLabel( st->getDateAttended().toString( "yyyy/MM/dd" ) );
+    schoolLabel = new QLabel( title->getSchool() );
+    fieldOfStudyLabel = new QLabel( title->getFieldOfStudy() );
+    dateAttendedLabel = new QLabel( title->getDateAttended().toString( "yyyy/MM/dd" ) );
 
     removeTitleButton = new QPushButton( this );
     editTitleButton = new QPushButton( this );
+    connect( editTitleButton, SIGNAL( clicked() ), this, SLOT( openEditTitleDialog() ) );
 }
 
 // METODO TitleWidget::setupUI
@@ -33,9 +34,9 @@ void TitleWidget::setupUI() {
 
     QWidget *titleInfoWidget = new QWidget( this );
 
-    schoolLabel->setStyleSheet( "QLabel { color: rgba( 0, 0, 0, 0.87 ); font: bold; }" );
-    fieldOfStudyLabel->setStyleSheet( "QLabel { color: rgba( 0, 0, 0, 0.87 ); }" );
-    dateAttendedLabel->setStyleSheet( "QLabel { color: rgba( 0, 0, 0, 0.54 ); }" );
+    schoolLabel->setStyleSheet( "QLabel { color: rgba(0,0,0,0.87); font: bold; }" );
+    fieldOfStudyLabel->setStyleSheet( "QLabel { color: rgba(0,0,0,0.87); }" );
+    dateAttendedLabel->setStyleSheet( "QLabel { color: rgba(0,0,0,0.54); }" );
 
     QWidget *moreInfoWidget = new QWidget( titleInfoWidget );
 
@@ -59,7 +60,6 @@ void TitleWidget::setupUI() {
     setToolButtonProperties( removeTitleButton );
     editTitleButton->setIcon( QIcon( QPixmap( ":/icons/icon/pencil.png" ) ) );
     setToolButtonProperties( editTitleButton );
-    connect( editTitleButton, SIGNAL( clicked() ), this, SLOT( openEditTitleDialog() ) );
 
     QVBoxLayout *toolLayout = new QVBoxLayout( toolWidget );
     toolLayout->addWidget( removeTitleButton );
@@ -102,6 +102,4 @@ void TitleWidget::updateTitleInfoSlot( const QString& s, int d, int m, int y, co
                                 QString::number( m ) + "/" +
                                 QString::number( y ) );
     fieldOfStudyLabel->setText( fos );
-
-    emit updateEducationsSignal();
 }
