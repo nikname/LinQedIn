@@ -6,9 +6,6 @@
 #include <QPushButton>
 #include <QScrollArea>
 #include "clientwindow.h"
-#include "connectionswidget.h"
-#include "educationswidget.h"
-#include "experienceswidget.h"
 #include "linqedin_client.h"
 #include "mainwindow.h"
 #include "profilewidget.h"
@@ -47,20 +44,19 @@ void ClientWindow::initUI() {
     homeButton = new QPushButton( this );
     backButton = new QPushButton( this );
 
+    linqedinLabel = new QLabel( "<h2>LinQedIn</h2>", this );
+
+    sectionButtons = QVector<QPushButton *>();
     profileButton = new QPushButton( tr( "Profile" ), this );
-    connectionsButton = new QPushButton( tr( "Connections" ), this );
-    experiencesButton = new QPushButton( tr( "Experiences" ), this );
-    educationsButton = new QPushButton( tr( "Educations" ), this );
+    sectionButtons.append( profileButton );
 
     openSearchButton = new QPushButton( this );
+
     closeSearchButton = new QPushButton( this );
     searchText = new QLineEdit( this );
     searchButton = new QPushButton( this );
 
     profileWidget = new ProfileWidget( client->user, this );
-    connectionsWidget = new ConnectionsWidget( client->user, this );
-    experiencesWidget = new ExperiencesWidget( client->user, this );
-    educationsWidget = new EducationsWidget( client->user, this );
 }
 
 // METODO ClientWindow::setupUI
@@ -83,12 +79,6 @@ void ClientWindow::setupUI() {
 
     setMenuButtonProperties( profileButton );
     connect( profileButton, SIGNAL( clicked() ), this, SLOT( showProfile() ) );
-    setMenuButtonProperties( connectionsButton );
-    connect( connectionsButton, SIGNAL( clicked() ), this, SLOT( showConnections() ) );
-    setMenuButtonProperties( experiencesButton );
-    connect( experiencesButton, SIGNAL( clicked() ), this, SLOT( showExperiences() ) );
-    setMenuButtonProperties( educationsButton );
-    connect( educationsButton, SIGNAL( clicked() ), this, SLOT( showEducations() ) );
 
     setMenuButtonSelected( profileButton );
 
@@ -125,12 +115,11 @@ void ClientWindow::setupUI() {
 
     QHBoxLayout* menuLayout = new QHBoxLayout( menuWidget );
     menuLayout->addWidget( homeButton );
-    menuLayout->addWidget( backButton );;
+    menuLayout->addWidget( backButton );
+    menuLayout->addSpacing( 10 );
+    menuLayout->addWidget( linqedinLabel );
     menuLayout->addSpacing( 20 );
     menuLayout->addWidget( profileButton );
-    menuLayout->addWidget( connectionsButton );
-    menuLayout->addWidget( experiencesButton );
-    menuLayout->addWidget( educationsButton );
     menuLayout->addWidget( middleFiller );
     menuLayout->addWidget( openSearchButton );
     menuLayout->addWidget( searchWidget );
@@ -142,23 +131,12 @@ void ClientWindow::setupUI() {
 
     connect( profileWidget, SIGNAL( updateProfileInfoSignal( QString, QString ) ),
              this, SLOT( updateProfileInfoSlot( QString, QString ) ) );
-    connect( experiencesWidget, SIGNAL( updateExperiencesSignal() ),
-             this, SLOT( updateExperiencesSlot() ) );
-    connect( educationsWidget, SIGNAL( updateEducationsSignal() ),
-             this, SLOT( updateEducationsSlot() ) );
-
-    connectionsWidget->setVisible( false );
-    experiencesWidget->setVisible( false );
-    educationsWidget->setVisible( false );
 
     QWidget *contentFiller = new QWidget( contentWidget );
     contentFiller->setSizePolicy( QSizePolicy::Fixed, QSizePolicy::Expanding );
 
     QVBoxLayout *contentLayout = new QVBoxLayout( contentWidget );
     contentLayout->addWidget( profileWidget );
-    contentLayout->addWidget( connectionsWidget );
-    contentLayout->addWidget( experiencesWidget );
-    contentLayout->addWidget( educationsWidget );
     contentLayout->addWidget( contentFiller );
 
     scrollArea->setWidget( contentWidget );
@@ -183,7 +161,6 @@ void ClientWindow::setupUI() {
     );
 
     setCentralWidget( centralWidget );
-    setMinimumSize( 800, 600 );
     setWindowTitle( "LinQedIn Client" );
 }
 
@@ -216,24 +193,26 @@ void ClientWindow::setMenuButtonProperties( QPushButton *button ) {
     );
 }
 
-// METODO ClientWindow::setMenuButtonSelected( QPushButton* )
-void ClientWindow::setMenuButtonSelected( QPushButton *buttonSelected ) {
-    QPushButton* buttons[4] =
-        { profileButton, connectionsButton, educationsButton, experiencesButton };
-    for( int i = 0; i < 4; i++ ) {
-        if( buttonSelected != buttons[i] ) {
-            buttons[i]->setStyleSheet(
-                "QPushButton { padding: 0 10px; border: 3px solid #069; font: bold; outline: 0; }"
-                "QPushButton:hover { border-bottom-color: white; }"
-                "QPushButton:pressed { border-bottom-color: white; background: #3385AD; }"
-            );
-        } else {
-            buttonSelected->setStyleSheet(
-                "QPushButton { padding: 0 10px; border: 3px solid #069; font: bold; outline: 0;"
-                    "border-bottom-color: white; }"
-                "QPushButton:pressed { background: #3385AD; }"
-            );
-        }
+// METODO ClientWindow::setMenuButtonSelected
+void ClientWindow::setMenuButtonSelected( QPushButton *button ) {
+
+    for( int i = 0; i < sectionButtons.size(); i++ ) {
+        QPushButton *aux = sectionButtons[i];
+        if( aux ) {
+            if( aux == button ) {
+                aux->setStyleSheet(
+                    "QPushButton { padding: 0 10px; border: 3px solid #069; font: bold; outline: 0;"
+                        "border-bottom-color: white; }"
+                    "QPushButton:pressed { background: #3385AD; }"
+                );
+            } else {
+                aux->setStyleSheet(
+                    "QPushButton { padding: 0 10px; border: 3px solid #069; font: bold; outline: 0; }"
+                    "QPushButton:hover { border-bottom-color: white; }"
+                    "QPushButton:pressed { border-bottom-color: white; background: #3385AD; }"
+                );
+            }
+        } else { } // throw ...
     }
 }
 
@@ -280,36 +259,6 @@ void ClientWindow::closeSearchBox() {
 void ClientWindow::showProfile() {
     profileWidget->setVisible( true );
     setMenuButtonSelected( profileButton );
-    connectionsWidget->setVisible( false );
-    experiencesWidget->setVisible( false );
-    educationsWidget->setVisible( false );
-}
-
-// SLOT ClientWindow::showConnections()
-void ClientWindow::showConnections() {
-    profileWidget->setVisible( false );
-    connectionsWidget->setVisible( true );
-    setMenuButtonSelected( connectionsButton );
-    experiencesWidget->setVisible( false );
-    educationsWidget->setVisible( false );
-}
-
-// SLOT ClientWindow::showExperiences()
-void ClientWindow::showExperiences() {
-    profileWidget->setVisible( false );
-    connectionsWidget->setVisible( false );
-    experiencesWidget->setVisible( true );
-    setMenuButtonSelected( experiencesButton );
-    educationsWidget->setVisible( false );
-}
-
-// SLOT ClientWindow::showEducations()
-void ClientWindow::showEducations() {
-    profileWidget->setVisible( false );
-    connectionsWidget->setVisible( false );
-    experiencesWidget->setVisible( false );
-    educationsWidget->setVisible( true );
-    setMenuButtonSelected( educationsButton );
 }
 
 // SLOT ClientWindow::searchUsers
