@@ -2,13 +2,13 @@
 #define EDITTITLEDIALOG_H
 
 #include <QDialog>
-#include "editdialog.h"
+#include "linqedindialog.h"
 
 class QLabel;
 class QLineEdit;
 class QPushButton;
 
-class EditTitleDialog : public EditDialog {
+class EditTitleDialog : public LinQedInDialog {
     Q_OBJECT
 private:
     QLabel *titleLabel;

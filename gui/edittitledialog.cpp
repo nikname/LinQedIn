@@ -6,7 +6,7 @@
 
 // COSTRUTTORE EditTitleDialog
 EditTitleDialog::EditTitleDialog( QWidget *parent ) :
-    EditDialog( parent )
+    LinQedInDialog( parent )
 {
     initUI();
     setupUI();

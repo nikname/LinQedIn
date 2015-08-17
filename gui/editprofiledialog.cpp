@@ -9,7 +9,7 @@
 
 // COSTRUTTORE EditProfileDialog
 EditProfileDialog::EditProfileDialog( QWidget *parent ) :
-    EditDialog( parent )
+    LinQedInDialog( parent )
 {
     initUI();
     setupUI();

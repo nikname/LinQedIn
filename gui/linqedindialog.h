@@ -1,5 +1,5 @@
-#ifndef EDITDIALOG_H
-#define EDITDIALOG_H
+#ifndef LINQEDINDIALOG_H
+#define LINQEDINDIALOG_H
 
 #include <QDialog>
 
@@ -7,7 +7,7 @@ class QLabel;
 class QLineEdit;
 class QPushButton;
 
-class EditDialog : public QDialog {
+class LinQedInDialog : public QDialog {
     Q_OBJECT
 protected:
     QLabel *titleLabel;
@@ -48,10 +48,10 @@ public:
      *
      * @param QWidget  Puntatore al QWidget padre. Se nullo si riferisce a quello top-level.
      */
-    explicit EditDialog( QWidget *parent = 0 );
+    explicit LinQedInDialog( QWidget *parent = 0 );
 
     /** */
-    ~EditDialog() = 0;
+    ~LinQedInDialog() = 0;
 };
 
-#endif // EDITDIALOG_H
+#endif // LINQEDINDIALOG_H

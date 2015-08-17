@@ -6,7 +6,7 @@
 
 // COSTRUTTORE EditJobDialog
 EditJobDialog::EditJobDialog( QWidget *parent ) :
-    EditDialog( parent )
+    LinQedInDialog( parent )
 {
     initUI();
     setupUI();

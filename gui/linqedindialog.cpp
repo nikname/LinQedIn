@@ -3,18 +3,18 @@
 #include <QPainter>
 #include <QPushButton>
 #include <QStyleOption>
-#include "editdialog.h"
+#include "linqedindialog.h"
 
-// COSTRUTTORE EditDialog
-EditDialog::EditDialog( QWidget *parent ) :
+// COSTRUTTORE LinQedInDialog
+LinQedInDialog::LinQedInDialog( QWidget *parent ) :
     QDialog( parent )
 {}
 
-// DISTRUTTORE EditDialog
-EditDialog::~EditDialog() {}
+// DISTRUTTORE LinQedInDialog
+LinQedInDialog::~LinQedInDialog() {}
 
-// METODO EditDialog::setButtonEnabledProperties( QPushButton * )
-void EditDialog::setButtonEnabledProperties( QPushButton *button ) {
+// METODO LinQedInDialog::setButtonEnabledProperties( QPushButton * )
+void LinQedInDialog::setButtonEnabledProperties( QPushButton *button ) {
     button->setStyleSheet(
         "QPushButton { font: bold; border: 5px solid white; background: white; color: #069;"
                 "outline: none; }"
@@ -22,36 +22,36 @@ void EditDialog::setButtonEnabledProperties( QPushButton *button ) {
     );
 }
 
-// METODO EditDialog::setButtonDisabledProperties( QPushButton * )
-void EditDialog::setButtonDisabledProperties( QPushButton *button ) {
+// METODO LinQedInDialog::setButtonDisabledProperties( QPushButton * )
+void LinQedInDialog::setButtonDisabledProperties( QPushButton *button ) {
     button->setStyleSheet(
         "QPushButton { font: bold; border: 5px solid white; background: white;"
             "color: rgba(0,102,153,0.38); outline: none; }"
     );
 }
 
-// METODO EditDialog::setButtonDisabled( QPushButton *, bool )
-void EditDialog::setButtonDisabled( QPushButton *button, bool state ) {
+// METODO LinQedInDialog::setButtonDisabled( QPushButton *, bool )
+void LinQedInDialog::setButtonDisabled( QPushButton *button, bool state ) {
     button->setDisabled( state );
     setButtonDisabledProperties( button );
 }
 
-// METODO EditDialog::setButtonEnabled( QPushButton *, bool )
-void EditDialog::setButtonEnabled( QPushButton *button, bool state ) {
+// METODO LinQedInDialog::setButtonEnabled( QPushButton *, bool )
+void LinQedInDialog::setButtonEnabled( QPushButton *button, bool state ) {
     button->setEnabled( state );
     setButtonEnabledProperties( button );
 }
 
-// METODO EditDialog::setLineEditProperties( QLineEdit * )
-void EditDialog::setLineEditProperties( QLineEdit *lineEdit ) {
+// METODO LinQedInDialog::setLineEditProperties( QLineEdit * )
+void LinQedInDialog::setLineEditProperties( QLineEdit *lineEdit ) {
     lineEdit->setStyleSheet(
         "QLineEdit { border: 1px solid #069; border-top: none; border-right: none;"
             "border-left: none; color: rgba(0,0,0,0.87); }"
     );
 }
 
-// METODO EditDialog::paintEvent
-void EditDialog::paintEvent( QPaintEvent *) {
+// METODO LinQedInDialog::paintEvent
+void LinQedInDialog::paintEvent( QPaintEvent *) {
     QStyleOption opt;
     opt.init( this );
     QPainter p( this );
