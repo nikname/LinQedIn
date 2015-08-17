@@ -26,6 +26,7 @@
         <file>icon/home.png</file>
         <file>icon/account-remove-white.png</file>
         <file>icon/plus.png</file>
+        <file>icon/plus-black.png</file>
     </qresource>
     <qresource prefix="/"/>
 </RCC>

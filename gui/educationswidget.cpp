@@ -39,14 +39,14 @@ void EducationsWidget::setupUI() {
         layout->addWidget( line );
     }
 
-    addTitleButton->setIcon( QIcon( QPixmap( ":/icons/icon/plus.png" ) ) );
-    addTitleButton->setFixedSize( 50, 50 );
+    addTitleButton->setIcon( QIcon( QPixmap( ":/icons/icon/plus-black.png" ) ) );
+    addTitleButton->setFixedSize( 25, 25 );
     addTitleButton->setStyleSheet(
-        "QPushButton { background: #003D5C; border-radius: 25px; outline: none; }"
-        "QPushButton:pressed { background: #3385AD; outline: none; }"
+        "QPushButton { border-radius: 12px; outline: none; }"
+        "QPushButton:pressed { background: rgba(0,0,0,0.12); }"
     );
 
-    layout->addWidget( addTitleButton, 0, Qt::AlignRight );
+    layout->addWidget( addTitleButton, 0, Qt::AlignCenter );
 
     setStyleSheet( "background: white" );
 }

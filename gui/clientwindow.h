@@ -2,11 +2,9 @@
 #define CLIENTWINDOW_H
 
 #include <QMainWindow>
+#include <QString>
 #include "smartutente.h"
 
-class ConnectionsWidget;
-class EducationsWidget;
-class ExperiencesWidget;
 class LinQedInClient;
 class ProfileWidget;
 class QAction;
@@ -30,10 +28,11 @@ private:
     QPushButton *homeButton;
     QPushButton *backButton;
 
+    QLabel *linqedinLabel;
+
+    QVector<QPushButton *> sectionButtons;
     QPushButton *profileButton;
-    QPushButton *connectionsButton;
-    QPushButton *educationsButton;
-    QPushButton *experiencesButton;
+
     QPushButton *openSearchButton;
 
     QWidget *searchWidget;
@@ -42,9 +41,6 @@ private:
     QPushButton *searchButton;
 
     ProfileWidget *profileWidget;
-    ConnectionsWidget *connectionsWidget;
-    ExperiencesWidget *experiencesWidget;
-    EducationsWidget *educationsWidget;
 
     /** Inizializza la UI. */
     void initUI();
@@ -110,15 +106,6 @@ private slots:
 
     /** Mostra il profilo dell'utente. */
     void showProfile();
-
-    /** Mostra la rete dei contatti dell'utente. */
-    void showConnections();
-
-    /** Mostra le esperienze lavorative dell'utente. */
-    void showExperiences();
-
-    /** Mostra i titoli di studio dell'utente. */
-    void showEducations();
 
     /** Esegue la ricerca di utenti nel database. */
     void searchUsers();
