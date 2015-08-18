@@ -14,6 +14,7 @@ class ExperiencesWidget : public QWidget {
 private:
     QVector<SmartLavoro> jobsList;
 
+    QLayout *jobWidgetsLayout;
     QVector<JobWidget*> jobWidgetsList;
     QPushButton *addJobButton;
 
@@ -28,6 +29,19 @@ private:
      * @param QPaintEvent
      */
     void paintEvent( QPaintEvent * );
+
+    /** Aggiunge e mostra un JobWidget al layout degli altri widget.
+     *
+     * @param JobWidget  Widget da aggiungere
+     */
+    void addJobWidget( JobWidget * );
+
+    /** Inserisce e mostra un JobWidget al layout degli altri widget in una determinata posizione.
+     *
+     * @param int  Posizione nella quale aggiungere il widget
+     * @param JobWidget  Widget da aggiungere
+     */
+    void insertJobWidget( int, JobWidget * );
 public:
     /** */
     explicit ExperiencesWidget( const SmartUtente&, QWidget *parent = 0 );

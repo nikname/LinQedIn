@@ -29,15 +29,9 @@ void ExperiencesWidget::initUI() {
 
 // METODO ExperiencesWidget::setupUI
 void ExperiencesWidget::setupUI() {
-    QVBoxLayout *layout = new QVBoxLayout( this );
-    for( int i = jobWidgetsList.size() - 1; i >= 0; i-- ) {
-        layout->addWidget( jobWidgetsList[i] );
-
-        QFrame *line = new QFrame( this );
-        line->setFrameShape( QFrame::HLine );
-        line->setStyleSheet( "color: rgba(0,0,0,0.12)" );
-        layout->addWidget( line );
-    }
+    jobWidgetsLayout = new QVBoxLayout( this );
+    for( int i = jobWidgetsList.size() - 1; i >= 0; i-- )
+        addJobWidget( jobWidgetsList[i] );
 
     addJobButton->setIcon( QIcon( QPixmap( ":/icons/icon/plus-black.png" ) ) );
     addJobButton->setFixedSize( 24, 24 );
@@ -47,7 +41,7 @@ void ExperiencesWidget::setupUI() {
     );
     connect( addJobButton, SIGNAL( clicked() ), this, SLOT( openAddJobDialog() ) );
 
-    layout->addWidget( addJobButton, 0, Qt::AlignCenter );
+    dynamic_cast<QVBoxLayout *>( jobWidgetsLayout )->addWidget( addJobButton, 0, Qt::AlignCenter );
 
     setStyleSheet( "background: white" );
 }
@@ -58,6 +52,26 @@ void ExperiencesWidget::paintEvent( QPaintEvent *) {
     opt.init( this );
     QPainter p( this );
     style()->drawPrimitive( QStyle::PE_Widget, &opt, &p, this );
+}
+
+// METODO ExperiencesWidget::addJobWidget
+void ExperiencesWidget::addJobWidget( JobWidget *widget ) {
+    jobWidgetsLayout->addWidget( widget );
+
+    QFrame *line = new QFrame( this );
+    line->setFrameShape( QFrame::HLine );
+    line->setStyleSheet( "color: rgba(0,0,0,0.12)" );
+    jobWidgetsLayout->addWidget( line );
+}
+
+// METODO ExperiencesWidget::insertJobWidget
+void ExperiencesWidget::insertJobWidget( int pos, JobWidget *widget ) {
+    dynamic_cast<QVBoxLayout *>( jobWidgetsLayout )->insertWidget( pos, widget );
+
+    QFrame *line = new QFrame( this );
+    line->setFrameShape( QFrame::HLine );
+    line->setStyleSheet( "color: rgba(0,0,0,0.12)" );
+    dynamic_cast<QVBoxLayout *>( jobWidgetsLayout )->insertWidget( pos + 1, line );
 }
 
 // SLOT ExperiencesWidget::openAddJobDialog
@@ -75,6 +89,7 @@ void ExperiencesWidget::addNewJobSlot( const QString& cn, const QString& t, int 
 
     jobsList.append( aux );
     jobWidgetsList.append( new JobWidget( aux, this ) );
+    insertJobWidget( 0, jobWidgetsList.last() );
 
     emit jobToAddSignal( aux );
 }
