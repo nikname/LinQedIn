@@ -10,6 +10,7 @@
 #include "utente_business.h"
 #include "rete.h"
 #include "lavoro.h"
+#include "titolo.h"
 
 // CLASSE Database::Database_rapp
 class Database::Database_rapp {
@@ -120,7 +121,7 @@ void Database::parseEducation( QXmlStreamReader& xmlReader, SmartUtente u ) {
             t->setGrade( xmlReader.readElementText() );
         xmlReader.readNext();
     }
-    u->addEducation( t );
+    u->addEducation( SmartTitolo( t ) );
 }
 
 // METODO Database::parseExperience
@@ -243,7 +244,6 @@ void Database::loadUsersList() {
         }
     }
 
-
     file.close();
     if( !file.open( QIODevice::ReadWrite | QIODevice::Text ) ) {
         qDebug() << "Cannot read file: " << file.errorString();
@@ -322,7 +322,7 @@ void Database::saveUsersList() const {
         Formazione::Iteratore educations_it( u->getEducationsIterator() );
         while( educations_it.hasNext() ) {
             // <title>
-            Titolo* t = educations_it.next();
+            SmartTitolo t = educations_it.next();
             xmlWriter.writeStartElement( "title" );
             xmlWriter.writeTextElement( "school", t->getSchool());
 

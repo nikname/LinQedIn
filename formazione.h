@@ -3,7 +3,7 @@
 #include <QDebug>
 #include <QString>
 #include <QDate>
-#include "titolo.h"
+#include "smarttitolo.h"
 
 class Formazione {
 
@@ -45,9 +45,9 @@ public:
 
         /** Ritorna l'elemento puntato ed avanza l'Iteratore.
          *
-         * @return Titolo*  Titolo di studio puntato dall'Iteratore.
+         * @return SmartTitolo  Titolo di studio puntato dall'Iteratore.
          */
-        Titolo* next();
+        SmartTitolo next();
     };
 
     friend class Iteratore::Iteratore_rapp; // Necessaria per avanzare sulla lista.
@@ -60,15 +60,15 @@ public:
 
     /** Aggiunge un titolo di studio all'elenco dei titoli di studio.
      *
-     * @param Titolo*  Titolo di studio da aggiungere.
+     * @param SmartTitolo  Titolo di studio da aggiungere.
      */
-    void addEducation( Titolo* );
+    void addEducation( SmartTitolo );
 
     /** Rimuove un titolo di studio dall'elenco dei titoli di studio.
      *
-     * @param Titolo*  Titolo di studio da rimuovere.
+     * @param SmartTitolo  Titolo di studio da rimuovere.
      */
-    void removeEducation( Titolo* );
+    void removeEducation( SmartTitolo );
 
     /** Ritorna un vettore di puntatori ai titoli di studio dell'utente.
      *

@@ -6,13 +6,13 @@
 // CLASSE Formazione_rapp
 class Formazione::Formazione_rapp {
 public:
-    QList<Titolo*> titlesList; // Puntatore per permetterne la modifica
+    QList<SmartTitolo> titlesList; // Puntatore per permetterne la modifica
 
     /** Costruttore di default rifefinito.
-     *  Inizializza il campo titlesList con una QList di Titolo* vuota.
+     *  Inizializza il campo titlesList con una QList di SmartTitolo vuota.
      */
     Formazione_rapp() :
-        titlesList( QList<Titolo*>() ) {}
+        titlesList( QList<SmartTitolo>() ) {}
 
     /** Distruttore Formazione_rapp.
      *  Invoca il metodo clear() sulla lista dei titoli di studio dell'utente.
@@ -31,14 +31,14 @@ public:
 // CLASSE Iteratore_rapp
 class Formazione::Iteratore::Iteratore_rapp {
 public:
-    QListIterator<Titolo*> it;
+    QListIterator<SmartTitolo> it;
 
     /** Costruttore ad 1 paramtro.
      *  Costruttore di default non disponibile.
      *
-     * @param QList<Titolo*>  Lista di Titolo* sulla quale iterare.
+     * @param QList<SmartTitolo>  Lista di SmartTitolo sulla quale iterare.
      */
-    Iteratore_rapp( QList<Titolo*> list ) : it( list ) {}
+    Iteratore_rapp( QList<SmartTitolo> list ) : it( list ) {}
 };
 
 // METODO hasNext Iteratore
@@ -49,7 +49,7 @@ bool Formazione::Iteratore::hasNext() const {
 }
 
 // METODO next Iteratore
-Titolo* Formazione::Iteratore::next() {
+SmartTitolo Formazione::Iteratore::next() {
     return iterator->it.next();
 }
 
@@ -66,19 +66,19 @@ Formazione::Formazione() :
     user_ref( 1 ) {}
 
 // METODO addEducation Formazione
-void Formazione::addEducation( Titolo* t ) {
+void Formazione::addEducation( SmartTitolo t ) {
     titles->titlesList.append( t );
 }
 
 // METODO removeEducation Formazione
-void Formazione::removeEducation( Titolo* t ) {
+void Formazione::removeEducation( SmartTitolo t ) {
     titles->titlesList.removeOne( t );
 }
 
 // METODO getTitlesList Formazione
 QVector<SmartTitolo> Formazione::getEducationsList() const {
     QVector<SmartTitolo> v;
-    QListIterator<Titolo*> it( titles->titlesList ); // QMutableListIterator ?
+    QListIterator<SmartTitolo> it( titles->titlesList ); // QMutableListIterator ?
     while( it.hasNext() )
         v.push_back( SmartTitolo( it.next() ) );
     return v;

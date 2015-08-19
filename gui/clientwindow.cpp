@@ -9,6 +9,7 @@
 #include "linqedin_client.h"
 #include "mainwindow.h"
 #include "profilewidget.h"
+#include "utente.h"
 
 // COSTRUTTORE ClientWindow
 ClientWindow::ClientWindow( QString username, QWidget *parent ) :

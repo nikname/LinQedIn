@@ -148,16 +148,16 @@ public:
     /** Aggiunge un titolo di studio all'elenco dei titoli di studio.
      *  Invoca il metodo addEducation() del campo dati educations dell'utente.
      *
-     * @param Titolo*  Titolo di studio da aggiungere.
+     * @param SmartTitolo  Titolo di studio da aggiungere.
      */
-    void addEducation( Titolo* );
+    void addEducation( SmartTitolo );
 
     /** Rimuove un titolo di studio dall'elenco dei titoli di studio.
      *  Invoca il metodo removeEducation() del campo dati educations dell'utente.
      *
-     * @param Titolo*  Titolo di studio da rimuovere.
+     * @param SmartTitolo  Titolo di studio da rimuovere.
      */
-    void removeEducation( Titolo* );
+    void removeEducation( SmartTitolo );
 
     /** Ritorna un vettore di puntatori ai titoli di studio dell'utente.
      *  Invoca il metodo getEducationsList() del campo dati educations dell'utente.

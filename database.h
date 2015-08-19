@@ -2,7 +2,7 @@
 #define DATABASE_H
 #include <QDebug>
 #include <QXmlStreamReader>
-#include "utente.h"
+#include "smartutente.h"
 
 class LinQedInAdmin;
 

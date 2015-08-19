@@ -105,12 +105,12 @@ QVector<SmartUtente> Utente::getContactsList() const {
 }
 
 // METODO addEducation Utente
-void Utente::addEducation( Titolo* t ) {
+void Utente::addEducation( SmartTitolo t ) {
     educations->addEducation( t );
 }
 
 // METODO removeEducation Utente
-void Utente::removeEducation( Titolo* t ) {
+void Utente::removeEducation( SmartTitolo t ) {
     educations->removeEducation( t );
 }
 

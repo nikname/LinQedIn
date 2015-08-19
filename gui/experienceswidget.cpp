@@ -14,7 +14,6 @@ ExperiencesWidget::ExperiencesWidget( const SmartUtente& su, QWidget *parent ) :
     QWidget( parent ),
     jobsList( su->getExperiencesList() )
 {
-
     initUI();
     setupUI();
 }
@@ -25,6 +24,7 @@ void ExperiencesWidget::initUI() {
         jobWidgetsList.append( new JobWidget( jobsList[i], this ) );
 
     addJobButton = new QPushButton( this );
+    connect( addJobButton, SIGNAL( clicked() ), this, SLOT( openAddJobDialog() ) );
 }
 
 // METODO ExperiencesWidget::setupUI
@@ -39,7 +39,6 @@ void ExperiencesWidget::setupUI() {
         "QPushButton { border-radius: 12px; outline: none; }"
         "QPushButton:pressed { background: rgba(0,0,0,0.12); }"
     );
-    connect( addJobButton, SIGNAL( clicked() ), this, SLOT( openAddJobDialog() ) );
 
     dynamic_cast<QVBoxLayout *>( jobWidgetsLayout )->addWidget( addJobButton, 0, Qt::AlignCenter );
 

@@ -1,5 +1,6 @@
 #include "tablemodel.h"
 #include "linqedin_admin.h" // se omesso: invalid use of incomplete type 'class Utente'
+#include "utente.h"
 
 #include <QSortFilterProxyModel>
 

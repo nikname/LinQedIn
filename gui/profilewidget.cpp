@@ -10,6 +10,7 @@
 #include "smarttitolo.h"
 #include "utente.h"
 #include "lavoro.h"
+#include "titolo.h"
 
 // COSTRUTTORE ProfileWidget
 ProfileWidget::ProfileWidget( const SmartUtente& su, QWidget *parent ) :
@@ -74,6 +75,8 @@ void ProfileWidget::initUI() {
 
     educationsLabel = new QLabel( tr( "Educations" ), backgroundTab );
     educationsWidget = new EducationsWidget( user, backgroundTab );
+    connect( educationsWidget, SIGNAL( titleToAddSignal( SmartTitolo ) ),
+             this, SLOT( titleToAddSlot( SmartTitolo ) ) );
 
     connectionsTab = new ConnectionsWidget( user, this );
 
@@ -250,4 +253,9 @@ void ProfileWidget::updateProfileInfoSlot( const QString& n, const QString& s ) 
 // SLOT ProfileWidget::jobToAddSlot
 void ProfileWidget::jobToAddSlot( const SmartLavoro& sl ) {
     user->addExperience( sl );
+}
+
+// SLOT ProfileWidget::titleToAddSlot
+void ProfileWidget::titleToAddSlot( const SmartTitolo& st ) {
+    user->addEducation( st );
 }

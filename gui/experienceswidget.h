@@ -6,8 +6,8 @@
 #include "smartutente.h"
 
 class JobWidget;
-class QPushButton;
 class QLabel;
+class QPushButton;
 
 class ExperiencesWidget : public QWidget {
     Q_OBJECT
@@ -51,6 +51,7 @@ signals:
 public slots:
     /** */
     void openAddJobDialog();
+
     /** */
     void addNewJobSlot( const QString&, const QString&, int, int );
 };

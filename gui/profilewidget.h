@@ -4,6 +4,7 @@
 #include <QWidget>
 #include "smartutente.h"
 #include "smartlavoro.h"
+#include "smarttitolo.h"
 
 class ConnectionsWidget;
 class EducationsWidget;
@@ -87,6 +88,9 @@ private slots:
 
     /** */
     void jobToAddSlot( const SmartLavoro& );
+
+    /** */
+    void titleToAddSlot( const SmartTitolo& );
 };
 
 #endif // PROFILEWIDGET_H

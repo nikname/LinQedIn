@@ -11,6 +11,7 @@
 #include "gui/userlistwidget.h"
 #include "linqedin_admin.h"
 #include "smartutente.h"
+#include "utente.h"
 
 // COSTRUTTORE AdminWindow
 AdminWindow::AdminWindow( QWidget *parent ) :
