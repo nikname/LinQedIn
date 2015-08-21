@@ -253,9 +253,13 @@ void ProfileWidget::updateProfileInfoSlot( const QString& n, const QString& s ) 
 // SLOT ProfileWidget::jobToAddSlot
 void ProfileWidget::jobToAddSlot( const SmartLavoro& sl ) {
     user->addExperience( sl );
+
+    lastExperienceLabel->setText( sl->getTitle() + " at " + sl->getCompanyName() );
 }
 
 // SLOT ProfileWidget::titleToAddSlot
 void ProfileWidget::titleToAddSlot( const SmartTitolo& st ) {
     user->addEducation( st );
+
+    lastEducationLabel->setText( st->getFieldOfStudy() + " at " + st->getSchool() );
 }
