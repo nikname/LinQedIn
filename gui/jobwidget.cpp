@@ -1,6 +1,8 @@
 #include <QBoxLayout>
 #include <QLabel>
+#include <QPainter>
 #include <QPushButton>
+#include <QStyleOption>
 #include "editjobdialog.h"
 #include "jobwidget.h"
 #include "lavoro.h"
@@ -24,6 +26,7 @@ void JobWidget::initUI() {
                               job->getEnd().toString( "yyyy/MM/dd" ), this );
 
     removeJobButton = new QPushButton( this );
+    connect( removeJobButton, SIGNAL( clicked() ), this, SLOT( removeJob() ) );
     editJobButton = new QPushButton( this );
     connect( editJobButton, SIGNAL( clicked() ), this, SLOT( openEditJobDialog() ) );
 }
@@ -71,6 +74,17 @@ void JobWidget::setupUI() {
     layout->addWidget( jobIconLabel );
     layout->addWidget( jobInfoWidget );
     layout->addWidget( toolWidget );
+
+    setStyleSheet( "JobWidget { border: 1px solid rgba(0,0,0,0.12);"
+                   "border-top: none; border-left: none; border-right: none; }" );
+}
+
+// METODO JobWidget::paintEvent
+void JobWidget::paintEvent( QPaintEvent *) {
+    QStyleOption opt;
+    opt.init( this );
+    QPainter p( this );
+    style()->drawPrimitive( QStyle::PE_Widget, &opt, &p, this );
 }
 
 // METODO JobWidget::setToolButtonProperties
@@ -80,6 +94,16 @@ void JobWidget::setToolButtonProperties( QPushButton *button ) {
         "QPushButton { border-radius: 12px; outline: 0; }"
         "QPushButton:pressed { background: rgba(0,0,0,0.12); }"
     );
+}
+
+// METODO JobWidget::getJob
+SmartLavoro JobWidget::getJob() {
+    return job;
+}
+
+// OPERATORE == JobWidget
+bool JobWidget::operator ==( const JobWidget& jw ) {
+    return job == jw.job;
 }
 
 // SLOT JobWidget::openEditJobDialog
@@ -101,4 +125,9 @@ void JobWidget::updateJobInfoSlot( const QString& cn, const QString& t, int b, i
     companyNameLabel->setText( cn );
     titleLabel->setText( t );
     periodLabel->setText( QString::number( b ) + " - " + QString::number( e ) );
+}
+
+// SLOT JobWidget::removeJob
+void JobWidget::removeJob() {
+    emit removeJobSignal( job );
 }

@@ -15,7 +15,7 @@ private:
     QVector<SmartLavoro> jobsList;
 
     QLayout *jobWidgetsLayout;
-    QVector<JobWidget*> jobWidgetsList;
+    QVector<JobWidget *> jobWidgetsList;
     QPushButton *addJobButton;
 
     /** Inizializza la UI. */
@@ -48,12 +48,18 @@ public:
 signals:
     /** */
     void jobToAddSignal( const SmartLavoro& );
+
+    /** */
+    void jobToRemoveSignal( const SmartLavoro& );
 public slots:
     /** */
     void openAddJobDialog();
 
     /** */
     void addNewJobSlot( const QString&, const QString&, int, int );
+
+    /** */
+    void removeJobSlot( const SmartLavoro& );
 };
 
 #endif // EXPERIENCESWIDGET_H

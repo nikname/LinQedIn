@@ -72,6 +72,8 @@ void ProfileWidget::initUI() {
     experiencesWidget = new ExperiencesWidget( user, backgroundTab );
     connect( experiencesWidget, SIGNAL( jobToAddSignal( SmartLavoro ) ),
              this, SLOT( jobToAddSlot( SmartLavoro ) ) );
+    connect( experiencesWidget, SIGNAL( jobToRemoveSignal( SmartLavoro ) ),
+             this, SLOT( jobToRemoveSlot( SmartLavoro ) ) );
 
     educationsLabel = new QLabel( tr( "Educations" ), backgroundTab );
     educationsWidget = new EducationsWidget( user, backgroundTab );
@@ -255,6 +257,19 @@ void ProfileWidget::jobToAddSlot( const SmartLavoro& sl ) {
     user->addExperience( sl );
 
     lastExperienceLabel->setText( sl->getTitle() + " at " + sl->getCompanyName() );
+}
+
+// SLOT ProfileWidget::jobToRemove
+void ProfileWidget::jobToRemoveSlot( const SmartLavoro& sl ) {
+    user->removeExperience( sl );
+
+    QVector<SmartLavoro> experiencesList = user->getExperiencesList();
+    if( experiencesList.size() == 0 ) {
+        lastExperienceLabel->setText( "--" );
+    } else {
+        SmartLavoro aux = experiencesList.last();
+        lastExperienceLabel->setText( aux->getTitle() + " at " + aux->getCompanyName() );
+    }
 }
 
 // SLOT ProfileWidget::titleToAddSlot

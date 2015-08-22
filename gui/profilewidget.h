@@ -90,6 +90,9 @@ private slots:
     void jobToAddSlot( const SmartLavoro& );
 
     /** */
+    void jobToRemoveSlot( const SmartLavoro& );
+
+    /** */
     void titleToAddSlot( const SmartTitolo& );
 };
 

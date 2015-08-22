@@ -27,6 +27,12 @@ private:
     /** Realizza la UI. Mostra la GUI. */
     void setupUI();
 
+    /** Reimplementazione.
+     *
+     * @param QPaintEvent
+     */
+    void paintEvent( QPaintEvent * );
+
     /** Applica delle proprietà ai pulsanti degli strumenti della preview.
      *
      * @param QPushButton  Pulsante al quale applicare le proprietà.
@@ -35,14 +41,24 @@ private:
 public:
     /** */
     explicit JobWidget( const SmartLavoro&, QWidget *parent = 0 );
-signals:
 
+    /** */
+    SmartLavoro getJob();
+
+    /** */
+    bool operator ==( const JobWidget& );
+signals:
+    /** */
+    void removeJobSignal( const SmartLavoro& );
 public slots:
     /** */
     void openEditJobDialog();
 
     /** */
     void updateJobInfoSlot( const QString&, const QString&, int, int );
+
+    /** */
+    void removeJob();
 };
 
 #endif // JOBWIDGET_H

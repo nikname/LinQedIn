@@ -1,3 +1,4 @@
+#include <iterator>
 #include <QLabel>
 #include <QPainter>
 #include <QPushButton>
@@ -30,6 +31,7 @@ void ExperiencesWidget::initUI() {
 // METODO ExperiencesWidget::setupUI
 void ExperiencesWidget::setupUI() {
     jobWidgetsLayout = new QVBoxLayout( this );
+    jobWidgetsLayout->setSpacing( 0 );
     for( int i = jobWidgetsList.size() - 1; i >= 0; i-- )
         addJobWidget( jobWidgetsList[i] );
 
@@ -40,6 +42,7 @@ void ExperiencesWidget::setupUI() {
         "QPushButton:pressed { background: rgba(0,0,0,0.12); }"
     );
 
+    jobWidgetsLayout->setSpacing( 10 );
     dynamic_cast<QVBoxLayout *>( jobWidgetsLayout )->addWidget( addJobButton, 0, Qt::AlignCenter );
 
     setStyleSheet( "background: white" );
@@ -56,21 +59,15 @@ void ExperiencesWidget::paintEvent( QPaintEvent *) {
 // METODO ExperiencesWidget::addJobWidget
 void ExperiencesWidget::addJobWidget( JobWidget *widget ) {
     jobWidgetsLayout->addWidget( widget );
-
-    QFrame *line = new QFrame( this );
-    line->setFrameShape( QFrame::HLine );
-    line->setStyleSheet( "color: rgba(0,0,0,0.12)" );
-    jobWidgetsLayout->addWidget( line );
+    connect( widget, SIGNAL( removeJobSignal( SmartLavoro ) ),
+             this, SLOT( removeJobSlot( SmartLavoro ) ) );
 }
 
 // METODO ExperiencesWidget::insertJobWidget
 void ExperiencesWidget::insertJobWidget( int pos, JobWidget *widget ) {
     dynamic_cast<QVBoxLayout *>( jobWidgetsLayout )->insertWidget( pos, widget );
-
-    QFrame *line = new QFrame( this );
-    line->setFrameShape( QFrame::HLine );
-    line->setStyleSheet( "color: rgba(0,0,0,0.12)" );
-    dynamic_cast<QVBoxLayout *>( jobWidgetsLayout )->insertWidget( pos + 1, line );
+    connect( widget, SIGNAL( removeJobSignal( SmartLavoro ) ),
+             this, SLOT( removeJobSlot( SmartLavoro ) ) );
 }
 
 // SLOT ExperiencesWidget::openAddJobDialog
@@ -91,4 +88,23 @@ void ExperiencesWidget::addNewJobSlot( const QString& cn, const QString& t, int 
     insertJobWidget( 0, jobWidgetsList.last() );
 
     emit jobToAddSignal( aux );
+}
+
+// SLOT ExperiencesWidget::removeJobSlot
+void ExperiencesWidget::removeJobSlot( const SmartLavoro& sl ) {
+    int pos = jobsList.indexOf( sl );
+    if( pos > -1 )
+        jobsList.remove( pos );
+
+    for( int i = 0; i < jobWidgetsList.size(); i++ ) {
+        if( jobWidgetsList[i]->getJob() == sl ) {
+            QVBoxLayout *layout = dynamic_cast<QVBoxLayout *>( jobWidgetsLayout );
+            layout->removeWidget( jobWidgetsList[i] );
+
+            JobWidget *aux = jobWidgetsList.takeAt( i );
+            delete aux;
+        }
+    }
+
+    emit jobToRemoveSignal( sl );
 }
