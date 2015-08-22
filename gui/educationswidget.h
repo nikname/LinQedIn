@@ -15,7 +15,7 @@ private:
     QVector<SmartTitolo> titlesList;
 
     QLayout *titleWidgetsLayout;
-    QVector<TitleWidget*> titleWidgetsList;
+    QVector<TitleWidget *> titleWidgetsList;
     QPushButton *addTitleButton;
 
     /** Inizializza la UI. */
@@ -48,12 +48,18 @@ public:
 signals:
     /** */
     void titleToAddSignal( const SmartTitolo& );
+
+    /** */
+    void titleToRemoveSignal( const SmartTitolo& );
 public slots:
     /** */
     void openAddTitleDialog();
 
     /** */
     void addNewTitleSlot( const QString&, int, int, int, const QString& );
+
+    /** */
+    void removeTitleSlot( const SmartTitolo& );
 };
 
 #endif // EDUCATIONSWIDGET_H

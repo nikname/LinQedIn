@@ -44,9 +44,6 @@ public:
 
     /** */
     SmartLavoro getJob();
-
-    /** */
-    bool operator ==( const JobWidget& );
 signals:
     /** */
     void removeJobSignal( const SmartLavoro& );

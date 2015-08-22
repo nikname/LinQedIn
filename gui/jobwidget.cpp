@@ -101,11 +101,6 @@ SmartLavoro JobWidget::getJob() {
     return job;
 }
 
-// OPERATORE == JobWidget
-bool JobWidget::operator ==( const JobWidget& jw ) {
-    return job == jw.job;
-}
-
 // SLOT JobWidget::openEditJobDialog
 void JobWidget::openEditJobDialog() {
     EditJobDialog *editJobDialog = new EditJobDialog( this );

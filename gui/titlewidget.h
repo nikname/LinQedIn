@@ -27,6 +27,12 @@ private:
     /** Realizza la UI. Mostra la GUI. */
     void setupUI();
 
+    /** Reimplementazione.
+     *
+     * @param QPaintEvent
+     */
+    void paintEvent( QPaintEvent * );
+
     /** Applica delle proprietà ai pulsanti degli strumenti della preview.
      *
      * @param QPushButton  Pulsante al quale applicare le proprietà.
@@ -35,15 +41,21 @@ private:
 public:
     /** */
     explicit TitleWidget( const SmartTitolo&, QWidget *parent = 0 );
+
+    /** */
+    SmartTitolo getTitle();
 signals:
     /** */
-    void updateEducationsSignal();
+    void removeTitleSignal( const SmartTitolo& );
 public slots:
     /** */
     void openEditTitleDialog();
 
     /** */
     void updateTitleInfoSlot( const QString&, int, int, int, const QString& );
+
+    /** */
+    void removeTitle();
 };
 
 #endif // TITLEWIDGET_H

@@ -30,6 +30,7 @@ void EducationsWidget::initUI() {
 // METODO EducationsWidget::setupUI
 void EducationsWidget::setupUI() {
     titleWidgetsLayout = new QVBoxLayout( this );
+    titleWidgetsLayout->setSpacing( 0 ); /* *** */
     for( int i = titleWidgetsList.size() - 1; i >= 0; i-- )
         addTitleWidget( titleWidgetsList[i] );
 
@@ -40,6 +41,7 @@ void EducationsWidget::setupUI() {
         "QPushButton:pressed { background: rgba(0,0,0,0.12); }"
     );
 
+    dynamic_cast<QVBoxLayout *>( titleWidgetsLayout )->addSpacing( 10 );
     dynamic_cast<QVBoxLayout *>( titleWidgetsLayout )->addWidget( addTitleButton, 0, Qt::AlignCenter );
 
     setStyleSheet( "background: white" );
@@ -56,21 +58,15 @@ void EducationsWidget::paintEvent( QPaintEvent *) {
 // METODO EducationsWidget::addTitleWidget
 void EducationsWidget::addTitleWidget( TitleWidget *widget ) {
     titleWidgetsLayout->addWidget( widget );
-
-    QFrame *line = new QFrame( this );
-    line->setFrameShape( QFrame::HLine );
-    line->setStyleSheet( "color: rgba(0,0,0,0.12)" );
-    titleWidgetsLayout->addWidget( line );
+    connect( widget, SIGNAL( removeTitleSignal( SmartTitolo ) ),
+             this, SLOT( removeTitleSlot( SmartTitolo ) ) );
 }
 
 // METODO EducationsWidget::insertTitleWidget
 void EducationsWidget::insertTitleWidget( int pos, TitleWidget *widget ) {
     dynamic_cast<QVBoxLayout *>( titleWidgetsLayout )->insertWidget( pos, widget );
-
-    QFrame *line = new QFrame( this );
-    line->setFrameShape( QFrame::HLine );
-    line->setStyleSheet( "color: rgba(0,0,0,0.12)" );
-    dynamic_cast<QVBoxLayout *>( titleWidgetsLayout )->insertWidget( pos + 1, line );
+    connect( widget, SIGNAL( removeTitleSignal( SmartTitolo ) ),
+             this, SLOT( removeTitleSlot( SmartTitolo ) ) );
 }
 
 // SLOT EducationsWidget::openAddTitleDialog
@@ -93,3 +89,21 @@ void EducationsWidget::addNewTitleSlot( const QString& s, int d, int m, int y, c
     emit titleToAddSignal( aux );
 }
 
+// SLOT EducationsWidget::removeTitleSlot
+void EducationsWidget::removeTitleSlot( const SmartTitolo& st ) {
+    int pos = titlesList.indexOf( st );
+    if( pos > -1 )
+        titlesList.remove( pos );
+
+    for( int i = 0; i < titleWidgetsList.size(); i++ ) {
+        if( titleWidgetsList[i]->getTitle() == st ) {
+            QVBoxLayout *layout = dynamic_cast<QVBoxLayout *>( titleWidgetsLayout );
+            layout->removeWidget( titleWidgetsList[i] );
+
+            TitleWidget *aux = titleWidgetsList.takeAt( i );
+            delete aux;
+        }
+    }
+
+    emit titleToRemoveSignal( st );
+}

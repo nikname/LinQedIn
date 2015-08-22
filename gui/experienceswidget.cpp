@@ -1,4 +1,3 @@
-#include <iterator>
 #include <QLabel>
 #include <QPainter>
 #include <QPushButton>
@@ -42,7 +41,7 @@ void ExperiencesWidget::setupUI() {
         "QPushButton:pressed { background: rgba(0,0,0,0.12); }"
     );
 
-    jobWidgetsLayout->setSpacing( 10 );
+    dynamic_cast<QVBoxLayout *>( jobWidgetsLayout )->addSpacing( 10 );
     dynamic_cast<QVBoxLayout *>( jobWidgetsLayout )->addWidget( addJobButton, 0, Qt::AlignCenter );
 
     setStyleSheet( "background: white" );

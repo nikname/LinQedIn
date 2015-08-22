@@ -79,6 +79,8 @@ void ProfileWidget::initUI() {
     educationsWidget = new EducationsWidget( user, backgroundTab );
     connect( educationsWidget, SIGNAL( titleToAddSignal( SmartTitolo ) ),
              this, SLOT( titleToAddSlot( SmartTitolo ) ) );
+    connect( educationsWidget, SIGNAL( titleToRemoveSignal( SmartTitolo ) ),
+             this, SLOT( titleToRemoveSlot( SmartTitolo ) ) );
 
     connectionsTab = new ConnectionsWidget( user, this );
 
@@ -277,4 +279,17 @@ void ProfileWidget::titleToAddSlot( const SmartTitolo& st ) {
     user->addEducation( st );
 
     lastEducationLabel->setText( st->getFieldOfStudy() + " at " + st->getSchool() );
+}
+
+// SLOT ProfileWidget::titleToRemoveSlot
+void ProfileWidget::titleToRemoveSlot( const SmartTitolo& st ) {
+    user->removeEducation( st );
+
+    QVector<SmartTitolo> educationsList = user->getEducationsList();
+    if( educationsList.size() == 0 ) {
+        lastEducationLabel->setText( "--" );
+    } else {
+        SmartTitolo aux = educationsList.last();
+        lastEducationLabel->setText( aux->getFieldOfStudy() + " at " + aux->getSchool() );
+    }
 }

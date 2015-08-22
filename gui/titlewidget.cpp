@@ -1,6 +1,8 @@
 #include <QBoxLayout>
 #include <QLabel>
+#include <QPainter>
 #include <QPushButton>
+#include <QStyleOption>
 #include "edittitledialog.h"
 #include "titlewidget.h"
 #include "titolo.h"
@@ -23,6 +25,7 @@ void TitleWidget::initUI() {
     dateAttendedLabel = new QLabel( title->getDateAttended().toString( "yyyy/MM/dd" ) );
 
     removeTitleButton = new QPushButton( this );
+    connect( removeTitleButton, SIGNAL( clicked() ), this, SLOT( removeTitle() ) );
     editTitleButton = new QPushButton( this );
     connect( editTitleButton, SIGNAL( clicked() ), this, SLOT( openEditTitleDialog() ) );
 }
@@ -70,6 +73,17 @@ void TitleWidget::setupUI() {
     layout->addWidget( titleIconLabel );
     layout->addWidget( titleInfoWidget );
     layout->addWidget( toolWidget );
+
+    setStyleSheet( "TitleWidget { border: 1px solid rgba(0,0,0,0.12);"
+                   "border-top: none; border-left: none; border-right: none; }" );
+}
+
+// METODO TitleWidget::paintEvent
+void TitleWidget::paintEvent( QPaintEvent *) {
+    QStyleOption opt;
+    opt.init( this );
+    QPainter p( this );
+    style()->drawPrimitive( QStyle::PE_Widget, &opt, &p, this );
 }
 
 // METODO TitleWidget::setToolButtonProperties
@@ -81,6 +95,10 @@ void TitleWidget::setToolButtonProperties( QPushButton *button ) {
     );
 }
 
+// METODO TitleWidget::getTitle
+SmartTitolo TitleWidget::getTitle() {
+    return title;
+}
 
 // SLOT TitleWidget::openEditTitleDialog
 void TitleWidget::openEditTitleDialog() {
@@ -102,4 +120,9 @@ void TitleWidget::updateTitleInfoSlot( const QString& s, int d, int m, int y, co
                                 QString::number( m ) + "/" +
                                 QString::number( y ) );
     fieldOfStudyLabel->setText( fos );
+}
+
+// SLOT TitleWidget::removeTitle
+void TitleWidget::removeTitle() {
+    emit removeTitleSignal( title );
 }
