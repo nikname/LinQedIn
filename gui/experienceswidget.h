@@ -51,6 +51,9 @@ signals:
 
     /** */
     void jobToRemoveSignal( const SmartLavoro& );
+
+    /** */
+    void updateLastJobInfoSignal( const SmartLavoro& );
 public slots:
     /** */
     void openAddJobDialog();
@@ -60,6 +63,9 @@ public slots:
 
     /** */
     void removeJobSlot( const SmartLavoro& );
+
+    /** */
+    void updateJobInfoSlot( const SmartLavoro& );
 };
 
 #endif // EXPERIENCESWIDGET_H

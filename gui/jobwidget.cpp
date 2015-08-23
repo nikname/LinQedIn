@@ -120,6 +120,8 @@ void JobWidget::updateJobInfoSlot( const QString& cn, const QString& t, int b, i
     companyNameLabel->setText( cn );
     titleLabel->setText( t );
     periodLabel->setText( QString::number( b ) + " - " + QString::number( e ) );
+
+    emit updateJobInfoSignal( job );
 }
 
 // SLOT JobWidget::removeJob

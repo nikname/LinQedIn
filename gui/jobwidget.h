@@ -47,6 +47,9 @@ public:
 signals:
     /** */
     void removeJobSignal( const SmartLavoro& );
+
+    /** */
+    void updateJobInfoSignal( const SmartLavoro& );
 public slots:
     /** */
     void openEditJobDialog();

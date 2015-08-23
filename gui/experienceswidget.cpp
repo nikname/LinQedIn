@@ -60,6 +60,8 @@ void ExperiencesWidget::addJobWidget( JobWidget *widget ) {
     jobWidgetsLayout->addWidget( widget );
     connect( widget, SIGNAL( removeJobSignal( SmartLavoro ) ),
              this, SLOT( removeJobSlot( SmartLavoro ) ) );
+    connect( widget, SIGNAL( updateJobInfoSignal( SmartLavoro ) ),
+             this, SLOT( updateJobInfoSlot( SmartLavoro ) ) );
 }
 
 // METODO ExperiencesWidget::insertJobWidget
@@ -67,6 +69,8 @@ void ExperiencesWidget::insertJobWidget( int pos, JobWidget *widget ) {
     dynamic_cast<QVBoxLayout *>( jobWidgetsLayout )->insertWidget( pos, widget );
     connect( widget, SIGNAL( removeJobSignal( SmartLavoro ) ),
              this, SLOT( removeJobSlot( SmartLavoro ) ) );
+    connect( widget, SIGNAL( updateJobInfoSignal( SmartLavoro ) ),
+             this, SLOT( updateJobInfoSlot( SmartLavoro ) ) );
 }
 
 // SLOT ExperiencesWidget::openAddJobDialog
@@ -106,4 +110,10 @@ void ExperiencesWidget::removeJobSlot( const SmartLavoro& sl ) {
     }
 
     emit jobToRemoveSignal( sl );
+}
+
+// SLOT ExperiencesWidget::updateJobInfoSlot
+void ExperiencesWidget::updateJobInfoSlot( const SmartLavoro& sl ) {
+    if( jobsList.last() == sl )
+        emit updateLastJobInfoSignal( sl );
 }
