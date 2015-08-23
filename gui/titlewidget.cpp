@@ -120,6 +120,8 @@ void TitleWidget::updateTitleInfoSlot( const QString& s, int d, int m, int y, co
                                 QString::number( m ) + "/" +
                                 QString::number( y ) );
     fieldOfStudyLabel->setText( fos );
+
+    emit updateTitleInfoSignal( title );
 }
 
 // SLOT TitleWidget::removeTitle

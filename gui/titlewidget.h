@@ -47,6 +47,9 @@ public:
 signals:
     /** */
     void removeTitleSignal( const SmartTitolo& );
+
+    /** */
+    void updateTitleInfoSignal( const SmartTitolo& );
 public slots:
     /** */
     void openEditTitleDialog();

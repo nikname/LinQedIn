@@ -100,6 +100,9 @@ private slots:
 
     /** */
     void titleToRemoveSlot( const SmartTitolo& );
+
+    /** */
+    void updateLastTitleInfoSlot( const SmartTitolo& );
 };
 
 #endif // PROFILEWIDGET_H

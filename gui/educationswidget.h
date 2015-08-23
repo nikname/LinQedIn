@@ -51,6 +51,9 @@ signals:
 
     /** */
     void titleToRemoveSignal( const SmartTitolo& );
+
+    /** */
+    void updateLastTitleInfoSignal( const SmartTitolo& );
 public slots:
     /** */
     void openAddTitleDialog();
@@ -60,6 +63,9 @@ public slots:
 
     /** */
     void removeTitleSlot( const SmartTitolo& );
+
+    /** */
+    void updateTitleInfoSlot( const SmartTitolo& );
 };
 
 #endif // EDUCATIONSWIDGET_H

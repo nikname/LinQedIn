@@ -60,6 +60,8 @@ void EducationsWidget::addTitleWidget( TitleWidget *widget ) {
     titleWidgetsLayout->addWidget( widget );
     connect( widget, SIGNAL( removeTitleSignal( SmartTitolo ) ),
              this, SLOT( removeTitleSlot( SmartTitolo ) ) );
+    connect( widget, SIGNAL( updateTitleInfoSignal( SmartTitolo ) ),
+             this, SLOT( updateTitleInfoSlot( SmartTitolo ) ) );
 }
 
 // METODO EducationsWidget::insertTitleWidget
@@ -67,6 +69,8 @@ void EducationsWidget::insertTitleWidget( int pos, TitleWidget *widget ) {
     dynamic_cast<QVBoxLayout *>( titleWidgetsLayout )->insertWidget( pos, widget );
     connect( widget, SIGNAL( removeTitleSignal( SmartTitolo ) ),
              this, SLOT( removeTitleSlot( SmartTitolo ) ) );
+    connect( widget, SIGNAL( updateTitleInfoSignal( SmartTitolo ) ),
+             this, SLOT( updateTitleInfoSlot( SmartTitolo ) ) );
 }
 
 // SLOT EducationsWidget::openAddTitleDialog
@@ -106,4 +110,10 @@ void EducationsWidget::removeTitleSlot( const SmartTitolo& st ) {
     }
 
     emit titleToRemoveSignal( st );
+}
+
+// SLOT EducationsWidget::updateTitleInfoSlot
+void EducationsWidget::updateTitleInfoSlot( const SmartTitolo& st ) {
+    if( titlesList.last() == st )
+        emit updateLastTitleInfoSignal( st );
 }

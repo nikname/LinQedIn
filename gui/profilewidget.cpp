@@ -83,6 +83,8 @@ void ProfileWidget::initUI() {
              this, SLOT( titleToAddSlot( SmartTitolo ) ) );
     connect( educationsWidget, SIGNAL( titleToRemoveSignal( SmartTitolo ) ),
              this, SLOT( titleToRemoveSlot( SmartTitolo ) ) );
+    connect( educationsWidget, SIGNAL( updateLastTitleInfoSignal( SmartTitolo ) ),
+             this, SLOT( updateLastTitleInfoSlot( SmartTitolo ) ) );
 
     connectionsTab = new ConnectionsWidget( user, this );
 
@@ -299,4 +301,9 @@ void ProfileWidget::titleToRemoveSlot( const SmartTitolo& st ) {
         SmartTitolo aux = educationsList.last();
         lastEducationLabel->setText( aux->getFieldOfStudy() + " at " + aux->getSchool() );
     }
+}
+
+// SLOT ProfileWidget::updateLastTitleInfoSlot
+void ProfileWidget::updateLastTitleInfoSlot( const SmartTitolo& st ) {
+    lastEducationLabel->setText( st->getFieldOfStudy() + " at " + st->getSchool() );
 }
