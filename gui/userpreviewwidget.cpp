@@ -99,6 +99,11 @@ SmartUtente UserPreviewWidget::getUser() {
     return user;
 }
 
+// METODO UserPreviewWidget::hideRemoveUserButton
+void UserPreviewWidget::hideRemoveUserButton() {
+    removeUserButton->setVisible( false );
+}
+
 // SLOT UserPreviewWidget::removeUser
 void UserPreviewWidget::removeUser() {
     emit removeUserSignal( user );

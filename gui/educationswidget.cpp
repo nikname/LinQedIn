@@ -73,6 +73,12 @@ void EducationsWidget::insertTitleWidget( int pos, TitleWidget *widget ) {
              this, SLOT( updateTitleInfoSlot( SmartTitolo ) ) );
 }
 
+// METODO EducationsWidget::hideToolsButtons
+void EducationsWidget::hideToolsButtons() {
+    for( int i = 0; i < titlesList.size(); i++ )
+        titleWidgetsList[i]->hideToolsButtons();
+}
+
 // SLOT EducationsWidget::openAddTitleDialog
 void EducationsWidget::openAddTitleDialog() {
     AddTitleDialog *addTitleDialog = new AddTitleDialog( this );

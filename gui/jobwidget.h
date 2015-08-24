@@ -44,6 +44,9 @@ public:
 
     /** */
     SmartLavoro getJob();
+
+    /** */
+    void hideToolsButtons();
 signals:
     /** */
     void removeJobSignal( const SmartLavoro& );

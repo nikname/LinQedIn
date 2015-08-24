@@ -45,6 +45,9 @@ private:
 public:
     /** */
     explicit ExperiencesWidget( const SmartUtente&, QWidget *parent = 0 );
+
+    /** */
+    void hideToolsButtons();
 signals:
     /** */
     void jobToAddSignal( const SmartLavoro& );

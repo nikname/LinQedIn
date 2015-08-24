@@ -73,6 +73,12 @@ void ExperiencesWidget::insertJobWidget( int pos, JobWidget *widget ) {
              this, SLOT( updateJobInfoSlot( SmartLavoro ) ) );
 }
 
+// SLOT ExperiencesWidget::hideToolsButtons
+void ExperiencesWidget::hideToolsButtons() {
+    for( int i = 0; i < jobWidgetsList.size(); i++ )
+        jobWidgetsList[i]->hideToolsButtons();
+}
+
 // SLOT ExperiencesWidget::openAddJobDialog
 void ExperiencesWidget::openAddJobDialog() {
     AddJobDialog *addJobDialog = new AddJobDialog( this );

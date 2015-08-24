@@ -100,6 +100,12 @@ SmartTitolo TitleWidget::getTitle() {
     return title;
 }
 
+// METODO TitleWidget::hideToolsButtons
+void TitleWidget::hideToolsButtons() {
+    removeTitleButton->setVisible( false );
+    editTitleButton->setVisible( false );
+}
+
 // SLOT TitleWidget::openEditTitleDialog
 void TitleWidget::openEditTitleDialog() {
     EditTitleDialog *editTitleDialog = new EditTitleDialog( this );

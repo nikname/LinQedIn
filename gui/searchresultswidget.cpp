@@ -30,6 +30,8 @@ void SearchResultsWidget::setupUI() {
     QVBoxLayout *userPreviewWidgetsLayout = new QVBoxLayout( this );
     userPreviewWidgetsLayout->setMargin( 0 );
 
-    for( int i = 0; i < userPreviewWidgetsList.size(); i++ )
+    for( int i = 0; i < userPreviewWidgetsList.size(); i++ ) {
+        userPreviewWidgetsList[i]->hideRemoveUserButton();
         userPreviewWidgetsLayout->addWidget( userPreviewWidgetsList[i] );
+    }
 }

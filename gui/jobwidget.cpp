@@ -101,6 +101,12 @@ SmartLavoro JobWidget::getJob() {
     return job;
 }
 
+// METODO JobWidget::hideToolsButtons
+void JobWidget::hideToolsButtons() {
+    removeJobButton->setVisible( false );
+    editJobButton->setVisible( false );
+}
+
 // SLOT JobWidget::openEditJobDialog
 void JobWidget::openEditJobDialog() {
     EditJobDialog *editJobDialog = new EditJobDialog( this );

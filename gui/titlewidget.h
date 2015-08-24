@@ -44,6 +44,9 @@ public:
 
     /** */
     SmartTitolo getTitle();
+
+    /** */
+    void hideToolsButtons();
 signals:
     /** */
     void removeTitleSignal( const SmartTitolo& );

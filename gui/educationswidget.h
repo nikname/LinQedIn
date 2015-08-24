@@ -45,6 +45,9 @@ private:
 public:
     /** */
     explicit EducationsWidget( const SmartUtente&, QWidget *parent = 0 );
+
+    /** */
+    void hideToolsButtons();
 signals:
     /** */
     void titleToAddSignal( const SmartTitolo& );

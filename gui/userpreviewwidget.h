@@ -42,6 +42,9 @@ public:
 
     /** */
     SmartUtente getUser();
+
+    /** */
+    void hideRemoveUserButton();
 signals:
     /** */
     void removeUserSignal( const SmartUtente& );
