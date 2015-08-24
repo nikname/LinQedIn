@@ -7,31 +7,55 @@
 
 // COSTRUTTORE ConnectionsWidget
 ConnectionsWidget::ConnectionsWidget( const SmartUtente& su, QWidget *parent ) :
-    QWidget( parent )
+    QWidget( parent ),
+    contactsList( su->getContactsList() )
 {
-    QVBoxLayout *layout = new QVBoxLayout( this );
+    initUI();
+    setupUI();
+}
 
-    widgetsWrapper = new QWidget( this );
+// METODO ConnectionsWidget::initUI
+void ConnectionsWidget::initUI() {
+    userPreviewWidgetsLayout = new QGridLayout( this );
 
-    QVBoxLayout *wrapperLayout = new QVBoxLayout( widgetsWrapper );
+    for( int i = 0; i < contactsList.size(); i++ )
+        userPreviewWidgetsList.append( new UserPreviewWidget( contactsList[i], this ) );
+}
 
-    QWidget *usersGridWidget = new QWidget( widgetsWrapper );
+// METODO ConnectionsWidget::setupUI
+void ConnectionsWidget::setupUI() {
+    userPreviewWidgetsLayout->setMargin( 0 );
 
-    QGridLayout *usersGridLayout = new QGridLayout( usersGridWidget );
-
-    contactsList = su->getContactsList();
     int j = 0;
-    for( int i = 0; i < contactsList.size(); i++ ) {
-        UserPreviewWidget *aux = new UserPreviewWidget( contactsList[i], widgetsWrapper );
-        userPreviewWidget.append( aux );
-        usersGridLayout->addWidget( aux, static_cast<int>( i/2 ), j );
+    for( int i = 0; i < userPreviewWidgetsList.size(); i++ ) {
+        QGridLayout *aux = dynamic_cast<QGridLayout *>( userPreviewWidgetsLayout );
+        aux->addWidget( userPreviewWidgetsList[i], static_cast<int>( i / 2 ), j );
+        connect( userPreviewWidgetsList[i], SIGNAL( removeUserSignal( SmartUtente ) ),
+                 this, SLOT( removeUserSlot( SmartUtente ) ) );
         j = ( j + 1 ) % 2;
     }
+}
 
-    wrapperLayout->addWidget( usersGridWidget );
+// SLOT ConnectionsWidget::removeUserSlot
+void ConnectionsWidget::removeUserSlot( const SmartUtente& su ) {
+    int pos = contactsList.indexOf( su );
+    if( pos > -1 )
+        contactsList.remove( pos );
 
-    layout->addWidget( widgetsWrapper );
-    layout->setMargin( 0 );
+    for( int i = 0; i < userPreviewWidgetsList.size(); i++ ) {
+        if( userPreviewWidgetsList[i]->getUser() == su ) {
+            QGridLayout *layout = dynamic_cast<QGridLayout *>( userPreviewWidgetsLayout );
+            layout->removeWidget( userPreviewWidgetsList[i] );
 
-    setLayout( layout );
+            UserPreviewWidget *aux = userPreviewWidgetsList.takeAt( i );
+            delete aux;
+
+            for( i; i < userPreviewWidgetsList.size(); i++ ) {
+                layout->removeWidget( userPreviewWidgetsList[i] );
+                layout->addWidget( userPreviewWidgetsList[i], static_cast<int>( i / 2 ), i % 2 );
+            }
+        }
+    }
+
+    emit contactToRemoveSignal( su );
 }

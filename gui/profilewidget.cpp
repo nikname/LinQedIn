@@ -87,6 +87,8 @@ void ProfileWidget::initUI() {
              this, SLOT( updateLastTitleInfoSlot( SmartTitolo ) ) );
 
     connectionsTab = new ConnectionsWidget( user, this );
+    connect( connectionsTab, SIGNAL( contactToRemoveSignal( SmartUtente ) ),
+             this, SLOT( contactToRemoveSlot( SmartUtente ) ) );
 
     otherInfoTab = new QWidget( this );
 }
@@ -306,4 +308,12 @@ void ProfileWidget::titleToRemoveSlot( const SmartTitolo& st ) {
 // SLOT ProfileWidget::updateLastTitleInfoSlot
 void ProfileWidget::updateLastTitleInfoSlot( const SmartTitolo& st ) {
     lastEducationLabel->setText( st->getFieldOfStudy() + " at " + st->getSchool() );
+}
+
+// SLOT ProfileWidget::contactToRemoveSlot
+void ProfileWidget::contactToRemoveSlot( const SmartUtente& su ) {
+    user->removeContact( su );
+
+    connectionsNumber->setText(
+                QString::number( user->getContactsList().size() ) + tr( " connections" ) );
 }

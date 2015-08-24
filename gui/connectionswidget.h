@@ -12,9 +12,14 @@ class ConnectionsWidget : public QWidget {
 private:
     QVector<SmartUtente> contactsList;
 
-    QWidget *widgetsWrapper;
-    QWidget *contactsWidget;
-    QVector<UserPreviewWidget*> userPreviewWidget;
+    QLayout *userPreviewWidgetsLayout;
+    QVector<UserPreviewWidget*> userPreviewWidgetsList;
+
+    /** Inizializza la UI. */
+    void initUI();
+
+    /** Realizza la UI. Mostra la GUI. */
+    void setupUI();
 public:
     /** Costruttore esplicito ad 1 parametro con 1 parametro di default.
      *
@@ -23,9 +28,11 @@ public:
      */
     explicit ConnectionsWidget( const SmartUtente&, QWidget *parent = 0 );
 signals:
-
+    /** */
+    void contactToRemoveSignal( const SmartUtente& );
 public slots:
-
+    /** */
+    void removeUserSlot( const SmartUtente& );
 };
 
 #endif // CONNECTIONSWIDGET_H

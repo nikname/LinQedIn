@@ -10,18 +10,17 @@ class QPushButton;
 class UserPreviewWidget : public QWidget {
     Q_OBJECT
 private:
+    SmartUtente user;
+
     QLabel *profilePicLabel;
 
     QLabel *userLabel;
     QLabel *lastJobLabel;
-    QPushButton *contactInfoButton;
-    QPushButton *removeContactButton;
+    QPushButton *userInfoButton;
+    QPushButton *removeUserButton;
 
-    /** Inizializza la UI.
-     *
-     * @param  SmartUtente  Utente del quale visualizzare l'anteprima.
-     */
-    void initUI( const SmartUtente& );
+    /** Inizializza la UI. */
+    void initUI();
 
     /** Realizza la UI. Mostra la GUI. */
     void setupUI();
@@ -40,10 +39,15 @@ private:
 public:
     /** */
     explicit UserPreviewWidget( const SmartUtente&, QWidget *parent = 0 );
+
+    /** */
+    SmartUtente getUser();
 signals:
-
+    /** */
+    void removeUserSignal( const SmartUtente& );
 public slots:
-
+    /** */
+    void removeUser();
 };
 
 #endif // USERPREVIEWWIDGET_H

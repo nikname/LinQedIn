@@ -11,19 +11,20 @@
 
 // COSTRUTTORE UserPreviewWidget
 UserPreviewWidget::UserPreviewWidget( const SmartUtente& su, QWidget *parent ) :
-    QWidget( parent )
+    QWidget( parent ),
+    user( su )
 {
-    initUI( su );
+    initUI();
     setupUI();
 }
 
 // METODO UserPreviewWidget::initUI
-void UserPreviewWidget::initUI( const SmartUtente& su ) {
+void UserPreviewWidget::initUI() {
     profilePicLabel = new QLabel( this );
 
-    userLabel = new QLabel( su->getName() + " " + su->getSurname(), this );
+    userLabel = new QLabel( user->getName() + " " + user->getSurname(), this );
 
-    QVector<SmartLavoro> experiencesList = su->getExperiencesList();
+    QVector<SmartLavoro> experiencesList = user->getExperiencesList();
     if( experiencesList.size() == 0 )
         lastJobLabel = new QLabel( "--", this );
     else {
@@ -31,8 +32,9 @@ void UserPreviewWidget::initUI( const SmartUtente& su ) {
         lastJobLabel = new QLabel( lastJob->getTitle() + " at " + lastJob->getCompanyName(), this );
     }
 
-    contactInfoButton = new QPushButton( this );
-    removeContactButton = new QPushButton( this );
+    userInfoButton = new QPushButton( this );
+    removeUserButton = new QPushButton( this );
+    connect( removeUserButton, SIGNAL( clicked() ), this, SLOT( removeUser() ) );
 }
 
 // METODO UserPreviewWidget::setupUI
@@ -51,14 +53,14 @@ void UserPreviewWidget::setupUI() {
 
     QWidget *toolWidget = new QWidget( this );
 
-    contactInfoButton->setIcon( QIcon( QPixmap( ":/icons/icon/information-outline.png" ) ) );
-    setToolButtonProperties( contactInfoButton );
-    removeContactButton->setIcon( QIcon( QPixmap( ":/icons/icon/close-black.png" ) ) );
-    setToolButtonProperties( removeContactButton );
+    userInfoButton->setIcon( QIcon( QPixmap( ":/icons/icon/information-outline.png" ) ) );
+    setToolButtonProperties( userInfoButton );
+    removeUserButton->setIcon( QIcon( QPixmap( ":/icons/icon/close-black.png" ) ) );
+    setToolButtonProperties( removeUserButton );
 
     QVBoxLayout *toolLayout = new QVBoxLayout( toolWidget );
-    toolLayout->addWidget( removeContactButton );
-    toolLayout->addWidget( contactInfoButton );
+    toolLayout->addWidget( removeUserButton );
+    toolLayout->addWidget( userInfoButton );
     toolLayout->setMargin( 0 );
 
     QWidget *filler = new QWidget( this );
@@ -84,10 +86,20 @@ void UserPreviewWidget::setToolButtonProperties( QPushButton *button ) {
     );
 }
 
-// METODO UserPrwview::paintEvent
+// METODO UserPreviewWidget::paintEvent
 void UserPreviewWidget::paintEvent( QPaintEvent *) {
     QStyleOption opt;
     opt.init( this );
     QPainter p( this );
     style()->drawPrimitive( QStyle::PE_Widget, &opt, &p, this );
+}
+
+// METODO UserPreviewWidget::getUser
+SmartUtente UserPreviewWidget::getUser() {
+    return user;
+}
+
+// SLOT UserPreviewWidget::removeUser
+void UserPreviewWidget::removeUser() {
+    emit removeUserSignal( user );
 }
