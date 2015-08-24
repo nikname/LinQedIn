@@ -13,6 +13,7 @@ class QLineEdit;
 class QMenu;
 class QPushButton;
 class QScrollArea;
+class SearchResultsWidget;
 
 class ClientWindow : public QMainWindow {
     Q_OBJECT
@@ -24,6 +25,8 @@ private:
     QAction *exitAct;
     QMenu *helpMenu;
     QAction *aboutAct;
+
+    QWidget *menuWidget;
 
     QPushButton *homeButton;
     QPushButton *backButton;
@@ -40,6 +43,9 @@ private:
     QLineEdit *searchText;
     QPushButton *searchButton;
 
+    QScrollArea *scrollArea;
+    QLayout *contentLayout;
+    SearchResultsWidget *searchResultsWidget;
     ProfileWidget *profileWidget;
 
     /** Inizializza la UI. */

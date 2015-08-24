@@ -53,7 +53,8 @@ SOURCES += main.cpp\
     gui/linqedindialog.cpp \
     gui/edittitledialog.cpp \
     gui/addjobdialog.cpp \
-    gui/addtitledialog.cpp
+    gui/addtitledialog.cpp \
+    gui/searchresultswidget.cpp
 
 HEADERS  += \
     profilo.h \
@@ -97,7 +98,8 @@ HEADERS  += \
     gui/linqedindialog.h \
     gui/edittitledialog.h \
     gui/addjobdialog.h \
-    gui/addtitledialog.h
+    gui/addtitledialog.h \
+    gui/searchresultswidget.h
 
 FORMS    +=
 

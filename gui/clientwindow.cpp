@@ -9,6 +9,7 @@
 #include "linqedin_client.h"
 #include "mainwindow.h"
 #include "profilewidget.h"
+#include "searchresultswidget.h"
 #include "utente.h"
 
 // COSTRUTTORE ClientWindow
@@ -42,6 +43,8 @@ void ClientWindow::initUI() {
     helpMenu = menuBar()->addMenu( tr( "&Help" ) );
     aboutAct = new QAction( tr( "About" ), this );
 
+    menuWidget = new QWidget( this );
+
     homeButton = new QPushButton( this );
     backButton = new QPushButton( this );
 
@@ -55,13 +58,19 @@ void ClientWindow::initUI() {
     openSearchButton = new QPushButton( this );
     connect( openSearchButton, SIGNAL( clicked() ), this, SLOT( openSearchBox() ) );
 
+    searchWidget = new QWidget( this );
+
     closeSearchButton = new QPushButton( this );
     connect( closeSearchButton, SIGNAL( clicked() ), this, SLOT( closeSearchBox() ) );
     searchText = new QLineEdit( this );
     searchButton = new QPushButton( this );
     connect( searchButton, SIGNAL( clicked() ), this, SLOT( searchUsers() ) );
 
+    scrollArea = new QScrollArea( this );
+
     profileWidget = new ProfileWidget( client->user, this );
+
+    searchResultsWidget = 0;
 }
 
 // METODO ClientWindow::setupUI
@@ -72,7 +81,6 @@ void ClientWindow::setupUI() {
     QWidget *centralWidget = new QWidget( this );
     centralWidget->setStyleSheet( "background: #EEE" );
 
-    QWidget *menuWidget = new QWidget( this );
     menuWidget->setFixedHeight( 50 );
     menuWidget->setStyleSheet( "background: #069; color: white;" );
 
@@ -92,8 +100,8 @@ void ClientWindow::setupUI() {
     openSearchButton->setIcon( QIcon( QPixmap( ":/icons/icon/magnify.png" ) ) );
     setButtonProperties( openSearchButton );
 
-    searchWidget = new QWidget( this );
     searchWidget->setFixedHeight( 50 );
+    searchWidget->setStyleSheet( "background: #069; color: white;" );
     searchWidget->setVisible( false );
 
     closeSearchButton->setIcon( QIcon( QPixmap( ":/icons/icon/close.png" ) ) );
@@ -126,14 +134,12 @@ void ClientWindow::setupUI() {
     menuLayout->addWidget( searchWidget );
     menuLayout->setContentsMargins( 0, 0, 0, 0 );
 
-    QScrollArea *scrollArea = new QScrollArea( centralWidget );
-
     QWidget *contentWidget = new QWidget( scrollArea );
 
     QWidget *contentFiller = new QWidget( contentWidget );
     contentFiller->setSizePolicy( QSizePolicy::Fixed, QSizePolicy::Expanding );
 
-    QVBoxLayout *contentLayout = new QVBoxLayout( contentWidget );
+    contentLayout = new QVBoxLayout( contentWidget );
     contentLayout->addWidget( profileWidget );
     contentLayout->addWidget( contentFiller );
 
@@ -143,6 +149,7 @@ void ClientWindow::setupUI() {
 
     QVBoxLayout *centralLayout = new QVBoxLayout( centralWidget );
     centralLayout->addWidget( menuWidget );
+    centralLayout->addWidget( searchWidget );
     centralLayout->addWidget( scrollArea );
     centralLayout->setMargin( 0 );
     centralLayout->setSpacing( 0 );
@@ -243,14 +250,21 @@ void ClientWindow::about() {
 
 // SLOT ClientWindow::openSearchBox()
 void ClientWindow::openSearchBox() {
-    openSearchButton->setVisible( false );
+    menuWidget->setVisible( false );
     searchWidget->setVisible( true );
 }
 
 // SLOT ClientWindow::closeSearchBox()
 void ClientWindow::closeSearchBox() {
+    menuWidget->setVisible( true );
     searchWidget->setVisible( false );
-    openSearchButton->setVisible( true );
+
+    if( searchResultsWidget ) {
+        contentLayout->removeWidget( searchResultsWidget );
+        delete searchResultsWidget;
+        searchResultsWidget = 0;
+    }
+    profileWidget->setVisible( true );
 }
 
 // SLOT ClientWindow::showProfile()
@@ -261,7 +275,17 @@ void ClientWindow::showProfile() {
 
 // SLOT ClientWindow::searchUsers
 void ClientWindow::searchUsers() {
+    if( searchResultsWidget ) {
+        contentLayout->removeWidget( searchResultsWidget );
+        delete searchResultsWidget;
+        searchResultsWidget = 0;
+    }
+    searchResultsWidget = new SearchResultsWidget(
+                client->db->getUsersList(), client->user, searchText->text(), this );
 
+    if( QVBoxLayout *auxLayout = dynamic_cast<QVBoxLayout *>( contentLayout ) )
+        auxLayout->insertWidget( 0, searchResultsWidget, 0, Qt::AlignCenter );
+    profileWidget->setVisible( false );
 }
 
 // SLOT
