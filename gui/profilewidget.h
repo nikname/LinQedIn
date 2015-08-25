@@ -69,7 +69,8 @@ public:
      */
     explicit ProfileWidget( const SmartUtente&, QWidget *parent = 0 );
 signals:
-
+    /** */
+    void showContactSignal( const SmartUtente& );
 private slots:
     /** Mostra la scheda della panoramica dell'utente. */
     void showBackgroundTab();

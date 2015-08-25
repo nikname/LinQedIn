@@ -30,6 +30,9 @@ public:
 signals:
     /** */
     void contactToRemoveSignal( const SmartUtente& );
+
+    /** */
+    void showContactSignal( const SmartUtente& );
 public slots:
     /** */
     void removeUserSlot( const SmartUtente& );

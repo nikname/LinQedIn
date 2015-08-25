@@ -89,6 +89,8 @@ void ProfileWidget::initUI() {
     connectionsTab = new ConnectionsWidget( user, this );
     connect( connectionsTab, SIGNAL( contactToRemoveSignal( SmartUtente ) ),
              this, SLOT( contactToRemoveSlot( SmartUtente ) ) );
+    connect( connectionsTab, SIGNAL( showContactSignal( SmartUtente ) ),
+             this, SIGNAL( showContactSignal( SmartUtente ) ) );
 
     otherInfoTab = new QWidget( this );
 }

@@ -47,7 +47,7 @@ void ClientWindow::initUI() {
 
     homeButton = new QPushButton( this );
     backButton = new QPushButton( this );
-    connect( backButton, SIGNAL( clicked() ), this, SLOT( backToSearchResults() ) );
+    connect( backButton, SIGNAL( clicked() ), this, SLOT( backFromProfileView() ) );
 
     linqedinLabel = new QLabel( "<h2>LinQedIn</h2>", this );
 
@@ -70,6 +70,8 @@ void ClientWindow::initUI() {
     scrollArea = new QScrollArea( this );
 
     profileWidget = new ProfileWidget( client->user, this );
+    connect( profileWidget, SIGNAL( showContactSignal( SmartUtente ) ),
+             this, SLOT( showUserSlot( SmartUtente ) ) );
 
     searchResultsWidget = 0;
 }
@@ -255,26 +257,36 @@ void ClientWindow::openSearchBox() {
     searchWidget->setVisible( true );
 }
 
-// SLOT ClientWindow::backToSearchResults
-void ClientWindow::backToSearchResults() {
+// SLOT ClientWindow::backFromProfileView
+void ClientWindow::backFromProfileView() {
     if( profileWidget ) {
         contentLayout->removeWidget( profileWidget );
         delete profileWidget;
         profileWidget = 0;
     }
     profileWidget = new ProfileWidget( client->user, this );
+    connect( profileWidget, SIGNAL( showContactSignal( SmartUtente ) ),
+             this, SLOT( showUserSlot( SmartUtente ) ) );
 
     if( QVBoxLayout *auxLayout = dynamic_cast<QVBoxLayout *>( contentLayout ) )
         auxLayout->insertWidget( 0, profileWidget );
 
-    backButton->setVisible( false );
-    searchButton->setVisible( true );
-    menuWidget->setVisible( false );
+    if( searchResultsWidget ) { // utente raggiunto dai risultati della ricerca
+        menuWidget->setVisible( false );
+        searchWidget->setVisible( true );
 
-    searchWidget->setVisible( true );
+        profileWidget->setVisible( false );
+        searchResultsWidget->setVisible( true );
+    } else { // utente raggiunto dalla lista dei contatti
+        homeButton->setVisible( true );
+        backButton->setVisible( false );
+        openSearchButton->setVisible( true );
 
-    profileWidget->setVisible( false );
-    searchResultsWidget->setVisible( true );
+        menuWidget->setVisible( true );
+        searchWidget->setVisible( false );
+
+        profileWidget->setVisible( true );
+    }
 }
 
 // SLOT ClientWindow::closeSearchBox()
@@ -287,11 +299,13 @@ void ClientWindow::closeSearchBox() {
 
     searchText->setText( "" );
 
+    // ripristina vista home
     homeButton->setVisible( true );
     backButton->setVisible( false );
     openSearchButton->setVisible( true );
-    menuWidget->setVisible( true );
+    setMenuButtonSelected( profileButton );
 
+    menuWidget->setVisible( true );
     searchWidget->setVisible( false );
 
     profileWidget->setVisible( true );
@@ -319,10 +333,11 @@ void ClientWindow::searchUsers() {
         auxLayout->insertWidget( 0, searchResultsWidget, 0, Qt::AlignCenter );
 
     profileWidget->setVisible( false );
+    searchResultsWidget->setVisible( true );
 }
 
 // SLOT ClientWindow::showUserSlot
-void ClientWindow::showUserSlot( const SmartUtente& user ) {
+void ClientWindow::showUserSlot( SmartUtente user ) {
     if( profileWidget ) {
         contentLayout->removeWidget( profileWidget );
         delete profileWidget;
@@ -333,15 +348,18 @@ void ClientWindow::showUserSlot( const SmartUtente& user ) {
     if( QVBoxLayout *auxLayout = dynamic_cast<QVBoxLayout *>( contentLayout ) )
         auxLayout->insertWidget( 0, profileWidget );
 
+    // vista profilo contatto o altro utente
     homeButton->setVisible( false );
     backButton->setVisible( true );
     openSearchButton->setVisible( false );
     setMenuButtonSelected( 0 );
-    menuWidget->setVisible( true );
 
+    menuWidget->setVisible( true );
     searchWidget->setVisible( false );
 
-    searchResultsWidget->setVisible( false );
+    profileWidget->setVisible( true );
+    if( searchResultsWidget ) // utente raggiunto dai risultati della ricerca
+        searchResultsWidget->setVisible( false );
 }
 
 // SLOT

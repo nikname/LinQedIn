@@ -111,7 +111,7 @@ private slots:
     void closeSearchBox();
 
     /** */
-    void backToSearchResults();
+    void backFromProfileView();
 
     /** Mostra il profilo dell'utente. */
     void showPersonalProfile();
@@ -119,14 +119,26 @@ private slots:
     /** Esegue la ricerca di utenti nel database. */
     void searchUsers();
 
-    /** */
-    void showUserSlot( const SmartUtente& );
+    /**
+     * Visualizza il profilo dell'utente selezionato.
+     *
+     * @param SmartUtente  Utente del quale visualizzare il profilo.
+     *
+     * PS: Poichè la lista dei contatti dell'utente del client viene distrutta assime al widget
+     * dei contatti, anche l'oggetto SmartUtente del quale mostrare il profilo viene distrutto.
+     * Per questo motivo viene il contatto passato per riferimento. Questo verrà distrutto in
+     * seguito alla distruzione dell'oggetto ProfileWidget.
+     */
+    void showUserSlot( SmartUtente );
 
     /** */
     void updateContactsSlot( const QString& );
 signals:
     /** */
     void updateContactsListSignal( const SmartUtente& );
+
+    /** */
+    void showUserSignal( const SmartUtente& );
 };
 
 #endif // CLIENTWINDOW_H
