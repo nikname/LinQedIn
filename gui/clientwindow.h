@@ -110,11 +110,17 @@ private slots:
     /** Chiude il box di ricerca. */
     void closeSearchBox();
 
+    /** */
+    void backToSearchResults();
+
     /** Mostra il profilo dell'utente. */
-    void showProfile();
+    void showPersonalProfile();
 
     /** Esegue la ricerca di utenti nel database. */
     void searchUsers();
+
+    /** */
+    void showUserSlot( const SmartUtente& );
 
     /** */
     void updateContactsSlot( const QString& );

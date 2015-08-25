@@ -48,9 +48,15 @@ public:
 signals:
     /** */
     void removeUserSignal( const SmartUtente& );
+
+    /** */
+    void showUserSignal( const SmartUtente& );
 public slots:
     /** */
     void removeUser();
+
+    /** */
+    void showUser();
 };
 
 #endif // USERPREVIEWWIDGET_H

@@ -33,6 +33,7 @@ void UserPreviewWidget::initUI() {
     }
 
     userInfoButton = new QPushButton( this );
+    connect( userInfoButton, SIGNAL( clicked() ), this, SLOT( showUser() ) );
     removeUserButton = new QPushButton( this );
     connect( removeUserButton, SIGNAL( clicked() ), this, SLOT( removeUser() ) );
 }
@@ -107,4 +108,9 @@ void UserPreviewWidget::hideRemoveUserButton() {
 // SLOT UserPreviewWidget::removeUser
 void UserPreviewWidget::removeUser() {
     emit removeUserSignal( user );
+}
+
+// SLOT UserPreviewWidget::showUser
+void UserPreviewWidget::showUser() {
+    emit showUserSignal( user );
 }

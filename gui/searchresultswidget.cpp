@@ -4,10 +4,8 @@
 #include "searchresultswidget.h"
 
 // COSTRUTTORE SearchResultsWidget
-SearchResultsWidget::SearchResultsWidget( QVector<SmartUtente> ul,
-                                          const SmartUtente& su,
-                                          const QString& query,
-                                          QWidget *parent ) :
+SearchResultsWidget::SearchResultsWidget(
+        QVector<SmartUtente> ul, const SmartUtente& su, const QString& query, QWidget *parent ) :
     QWidget( parent ),
     usersList( ul )
 {
@@ -21,7 +19,12 @@ void SearchResultsWidget::initUI( const SmartUtente& su, const QString& query ) 
         if( usersList[i] != su && (
                 usersList[i]->getName().contains( query, Qt::CaseInsensitive ) ||
                 usersList[i]->getSurname().contains( query, Qt::CaseInsensitive ) ) )
-            userPreviewWidgetsList.append( new UserPreviewWidget( usersList[i], this ) );
+        {
+            UserPreviewWidget *aux = new UserPreviewWidget( usersList[i], this );
+            connect( aux, SIGNAL( showUserSignal( SmartUtente ) ),
+                     this, SIGNAL( showUserSignal( SmartUtente ) ) );
+            userPreviewWidgetsList.append( aux );
+        }
     }
 }
 
