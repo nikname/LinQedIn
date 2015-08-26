@@ -132,6 +132,12 @@ private slots:
     void showUserSlot( SmartUtente );
 
     /** */
+    void addContactSlot( const SmartUtente& ); // o SmartUtente ?
+
+    /** */
+    void removeContactSlot( const SmartUtente& );
+
+    /** */
     void updateContactsSlot( const QString& );
 signals:
     /** */

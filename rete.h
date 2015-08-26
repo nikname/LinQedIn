@@ -42,6 +42,13 @@ public:
      */
     void removeContact( const SmartUtente& );
 
+    /** Controlla se un utente è presente tra i contatti.
+     *
+     * @param SmartUtente  Utente da cercare tra i contatti dell'utente.
+     * @@return bool  true se è presente; false altrimenti.
+     */
+    bool isContact( const SmartUtente& );
+
     /** Ritorna un QVector di SmartUtente contenente i contatti nella rete dell'utente.
      *
      * @return QVector<SmartUtente>  Vettore dei contatti nella rete dell'utente.

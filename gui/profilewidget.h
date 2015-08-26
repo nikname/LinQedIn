@@ -68,9 +68,18 @@ public:
      * @param QWidget  Puntatore al QWidget padre. Se nullo si riferisce a quello top-level.
      */
     explicit ProfileWidget( const SmartUtente&, QWidget *parent = 0 );
+
+    /** */
+    void hideContactToolsButton();
 signals:
     /** */
     void showContactSignal( const SmartUtente& );
+
+    /** */
+    void addContactSignal( const SmartUtente& );
+
+    /** */
+    void removeContactSignal( const SmartUtente& );
 private slots:
     /** Mostra la scheda della panoramica dell'utente. */
     void showBackgroundTab();
@@ -104,6 +113,12 @@ private slots:
 
     /** */
     void updateLastTitleInfoSlot( const SmartTitolo& );
+
+    /** */
+    void addContact();
+
+    /** */
+    void removeContact();
 
     /** */
     void contactToRemoveSlot( const SmartUtente& );

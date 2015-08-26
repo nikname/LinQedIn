@@ -138,6 +138,14 @@ public:
      */
     void removeContact( const SmartUtente& );
 
+    /** Controlla se un utente è presente tra i contatti dell'utente.
+     *  Invoca il metodo isContact() del campo dati net di tipo Rete.
+     *
+     * @param SmartUtente  Utente da cercare tra i contatti.
+     * @return bool  true se è presente; false altrimenti.
+     */
+    bool isContact( const SmartUtente& );
+
     /** Ritorna un QVector di SmartUtente contenente i contatti nella rete dell'utente.
      *  Invoca il metodo getContactsList() del campo dati net di tipo Rete.
      *

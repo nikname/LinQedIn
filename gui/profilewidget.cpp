@@ -64,7 +64,9 @@ void ProfileWidget::initUI() {
     tabButtons.append( otherInfoTabButton );
 
     addContactButton = new QPushButton( this );
+    connect( addContactButton, SIGNAL( clicked() ), this, SLOT( addContact() ) );
     removeContactButton = new QPushButton( this );
+    connect( removeContactButton, SIGNAL( clicked() ), this, SLOT( removeContact() ) );
 
     backgroundTab = new QWidget( this );
 
@@ -151,7 +153,6 @@ void ProfileWidget::setupUI() {
         "QPushButton { background: #FF1744; border-radius: 25px; outline: none; }"
         "QPushButton:pressed { background: #FF5252; outline: none; }"
     );
-    removeContactButton->setVisible( false );
 
     setProfileButtonSelected( backgroundTabButton );
 
@@ -220,6 +221,12 @@ void ProfileWidget::setProfileButtonSelected( QPushButton *button ) {
             }
         } else { } // throw ...
     }
+}
+
+// METODO ProfileWidget::hideContactToolsButton
+void ProfileWidget::hideContactToolsButton() {
+    addContactButton->setVisible( false );
+    removeContactButton->setVisible( false );
 }
 
 // SLOT ProfileWidget::showBackgroundTab()
@@ -312,9 +319,27 @@ void ProfileWidget::updateLastTitleInfoSlot( const SmartTitolo& st ) {
     lastEducationLabel->setText( st->getFieldOfStudy() + " at " + st->getSchool() );
 }
 
+// SLOT ProfileWidget::addContact
+void ProfileWidget::addContact() {
+    emit addContactSignal( user );
+
+    addContactButton->setVisible( false );
+    removeContactButton->setVisible( true );
+}
+
+// SLOT ProfileWidget::removeContact
+void ProfileWidget::removeContact() {
+    emit removeContactSignal( user );
+
+    addContactButton->setVisible( true );
+    removeContactButton->setVisible( false );
+}
+
 // SLOT ProfileWidget::contactToRemoveSlot
 void ProfileWidget::contactToRemoveSlot( const SmartUtente& su ) {
     user->removeContact( su );
+
+    emit removeContactSignal( su );
 
     connectionsNumber->setText(
                 QString::number( user->getContactsList().size() ) + tr( " connections" ) );

@@ -139,6 +139,8 @@ void ClientWindow::setupUI() {
 
     QWidget *contentWidget = new QWidget( scrollArea );
 
+    profileWidget->hideContactToolsButton();
+
     QWidget *contentFiller = new QWidget( contentWidget );
     contentFiller->setSizePolicy( QSizePolicy::Fixed, QSizePolicy::Expanding );
 
@@ -265,6 +267,7 @@ void ClientWindow::backFromProfileView() {
         profileWidget = 0;
     }
     profileWidget = new ProfileWidget( client->user, this );
+    profileWidget->hideContactToolsButton();
     connect( profileWidget, SIGNAL( showContactSignal( SmartUtente ) ),
              this, SLOT( showUserSlot( SmartUtente ) ) );
 
@@ -345,6 +348,10 @@ void ClientWindow::showUserSlot( SmartUtente user ) {
     }
     profileWidget = new ProfileWidget( user, this );
     // ...
+    connect( profileWidget, SIGNAL( addContactSignal( SmartUtente ) ),
+             this, SLOT( addContactSlot( SmartUtente ) ) );
+    connect( profileWidget, SIGNAL( removeContactSignal( SmartUtente ) ),
+             this, SLOT( removeContactSlot( SmartUtente ) ) );
     if( QVBoxLayout *auxLayout = dynamic_cast<QVBoxLayout *>( contentLayout ) )
         auxLayout->insertWidget( 0, profileWidget );
 
@@ -360,6 +367,16 @@ void ClientWindow::showUserSlot( SmartUtente user ) {
     profileWidget->setVisible( true );
     if( searchResultsWidget ) // utente raggiunto dai risultati della ricerca
         searchResultsWidget->setVisible( false );
+}
+
+// SLOT ClientWindow::addContactSlot
+void ClientWindow::addContactSlot( const SmartUtente& c ) {
+    client->user->addContact( c );
+}
+
+// SLOT ClientWindow::removeContactSlot
+void ClientWindow::removeContactSlot( const SmartUtente& c ) {
+    client->user->removeContact( c );
 }
 
 // SLOT

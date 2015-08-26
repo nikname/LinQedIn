@@ -37,12 +37,19 @@ Rete::Rete() :
 
 // METODO addContact di Rete
 void Rete::addContact( const SmartUtente& su ) {
-    contacts->contactsList.append( su );
+    if( !isContact( su ) )
+        contacts->contactsList.append( su );
 }
 
 // METODO removeContact di Rete
 void Rete::removeContact( const SmartUtente& su ) {
-    contacts->contactsList.removeOne( su );
+    if( isContact( su ) )
+        contacts->contactsList.removeOne( su );
+}
+
+// METODO Rete::isContact
+bool Rete::isContact( const SmartUtente& c ) {
+    return contacts->contactsList.contains( c );
 }
 
 // METODO getContactsList di Rete
