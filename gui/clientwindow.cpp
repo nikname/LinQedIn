@@ -8,7 +8,7 @@
 #include "clientwindow.h"
 #include "linqedin_client.h"
 #include "mainwindow.h"
-#include "profilewidget.h"
+#include "personalprofilewidget.h"
 #include "searchresultswidget.h"
 #include "utente.h"
 
@@ -69,7 +69,7 @@ void ClientWindow::initUI() {
 
     scrollArea = new QScrollArea( this );
 
-    profileWidget = new ProfileWidget( client->user, this );
+    profileWidget = new PersonalProfileWidget( client->user, this );
     connect( profileWidget, SIGNAL( showContactSignal( SmartUtente ) ),
              this, SLOT( showUserSlot( SmartUtente ) ) );
 
@@ -138,8 +138,6 @@ void ClientWindow::setupUI() {
     menuLayout->setContentsMargins( 0, 0, 0, 0 );
 
     QWidget *contentWidget = new QWidget( scrollArea );
-
-    profileWidget->hideContactToolsButton();
 
     QWidget *contentFiller = new QWidget( contentWidget );
     contentFiller->setSizePolicy( QSizePolicy::Fixed, QSizePolicy::Expanding );
@@ -266,8 +264,7 @@ void ClientWindow::backFromProfileView() {
         delete profileWidget;
         profileWidget = 0;
     }
-    profileWidget = new ProfileWidget( client->user, this );
-    profileWidget->hideContactToolsButton();
+    profileWidget = new PersonalProfileWidget( client->user, this );
     connect( profileWidget, SIGNAL( showContactSignal( SmartUtente ) ),
              this, SLOT( showUserSlot( SmartUtente ) ) );
 

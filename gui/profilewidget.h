@@ -14,7 +14,7 @@ class QPushButton;
 
 class ProfileWidget : public QWidget {
     Q_OBJECT
-private:
+protected:
     SmartUtente user;
 
     QLabel *profilePicLabel;
@@ -24,15 +24,11 @@ private:
     QLabel *lastExperienceLabel;
     QLabel *lastEducationLabel;
     QLabel *connectionsNumber;
-    QPushButton *editProfileButton;
 
     QVector<QPushButton *> tabButtons;
     QPushButton *backgroundTabButton;
     QPushButton *connectionsTabButton;
     QPushButton *otherInfoTabButton;
-
-    QPushButton *addContactButton;
-    QPushButton *removeContactButton;
 
     QWidget *backgroundTab;
     QLabel *experiencesLabel;
@@ -69,18 +65,12 @@ public:
      */
     explicit ProfileWidget( const SmartUtente&, QWidget *parent = 0 );
 
-    /** */
-    void hideContactToolsButton();
+    /** Distruttore virtuale puro. Ripulisce lo heap. */
+    virtual ~ProfileWidget() = 0;
 signals:
     /** */
     void showContactSignal( const SmartUtente& );
-
-    /** */
-    void addContactSignal( const SmartUtente& );
-
-    /** */
-    void removeContactSignal( const SmartUtente& );
-private slots:
+protected slots:
     /** Mostra la scheda della panoramica dell'utente. */
     void showBackgroundTab();
 
@@ -89,39 +79,6 @@ private slots:
 
     /** Mostra la scheda delle altre informazioni dell'utente. */
     void showOtherInfoTab();
-
-    /** */
-    void openEditProfileDialog();
-
-    /** */
-    void updateProfileInfoSlot( const QString&, const QString& );
-
-    /** */
-    void jobToAddSlot( const SmartLavoro& );
-
-    /** */
-    void jobToRemoveSlot( const SmartLavoro& );
-
-    /** */
-    void updateLastJobInfoSlot( const SmartLavoro& );
-
-    /** */
-    void titleToAddSlot( const SmartTitolo& );
-
-    /** */
-    void titleToRemoveSlot( const SmartTitolo& );
-
-    /** */
-    void updateLastTitleInfoSlot( const SmartTitolo& );
-
-    /** */
-    void addContact();
-
-    /** */
-    void removeContact();
-
-    /** */
-    void contactToRemoveSlot( const SmartUtente& );
 };
 
 #endif // PROFILEWIDGET_H
