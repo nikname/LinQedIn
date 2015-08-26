@@ -55,7 +55,8 @@ SOURCES += main.cpp\
     gui/addjobdialog.cpp \
     gui/addtitledialog.cpp \
     gui/searchresultswidget.cpp \
-    gui/personalprofilewidget.cpp
+    gui/personalprofilewidget.cpp \
+    gui/otherprofilewidget.cpp
 
 HEADERS  += \
     profilo.h \
@@ -101,7 +102,8 @@ HEADERS  += \
     gui/addjobdialog.h \
     gui/addtitledialog.h \
     gui/searchresultswidget.h \
-    gui/personalprofilewidget.h
+    gui/personalprofilewidget.h \
+    gui/otherprofilewidget.h
 
 FORMS    +=
 

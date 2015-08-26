@@ -8,6 +8,7 @@
 #include "clientwindow.h"
 #include "linqedin_client.h"
 #include "mainwindow.h"
+#include "otherprofilewidget.h"
 #include "personalprofilewidget.h"
 #include "searchresultswidget.h"
 #include "utente.h"
@@ -343,7 +344,7 @@ void ClientWindow::showUserSlot( SmartUtente user ) {
         delete profileWidget;
         profileWidget = 0;
     }
-    profileWidget = new ProfileWidget( user, this );
+    profileWidget = new OtherProfileWidget( user, 0, this );
     // ...
     connect( profileWidget, SIGNAL( addContactSignal( SmartUtente ) ),
              this, SLOT( addContactSlot( SmartUtente ) ) );
