@@ -2,49 +2,30 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include <QMenuBar>
-#include <QLabel>
-#include <QBoxLayout>
-#include <QLineEdit>
-#include <QPushButton>
+#include "linqedinwindow.h"
 
-class MainWindow : public QMainWindow {
+class QLabel;
+class QLineEdit;
+class QPushButton;
+
+class MainWindow : public LinQedInWindow {
     Q_OBJECT
 private:
-    QMenu *menu;
-    QAction *exitAct;
-    QMenu *helpMenu;
-    QAction *aboutAct;
-
     QLabel *titleLabel;
 
-    QVBoxLayout *userArea;
     QLineEdit *userUsername;
     QLineEdit *userPassword;
     QPushButton *loginButton;
 
-    QHBoxLayout *adminArea;
     QLabel *adminLabel;
-    QHBoxLayout *adminLogin;
     QLineEdit *adminPassword;
-    QPushButton *adminLoginButton;
+    QPushButton *openAdminLoginButton;
 
-    /** Inizializza la GUI. */
-    void initializeGUI();
+    /** Inizializza la UI. */
+    void initUI();
 
-    /** Crea le varie action necessarie. */
-    void createMenuActions();
-
-    /** Crea il menu.
-     *  Associa le action al menu ed inserisce il menu nella barra del menu.
-     */
-    void createMenus();
-
-    /** Crea l'area per il login dell'utente. */
-    void createUserArea();
-
-    /** Crea l'area per il login dell'amministratore. */
-    void createAdminArea();
+    /** Realizza la UI. Mostra la GUI. */
+    void setupUI();
 public:
     /** Costruttore esplicito ad 1 parametro con 1 valore di dafault.
      *  Come da buona pratica, delega l'inizializzazione della GUI ad un metodo ausiliario.
@@ -65,8 +46,8 @@ private slots:
     /** */
     void loginAdmin();
 
-    /** Mostra le informazioni dell'applicazione su di una finestra pop-up. */
-    void about();
+    /** */
+    void openAdminLoginDialog();
 };
 
 #endif // MAINWINDOW_H

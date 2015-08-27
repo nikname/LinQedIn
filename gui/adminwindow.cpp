@@ -1,38 +1,21 @@
 #include <QDebug>
 #include <QIcon>
-#include <QMenuBar>
 #include <QMessageBox>
 #include <QVBoxLayout>
-
-#include "gui/adduserdialog.h"
-#include "gui/adminsearchwidget.h"
-#include "gui/adminwindow.h"
-#include "gui/mainwindow.h"
-#include "gui/userlistwidget.h"
+#include "adduserdialog.h"
+#include "adminsearchwidget.h"
+#include "adminwindow.h"
+#include "userlistwidget.h"
 #include "linqedin_admin.h"
-#include "smartutente.h"
 #include "utente.h"
 
 // COSTRUTTORE AdminWindow
 AdminWindow::AdminWindow( QWidget *parent ) :
-    QMainWindow( parent ),
+    LinQedInWindow( parent ),
+    stateChanged( false ),
     admin( new LinQedInAdmin() )
 {
-    stateChanged = false;
-
-    menu = menuBar()->addMenu( tr( "&Menu" ) );
-    helpMenu = menuBar()->addMenu( tr( "&Help" ) );
-    logoutAct = new QAction( tr( "Log Out" ), this );
-    exitAct = new QAction( tr( "Exit" ), this );
-    aboutAct = new QAction( tr( "About" ), this );
-
-    mainWidget = new QWidget( this );
-
-    searchWidget = new AdminSearchWidget( mainWidget );
-    userListWidget = new UserListWidget( admin->getUsersList(), mainWidget );
-    saveDatabaseButton = new QPushButton( mainWidget );
-    addUserButton = new QPushButton( mainWidget );
-
+    initUI();
     setupUI();
 
     this->show();
@@ -55,23 +38,27 @@ void AdminWindow::closeEvent( QCloseEvent* event ) {
     close();
 }
 
+// METODO AdminWindow::initUI
+void AdminWindow::initUI() {
+    searchWidget = new AdminSearchWidget( this );
+    userListWidget = new UserListWidget( admin->getUsersList(), this );
+    saveDatabaseButton = new QPushButton( this );
+    connect( saveDatabaseButton, SIGNAL( clicked() ), this, SLOT( saveDatabaseStatus() ) );
+    addUserButton = new QPushButton( this );
+    connect( addUserButton, SIGNAL( clicked() ), this, SLOT( openAddUserDialog() ) );
+}
+
 // METODO AdminWindow::setupUI
 void AdminWindow::setupUI() {
-    createMenuActions();
-    createMenus();
-
-    QHBoxLayout *layout = new QHBoxLayout( mainWidget );
+    QWidget *centralWidget = new QWidget( this );
+    centralWidget->setStyleSheet( "background: #069" );
 
     searchWidget->setFixedWidth( 200 );
-
-    QWidget *rightPanel = new QWidget( mainWidget );
-    QVBoxLayout *rightPanelLayout = new QVBoxLayout( rightPanel );
 
     userListWidget->setMinimumWidth( 600 );
     userListWidget->hideColumn( 6 );
 
     QWidget *buttonsWidget = new QWidget( this );
-    QHBoxLayout *buttonsLayout = new QHBoxLayout( buttonsWidget );
 
     saveDatabaseButton->setFixedSize( 50, 50 );
     saveDatabaseButton->setIcon( QIcon( QPixmap( ":/icons/icon/content-save-all.png" ) ) );
@@ -79,7 +66,6 @@ void AdminWindow::setupUI() {
         "QPushButton { background: #003D5C; border-radius: 25px; }"
         "QPushButton:pressed { background: #00527A; }"
     );
-    connect( saveDatabaseButton, SIGNAL( clicked() ), this, SLOT( saveDatabaseStatus() ) );
 
     addUserButton->setFixedSize( 50, 50 );
     addUserButton->setIcon( QIcon( QPixmap( ":/icons/icon/account-plus.png" ) ) );
@@ -87,30 +73,27 @@ void AdminWindow::setupUI() {
         "QPushButton { background: #003D5C; border-radius: 25px; }"
         "QPushButton:pressed { background: #00527A; }"
     );
-    connect( addUserButton, SIGNAL( clicked() ), this, SLOT( openAddUserDialog() ) );
 
     QWidget *leftButtonsFiller = new QWidget( buttonsWidget );
     leftButtonsFiller->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Ignored );
 
+    QHBoxLayout *buttonsLayout = new QHBoxLayout( buttonsWidget );
     buttonsLayout->addWidget( leftButtonsFiller );
     buttonsLayout->addWidget( saveDatabaseButton );
     buttonsLayout->addWidget( addUserButton );
 
-    buttonsWidget->setLayout( buttonsLayout );
+    QWidget *usersListPanel = new QWidget( centralWidget );
+    usersListPanel->setStyleSheet( "background: white" );
 
-    rightPanelLayout->addWidget( userListWidget );
-    rightPanelLayout->addWidget( buttonsWidget );
-    rightPanelLayout->setMargin( 0 );
+    QVBoxLayout *usersListPanelLayout = new QVBoxLayout( usersListPanel );
+    usersListPanelLayout->addWidget( userListWidget );
+    usersListPanelLayout->addWidget( buttonsWidget );
+    usersListPanelLayout->setMargin( 0 );
 
-    rightPanel->setLayout( rightPanelLayout );
-    rightPanel->setStyleSheet( "background: white" );
-
+    QHBoxLayout *layout = new QHBoxLayout( centralWidget );
     layout->addWidget( searchWidget );
-    layout->addWidget( rightPanel );
+    layout->addWidget( usersListPanel );
     layout->setMargin( 0 );
-
-    mainWidget->setLayout( layout );
-    mainWidget->setStyleSheet( "background: #069" );
 
     connect( this, SIGNAL( databaseStatusChangedSignal() ),
              this, SLOT( databaseStatusChangedSlot() ) );
@@ -122,46 +105,9 @@ void AdminWindow::setupUI() {
     connect( userListWidget, SIGNAL( updateListUserTypeSignal( const QString&, const QString& ) ),
              this, SLOT( updateListUserTypeSlot( const QString&, const QString& ) ) );
 
-    setCentralWidget( mainWidget );
+    setCentralWidget( centralWidget );
     setMinimumHeight( 400 );
     setWindowTitle( "LinQedIn Admin" );
-}
-
-// METODO AdminWindow::createMenuActions
-void AdminWindow::createMenuActions() {
-    logoutAct->setStatusTip( tr( "Log out dall'applicazione"));
-    connect( logoutAct, SIGNAL( triggered() ), this, SLOT( logout() ) );
-
-    exitAct->setStatusTip( tr( "Chiudi applicazione" ) );
-    connect( exitAct, SIGNAL( triggered() ), this, SLOT( close() ) );
-
-    aboutAct->setStatusTip( tr( "Mostra informazioni sull'applicazione") );
-    connect( aboutAct, SIGNAL( triggered() ), this, SLOT( about() ) );
-}
-
-// METODO AdminWindow::createMenus
-void AdminWindow::createMenus() {
-    menu->addAction( logoutAct );
-    menu->addAction( exitAct );
-    helpMenu->addAction( aboutAct );
-}
-
-// SLOT AdminWindow::logout
-void AdminWindow::logout() {
-    this->close();
-
-    new MainWindow;
-}
-
-// SLOT AdminWindow::about
-void AdminWindow::about() {
-    QMessageBox::about( this, tr("About Menu"), tr(
-        "<b>LinQedIn</b>"
-        "<p>Progetto per il corso di Programmazione ad Oggetti presso l'Università degli "
-        "Studi di Padova.</p>"
-        "<p>Lo scopo del progetto era lo sviluppo in C++/Qt di un sistema minimale per "
-        "l'amministrazione ed utilizzo tramite interfaccia utente grafica di un (piccolo) "
-        "database di contatti professionali ispirato a LinkedIn.</p>" ) );
 }
 
 // SLOT AdminWindow::openAddUserDialog

@@ -2,43 +2,31 @@
 #define ADMINWINDOW_H
 
 #include <QMainWindow>
+#include "linqedinwindow.h"
+#include "smartutente.h"
 
 class AdminSearchWidget;
 class LinQedInAdmin;
-class QAction;
-class QMenu;
 class QPushButton;
-class SmartUtente;
 class UserListWidget;
 
-class AdminWindow : public QMainWindow {
+class AdminWindow : public LinQedInWindow {
     Q_OBJECT
     friend class AddUserDialog;
 private:
     bool stateChanged;
     LinQedInAdmin *admin;
 
-    QMenu *menu;
-    QAction *logoutAct;
-    QAction *exitAct;
-    QMenu *helpMenu;
-    QAction *aboutAct;
-
-    QWidget* mainWidget;
-
     AdminSearchWidget *searchWidget;
     UserListWidget *userListWidget;
     QPushButton *saveDatabaseButton;
     QPushButton *addUserButton;
 
+    /** Inizializza la GUI. */
+    void initUI();
+
     /** Realizza la UI. Mostra la GUI. */
     void setupUI();
-
-    /** Crea le varie action necessarie. */
-    void createMenuActions();
-
-    /** Crea il menu. Associa le action al menu ed inserisce il menu nella barra del menu. */
-    void createMenus();
 public:
     /** Costruttore esplicito ad 1 parametro con 1 valore di default.
      *  Come da buona pratica, delega l'inizializzazione della GUI ad un metodo ausiliario.
@@ -67,12 +55,6 @@ signals:
     /** Notifica che lo stato del database è stato modificato e non ancora salvato. */
     void databaseStatusChangedSignal();
 private slots:
-    /** Esegue il log out dall'applicazione. Mostra la finestra di log in. */
-    void logout();
-
-    /** Mostra le informazioni dell'applicazione su di una finestra di dialogo. */
-    void about();
-
     /** Apre una nuova finestra per l'inserimento di un nuovo utente. */
     void openAddUserDialog();
 
