@@ -88,6 +88,9 @@ void OtherProfileWidget::setupUI( bool c ) {
     experiencesLabel->setStyleSheet( "QLabel { color: rgba(0,0,0,0.54); padding-left: 10px; }" );
     educationsLabel->setStyleSheet( "QLabel { color: rgba(0,0,0,0.54); padding-left: 10px; }" );
 
+    ProfileWidget::experiencesWidget->hideToolsButtons();
+    ProfileWidget::educationsWidget->hideToolsButtons();
+
     QVBoxLayout *backgroundTabLayout = new QVBoxLayout( ProfileWidget::backgroundTab );
     backgroundTabLayout->addWidget( ProfileWidget::experiencesLabel );
     backgroundTabLayout->addWidget( ProfileWidget::experiencesWidget );

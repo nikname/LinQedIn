@@ -27,6 +27,9 @@ public:
      * @param QWidget  Puntatore al QWidget padre. Se nullo si riferisce a quello top-level.
      */
     explicit ConnectionsWidget( const SmartUtente&, QWidget *parent = 0 );
+
+    /** */
+    void hideToolsButtons();
 signals:
     /** */
     void contactToRemoveSignal( const SmartUtente& );

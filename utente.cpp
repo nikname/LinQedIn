@@ -99,6 +99,11 @@ void Utente::removeContact( const SmartUtente& su ) {
     net->removeContact( su );
 }
 
+// METODO Utente::isContact
+bool Utente::isContact( const SmartUtente& su ) {
+    return net->isContact( su );
+}
+
 // METODO getContactsList Utente
 QVector<SmartUtente> Utente::getContactsList() const {
     return net->getContactsList();

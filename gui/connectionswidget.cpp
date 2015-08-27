@@ -40,6 +40,12 @@ void ConnectionsWidget::setupUI() {
     }
 }
 
+// SLOT ConnectionsWidget::hideToolsButtons
+void ConnectionsWidget::hideToolsButtons() {
+    for( int i = 0; i < userPreviewWidgetsList.size(); i++ )
+        userPreviewWidgetsList[i]->hideRemoveUserButton();
+}
+
 // SLOT ConnectionsWidget::removeUserSlot
 void ConnectionsWidget::removeUserSlot( const SmartUtente& su ) {
     int pos = contactsList.indexOf( su );

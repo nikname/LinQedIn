@@ -344,12 +344,14 @@ void ClientWindow::showUserSlot( SmartUtente user ) {
         delete profileWidget;
         profileWidget = 0;
     }
-    profileWidget = new OtherProfileWidget( user, 0, this );
+    profileWidget = new OtherProfileWidget( user, client->user->isContact( user ), this );
     // ...
     connect( profileWidget, SIGNAL( addContactSignal( SmartUtente ) ),
              this, SLOT( addContactSlot( SmartUtente ) ) );
     connect( profileWidget, SIGNAL( removeContactSignal( SmartUtente ) ),
              this, SLOT( removeContactSlot( SmartUtente ) ) );
+    connect( profileWidget, SIGNAL( showContactSignal( SmartUtente ) ),
+             this, SLOT( showUserSlot( SmartUtente ) ) );
     if( QVBoxLayout *auxLayout = dynamic_cast<QVBoxLayout *>( contentLayout ) )
         auxLayout->insertWidget( 0, profileWidget );
 
