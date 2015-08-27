@@ -31,6 +31,7 @@ void EducationsWidget::initUI() {
 void EducationsWidget::setupUI() {
     titleWidgetsLayout = new QVBoxLayout( this );
     titleWidgetsLayout->setSpacing( 0 ); /* *** */
+    titleWidgetsLayout->setMargin( 0 );
     for( int i = titleWidgetsList.size() - 1; i >= 0; i-- )
         addTitleWidget( titleWidgetsList[i] );
 
@@ -41,7 +42,6 @@ void EducationsWidget::setupUI() {
         "QPushButton:pressed { background: rgba(0,0,0,0.12); }"
     );
 
-    dynamic_cast<QVBoxLayout *>( titleWidgetsLayout )->addSpacing( 10 );
     dynamic_cast<QVBoxLayout *>( titleWidgetsLayout )->addWidget( addTitleButton, 0, Qt::AlignCenter );
 
     setStyleSheet( "background: white" );
@@ -77,6 +77,7 @@ void EducationsWidget::insertTitleWidget( int pos, TitleWidget *widget ) {
 void EducationsWidget::hideToolsButtons() {
     for( int i = 0; i < titlesList.size(); i++ )
         titleWidgetsList[i]->hideToolsButtons();
+    addTitleButton->setVisible( false );
 }
 
 // SLOT EducationsWidget::openAddTitleDialog

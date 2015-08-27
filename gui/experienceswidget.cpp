@@ -31,6 +31,7 @@ void ExperiencesWidget::initUI() {
 void ExperiencesWidget::setupUI() {
     jobWidgetsLayout = new QVBoxLayout( this );
     jobWidgetsLayout->setSpacing( 0 );
+    jobWidgetsLayout->setMargin( 0 );
     for( int i = jobWidgetsList.size() - 1; i >= 0; i-- )
         addJobWidget( jobWidgetsList[i] );
 
@@ -41,7 +42,6 @@ void ExperiencesWidget::setupUI() {
         "QPushButton:pressed { background: rgba(0,0,0,0.12); }"
     );
 
-    dynamic_cast<QVBoxLayout *>( jobWidgetsLayout )->addSpacing( 10 );
     dynamic_cast<QVBoxLayout *>( jobWidgetsLayout )->addWidget( addJobButton, 0, Qt::AlignCenter );
 
     setStyleSheet( "background: white" );
@@ -77,6 +77,7 @@ void ExperiencesWidget::insertJobWidget( int pos, JobWidget *widget ) {
 void ExperiencesWidget::hideToolsButtons() {
     for( int i = 0; i < jobWidgetsList.size(); i++ )
         jobWidgetsList[i]->hideToolsButtons();
+    addJobButton->setVisible( false );
 }
 
 // SLOT ExperiencesWidget::openAddJobDialog
