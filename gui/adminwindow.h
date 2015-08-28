@@ -6,6 +6,7 @@
 class AdminSearchWidget;
 class LinQedInAdmin;
 class QAction;
+class QLabel;
 class QMenu;
 class QPushButton;
 class SmartUtente;
@@ -24,6 +25,15 @@ private:
     QMenu *helpMenu;
     QAction *aboutAct;
 
+    QWidget *menuWidget;
+
+    QPushButton *homeButton;
+    QPushButton *backButton;
+
+    QLabel *linqedinLabel;
+
+    QPushButton *openSearchButton;
+
     UserListWidget *userListWidget;
     QPushButton *openSearchDialogButton;
     QPushButton *saveDatabaseButton;
@@ -40,6 +50,12 @@ private:
 
     /** Crea il menu. Associa le action al menu ed inserisce il menu nella barra del menu. */
     void createMenus();
+
+    /** Applica delle proprietà agli altri pulsanti dell'area del menu.
+     *
+     * @param QPushButton*  Pulsante al quale applicare le proprietà.
+     */
+    void setButtonProperties( QPushButton* );
 public:
     /** Costruttore esplicito ad 1 parametro con 1 valore di default.
      *  Come da buona pratica, delega l'inizializzazione della GUI ad un metodo ausiliario.
