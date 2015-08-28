@@ -95,23 +95,17 @@ signals:
      * @param QModelIndex  Indice della tabella selezionato. La riga identifica l'utente.
      */
     void openChangeUserTypeSignal( const QModelIndex& );
-
-    /** Notifica al parent quale riga della tabella (contatto) è da rimuovere.
-     *
-     * @param QModelIndex  Indice della tabella selezionato. La riga identifica il contatto.
-     */
-    void contactToRemoveSignal( const QModelIndex& );
 private slots:
     /** In base all'indice della colonna selezionata, se a questo è associata un'azione, emette un
      *  apposito segnale. Gli indici di colonna ai quali è associata un'azione sono:
      *   - 4, emette openChangeUserTypeSignal( QModelIndex );
-     *   - 5, rimuove l'utente dalla tabella ed emette userToRemoveSignal( QModelIndex );
-     *   - 6, rimuove il contatto dalla tabella ed emette contactToRemoveSignal( QModelIndex ).
+     *   - 5, rimuove l'utente dalla tabella ed emette userToRemoveSignal( QModelIndex ).
      *
      * @param QModelIndex  Indice della tabella selezionato.
      */
     void tableClickedSlot( const QModelIndex& );
 
+    /** */
     void updateTableRowSlot( const SmartUtente& );
 };
 
