@@ -30,6 +30,7 @@ SOURCES += main.cpp\
     lavoro.cpp \
     smarttitolo.cpp \
     smartlavoro.cpp \
+    gui/mainwindow.cpp \
     gui/adminwindow.cpp \
     gui/clientwindow.cpp \
     gui/tablemodel.cpp \
@@ -55,10 +56,7 @@ SOURCES += main.cpp\
     gui/addtitledialog.cpp \
     gui/searchresultswidget.cpp \
     gui/personalprofilewidget.cpp \
-    gui/otherprofilewidget.cpp \
-    gui/linqedinwindow.cpp \
-    gui/adminlogindialog.cpp \
-    gui/loginwindow.cpp
+    gui/otherprofilewidget.cpp
 
 HEADERS  += \
     profilo.h \
@@ -78,6 +76,7 @@ HEADERS  += \
     lavoro.h \
     smarttitolo.h \
     smartlavoro.h \
+    gui/mainwindow.h \
     gui/adminwindow.h \
     gui/clientwindow.h \
     gui/tablemodel.h \
@@ -104,10 +103,7 @@ HEADERS  += \
     gui/addtitledialog.h \
     gui/searchresultswidget.h \
     gui/personalprofilewidget.h \
-    gui/otherprofilewidget.h \
-    gui/linqedinwindow.h \
-    gui/adminlogindialog.h \
-    gui/loginwindow.h
+    gui/otherprofilewidget.h
 
 FORMS    +=
 

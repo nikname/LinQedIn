@@ -1,15 +1,13 @@
 #include <QAction>
-#include <QBoxLayout>
 #include <QLabel>
 #include <QLineEdit>
 #include <QMenu>
-#include <QMenuBar>
 #include <QMessageBox>
 #include <QPushButton>
 #include <QScrollArea>
 #include "clientwindow.h"
 #include "linqedin_client.h"
-#include "loginwindow.h"
+#include "mainwindow.h"
 #include "otherprofilewidget.h"
 #include "personalprofilewidget.h"
 #include "searchresultswidget.h"
@@ -240,7 +238,7 @@ void ClientWindow::setButtonProperties( QPushButton* button ) {
 void ClientWindow::logout() {
     this->close();
 
-    new LoginWindow;
+    new MainWindow;
 }
 
 // SLOT ClientWindow::about
