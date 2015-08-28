@@ -3,7 +3,9 @@
 #include <QDebug>
 #include <QLabel>
 #include <QLineEdit>
+#include <QPainter>
 #include <QPushButton>
+#include <QStyleOption>
 #include "adminsearchdialog.h"
 
 // COSTRUTTORE AdminSearchDialog
@@ -47,6 +49,7 @@ void AdminSearchDialog::setupUI() {
     searchEdit->setPlaceholderText( tr( "Search" ) );
     setLineEditProperties( searchEdit );
 
+    typeLabel->setStyleSheet( "QLabel { font: bold; }" );
     typeCheckboxBasic->setChecked( true );
     typeCheckboxExecutive->setChecked( true );
     typeCheckboxBusiness->setChecked( true );
@@ -56,6 +59,9 @@ void AdminSearchDialog::setupUI() {
     typeCheckboxLayout->addWidget( typeCheckboxBasic );
     typeCheckboxLayout->addWidget( typeCheckboxExecutive );
     typeCheckboxLayout->addWidget( typeCheckboxBusiness );
+    typeCheckboxLayout->setSpacing( 0 );
+
+    fieldLabel->setStyleSheet( "QLabel { font: bold; }" );
 
     fieldCheckboxUsername->setChecked( true );
 
@@ -64,6 +70,7 @@ void AdminSearchDialog::setupUI() {
     fieldCheckboxLayout->addWidget( fieldCheckboxUsername );
     fieldCheckboxLayout->addWidget( fieldCheckboxName );
     fieldCheckboxLayout->addWidget( fieldCheckboxSurname );
+    fieldCheckboxLayout->setSpacing( 0 );
 
     QWidget *buttonsWidget = new QWidget( this );
 
@@ -81,15 +88,24 @@ void AdminSearchDialog::setupUI() {
 
     layout->addWidget( titleLabel );
     layout->addWidget( searchEdit );
+    layout->addSpacing( 10 );
     layout->addWidget( typeCheckboxWidget );
     layout->addWidget( fieldCheckboxWidget );
     layout->addSpacing( 10 );
     layout->addWidget( buttonsWidget );
-    layout->addSpacing( 20 );
+    layout->setMargin( 20 );
 
     setStyleSheet( "background: white" );
     setWindowFlags( Qt::Dialog | Qt::FramelessWindowHint );
     setFixedWidth( 300 );
+}
+
+// METODO AdminSearchDialog::paintEvent
+void AdminSearchDialog::paintEvent( QPaintEvent *) {
+    QStyleOption opt;
+    opt.init( this );
+    QPainter p( this );
+    style()->drawPrimitive( QStyle::PE_Widget, &opt, &p, this );
 }
 
 // SLOT AdminSearchDialog::checkInput
@@ -97,4 +113,9 @@ void AdminSearchDialog::checkInput( const QString& input ) {
     if( searchEdit->text().isEmpty() )
         setButtonDisabled( acceptButton, true );
     else setButtonEnabled( acceptButton, true );
+}
+
+// SLOT AdminSearchDialog::searchUsers
+void AdminSearchDialog::searchUsers() {
+
 }

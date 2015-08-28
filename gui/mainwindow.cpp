@@ -44,7 +44,8 @@ void MainWindow::initUI() {
     connect( loginButton, SIGNAL( clicked() ), this, SLOT( loginUser() ) );
 
     openAdminLoginButton = new QPushButton();
-    connect( openAdminLoginButton, SIGNAL( clicked() ), this, SLOT( openAdminLoginDialog() ) );
+    //connect( openAdminLoginButton, SIGNAL( clicked() ), this, SLOT( openAdminLoginDialog() ) );
+    connect( openAdminLoginButton, SIGNAL( clicked() ), this, SLOT( loginAdmin() ) );
 }
 
 // METODO MainWindow::setupUI

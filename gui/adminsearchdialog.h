@@ -37,6 +37,12 @@ private:
 
     /** Realizza la UI. Mostra la GUI. */
     void setupUI();
+protected:
+    /** Reimplementazione.
+     *
+     * @param QPaintEvent
+     */
+    void paintEvent( QPaintEvent * );
 public:
     /** Costruttore esplicito ad 1 parametro con 1 parametro di default.
      *
@@ -48,6 +54,9 @@ signals:
 public slots:
     /** */
     void checkInput( const QString& );
+
+    /** */
+    void searchUsers();
 };
 
 #endif // ADMINSEARCHDIALOG_H
