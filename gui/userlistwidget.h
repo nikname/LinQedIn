@@ -13,9 +13,17 @@ class TableModel;
 class UserListWidget : public QWidget {
     Q_OBJECT
 private:
-    TableModel *table;
+    QVector<SmartUtente> usersList;
+
+    TableModel *model;
     QTableView *tableView;
     QSortFilterProxyModel *proxyModel;
+
+    /** Inizializza la UI. */
+    void initUI();
+
+    /** Realizza la UI. Mostra la GUI. */
+    void setupUI();
 public:
     /** Costruttore esplicito ad 1 parametro con 1 valore di default.
      *  Realizza l'area della GUI nella quale viene visualizzata la lista degli utenti.
@@ -36,13 +44,6 @@ public:
 
     /** Carica la tabella con le informazioni degli utenti presenti nel database. */
     void loadUserList();
-
-    /** Nasconde una colonna dalla tabella.
-     *  Necessario per realizzare una tabella in base alle esigenze.
-     *
-     * @param int  Indice colonna da nascondere.
-     */
-    void hideColumn( int );
 signals:
     /** Notifica al parent l'username dell'utente da rimuovere dal database.
      *
@@ -57,18 +58,7 @@ signals:
      */
     void updateListUserTypeSignal( const QString&, const QString& );
 
-    /** Notifica il parent l'username del contatto da rimuovere.
-     *
-     * @param QString  Username del contatto da rimuovere.
-     */
-    void updateListContactRemovedSignal( const QString& );
-
-    /** Notifica al parent l'username del contatto da rimuovere dai contatti dell'utente del client.
-     *
-     * @param SmartUtente  Username del contatto da rimuovere.
-     */
-    void updateContactsListSignal( const SmartUtente& );
-
+    /** */
     void updateTableRowSignal( const SmartUtente& );
 private slots:
     /** Aggiorna la lista degli utenti con il nuovo contenuto del database.
@@ -90,11 +80,6 @@ private slots:
      * dal cambio di tipologia di account.
      */
     void openChangeUserTypeSlot( const QModelIndex& );
-
-    /**  */
-    void contactToRemoveSlot( const QModelIndex& );
-
-    void updateContactsListSlot( const SmartUtente& );
 };
 
 #endif // USERLIST_WIDGET_H
