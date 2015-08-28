@@ -3,36 +3,21 @@
 #include <QMenuBar>
 #include <QMessageBox>
 #include <QVBoxLayout>
-
 #include "gui/adduserdialog.h"
 #include "gui/adminsearchwidget.h"
 #include "gui/adminwindow.h"
 #include "gui/mainwindow.h"
 #include "gui/userlistwidget.h"
 #include "linqedin_admin.h"
-#include "smartutente.h"
 #include "utente.h"
 
 // COSTRUTTORE AdminWindow
 AdminWindow::AdminWindow( QWidget *parent ) :
     QMainWindow( parent ),
-    admin( new LinQedInAdmin() )
+    admin( new LinQedInAdmin() ),
+    stateChanged( false )
 {
-    stateChanged = false;
-
-    menu = menuBar()->addMenu( tr( "&Menu" ) );
-    helpMenu = menuBar()->addMenu( tr( "&Help" ) );
-    logoutAct = new QAction( tr( "Log Out" ), this );
-    exitAct = new QAction( tr( "Exit" ), this );
-    aboutAct = new QAction( tr( "About" ), this );
-
-    mainWidget = new QWidget( this );
-
-    searchWidget = new AdminSearchWidget( mainWidget );
-    userListWidget = new UserListWidget( admin->getUsersList(), mainWidget );
-    saveDatabaseButton = new QPushButton( mainWidget );
-    addUserButton = new QPushButton( mainWidget );
-
+    initUI();
     setupUI();
 
     this->show();
@@ -55,66 +40,11 @@ void AdminWindow::closeEvent( QCloseEvent* event ) {
     close();
 }
 
-// METODO AdminWindow::setupUI
-void AdminWindow::setupUI() {
-    createMenuActions();
-    createMenus();
+// METODO AdminWindow::initUI
+void AdminWindow::initUI() {
+    searchWidget = new AdminSearchWidget( this );
 
-    QHBoxLayout *layout = new QHBoxLayout( mainWidget );
-
-    searchWidget->setFixedWidth( 200 );
-
-    QWidget *rightPanel = new QWidget( mainWidget );
-    QVBoxLayout *rightPanelLayout = new QVBoxLayout( rightPanel );
-
-    userListWidget->setMinimumWidth( 600 );
-    userListWidget->hideColumn( 6 );
-
-    QWidget *buttonsWidget = new QWidget( this );
-    QHBoxLayout *buttonsLayout = new QHBoxLayout( buttonsWidget );
-
-    saveDatabaseButton->setFixedSize( 50, 50 );
-    saveDatabaseButton->setIcon( QIcon( QPixmap( ":/icons/icon/content-save-all.png" ) ) );
-    saveDatabaseButton->setStyleSheet(
-        "QPushButton { background: #003D5C; border-radius: 25px; }"
-        "QPushButton:pressed { background: #00527A; }"
-    );
-    connect( saveDatabaseButton, SIGNAL( clicked() ), this, SLOT( saveDatabaseStatus() ) );
-
-    addUserButton->setFixedSize( 50, 50 );
-    addUserButton->setIcon( QIcon( QPixmap( ":/icons/icon/account-plus.png" ) ) );
-    addUserButton->setStyleSheet(
-        "QPushButton { background: #003D5C; border-radius: 25px; }"
-        "QPushButton:pressed { background: #00527A; }"
-    );
-    connect( addUserButton, SIGNAL( clicked() ), this, SLOT( openAddUserDialog() ) );
-
-    QWidget *leftButtonsFiller = new QWidget( buttonsWidget );
-    leftButtonsFiller->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Ignored );
-
-    buttonsLayout->addWidget( leftButtonsFiller );
-    buttonsLayout->addWidget( saveDatabaseButton );
-    buttonsLayout->addWidget( addUserButton );
-
-    buttonsWidget->setLayout( buttonsLayout );
-
-    rightPanelLayout->addWidget( userListWidget );
-    rightPanelLayout->addWidget( buttonsWidget );
-    rightPanelLayout->setMargin( 0 );
-
-    rightPanel->setLayout( rightPanelLayout );
-    rightPanel->setStyleSheet( "background: white" );
-
-    layout->addWidget( searchWidget );
-    layout->addWidget( rightPanel );
-    layout->setMargin( 0 );
-
-    mainWidget->setLayout( layout );
-    mainWidget->setStyleSheet( "background: #069" );
-
-    connect( this, SIGNAL( databaseStatusChangedSignal() ),
-             this, SLOT( databaseStatusChangedSlot() ) );
-
+    userListWidget = new UserListWidget( admin->getUsersList(), this );
     connect( this, SIGNAL( updateUsersListSignal( LinQedInAdmin*, QString ) ),
              userListWidget, SLOT( updateUserListSlot( LinQedInAdmin*, QString ) ) );
     connect( userListWidget, SIGNAL( updateListUserRemovedSignal( const QString& ) ),
@@ -122,27 +52,91 @@ void AdminWindow::setupUI() {
     connect( userListWidget, SIGNAL( updateListUserTypeSignal( const QString&, const QString& ) ),
              this, SLOT( updateListUserTypeSlot( const QString&, const QString& ) ) );
 
-    setCentralWidget( mainWidget );
-    setMinimumHeight( 400 );
+    saveDatabaseButton = new QPushButton( this );
+    connect( saveDatabaseButton, SIGNAL( clicked() ), this, SLOT( saveDatabaseStatus() ) );
+
+    addUserButton = new QPushButton( this );
+    connect( addUserButton, SIGNAL( clicked() ), this, SLOT( openAddUserDialog() ) );
+
+    connect( this, SIGNAL( databaseStatusChangedSignal() ),
+             this, SLOT( databaseStatusChangedSlot() ) );
+}
+
+// METODO AdminWindow::setupUI
+void AdminWindow::setupUI() {
+    createMenuActions();
+    createMenus();
+
+    QWidget *centralWidget = new QWidget( this );
+
+    searchWidget->setFixedWidth( 200 );
+
+    userListWidget->setMinimumWidth( 600 );
+    userListWidget->hideColumn( 6 );
+
+    QWidget *buttonsWidget = new QWidget( this );
+
+    saveDatabaseButton->setFixedSize( 50, 50 );
+    saveDatabaseButton->setIcon( QIcon( QPixmap( ":/icons/icon/content-save-all.png" ) ) );
+    saveDatabaseButton->setStyleSheet(
+        "QPushButton { background: #003D5C; border-radius: 25px; }"
+        "QPushButton:pressed { background: #00527A; }"
+    );
+
+    addUserButton->setFixedSize( 50, 50 );
+    addUserButton->setIcon( QIcon( QPixmap( ":/icons/icon/account-plus.png" ) ) );
+    addUserButton->setStyleSheet(
+        "QPushButton { background: #003D5C; border-radius: 25px; }"
+        "QPushButton:pressed { background: #00527A; }"
+    );
+
+    QWidget *buttonsFiller = new QWidget( buttonsWidget );
+    buttonsFiller->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Fixed );
+
+    QHBoxLayout *buttonsLayout = new QHBoxLayout( buttonsWidget );
+    buttonsLayout->addWidget( buttonsFiller );
+    buttonsLayout->addWidget( saveDatabaseButton );
+    buttonsLayout->addWidget( addUserButton );
+
+    QWidget *usersListPanel = new QWidget( centralWidget );
+
+    QVBoxLayout *usersListPanelLayout = new QVBoxLayout( usersListPanel );
+    usersListPanelLayout->addWidget( userListWidget );
+    usersListPanelLayout->addWidget( buttonsWidget );
+    usersListPanelLayout->setMargin( 0 );
+    usersListPanelLayout->setSpacing( 0 );
+
+    QHBoxLayout *layout = new QHBoxLayout( centralWidget );
+    layout->addWidget( searchWidget );
+    layout->addWidget( usersListPanel );
+    layout->setMargin( 0 );
+
+    setCentralWidget( centralWidget );
+    setMinimumSize( 600, 400 );
     setWindowTitle( "LinQedIn Admin" );
 }
 
 // METODO AdminWindow::createMenuActions
 void AdminWindow::createMenuActions() {
+    logoutAct = new QAction( tr( "Log Out" ), this );
     logoutAct->setStatusTip( tr( "Log out dall'applicazione"));
     connect( logoutAct, SIGNAL( triggered() ), this, SLOT( logout() ) );
 
+    exitAct = new QAction( tr( "Exit" ), this );
     exitAct->setStatusTip( tr( "Chiudi applicazione" ) );
     connect( exitAct, SIGNAL( triggered() ), this, SLOT( close() ) );
 
+    aboutAct = new QAction( tr( "About" ), this );
     aboutAct->setStatusTip( tr( "Mostra informazioni sull'applicazione") );
     connect( aboutAct, SIGNAL( triggered() ), this, SLOT( about() ) );
 }
 
 // METODO AdminWindow::createMenus
 void AdminWindow::createMenus() {
+    menu = menuBar()->addMenu( tr( "&Menu" ) );
     menu->addAction( logoutAct );
     menu->addAction( exitAct );
+    helpMenu = menuBar()->addMenu( tr( "&Help" ) );
     helpMenu->addAction( aboutAct );
 }
 
@@ -150,7 +144,7 @@ void AdminWindow::createMenus() {
 void AdminWindow::logout() {
     this->close();
 
-    new MainWindow;
+    new MainWindow();
 }
 
 // SLOT AdminWindow::about

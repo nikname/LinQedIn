@@ -3,10 +3,10 @@
 
 #include <QMainWindow>
 #include <QMenuBar>
-#include <QLabel>
-#include <QBoxLayout>
-#include <QLineEdit>
-#include <QPushButton>
+
+class QLabel;
+class QLineEdit;
+class QPushButton;
 
 class MainWindow : public QMainWindow {
     Q_OBJECT
@@ -18,19 +18,17 @@ private:
 
     QLabel *titleLabel;
 
-    QVBoxLayout *userArea;
     QLineEdit *userUsername;
     QLineEdit *userPassword;
     QPushButton *loginButton;
 
-    QHBoxLayout *adminArea;
-    QLabel *adminLabel;
-    QHBoxLayout *adminLogin;
-    QLineEdit *adminPassword;
-    QPushButton *adminLoginButton;
+    QPushButton *openAdminLoginButton;
 
-    /** Inizializza la GUI. */
-    void initializeGUI();
+    /** Inizializza la UI. */
+    void initUI();
+
+    /** Realizza la UI. Mostra la GUI. */
+    void setupUI();
 
     /** Crea le varie action necessarie. */
     void createMenuActions();
@@ -64,6 +62,9 @@ private slots:
 
     /** */
     void loginAdmin();
+
+    /** */
+    void openAdminLoginDialog();
 
     /** Mostra le informazioni dell'applicazione su di una finestra pop-up. */
     void about();

@@ -1,4 +1,5 @@
 #include <QAction>
+#include <QBoxLayout>
 #include <QLabel>
 #include <QLineEdit>
 #include <QMenu>

@@ -24,12 +24,13 @@ private:
     QMenu *helpMenu;
     QAction *aboutAct;
 
-    QWidget* mainWidget;
-
     AdminSearchWidget *searchWidget;
     UserListWidget *userListWidget;
     QPushButton *saveDatabaseButton;
     QPushButton *addUserButton;
+
+    /** Inizializza la GUI. */
+    void initUI();
 
     /** Realizza la UI. Mostra la GUI. */
     void setupUI();
