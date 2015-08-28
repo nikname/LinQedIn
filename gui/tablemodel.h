@@ -10,10 +10,10 @@ class TableModel : public QAbstractTableModel {
     Q_OBJECT
     friend class UserListWidget;
 private:
-    QVector<SmartUtente> userList;
+    QVector<SmartUtente> usersList;
+
     QPixmap detailIcon;
     QPixmap deleteIcon;
-    QPixmap removeContactIcon;
 public:
     /** Costruttore esplicito a 2 parametri con 1 parametro di default.
      *

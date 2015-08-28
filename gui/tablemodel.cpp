@@ -1,29 +1,27 @@
+#include <QSortFilterProxyModel>
 #include "tablemodel.h"
-#include "linqedin_admin.h" // se omesso: invalid use of incomplete type 'class Utente'
 #include "utente.h"
 
-#include <QSortFilterProxyModel>
 
 // COSTRUTTORE TableModel
 TableModel::TableModel( const QVector<SmartUtente> v, QObject *parent ) :
     QAbstractTableModel( parent ),
-    userList( v )
+    usersList( v )
 {
     detailIcon = QPixmap( ":/icons/icon/account-switch.png" );
-    deleteIcon = QPixmap( ":/icons/icon/delete.png" );
-    removeContactIcon = QPixmap( ":icons/icon/account-remove.png" );
+    deleteIcon = QPixmap( ":icons/icon/account-remove.png" );
 }
 
 // METODO TableModel::rowCount
 int TableModel::rowCount( const QModelIndex &parent ) const {
     Q_UNUSED( parent );
-    return userList.size();
+    return usersList.size();
 }
 
 // METODO TableModel::columnCount
 int TableModel::columnCount( const QModelIndex &parent ) const {
     Q_UNUSED( parent );
-    return 7;
+    return 6;
 }
 
 // METODO TableModel::date
@@ -31,11 +29,11 @@ QVariant TableModel::data( const QModelIndex &index, int role ) const {
     if( !index.isValid() )
         return QVariant();
 
-    if( index.row() >= userList.size() || index.row() < 0 )
+    if( index.row() >= usersList.size() || index.row() < 0 )
         return QVariant();
 
     if( role == Qt::DisplayRole ) {
-        SmartUtente user = userList.at( index.row() );
+        SmartUtente user = usersList.at( index.row() );
 
         switch( index.column() ) {
         case 0: return user->getUsername();
@@ -49,7 +47,6 @@ QVariant TableModel::data( const QModelIndex &index, int role ) const {
         switch ( index.column() ) {
         case 4: return detailIcon;
         case 5: return deleteIcon;
-        case 6: return removeContactIcon;
         }
     }
 
@@ -57,7 +54,6 @@ QVariant TableModel::data( const QModelIndex &index, int role ) const {
         switch ( index.column() ) {
         case 4: return detailIcon.size();
         case 5: return deleteIcon.size();
-        case 6: return removeContactIcon.size();
         }
     }
 
@@ -76,8 +72,7 @@ QVariant TableModel::headerData( int section, Qt::Orientation orientation, int r
         case 2: return tr( "Surname" );
         case 3: return tr( "Type" );
         case 4: return tr( "Change Type" );
-        case 5: return tr( "Delete" );
-        case 6: return tr( "Remove" );
+        case 5: return tr( "Remove" );
         }
     }
     if( orientation == Qt::Vertical )
@@ -91,9 +86,8 @@ bool TableModel::removeRows( int row, int count, const QModelIndex& parent ) {
     Q_UNUSED( parent );
     beginRemoveRows( QModelIndex(), row, row + count - 1 );
 
-    for( int r = 0; r < count; ++r) {
-        userList.removeAt( row );
-    }
+    for( int r = 0; r < count; ++r )
+        usersList.removeAt( row );
 
     endRemoveRows();
     //emit layoutChanged();
@@ -102,13 +96,13 @@ bool TableModel::removeRows( int row, int count, const QModelIndex& parent ) {
 
 // METODO TableModel::getList
 QVector<SmartUtente> TableModel::getList() {
-    return userList;
+    return usersList;
 }
 
 // METODO TableModel::setList
 void TableModel::setList( const QVector<SmartUtente> v ) {
     emit layoutAboutToBeChanged();
-    userList = v;
+    usersList = v;
     emit layoutChanged();
 }
 
@@ -122,9 +116,6 @@ void TableModel::tableClickedSlot( const QModelIndex& i ) {
         emit userToRemoveSignal( i );
         removeRows( i.row(), 1, QModelIndex() );
         break;
-    case 6:
-        emit contactToRemoveSignal( i );
-        break;
     default: break;
     }
 }
@@ -133,22 +124,22 @@ void TableModel::tableClickedSlot( const QModelIndex& i ) {
 void TableModel::updateTableRowSlot( const SmartUtente& su ) {
     emit layoutAboutToBeChanged();
 
-    if( userList.isEmpty() ) {
+    if( usersList.isEmpty() ) {
         QVector<SmartUtente> aux;
         aux.append( su );
-        userList = aux;
+        usersList = aux;
     } else {
         bool replaced = false;
-        QVector<SmartUtente>::iterator it = userList.begin();
-        for( int i = 0; i < userList.size(); i++, it++ ) {
-            if( userList[i]->getUsername() == su->getUsername() ) {
-                userList.replace( i, su );
+        QVector<SmartUtente>::iterator it = usersList.begin();
+        for( int i = 0; i < usersList.size(); i++, it++ ) {
+            if( usersList[i]->getUsername() == su->getUsername() ) {
+                usersList.replace( i, su );
                 replaced = true;
                 break;
             }
         }
         if( !replaced ) {
-            userList.append( su );
+            usersList.append( su );
         }
     }
 

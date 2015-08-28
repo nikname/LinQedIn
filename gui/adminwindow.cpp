@@ -52,7 +52,6 @@ void AdminWindow::initUI() {
     linqedinLabel = new QLabel( "<h2>LinQedIn</h2>", this );
 
     userListWidget = new UserListWidget( admin->getUsersList(), this );
-    userListWidget->hideColumn( 6 ); // ***
 
     openSearchDialogButton = new QPushButton( this );
     connect( openSearchDialogButton, SIGNAL( clicked() ), this, SLOT( openSearchDialog() ) );
