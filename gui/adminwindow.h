@@ -24,8 +24,8 @@ private:
     QMenu *helpMenu;
     QAction *aboutAct;
 
-    AdminSearchWidget *searchWidget;
     UserListWidget *userListWidget;
+    QPushButton *openSearchDialogButton;
     QPushButton *saveDatabaseButton;
     QPushButton *addUserButton;
 
@@ -73,6 +73,9 @@ private slots:
 
     /** Mostra le informazioni dell'applicazione su di una finestra di dialogo. */
     void about();
+
+    /** */
+    void openSearchDialog();
 
     /** Apre una nuova finestra per l'inserimento di un nuovo utente. */
     void openAddUserDialog();

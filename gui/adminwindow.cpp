@@ -2,12 +2,13 @@
 #include <QIcon>
 #include <QMenuBar>
 #include <QMessageBox>
+#include <QPushButton>
 #include <QVBoxLayout>
-#include "gui/adduserdialog.h"
-#include "gui/adminsearchwidget.h"
-#include "gui/adminwindow.h"
-#include "gui/mainwindow.h"
-#include "gui/userlistwidget.h"
+#include "adduserdialog.h"
+#include "adminsearchdialog.h"
+#include "adminwindow.h"
+#include "mainwindow.h"
+#include "userlistwidget.h"
 #include "linqedin_admin.h"
 #include "utente.h"
 
@@ -42,15 +43,18 @@ void AdminWindow::closeEvent( QCloseEvent* event ) {
 
 // METODO AdminWindow::initUI
 void AdminWindow::initUI() {
-    searchWidget = new AdminSearchWidget( this );
-
     userListWidget = new UserListWidget( admin->getUsersList(), this );
+    userListWidget->hideColumn( 6 ); // ***
+
     connect( this, SIGNAL( updateUsersListSignal( LinQedInAdmin*, QString ) ),
              userListWidget, SLOT( updateUserListSlot( LinQedInAdmin*, QString ) ) );
     connect( userListWidget, SIGNAL( updateListUserRemovedSignal( const QString& ) ),
              this, SLOT( updateListUserRemovedSlot( const QString& ) ) );
     connect( userListWidget, SIGNAL( updateListUserTypeSignal( const QString&, const QString& ) ),
              this, SLOT( updateListUserTypeSlot( const QString&, const QString& ) ) );
+
+    openSearchDialogButton = new QPushButton( this );
+    connect( openSearchDialogButton, SIGNAL( clicked() ), this, SLOT( openSearchDialog() ) );
 
     saveDatabaseButton = new QPushButton( this );
     connect( saveDatabaseButton, SIGNAL( clicked() ), this, SLOT( saveDatabaseStatus() ) );
@@ -69,12 +73,14 @@ void AdminWindow::setupUI() {
 
     QWidget *centralWidget = new QWidget( this );
 
-    searchWidget->setFixedWidth( 200 );
-
-    userListWidget->setMinimumWidth( 600 );
-    userListWidget->hideColumn( 6 );
-
     QWidget *buttonsWidget = new QWidget( this );
+
+    openSearchDialogButton->setFixedSize( 50, 50 );
+    openSearchDialogButton->setIcon( QIcon( QPixmap( ":/icons/icon/magnify.png" ) ) );
+    openSearchDialogButton->setStyleSheet(
+        "QPushButton { background: #003D5C; border-radius: 25px; }"
+        "QPushButton:pressed { background: #00527A; }"
+    );
 
     saveDatabaseButton->setFixedSize( 50, 50 );
     saveDatabaseButton->setIcon( QIcon( QPixmap( ":/icons/icon/content-save-all.png" ) ) );
@@ -94,22 +100,16 @@ void AdminWindow::setupUI() {
     buttonsFiller->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Fixed );
 
     QHBoxLayout *buttonsLayout = new QHBoxLayout( buttonsWidget );
+    buttonsLayout->addWidget( openSearchDialogButton );
     buttonsLayout->addWidget( buttonsFiller );
     buttonsLayout->addWidget( saveDatabaseButton );
     buttonsLayout->addWidget( addUserButton );
 
-    QWidget *usersListPanel = new QWidget( centralWidget );
-
-    QVBoxLayout *usersListPanelLayout = new QVBoxLayout( usersListPanel );
-    usersListPanelLayout->addWidget( userListWidget );
-    usersListPanelLayout->addWidget( buttonsWidget );
-    usersListPanelLayout->setMargin( 0 );
-    usersListPanelLayout->setSpacing( 0 );
-
-    QHBoxLayout *layout = new QHBoxLayout( centralWidget );
-    layout->addWidget( searchWidget );
-    layout->addWidget( usersListPanel );
+    QVBoxLayout *layout = new QVBoxLayout( centralWidget );
+    layout->addWidget( userListWidget );
+    layout->addWidget( buttonsWidget );
     layout->setMargin( 0 );
+    layout->setSpacing( 0 );
 
     setCentralWidget( centralWidget );
     setMinimumSize( 600, 400 );
@@ -156,6 +156,13 @@ void AdminWindow::about() {
         "<p>Lo scopo del progetto era lo sviluppo in C++/Qt di un sistema minimale per "
         "l'amministrazione ed utilizzo tramite interfaccia utente grafica di un (piccolo) "
         "database di contatti professionali ispirato a LinkedIn.</p>" ) );
+}
+
+// SLOT AdminWindow::openSearchDialog
+void AdminWindow::openSearchDialog() {
+    AdminSearchDialog *adminSearchDialog = new AdminSearchDialog( this );
+
+    adminSearchDialog->exec();
 }
 
 // SLOT AdminWindow::openAddUserDialog

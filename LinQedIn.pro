@@ -38,7 +38,6 @@ SOURCES += main.cpp\
     gui/changeusertypedialog.cpp \
     gui/usersearchwidget.cpp \
     utente_executive.cpp \
-    gui/adminsearchwidget.cpp \
     gui/userlistwidget.cpp \
     gui/menubutton.cpp \
     gui/profilewidget.cpp \
@@ -57,7 +56,8 @@ SOURCES += main.cpp\
     gui/searchresultswidget.cpp \
     gui/personalprofilewidget.cpp \
     gui/otherprofilewidget.cpp \
-    gui/adminlogindialog.cpp
+    gui/adminlogindialog.cpp \
+    gui/adminsearchdialog.cpp
 
 HEADERS  += \
     profilo.h \
@@ -86,7 +86,6 @@ HEADERS  += \
     gui/usersearchwidget.h \
     utente_executive.h \
     gui/userlistwidget.h \
-    gui/adminsearchwidget.h \
     gui/menubutton.h \
     gui/profilewidget.h \
     gui/experienceswidget.h \
@@ -105,7 +104,8 @@ HEADERS  += \
     gui/searchresultswidget.h \
     gui/personalprofilewidget.h \
     gui/otherprofilewidget.h \
-    gui/adminlogindialog.h
+    gui/adminlogindialog.h \
+    gui/adminsearchdialog.h
 
 FORMS    +=
 
