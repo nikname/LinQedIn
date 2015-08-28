@@ -1,5 +1,5 @@
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#ifndef LOGINWINDOW_H
+#define LOGINWINDOW_H
 
 #include <QMainWindow>
 #include "linqedinwindow.h"
@@ -8,7 +8,7 @@ class QLabel;
 class QLineEdit;
 class QPushButton;
 
-class MainWindow : public LinQedInWindow {
+class LoginWindow : public LinQedInWindow {
     Q_OBJECT
 private:
     QLabel *titleLabel;
@@ -33,12 +33,12 @@ public:
      *
      * @param QWidget  Puntatore al QWidget padre. Se nullo si riferisce a quello top-level.
      */
-    explicit MainWindow( QWidget *parent = 0 );
+    explicit LoginWindow( QWidget *parent = 0 );
 
     /** Distruttore ridefinito.
      *  Ripulisce lo heap.
      */
-    ~MainWindow();
+    ~LoginWindow();
 private slots:
     /** */
     void loginUser();
@@ -50,4 +50,4 @@ private slots:
     void openAdminLoginDialog();
 };
 
-#endif // MAINWINDOW_H
+#endif // LOGINWINDOW_H

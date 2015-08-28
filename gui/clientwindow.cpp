@@ -9,7 +9,7 @@
 #include <QScrollArea>
 #include "clientwindow.h"
 #include "linqedin_client.h"
-#include "mainwindow.h"
+#include "loginwindow.h"
 #include "otherprofilewidget.h"
 #include "personalprofilewidget.h"
 #include "searchresultswidget.h"
@@ -240,7 +240,7 @@ void ClientWindow::setButtonProperties( QPushButton* button ) {
 void ClientWindow::logout() {
     this->close();
 
-    new MainWindow;
+    new LoginWindow;
 }
 
 // SLOT ClientWindow::about

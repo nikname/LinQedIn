@@ -1,4 +1,4 @@
-#include "gui/mainwindow.h"
+#include "gui/loginwindow.h"
 #include <QApplication>
 #include <QDebug>
 #include "utente.h"
@@ -13,7 +13,7 @@
 
 int main( int argc, char *argv[] ) {
     QApplication a( argc, argv );
-    MainWindow w;
+    LoginWindow w;
     w.show();
 
     return a.exec();

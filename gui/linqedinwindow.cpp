@@ -3,7 +3,7 @@
 #include <QMenuBar>
 #include <QMessageBox>
 #include "linqedinwindow.h"
-#include "mainwindow.h"
+#include "loginwindow.h"
 
 // COSTRUTTORE LinQedInWindow
 LinQedInWindow::LinQedInWindow( QWidget *parent ) :
@@ -54,7 +54,7 @@ void LinQedInWindow::createMenus() {
 void LinQedInWindow::logout() {
     this->close();
 
-    new MainWindow;
+    new LoginWindow;
 }
 
 // SLOT LinQedInWindow::about

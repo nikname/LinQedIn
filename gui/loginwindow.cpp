@@ -12,7 +12,7 @@
 #include "adminlogindialog.h"
 #include "adminwindow.h"
 #include "clientwindow.h"
-#include "mainwindow.h"
+#include "loginwindow.h"
 
 // NOTE:
 // Poichè tutti gli oggetti creati dinamicamente nel costruttore sono figli di un QWidget parent,
@@ -21,8 +21,8 @@
 // widget è il widget top-level, quindi quando verrà distrutto quello, anche tutti i figli verranno
 // distrutti.
 
-// COSTRUTTORE MainWindow
-MainWindow::MainWindow( QWidget *parent ) :
+// COSTRUTTORE LoginWindow
+LoginWindow::LoginWindow( QWidget *parent ) :
     LinQedInWindow( parent )
 {
     initUI();
@@ -31,11 +31,11 @@ MainWindow::MainWindow( QWidget *parent ) :
     this->show();
 }
 
-// DISTRUTTORE MainWindow
-MainWindow::~MainWindow() {}
+// DISTRUTTORE LoginWindow
+LoginWindow::~LoginWindow() {}
 
-// METODO MainWindow::initializGUI
-void MainWindow::initUI() {
+// METODO LoginWindow::initializGUI
+void LoginWindow::initUI() {
     titleLabel = new QLabel( tr( "<h1>LinQedIn</h1>" ) );
 
     userUsername = new QLineEdit( this );
@@ -47,8 +47,8 @@ void MainWindow::initUI() {
     connect( openAdminLoginButton, SIGNAL( clicked() ), this, SLOT( openAdminLoginDialog() ) );
 }
 
-// METODO MainWindow::setupUI
-void MainWindow::setupUI() {
+// METODO LoginWindow::setupUI
+void LoginWindow::setupUI() {
     QWidget *centralWidget = new QWidget( this );
 
     QWidget *topVFiller = new QWidget( centralWidget );
@@ -104,8 +104,8 @@ void MainWindow::setupUI() {
     setWindowTitle( "LinQedIn" );
 }
 
-// SLOT MainWindow::loginUser
-void MainWindow::loginUser() {
+// SLOT LoginWindow::loginUser
+void LoginWindow::loginUser() {
     QString username = userUsername->text();
 
     // TODO: controllare username e password
@@ -114,16 +114,16 @@ void MainWindow::loginUser() {
     this->close();
 }
 
-// SLOT MainWindows::loginAdmin
-void MainWindow::loginAdmin() {
+// SLOT LoginWindows::loginAdmin
+void LoginWindow::loginAdmin() {
     // TODO: controllo password
     AdminWindow *adminWindow = new AdminWindow();
 
     this->close();
 }
 
-// SLOT MainWindow::openAdminLoginDialog
-void MainWindow::openAdminLoginDialog() {
+// SLOT LoginWindow::openAdminLoginDialog
+void LoginWindow::openAdminLoginDialog() {
     AdminLoginDialog *adminLoginDialog = new AdminLoginDialog( this );
     connect( adminLoginDialog, SIGNAL( adminLoginSignal() ), this, SLOT( loginAdmin() ) );
 
