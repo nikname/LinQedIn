@@ -2,26 +2,34 @@
 #define ADDUSERDIALOG_H
 
 #include <QDialog>
+#include "linqedindialog.h"
+#include "smartutente.h"
 
-class QLineEdit;
 class QGroupBox;
+class QLabel;
+class QLineEdit;
+class QPushButton;
 class QRadioButton;
-class QDialogButtonBox;
-class SmartUtente;
 
-class AddUserDialog : public QDialog {
+class AddUserDialog : public LinQedInDialog {
     Q_OBJECT
 private:
-    QLineEdit *username;
-    QLineEdit *name;
-    QLineEdit *surname;
+    QLabel *titleLabel;
+
+    QLineEdit *usernameEdit;
+    QLineEdit *nameEdit;
+    QLineEdit *surnameEdit;
 
     QGroupBox *buttonGroup;
     QRadioButton *basicRadioButton;
     QRadioButton *executiveRadioButton;
     QRadioButton *businessRadioButton;
 
-    QDialogButtonBox *buttonBox;
+    QPushButton *acceptButton;
+    QPushButton *rejectButton;
+
+    /** Inizializza la UI. */
+    void initUI();
 
     /** Realizza la UI. Mostra la GUI. */
     void setupUI();
@@ -39,6 +47,9 @@ signals:
      */
     void userToAddSignal( const SmartUtente& );
 private slots:
+    /** */
+    void checkInput( const QString& );
+
     /** Emette il segnale userToAddSignal( SmartUtente ) con l'utente appena creato. */
     void addUser();
 };

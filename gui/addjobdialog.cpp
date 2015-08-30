@@ -38,8 +38,6 @@ void AddJobDialog::initUI() {
 
 // METODO AddJobDialog::setupUI
 void AddJobDialog::setupUI() {
-    QVBoxLayout *layout = new QVBoxLayout( this );
-
     titleLabel->setStyleSheet( "QLabel { font: bold; }" );
 
     companyNameEdit->setPlaceholderText( tr( "Company Name" ) );
@@ -76,6 +74,7 @@ void AddJobDialog::setupUI() {
     buttonLayout->addWidget( acceptButton );
     buttonLayout->setMargin( 0 );
 
+    QVBoxLayout *layout = new QVBoxLayout( this );
     layout->addWidget( titleLabel );
     layout->addWidget( companyNameEdit );
     layout->addWidget( titleEdit );
