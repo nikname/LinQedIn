@@ -38,23 +38,20 @@ bool LinQedInAdmin::removeUser( QString u ) {
 }
 
 // METODO LinQedInAdmin::changeSubscriptionType
-void LinQedInAdmin::changeSubscriptionType( QString u, QString type ) {
-    if( db->contains( u ) ) {
-        SmartUtente su = findUser( u );
-        if( type != su->getAccountType() ) {
-            // controllo già effettuato in ChangeUserTypeDialog::changeUserType()
-            db->remove( u );
-            if( type == "Basic" ) {
-                db->insert( new UtenteBasic( *su ) );
-            } else if( type == "Executive" ) {
-                db->insert( new UtenteExecutive( *su ) );
-            } else if( type == "Business" ) {
-                db->insert( new UtenteBusiness( *su ) );
-            } else {
-                // throw ...
-            }
-        }
+void LinQedInAdmin::changeSubscriptionType( QString un, QString type ) {
+    qDebug() << "#";
+    if( db->contains( un ) ) {
+        SmartUtente su = findUser( un );
+        db->remove( un );
+        if( type == "Basic" ) {
+            db->insert( new UtenteBasic( *su ) );
+        } else if( type == "Executive" ) {
+            db->insert( new UtenteExecutive( *su ) );
+        } else if( type == "Business" ) {
+            db->insert( new UtenteBusiness( *su ) );
+        } else {}
     }
+    qDebug() << "#";
 }
 
 // METODO LinQedInAdmin::saveDatabase

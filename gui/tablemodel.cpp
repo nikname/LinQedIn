@@ -1,13 +1,21 @@
-#include <QSortFilterProxyModel>
+﻿#include <QSortFilterProxyModel>
 #include "tablemodel.h"
 #include "utente.h"
 
-
 // COSTRUTTORE TableModel
-TableModel::TableModel( const QVector<SmartUtente> v, QObject *parent ) :
-    QAbstractTableModel( parent ),
-    usersList( v )
+TableModel::TableModel( const QList<SmartUtente> v, QObject *parent ) :
+    QAbstractTableModel( parent )
 {
+    for( int i = 0; i < v.size(); i++ ) {
+        SmartUtente su = v[i];
+        QVector<QString> aux;
+        aux.append( su->getUsername() );
+        aux.append( su->getName() );
+        aux.append( su->getSurname() );
+        aux.append( su->getAccountType() );
+        usersList.append( aux );
+    }
+
     detailIcon = QPixmap( ":/icons/icon/account-switch.png" );
     deleteIcon = QPixmap( ":icons/icon/account-remove.png" );
 }
@@ -33,13 +41,13 @@ QVariant TableModel::data( const QModelIndex &index, int role ) const {
         return QVariant();
 
     if( role == Qt::DisplayRole ) {
-        SmartUtente user = usersList.at( index.row() );
+        QVector<QString> user_info = usersList.at( index.row() );
 
         switch( index.column() ) {
-        case 0: return user->getUsername();
-        case 1: return user->getName();
-        case 2: return user->getSurname();
-        case 3: return user->getAccountType();
+        case 0: return user_info.at( 0 );
+        case 1: return user_info.at( 1 );
+        case 2: return user_info.at( 2 );
+        case 3: return user_info.at( 3 );
         }
     }
 
@@ -81,30 +89,71 @@ QVariant TableModel::headerData( int section, Qt::Orientation orientation, int r
     return QVariant();
 }
 
-// METODO TableModel::removeRows
-bool TableModel::removeRows( int row, int count, const QModelIndex& parent ) {
-    Q_UNUSED( parent );
-    beginRemoveRows( QModelIndex(), row, row + count - 1 );
+// METODO TableModel::insertRows
+bool TableModel::insertRows( int position, int rows, const QModelIndex &index ) {
+    Q_UNUSED( index );
+    beginInsertRows( QModelIndex(), position, position + rows - 1);
 
-    for( int r = 0; r < count; ++r )
-        usersList.removeAt( row );
+    for (int row = 0; row < rows; ++row) {
+        QVector<QString> aux;
+        for( int i = 0; i < 4; i++ )
+            aux.append( "" );
+        usersList.insert( position, aux );
+    }
 
-    endRemoveRows();
-    //emit layoutChanged();
+    endInsertRows();
     return true;
 }
 
+// METODO TableModel::removeRows
+bool TableModel::removeRows( int position, int rows, const QModelIndex& parent ) {
+    Q_UNUSED( parent );
+    beginRemoveRows( QModelIndex(), position, position + rows - 1 );
+
+    for( int row = 0; row < rows; ++row )
+        usersList.removeAt( position );
+
+    endRemoveRows();
+    return true;
+}
+
+// METODO TableModel::setData
+bool TableModel::setData( const QModelIndex& index, const QVariant& value, int role ) {
+    if( index.isValid() && role == Qt::EditRole ) {
+        int row = index.row();
+
+        QVector<QString> aux = usersList.value( row );
+
+        switch( index.column() ) {
+        case 0:
+            aux[0] = value.toString();
+            break;
+        case 1:
+            aux[1] = value.toString();
+            break;
+        case 2:
+            aux[2] = value.toString();
+            break;
+        case 3:
+            aux[3] = value.toString();
+            break;
+        default: return false;
+        }
+
+        usersList.replace( row, aux );
+        emit( dataChanged( index, index ) );
+
+        return true;
+    }
+
+    return false;
+}
+
 // METODO TableModel::getList
-QVector<SmartUtente> TableModel::getList() {
+QList<QVector<QString> > TableModel::getList() {
     return usersList;
 }
 
-// METODO TableModel::setList
-void TableModel::setList( const QVector<SmartUtente> v ) {
-    emit layoutAboutToBeChanged();
-    usersList = v;
-    emit layoutChanged();
-}
 
 // SLOT TableModel::tableClickedSlot
 void TableModel::tableClickedSlot( const QModelIndex& i ) {
@@ -113,35 +162,7 @@ void TableModel::tableClickedSlot( const QModelIndex& i ) {
         emit openChangeUserTypeSignal( i );
         break;
     case 5:
-        emit userToRemoveSignal( i );
-        removeRows( i.row(), 1, QModelIndex() );
         break;
     default: break;
     }
-}
-
-// SLOT TableModel::updateTableRowSlot
-void TableModel::updateTableRowSlot( const SmartUtente& su ) {
-    emit layoutAboutToBeChanged();
-
-    if( usersList.isEmpty() ) {
-        QVector<SmartUtente> aux;
-        aux.append( su );
-        usersList = aux;
-    } else {
-        bool replaced = false;
-        QVector<SmartUtente>::iterator it = usersList.begin();
-        for( int i = 0; i < usersList.size(); i++, it++ ) {
-            if( usersList[i]->getUsername() == su->getUsername() ) {
-                usersList.replace( i, su );
-                replaced = true;
-                break;
-            }
-        }
-        if( !replaced ) {
-            usersList.append( su );
-        }
-    }
-
-    emit layoutChanged();
 }

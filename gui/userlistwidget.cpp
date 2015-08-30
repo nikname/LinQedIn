@@ -13,41 +13,42 @@
 
 // COSTRUTTORE UserListWidget
 UserListWidget::UserListWidget( const QVector<SmartUtente> v, QWidget *parent ) :
-    usersList( v ),
     QWidget( parent )
 {
+    for( int i = 0; i < v.size(); i++ )
+        usersList.insert( v[i]->getUsername(), v[i] );
+
+    model = new TableModel( usersList.values(), this );
+
+    proxyModel = new QSortFilterProxyModel( this );
+    proxyModel->setSourceModel( model );
+
+    tableView = new QTableView( this );
+    tableView->setModel( proxyModel );
+
     initUI();
     setupUI();
 }
 
 // METODO UserListWidget::initUI
 void UserListWidget::initUI() {
-    model = new TableModel( usersList, this );
-    tableView = new QTableView( this );
-    proxyModel = new QSortFilterProxyModel( this );
-
     connect( tableView, SIGNAL( clicked( const QModelIndex& ) ),
              model, SLOT( tableClickedSlot( const QModelIndex& ) ) );
-    connect( model, SIGNAL( userToRemoveSignal( const QModelIndex& ) ),
-             this, SLOT( userToRemoveSlot( const QModelIndex& ) ) );
     connect( model, SIGNAL( openChangeUserTypeSignal( const QModelIndex& ) ),
              this, SLOT( openChangeUserTypeSlot( const QModelIndex& ) ) );
-    connect( this, SIGNAL( updateTableRowSignal( const SmartUtente& ) ),
-             model, SLOT( updateTableRowSlot( const SmartUtente& ) ) );
 }
 
 // METODO UserListWidget::setupUI
 void UserListWidget::setupUI() {
     QVBoxLayout *layout = new QVBoxLayout( this );
 
-    proxyModel->setSourceModel( model );
     proxyModel->sort( 0, Qt::AscendingOrder );
     proxyModel->setDynamicSortFilter( true );
 
-    tableView->setModel( proxyModel );
     tableView->setVerticalScrollBarPolicy( Qt::ScrollBarAlwaysOn );
     tableView->setAlternatingRowColors( true );
     tableView->horizontalHeader()->setSectionResizeMode( QHeaderView::Stretch );
+    tableView->setSortingEnabled( true );
     tableView->setStyleSheet( "background: white" );
 
     loadUserList();
@@ -66,9 +67,26 @@ void UserListWidget::setupUI() {
     );
 }
 
-// METODO UserListWidget::addUser
-void UserListWidget::addItem( QString username, QString name, QString surname, QString type ) {
-    QModelIndex index = model->index( 0, 0 );
+// METODO UserListWidget::loadUserList
+void UserListWidget::loadUserList() {
+    QList<QVector<QString> > l = model->getList();
+
+    if( l.isEmpty() )
+        qDebug() << "No user found!";
+    else {
+        QListIterator<QVector<QString> > it( l );
+        while( it.hasNext() ) {
+            QVector<QString> aux = it.next();
+            addUser( aux[0], aux[1], aux[2], aux[3] );
+        }
+    }
+}
+
+// SLOT UserListWidget::addUser
+void UserListWidget::addUser( QString username, QString name, QString surname, QString type ) {
+    model->insertRows( 0, 1, QModelIndex() );
+
+    QModelIndex index = model->index( 0, 0, QModelIndex() );
     model->setData( index, username, Qt::EditRole );
     index = model->index( 0, 1 );
     model->setData( index, name, Qt::EditRole );
@@ -78,42 +96,26 @@ void UserListWidget::addItem( QString username, QString name, QString surname, Q
     model->setData( index, type, Qt::EditRole );
 }
 
-// METODO UserListWidget::loadUserList
-void UserListWidget::loadUserList() {
-    QVector<SmartUtente> v = model->getList();
+// SLOT UserListWidget::removeUser
+void UserListWidget::removeUser() {
+    QItemSelectionModel *selectionModel = tableView->selectionModel();
 
-    if( v.isEmpty() )
-        qDebug() << "No user found!";
-    else {
-        QVectorIterator<SmartUtente> it( v );
-        while( it.hasNext() ) {
-            SmartUtente aux = it.next();
-            addItem( aux->getUsername(), aux->getName(), aux->getSurname(), aux->getAccountType() );
-        }
+    QModelIndexList indexes = selectionModel->selectedRows();
+
+    foreach( QModelIndex index, indexes ) {
+        int row = proxyModel->mapToSource( index ).row();
+        model->removeRows( row, 1, QModelIndex() );
     }
-}
-
-// SLOT UserListWidget::updateUserListSlot
-void UserListWidget::updateUserListSlot( LinQedInAdmin* admin, const QString& un ) {
-    emit updateTableRowSignal( admin->findUser( un ) );
-
-    // table->setList( admin->getUsersList() );
-}
-
-// SLOT UserListWidget::userToRemoveSlot
-void UserListWidget::userToRemoveSlot( const QModelIndex& i ) {
-    emit updateListUserRemovedSignal(
-                model->data( model->index( i.row(), 0 ), Qt::DisplayRole ).toString() );
 }
 
 // SLOT UserListWidget::openChangeUserTypeSlot
 void UserListWidget::openChangeUserTypeSlot( const QModelIndex& i ) {
     QString username = model->data( model->index( i.row(), 0 ), Qt::DisplayRole ).toString();
-    QString type = model->data(
-                model->index( i.row(), i.column() - 1 ), Qt::DisplayRole ).toString();
 
-    ChangeUserTypeDialog *changeUserTypeDialog = new ChangeUserTypeDialog( username, type, this );
-    connect( changeUserTypeDialog, SIGNAL( changeUserTypeSignal( const QString&, const QString& ) ),
-             this, SIGNAL( updateListUserTypeSignal( const QString&, const QString& ) ) );
-    changeUserTypeDialog->exec();
+    if( usersList.contains( username ) ) {
+        ChangeUserTypeDialog *changeUserTypeDialog =
+                new ChangeUserTypeDialog( usersList.value( username ), this );
+
+        changeUserTypeDialog->exec();
+    }
 }

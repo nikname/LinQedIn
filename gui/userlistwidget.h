@@ -13,11 +13,11 @@ class TableModel;
 class UserListWidget : public QWidget {
     Q_OBJECT
 private:
-    QVector<SmartUtente> usersList;
+    QMap<QString, SmartUtente> usersList;
 
     TableModel *model;
-    QTableView *tableView;
     QSortFilterProxyModel *proxyModel;
+    QTableView *tableView;
 
     /** Inizializza la UI. */
     void initUI();
@@ -33,6 +33,11 @@ public:
      */
     explicit UserListWidget( const QVector<SmartUtente>, QWidget *parent = 0 );
 
+    /** Carica la tabella con le informazioni degli utenti presenti nel database. */
+    void loadUserList();
+signals:
+
+private slots:
     /** Aggiunge le informazioni di un utente in una riga della tabella.
      *
      * @param Qstring  Username dell'utente.
@@ -40,39 +45,10 @@ public:
      * @param Qstring  Cognome dell'utente.
      * @param Qstring  Tipologia account dell'utente.
      */
-    void addItem( QString, QString, QString, QString );
+    void addUser( QString, QString, QString, QString );
 
-    /** Carica la tabella con le informazioni degli utenti presenti nel database. */
-    void loadUserList();
-signals:
-    /** Notifica al parent l'username dell'utente da rimuovere dal database.
-     *
-     * @param QString  Username dell'utente.
-     */
-    void updateListUserRemovedSignal( const QString& );
-
-    /** Notifica al parent la nuova tipologia dell'account di un utente.
-     *
-     * @param QString  Username dell'utente.
-     * @param QString  Nuova tipologia dell'account.
-     */
-    void updateListUserTypeSignal( const QString&, const QString& );
-
-    /** */
-    void updateTableRowSignal( const SmartUtente& );
-private slots:
-    /** Aggiorna la lista degli utenti con il nuovo contenuto del database.
-     *
-     * @param LinQedInAdmin*  Oggetto che ha accesso al contenuto del database.
-     */
-    void updateUserListSlot( LinQedInAdmin*, const QString& );
-
-    /** Emette il segnale updateListUserRemovedSignal( QModelIndex ) per notificare al parent
-     *  l'username dell'utente da rimuovere.
-     *
-     * @param QModelIndex  Indice della tabella selezionato. La riga identifica l'utente da rimuovere.
-     */
-    void userToRemoveSlot( const QModelIndex& );
+    /** Rimuove le informazioni di un utente da una riga della tabella. */
+    void removeUser();
 
     /** Mostra una finestra di dialogo necessaria al cambio di tipologia di account di un utente.
      *

@@ -62,13 +62,6 @@ void AdminWindow::initUI() {
     addUserButton = new QPushButton( this );
     connect( addUserButton, SIGNAL( clicked() ), this, SLOT( openAddUserDialog() ) );
 
-    connect( this, SIGNAL( updateUsersListSignal( LinQedInAdmin*, QString ) ),
-             userListWidget, SLOT( updateUserListSlot( LinQedInAdmin*, QString ) ) );
-    connect( userListWidget, SIGNAL( updateListUserRemovedSignal( const QString& ) ),
-             this, SLOT( updateListUserRemovedSlot( const QString& ) ) );
-    connect( userListWidget, SIGNAL( updateListUserTypeSignal( const QString&, const QString& ) ),
-             this, SLOT( updateListUserTypeSlot( const QString&, const QString& ) ) );
-
     connect( this, SIGNAL( databaseStatusChangedSignal() ),
              this, SLOT( databaseStatusChangedSlot() ) );
 }
@@ -188,8 +181,7 @@ void AdminWindow::openSearchDialog() {
 // SLOT AdminWindow::openAddUserDialog
 void AdminWindow::openAddUserDialog() {
     AddUserDialog *addUserDialog = new AddUserDialog;
-    connect( addUserDialog, SIGNAL( userToAddSignal( const SmartUtente& ) ),
-             this, SLOT( userToAddSlot( const SmartUtente& ) ) );
+
     addUserDialog->exec();
 }
 
@@ -200,26 +192,6 @@ void AdminWindow::saveDatabaseStatus() {
         stateChanged = false;
         setWindowTitle( windowTitle().remove( 0, 1 ) );
     }
-}
-
-// SLOT AdminWindow::userToAddSlot( SmartUtente )
-void AdminWindow::userToAddSlot( const SmartUtente& su ) {
-    admin->insertUser( su );
-    emit updateUsersListSignal( admin, su->getUsername() );
-    emit databaseStatusChangedSignal();
-}
-
-// SLOT AdminWindow::updateListUserRemovedSlot( QString )
-void AdminWindow::updateListUserRemovedSlot( const QString& username ) {
-    admin->removeUser( username );
-    emit databaseStatusChangedSignal();
-}
-
-// SLOT AdminWindow::updateListUserTypeSlot( QString, QString )
-void AdminWindow::updateListUserTypeSlot( const QString& u, const QString& t ) {
-    admin->changeSubscriptionType( u, t );
-    emit updateUsersListSignal( admin, u );
-    emit databaseStatusChangedSignal();
 }
 
 // SLOT AdminWindow::databaseStatusChangedSlot()

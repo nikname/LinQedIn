@@ -102,7 +102,7 @@ void OtherProfileWidget::setupUI( bool c ) {
     connectionsTab->setVisible( false );
     otherInfoTab->setVisible( false );
 
-    QVBoxLayout *infoTabLayout = new QVBoxLayout( infoTabsWidget);
+    QVBoxLayout *infoTabLayout = new QVBoxLayout( infoTabsWidget );
     infoTabLayout->addWidget( infoTabsButtonsWidget );
     infoTabLayout->addWidget( ProfileWidget::backgroundTab );
     infoTabLayout->addWidget( ProfileWidget::connectionsTab );
