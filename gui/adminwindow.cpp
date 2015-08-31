@@ -68,6 +68,7 @@ void AdminWindow::initUI() {
     closeUserToolsButton = new QPushButton( userToolsWidget );
     connect( closeUserToolsButton, SIGNAL( clicked() ), this, SLOT( hideUserToolsButtons() ) );
     connect( closeUserToolsButton, SIGNAL( clicked() ), userListWidget, SLOT( clearSelections() ) );
+
     openChangeTypeDialogButton = new QPushButton( userToolsWidget );
     connect( openChangeTypeDialogButton, SIGNAL( clicked() ),
              userListWidget, SLOT( openChangeTypeDialog() ) );
@@ -84,7 +85,9 @@ void AdminWindow::initUI() {
     connect( userListWidget, SIGNAL( removeUserSignal( QString ) ),
              this, SLOT( removeUserSlot( QString ) ) );
 
-    // ***
+    // Modifica nel database della tipologia dell'account di un utente
+    connect( userListWidget, SIGNAL( changeAccountTypeSignal( QString, QString ) ),
+             this, SLOT( changeAccountTypeSlot( QString, QString ) ) );
 
     connect( userListWidget, SIGNAL( selectionChanged( QItemSelection ) ),
             this, SLOT( updateMenuToolsButtons( QItemSelection ) ) );
@@ -249,6 +252,11 @@ void AdminWindow::addUserSlot( const QString& un, const QString& n,
 // SLOT AdminWindow::removeUserSlot
 void AdminWindow::removeUserSlot( const QString& un ) {
     admin->removeUser( un );
+}
+
+// SLOT AdminWindow::changeAccountTypeSlot
+void AdminWindow::changeAccountTypeSlot( const QString& un, const QString& t ) {
+    admin->changeSubscriptionType( un, t );
 }
 
 // SLOT AdminWindow::updateMenuToolsButtons

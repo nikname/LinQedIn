@@ -79,8 +79,6 @@ void ChangeUserTypeDialog::setupUI() {
 
 // SLOT ChangeUserTypeDialog::changeUserType
 void ChangeUserTypeDialog::changeUserType() {
-    qDebug() << "ChangeUserTypeDialog::sendDetails";
-
     if( basicRadioButton->isChecked() && type != "Basic" )
         emit sendDetails( username, "Basic" );
     else if( executiveRadioButton->isChecked() && type != "Executive" )

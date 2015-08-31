@@ -40,6 +40,16 @@ signals:
      * @param QString  Username dell'utente rimosso.
      */
     void removeUserSignal( const QString& );
+
+    /** Notifica AdminWindow del cambio di tipologia dell'account di un utente.
+     *
+     * @param QString  Username dell'utente interessato dal cambio di tipologia dell'account.
+     * @param QString  Nuova tipologia di account dell'utente.
+     */
+    void changeAccountTypeSignal( const QString&, const QString& );
+
+    /** */
+    void sendDetails( const QString&, const QString&, const QString&, const QString& );
 private slots:
     /** Aggiunge le informazioni di un utente in una riga della tabella.
      *
@@ -52,6 +62,13 @@ private slots:
 
     /** Rimuove le informazioni di un utente da una riga della tabella. */
     void removeUser();
+
+    /** Modifica la tipologia dell'account di un utente nella tabella.
+     *
+     * @param QString  Username dell'utente interessato dal cambio di tipologia.
+     * @param QString  Nuova tipologia dell'account.
+     */
+    void changeAccountType( const QString&, const QString& );
 
     /** */
     void openChangeTypeDialog();

@@ -98,11 +98,52 @@ void UserListWidget::removeUser() {
     }
 
     emit removeUserSignal( username );
+
+    tableView->clearSelection();
+}
+
+// SLOT UserListWidget::changeAccountType
+void UserListWidget::changeAccountType( const QString& un, const QString& t ) {
+    QItemSelectionModel *selectionModel = tableView->selectionModel();
+
+    QModelIndexList indexes = selectionModel->selectedRows();
+    foreach( QModelIndex index, indexes ) {
+        int row = proxyModel->mapToSource( index ).row();
+
+        QModelIndex typeIndex = model->index( row, 3, QModelIndex() );
+        model->setData( typeIndex, t, Qt::EditRole );
+    }
+
+    tableView->clearSelection();
 }
 
 // SLOT UserListWidget::openChangeTypeDialog
 void UserListWidget::openChangeTypeDialog() {
+    QItemSelectionModel *selectionModel = tableView->selectionModel();
 
+    QString username;
+    QString type;
+
+    QModelIndexList indexes = selectionModel->selectedRows();
+    foreach( QModelIndex index, indexes ) {
+        int row = proxyModel->mapToSource( index ).row();
+
+        QModelIndex usernameIndex = model->index( row, 0, QModelIndex() );
+        QVariant un = model->data( usernameIndex, Qt::DisplayRole );
+        username = un.toString();
+
+        QModelIndex typeIndex = model->index( row, 3, QModelIndex() );
+        QVariant t = model->data( typeIndex, Qt::DisplayRole );
+        type = t.toString();
+    }
+
+    ChangeUserTypeDialog *changeUserTypeDialog = new ChangeUserTypeDialog( username, type, this );
+    connect( changeUserTypeDialog, SIGNAL( sendDetails( QString, QString ) ),
+             this, SLOT( changeAccountType( QString, QString ) ) );
+    connect( changeUserTypeDialog, SIGNAL( sendDetails( QString, QString ) ),
+             this, SIGNAL( changeAccountTypeSignal( QString, QString ) ) );
+
+    changeUserTypeDialog->exec();
 }
 
 // SLOT UserListWidget::clearSelections

@@ -115,6 +115,9 @@ private slots:
     void removeUserSlot( const QString& );
 
     /** */
+    void changeAccountTypeSlot( const QString&, const QString& );
+
+    /** */
     void updateMenuToolsButtons( const QItemSelection& );
 
     /** */
