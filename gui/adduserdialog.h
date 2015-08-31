@@ -43,14 +43,17 @@ public:
 signals:
     /** Notifica che un utente deve essere aggiunto alla lista degli utenti del database.
      *
-     * @param SmartUtente  Utente da aggiungere.
+     * @param QString  Username dell'utente da aggiungere.
+     * @param QString  Nome dell'utente da aggiungere.
+     * @param QString  Cognome dell'utente da aggiungere.
+     * @param QString  Tipologia dell'utente da aggiungere.
      */
-    void userToAddSignal( const SmartUtente& );
+    void sendUserDetails( const QString&, const QString&, const QString&, const QString& );
 private slots:
     /** */
     void checkInput( const QString& );
 
-    /** Emette il segnale userToAddSignal( SmartUtente ) con l'utente appena creato. */
+    /** */
     void addUser();
 };
 

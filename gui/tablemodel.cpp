@@ -15,9 +15,6 @@ TableModel::TableModel( const QList<SmartUtente> v, QObject *parent ) :
         aux.append( su->getAccountType() );
         usersList.append( aux );
     }
-
-    detailIcon = QPixmap( ":/icons/icon/account-switch.png" );
-    deleteIcon = QPixmap( ":icons/icon/account-remove.png" );
 }
 
 // METODO TableModel::rowCount
@@ -29,7 +26,7 @@ int TableModel::rowCount( const QModelIndex &parent ) const {
 // METODO TableModel::columnCount
 int TableModel::columnCount( const QModelIndex &parent ) const {
     Q_UNUSED( parent );
-    return 6;
+    return 4;
 }
 
 // METODO TableModel::date
@@ -51,20 +48,6 @@ QVariant TableModel::data( const QModelIndex &index, int role ) const {
         }
     }
 
-    if( role == Qt::DecorationRole ) {
-        switch ( index.column() ) {
-        case 4: return detailIcon;
-        case 5: return deleteIcon;
-        }
-    }
-
-    if( role == Qt::SizeHintRole ) {
-        switch ( index.column() ) {
-        case 4: return detailIcon.size();
-        case 5: return deleteIcon.size();
-        }
-    }
-
     return QVariant();
 }
 
@@ -78,13 +61,11 @@ QVariant TableModel::headerData( int section, Qt::Orientation orientation, int r
         case 0: return tr( "Username" );
         case 1: return tr( "Name" );
         case 2: return tr( "Surname" );
-        case 3: return tr( "Type" );
-        case 4: return tr( "Change Type" );
-        case 5: return tr( "Remove" );
+        case 3: return tr( "Account Type" );
         }
     }
     if( orientation == Qt::Vertical )
-        return QString( "%1" ).arg( section + 1 );
+        return QString::number( section + 1 );
 
     return QVariant();
 }
@@ -152,17 +133,4 @@ bool TableModel::setData( const QModelIndex& index, const QVariant& value, int r
 // METODO TableModel::getList
 QList<QVector<QString> > TableModel::getList() {
     return usersList;
-}
-
-
-// SLOT TableModel::tableClickedSlot
-void TableModel::tableClickedSlot( const QModelIndex& i ) {
-    switch( i.column() ) {
-    case 4:
-        emit openChangeUserTypeSignal( i );
-        break;
-    case 5:
-        break;
-    default: break;
-    }
 }

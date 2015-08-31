@@ -1,6 +1,7 @@
 #ifndef USERLIST_WIDGET_H
 #define USERLIST_WIDGET_H
 
+#include <QItemSelection>
 #include <QWidget>
 #include "smartutente.h"
 
@@ -32,12 +33,13 @@ public:
      * @param QWidget  Puntatore al QWidget padre. Se nullo si riferisce a quello top-level.
      */
     explicit UserListWidget( const QVector<SmartUtente>, QWidget *parent = 0 );
-
-    /** Carica la tabella con le informazioni degli utenti presenti nel database. */
-    void loadUserList();
 signals:
-
+    /** */
+    void selectionChanged( const QItemSelection& );
 private slots:
+    /** */
+    void addUserTableSlot( const SmartUtente& );
+
     /** Aggiunge le informazioni di un utente in una riga della tabella.
      *
      * @param Qstring  Username dell'utente.
@@ -49,13 +51,6 @@ private slots:
 
     /** Rimuove le informazioni di un utente da una riga della tabella. */
     void removeUser();
-
-    /** Mostra una finestra di dialogo necessaria al cambio di tipologia di account di un utente.
-     *
-     * @param QModelIndex  Indice della tabella selezionato. La riga identifica l'utente interessato
-     * dal cambio di tipologia di account.
-     */
-    void openChangeUserTypeSlot( const QModelIndex& );
 };
 
 #endif // USERLIST_WIDGET_H

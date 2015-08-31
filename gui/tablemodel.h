@@ -10,9 +10,6 @@ class TableModel : public QAbstractTableModel {
     friend class UserListWidget;
 private:
     QList<QVector<QString> > usersList;
-
-    QPixmap detailIcon;
-    QPixmap deleteIcon;
 public:
     /** Costruttore esplicito a 2 parametri con 1 parametro di default.
      *
@@ -91,14 +88,7 @@ signals:
      */
     void openChangeUserTypeSignal( const QModelIndex& );
 private slots:
-    /** In base all'indice della colonna selezionata, se a questo è associata un'azione, emette un
-     *  apposito segnale. Gli indici di colonna ai quali è associata un'azione sono:
-     *   - 4, emette openChangeUserTypeSignal( QModelIndex );
-     *   - 5, rimuove l'utente dalla tabella ed emette userToRemoveSignal( QModelIndex ).
-     *
-     * @param QModelIndex  Indice della tabella selezionato.
-     */
-    void tableClickedSlot( const QModelIndex& );
+
 };
 
 #endif // TABLEMODEL_H

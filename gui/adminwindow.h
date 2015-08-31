@@ -16,7 +16,6 @@ class AdminWindow : public QMainWindow {
     Q_OBJECT
     friend class AddUserDialog;
 private:
-    bool stateChanged;
     LinQedInAdmin *admin;
 
     QMenu *menu;
@@ -29,15 +28,17 @@ private:
 
     QPushButton *homeButton;
     QPushButton *backButton;
+    QPushButton *openChangeTypeDialogButton;
+    QPushButton *removeUserButton;
+    QPushButton *openSearchDialogButton;
+    QPushButton *saveDatabaseButton;
+    QPushButton *addUserButton;
 
     QLabel *linqedinLabel;
 
     QPushButton *openSearchButton;
 
     UserListWidget *userListWidget;
-    QPushButton *openSearchDialogButton;
-    QPushButton *saveDatabaseButton;
-    QPushButton *addUserButton;
 
     /** Inizializza la GUI. */
     void initUI();
@@ -74,8 +75,8 @@ protected:
      */
     void closeEvent( QCloseEvent* );
 signals:
-    /** Notifica che lo stato del database è stato modificato e non ancora salvato. */
-    void databaseStatusChangedSignal();
+    /** */
+    void addUserTableSignal( const SmartUtente& );
 private slots:
     /** Esegue il log out dall'applicazione. Mostra la finestra di log in. */
     void logout();
@@ -84,16 +85,27 @@ private slots:
     void about();
 
     /** */
-    void openSearchDialog();
+    void openChangeTypeDialog();
+
+    /** */
 
     /** Apre una nuova finestra per l'inserimento di un nuovo utente. */
     void openAddUserDialog();
 
+    /** Aggiunge un nuovo utente.
+     *
+     * @param Qstring  Username dell'utente.
+     * @param Qstring  Nome dell'utente.
+     * @param Qstring  Cognome dell'utente.
+     * @param Qstring  Tipologia account dell'utente.
+     */
+    void addUserSlot( const QString&, const QString&, const QString&, const QString& );
+
     /** Salva su file (XML) lo stato del database. */
     void saveDatabaseStatus();
 
-    /** Quando avviene una modifica allo stato del database */
-    void databaseStatusChangedSlot();
+    /** */
+    void openSearchDialog();
 };
 
 #endif // ADMINWINDOW_H

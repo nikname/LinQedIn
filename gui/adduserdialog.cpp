@@ -92,23 +92,25 @@ void AddUserDialog::setupUI() {
 void AddUserDialog::checkInput( const QString& input ) {
     if( usernameEdit->text().isEmpty() ||
             nameEdit->text().isEmpty() ||
-            surnameEdit->text().isEmpty() )
+            surnameEdit->text().isEmpty() ||
+            !( basicRadioButton->isChecked() ||
+               executiveRadioButton->isChecked() ||
+               businessRadioButton->isChecked() ) )
         setButtonDisabled( acceptButton, true );
     else setButtonEnabled( acceptButton, true );
 }
 
+// SLOT AddUserDialog::addUser
 void AddUserDialog::addUser() {
-    Utente *u = 0;
     if( basicRadioButton->isChecked() )
-        u = new UtenteBasic( usernameEdit->text(), nameEdit->text(), surnameEdit->text() );
-    else if( executiveRadioButton->isChecked() )
-        u = new UtenteExecutive( usernameEdit->text(), nameEdit->text(), surnameEdit->text() );
-    else if( businessRadioButton->isChecked() )
-        u = new UtenteBusiness( usernameEdit->text(), nameEdit->text(), surnameEdit->text() );
-    else qDebug() << "[error] No account type selected!";
-
-    if( u )
-        emit userToAddSignal( SmartUtente( u ) );
+        emit sendUserDetails( usernameEdit->text(), nameEdit->text(),
+                              surnameEdit->text(), QString( "Basic" ) );
+    if( executiveRadioButton->isChecked() )
+        emit sendUserDetails( usernameEdit->text(), nameEdit->text(),
+                              surnameEdit->text(), QString( "Executive" ) );
+    if( businessRadioButton->isChecked() )
+        emit sendUserDetails( usernameEdit->text(), nameEdit->text(),
+                              surnameEdit->text(), QString( "Business" ) );
 
     this->close();
 }

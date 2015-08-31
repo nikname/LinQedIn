@@ -12,12 +12,14 @@
 #include "userlistwidget.h"
 #include "linqedin_admin.h"
 #include "utente.h"
+#include "utente_basic.h"
+#include "utente_business.h"
+#include "utente_executive.h"
 
 // COSTRUTTORE AdminWindow
 AdminWindow::AdminWindow( QWidget *parent ) :
     QMainWindow( parent ),
-    admin( new LinQedInAdmin() ),
-    stateChanged( false )
+    admin( new LinQedInAdmin() )
 {
     initUI();
     setupUI();
@@ -32,13 +34,12 @@ AdminWindow::~AdminWindow() {
 
 // METODO AdminWindow::closeEvent
 void AdminWindow::closeEvent( QCloseEvent* event ) {
-    if( stateChanged ) {
-        QMessageBox::StandardButton closeDialog;
-        closeDialog = QMessageBox::warning( this, tr( "Database status" ),
-            tr( "Save database status before quit?" ), QMessageBox::Yes | QMessageBox::No );
-        if( closeDialog == QMessageBox::Yes )
-            admin->saveDatabase();
-    }
+    QMessageBox::StandardButton closeDialog;
+    closeDialog = QMessageBox::warning( this, tr( "Database status" ),
+        tr( "Save database status before quit?" ), QMessageBox::Yes | QMessageBox::No );
+    if( closeDialog == QMessageBox::Yes )
+        admin->saveDatabase();
+
     close();
 }
 
@@ -53,8 +54,12 @@ void AdminWindow::initUI() {
 
     userListWidget = new UserListWidget( admin->getUsersList(), this );
 
-    openSearchDialogButton = new QPushButton( this );
-    connect( openSearchDialogButton, SIGNAL( clicked() ), this, SLOT( openSearchDialog() ) );
+    openChangeTypeDialogButton = new QPushButton( this );
+    connect( openChangeTypeDialogButton, SIGNAL( clicked() ),
+             this, SLOT( openChangeTypeDialog() ) );
+
+    removeUserButton = new QPushButton( this );
+    //connect( removeUserButton, SIGNAL( clicked() ), this, SLOT() );
 
     saveDatabaseButton = new QPushButton( this );
     connect( saveDatabaseButton, SIGNAL( clicked() ), this, SLOT( saveDatabaseStatus() ) );
@@ -62,8 +67,11 @@ void AdminWindow::initUI() {
     addUserButton = new QPushButton( this );
     connect( addUserButton, SIGNAL( clicked() ), this, SLOT( openAddUserDialog() ) );
 
-    connect( this, SIGNAL( databaseStatusChangedSignal() ),
-             this, SLOT( databaseStatusChangedSlot() ) );
+    openSearchDialogButton = new QPushButton( this );
+    connect( openSearchDialogButton, SIGNAL( clicked() ), this, SLOT( openSearchDialog() ) );
+
+    connect( this, SIGNAL( addUserTableSignal( SmartUtente ) ),
+             userListWidget, SLOT( addUserTableSlot( SmartUtente ) ) );
 }
 
 // METODO AdminWindow::setupUI
@@ -171,33 +179,44 @@ void AdminWindow::about() {
         "database di contatti professionali ispirato a LinkedIn.</p>" ) );
 }
 
+// SLOT AdminWindow::openChangeTypeDialog
+void AdminWindow::openChangeTypeDialog() {
+
+}
+
+// SLOT AdminWindow::openAddUserDialog
+void AdminWindow::openAddUserDialog() {
+    AddUserDialog *addUserDialog = new AddUserDialog( this );
+    connect( addUserDialog, SIGNAL( sendUserDetails( QString, QString, QString, QString ) ),
+             this, SLOT( addUserSlot( QString, QString, QString, QString ) ) );
+
+    addUserDialog->exec();
+}
+
+// SLOT AdminWindow::addUserSlot
+void AdminWindow::addUserSlot( const QString& un, const QString& n,
+                               const QString& s, const QString& t )
+{
+    SmartUtente su;
+    if( t == "Basic" ) su = SmartUtente( new UtenteBasic( un, n, s ) );
+    if( t == "Executive" ) su = SmartUtente( new UtenteExecutive( un, n, s ) );
+    if( t == "Business" ) su = SmartUtente( new UtenteBusiness( un, n, s ) );
+
+    if( admin->insertUser( su ) )
+        emit addUserTableSignal( su );
+    else QMessageBox::information( this, tr( "Duplicate Username" ),
+                                     tr( "The username \"%1\" already exists." )
+                                     .arg( su->getUsername() ) );
+}
+
+// SLOT AdminWindow::saveDatabaseStatus
+void AdminWindow::saveDatabaseStatus() {
+    admin->saveDatabase();
+}
+
 // SLOT AdminWindow::openSearchDialog
 void AdminWindow::openSearchDialog() {
     AdminSearchDialog *adminSearchDialog = new AdminSearchDialog( this );
 
     adminSearchDialog->exec();
-}
-
-// SLOT AdminWindow::openAddUserDialog
-void AdminWindow::openAddUserDialog() {
-    AddUserDialog *addUserDialog = new AddUserDialog;
-
-    addUserDialog->exec();
-}
-
-// SLOT AdminWindow::saveDatabaseStatus
-void AdminWindow::saveDatabaseStatus() {
-    if( stateChanged ) {
-        admin->saveDatabase();
-        stateChanged = false;
-        setWindowTitle( windowTitle().remove( 0, 1 ) );
-    }
-}
-
-// SLOT AdminWindow::databaseStatusChangedSlot()
-void AdminWindow::databaseStatusChangedSlot() {
-    if( !stateChanged ) {
-        stateChanged = true;
-        setWindowTitle( "*" + windowTitle() );
-    }
 }
