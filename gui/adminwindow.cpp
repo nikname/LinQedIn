@@ -18,8 +18,9 @@
 
 // COSTRUTTORE AdminWindow
 AdminWindow::AdminWindow( QWidget *parent ) :
-    QMainWindow( parent ),
-    admin( new LinQedInAdmin() )
+    statusChanged( false ),
+    admin( new LinQedInAdmin() ),
+    QMainWindow( parent )
 {
     initUI();
     setupUI();
@@ -34,11 +35,13 @@ AdminWindow::~AdminWindow() {
 
 // METODO AdminWindow::closeEvent
 void AdminWindow::closeEvent( QCloseEvent* event ) {
-    QMessageBox::StandardButton closeDialog;
-    closeDialog = QMessageBox::warning( this, tr( "Database status" ),
-        tr( "Save database status before quit?" ), QMessageBox::Yes | QMessageBox::No );
-    if( closeDialog == QMessageBox::Yes )
-        admin->saveDatabase();
+    if( statusChanged ) {
+        QMessageBox::StandardButton closeDialog;
+        closeDialog = QMessageBox::warning( this, tr( "Database status" ),
+            tr( "Save database status before quit?" ), QMessageBox::Yes | QMessageBox::No );
+        if( closeDialog == QMessageBox::Yes )
+            admin->saveDatabase();
+    }
 
     close();
 }
@@ -242,9 +245,10 @@ void AdminWindow::addUserSlot( const QString& un, const QString& n,
     if( t == "Executive" ) su = SmartUtente( new UtenteExecutive( un, n, s ) );
     if( t == "Business" ) su = SmartUtente( new UtenteBusiness( un, n, s ) );
 
-    if( admin->insertUser( su ) )
+    if( admin->insertUser( su ) ) {
         emit addUserSignal( un, n, s, t );
-    else QMessageBox::information( this, tr( "Duplicate Username" ),
+        statusChanged = true;
+    } else QMessageBox::information( this, tr( "Duplicate Username" ),
                                      tr( "The username \"%1\" already exists." )
                                      .arg( su->getUsername() ) );
 }
@@ -252,11 +256,13 @@ void AdminWindow::addUserSlot( const QString& un, const QString& n,
 // SLOT AdminWindow::removeUserSlot
 void AdminWindow::removeUserSlot( const QString& un ) {
     admin->removeUser( un );
+    statusChanged = true;
 }
 
 // SLOT AdminWindow::changeAccountTypeSlot
 void AdminWindow::changeAccountTypeSlot( const QString& un, const QString& t ) {
     admin->changeSubscriptionType( un, t );
+    statusChanged = true;
 }
 
 // SLOT AdminWindow::updateMenuToolsButtons
@@ -277,7 +283,10 @@ void AdminWindow::hideUserToolsButtons() {
 
 // SLOT AdminWindow::saveDatabaseStatus
 void AdminWindow::saveDatabaseStatus() {
-    admin->saveDatabase();
+    if( statusChanged ) {
+        admin->saveDatabase();
+        statusChanged = false;
+    }
 }
 
 // SLOT AdminWindow::openSearchDialog

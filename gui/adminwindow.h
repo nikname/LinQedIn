@@ -18,6 +18,8 @@ class AdminWindow : public QMainWindow {
     Q_OBJECT
     friend class AddUserDialog;
 private:
+    bool statusChanged;
+
     LinQedInAdmin *admin;
 
     QMenu *menu;
