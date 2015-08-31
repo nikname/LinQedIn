@@ -10,6 +10,9 @@
 #include "tablemodel.h"
 #include "userlistwidget.h"
 #include "utente.h"
+#include "utente_basic.h"
+#include "utente_business.h"
+#include "utente_executive.h"
 
 // COSTRUTTORE UserListWidget
 UserListWidget::UserListWidget( const QVector<SmartUtente> v, QWidget *parent ) :
@@ -35,6 +38,9 @@ void UserListWidget::initUI() {
     connect( tableView->selectionModel(),
              SIGNAL( selectionChanged( QItemSelection, QItemSelection ) ),
              this, SIGNAL( selectionChanged( QItemSelection ) ) );
+
+    connect( this, SIGNAL( changeUserTypeSignal( QString, QString ) ),
+             this, SLOT( changeUserTypeSlot( QString, QString ) ) );
 }
 
 // METODO UserListWidget::setupUI
@@ -94,6 +100,56 @@ void UserListWidget::removeUser() {
         int row = proxyModel->mapToSource( index ).row();
         model->removeRows( row, 1, QModelIndex() );
     }
+}
+
+// SLOT UserListWidget::changeUserTypeSlot
+void UserListWidget::changeUserTypeSlot( const QString& un, const QString& t ) {
+    QSortFilterProxyModel *proxy = static_cast<QSortFilterProxyModel *>( tableView->model() );
+    QItemSelectionModel *selectionModel = tableView->selectionModel();
+
+    QModelIndexList indexes = selectionModel->selectedRows();
+    foreach( QModelIndex index, indexes ) {
+        int row = proxy->mapToSource( index ).row();
+
+        QModelIndex typeIndex = model->index( row, 3, QModelIndex() );
+        model->setData( typeIndex, t, Qt::DisplayRole );
+        qDebug() << t;
+    }
+}
+
+// SLOT UserListWidget::openChangeTypeDialog
+void UserListWidget::openChangeTypeDialog() {
+    QSortFilterProxyModel *proxy = static_cast<QSortFilterProxyModel *>( tableView->model() );
+    QItemSelectionModel *selectionModel = tableView->selectionModel();
+
+    int row = -1;
+    QString username;
+    QString type;
+
+    QModelIndexList indexes = selectionModel->selectedRows();
+    foreach( QModelIndex index, indexes ) {
+        row = proxy->mapToSource( index ).row();
+
+        QModelIndex usernameIndex = model->index( row, 0, QModelIndex() );
+        QVariant un = model->data( usernameIndex, Qt::DisplayRole );
+        type = un.toString();
+
+        QModelIndex typeIndex = model->index( row, 3, QModelIndex() );
+        QVariant t = model->data( typeIndex, Qt::DisplayRole );
+        type = t.toString();
+    }
+
+    ChangeUserTypeDialog *changeUserTypeDialog = new ChangeUserTypeDialog( username, type, this );
+    connect( changeUserTypeDialog, SIGNAL( sendDetails( QString, QString ) ),
+             this, SIGNAL( changeUserTypeSignal( QString, QString ) ) );
+
+    changeUserTypeDialog->exec();
+}
+
+// SLOT UserListWidget::updateUserListSlot
+void UserListWidget::updateUserListSlot( const QString& un, const SmartUtente& su ) {
+    usersList.remove( un );
+    usersList.insert( un, su );
 }
 
 // SLOT UserListWidget::clearSelections

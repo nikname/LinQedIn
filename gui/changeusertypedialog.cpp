@@ -11,8 +11,9 @@
 #include "utente_executive.h"
 
 // COSTRUTTORE ChangeUserTypeDialog
-ChangeUserTypeDialog::ChangeUserTypeDialog( const SmartUtente& u, QWidget *parent ) :
-    user( u ),
+ChangeUserTypeDialog::ChangeUserTypeDialog( const QString& un, const QString& t, QWidget *parent ) :
+    username( un ),
+    type( t ),
     LinQedInDialog( parent )
 {
     initUI();
@@ -38,11 +39,11 @@ void ChangeUserTypeDialog::initUI() {
 void ChangeUserTypeDialog::setupUI() {
     titleLabel->setStyleSheet( "QLabel { font: bold; }" );
 
-    if( dynamic_cast<UtenteBasic *>( &*user ) )
+    if( type == "Basic" )
         basicRadioButton->setChecked( true );
-    else if( dynamic_cast<UtenteExecutive *>( &*user ) )
+    else if( type == "Executive" )
         executiveRadioButton->setChecked( true );
-    else if( dynamic_cast<UtenteBusiness *>( &*user ) )
+    else if( type == "Business" )
         businessRadioButton->setChecked( true );
 
     QVBoxLayout *buttonGroupLayout = new QVBoxLayout( buttonGroup );
@@ -78,12 +79,14 @@ void ChangeUserTypeDialog::setupUI() {
 
 // SLOT ChangeUserTypeDialog::changeUserType
 void ChangeUserTypeDialog::changeUserType() {
-    if( basicRadioButton->isChecked() && !dynamic_cast<UtenteBasic *>( &*user ) )
-        emit changeUserTypeSignal( user->getUsername(), "Basic" );
-    else if( executiveRadioButton->isChecked() && !dynamic_cast<UtenteBusiness *>( &*user ) )
-        emit changeUserTypeSignal( user->getUsername(), "Executive" );
-    else if( businessRadioButton->isChecked() && !dynamic_cast<UtenteExecutive *>( &*user ) )
-        emit changeUserTypeSignal( user->getUsername(), "Business" );
+    qDebug() << "ChangeUserTypeDialog::sendDetails";
+
+    if( basicRadioButton->isChecked() && type != "Basic" )
+        emit sendDetails( username, "Basic" );
+    else if( executiveRadioButton->isChecked() && type != "Executive" )
+        emit sendDetails( username, "Executive" );
+    else if( businessRadioButton->isChecked() && type != "Business" )
+        emit sendDetails( username, "Business" );
     else {}
 
     this->close();

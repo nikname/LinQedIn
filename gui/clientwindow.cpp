@@ -109,7 +109,7 @@ void ClientWindow::setupUI() {
     searchWidget->setStyleSheet( "background: #069; color: white;" );
     searchWidget->setVisible( false );
 
-    closeSearchButton->setIcon( QIcon( QPixmap( ":/icons/icon/close.png" ) ) );
+    closeSearchButton->setIcon( QIcon( QPixmap( ":/icons/icon/close-black.png" ) ) );
     setButtonProperties( closeSearchButton );
 
     searchText->setPlaceholderText( tr( "Search" ) );

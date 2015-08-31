@@ -83,17 +83,15 @@ protected:
 signals:
     /** */
     void addUserTableSignal( const SmartUtente& );
+
+    /** */
+    void updateUserListSignal( const QString&, const SmartUtente& );
 private slots:
     /** Esegue il log out dall'applicazione. Mostra la finestra di log in. */
     void logout();
 
     /** Mostra le informazioni dell'applicazione su di una finestra di dialogo. */
     void about();
-
-    /** */
-    void openChangeTypeDialog();
-
-    /** */
 
     /** Apre una nuova finestra per l'inserimento di un nuovo utente. */
     void openAddUserDialog();
@@ -106,6 +104,9 @@ private slots:
      * @param Qstring  Tipologia account dell'utente.
      */
     void addUserSlot( const QString&, const QString&, const QString&, const QString& );
+
+    /** */
+    void changeUserTypeSlot( const QString&, const QString& );
 
     /** */
     void updateMenuToolsButtons( const QItemSelection& );

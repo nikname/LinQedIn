@@ -36,21 +36,33 @@ public:
 signals:
     /** */
     void selectionChanged( const QItemSelection& );
+
+    /** */
+    void changeUserTypeSignal( const QString&, const QString& );
 private slots:
     /** */
     void addUserTableSlot( const SmartUtente& );
 
     /** Aggiunge le informazioni di un utente in una riga della tabella.
      *
-     * @param Qstring  Username dell'utente.
-     * @param Qstring  Nome dell'utente.
-     * @param Qstring  Cognome dell'utente.
-     * @param Qstring  Tipologia account dell'utente.
+     * @param QString  Username dell'utente.
+     * @param QString  Nome dell'utente.
+     * @param QString  Cognome dell'utente.
+     * @param QString  Tipologia account dell'utente.
      */
     void addUser( QString, QString, QString, QString );
 
     /** Rimuove le informazioni di un utente da una riga della tabella. */
     void removeUser();
+
+    /** */
+    void changeUserTypeSlot( const QString&, const QString& );
+
+    /** */
+    void openChangeTypeDialog();
+
+    /** */
+    void updateUserListSlot( const QString&, const SmartUtente& );
 
     /** */
     void clearSelections();

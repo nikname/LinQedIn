@@ -35,7 +35,7 @@ public:
      * @param QString  Username dell'utente da ricercare.
      * @return SmartUtente  Utente cercato. Se non presente
      */
-    SmartUtente findUser( QString ) const;
+    SmartUtente getUser( QString ) const;
 
     /** Rimuove un'utente nel database.
      *

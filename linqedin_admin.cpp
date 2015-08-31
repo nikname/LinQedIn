@@ -19,8 +19,8 @@ bool LinQedInAdmin::insertUser( SmartUtente su ) {
     return db->insert( su );
 }
 
-// METODO LinQedInAdmin::findUser
-SmartUtente LinQedInAdmin::findUser( QString u ) const {
+// METODO LinQedInAdmin::getUser
+SmartUtente LinQedInAdmin::getUser( QString u ) const {
     if( db->contains( u ) ) {
         QVectorIterator<SmartUtente> it( db->getUsersList() );
         while( it.hasNext() ) {
@@ -39,9 +39,8 @@ bool LinQedInAdmin::removeUser( QString u ) {
 
 // METODO LinQedInAdmin::changeSubscriptionType
 void LinQedInAdmin::changeSubscriptionType( QString un, QString type ) {
-    qDebug() << "#";
     if( db->contains( un ) ) {
-        SmartUtente su = findUser( un );
+        SmartUtente su = getUser( un );
         db->remove( un );
         if( type == "Basic" ) {
             db->insert( new UtenteBasic( *su ) );
@@ -51,7 +50,6 @@ void LinQedInAdmin::changeSubscriptionType( QString un, QString type ) {
             db->insert( new UtenteBusiness( *su ) );
         } else {}
     }
-    qDebug() << "#";
 }
 
 // METODO LinQedInAdmin::saveDatabase

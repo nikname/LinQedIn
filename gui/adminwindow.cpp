@@ -56,34 +56,35 @@ void AdminWindow::initUI() {
 
     saveDatabaseButton = new QPushButton( tableToolsWidget );
     connect( saveDatabaseButton, SIGNAL( clicked() ), this, SLOT( saveDatabaseStatus() ) );
-
     addUserButton = new QPushButton( this );
     connect( addUserButton, SIGNAL( clicked() ), this, SLOT( openAddUserDialog() ) );
-
     openSearchDialogButton = new QPushButton( this );
     connect( openSearchDialogButton, SIGNAL( clicked() ), this, SLOT( openSearchDialog() ) );
+
+    userListWidget = new UserListWidget( admin->getUsersList(), this );
 
     userToolsWidget = new QWidget( menuWidget );
 
     closeUserToolsButton = new QPushButton( userToolsWidget );
     connect( closeUserToolsButton, SIGNAL( clicked() ), this, SLOT( hideUserToolsButtons() ) );
-
+    connect( closeUserToolsButton, SIGNAL( clicked() ), userListWidget, SLOT( clearSelections() ) );
     openChangeTypeDialogButton = new QPushButton( userToolsWidget );
     connect( openChangeTypeDialogButton, SIGNAL( clicked() ),
-             this, SLOT( openChangeTypeDialog() ) );
+             userListWidget, SLOT( openChangeTypeDialog() ) );
 
     removeUserButton = new QPushButton( userToolsWidget );
     //connect( removeUserButton, SIGNAL( clicked() ), this, SLOT() );
 
-    userListWidget = new UserListWidget( admin->getUsersList(), this );
 
     connect( this, SIGNAL( addUserTableSignal( SmartUtente ) ),
              userListWidget, SLOT( addUserTableSlot( SmartUtente ) ) );
+    connect( this, SIGNAL( updateUserListSignal( QString, SmartUtente ) ),
+             userListWidget, SLOT( updateUserListSlot( QString, SmartUtente ) ) );
 
     connect( userListWidget, SIGNAL( selectionChanged( QItemSelection ) ),
             this, SLOT( updateMenuToolsButtons( QItemSelection ) ) );
-
-    connect( closeUserToolsButton, SIGNAL( clicked() ), userListWidget, SLOT( clearSelections() ) );
+    connect( userListWidget, SIGNAL( changeUserTypeSignal( QString, QString ) ),
+             this, SLOT( changeUserTypeSlot( QString ,QString ) ) );
 }
 
 // METODO AdminWindow::setupUI
@@ -217,11 +218,6 @@ void AdminWindow::about() {
         "database di contatti professionali ispirato a LinkedIn.</p>" ) );
 }
 
-// SLOT AdminWindow::openChangeTypeDialog
-void AdminWindow::openChangeTypeDialog() {
-
-}
-
 // SLOT AdminWindow::openAddUserDialog
 void AdminWindow::openAddUserDialog() {
     AddUserDialog *addUserDialog = new AddUserDialog( this );
@@ -245,6 +241,12 @@ void AdminWindow::addUserSlot( const QString& un, const QString& n,
     else QMessageBox::information( this, tr( "Duplicate Username" ),
                                      tr( "The username \"%1\" already exists." )
                                      .arg( su->getUsername() ) );
+}
+
+// SLOT AdminWindow::changeUserTypeSlot
+void AdminWindow::changeUserTypeSlot( const QString& un, const QString& t ) {
+    admin->changeSubscriptionType( un, t );
+    emit updateUserListSignal( un, admin->getUser( un ) );
 }
 
 // SLOT AdminWindow::updateMenuToolsButtons
