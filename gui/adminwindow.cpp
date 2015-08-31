@@ -73,18 +73,16 @@ void AdminWindow::initUI() {
              userListWidget, SLOT( openChangeTypeDialog() ) );
 
     removeUserButton = new QPushButton( userToolsWidget );
-    //connect( removeUserButton, SIGNAL( clicked() ), this, SLOT() );
+    connect( removeUserButton, SIGNAL( clicked() ), userListWidget, SLOT( removeUser() ) );
 
+    // Aggiunta alla tabella del nuovo utente
+    connect( this, SIGNAL( addUserSignal( QString, QString, QString, QString ) ),
+             userListWidget, SLOT( addUser( QString, QString, QString, QString ) ) );
 
-    connect( this, SIGNAL( addUserTableSignal( SmartUtente ) ),
-             userListWidget, SLOT( addUserTableSlot( SmartUtente ) ) );
-    connect( this, SIGNAL( updateUserListSignal( QString, SmartUtente ) ),
-             userListWidget, SLOT( updateUserListSlot( QString, SmartUtente ) ) );
+    // ***
 
     connect( userListWidget, SIGNAL( selectionChanged( QItemSelection ) ),
             this, SLOT( updateMenuToolsButtons( QItemSelection ) ) );
-    connect( userListWidget, SIGNAL( changeUserTypeSignal( QString, QString ) ),
-             this, SLOT( changeUserTypeSlot( QString ,QString ) ) );
 }
 
 // METODO AdminWindow::setupUI
@@ -237,16 +235,10 @@ void AdminWindow::addUserSlot( const QString& un, const QString& n,
     if( t == "Business" ) su = SmartUtente( new UtenteBusiness( un, n, s ) );
 
     if( admin->insertUser( su ) )
-        emit addUserTableSignal( su );
+        emit addUserSignal( un, n, s, t );
     else QMessageBox::information( this, tr( "Duplicate Username" ),
                                      tr( "The username \"%1\" already exists." )
                                      .arg( su->getUsername() ) );
-}
-
-// SLOT AdminWindow::changeUserTypeSlot
-void AdminWindow::changeUserTypeSlot( const QString& un, const QString& t ) {
-    admin->changeSubscriptionType( un, t );
-    emit updateUserListSignal( un, admin->getUser( un ) );
 }
 
 // SLOT AdminWindow::updateMenuToolsButtons
@@ -256,9 +248,7 @@ void AdminWindow::updateMenuToolsButtons( const QItemSelection& selection ) {
     if( !indexes.isEmpty() ) {
         tableToolsWidget->setVisible( false );
         userToolsWidget->setVisible( true );
-    } else {
-        hideUserToolsButtons();
-    }
+    } else hideUserToolsButtons();
 }
 
 // SLOT AdminWindow::hideUserToolsButtons

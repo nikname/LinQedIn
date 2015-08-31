@@ -81,11 +81,14 @@ protected:
      */
     void closeEvent( QCloseEvent* );
 signals:
-    /** */
-    void addUserTableSignal( const SmartUtente& );
-
-    /** */
-    void updateUserListSignal( const QString&, const SmartUtente& );
+    /** Notifica UserListWidget dell'aggiunta di un nuovo utente nel database.
+     *
+     * @param QString  Username dell'utente aggiunto.
+     * @param QString  Nome dell'utetne aggiunto.
+     * @param QString  Cognome dell'utente aggiunto.
+     * @param QString  Tipologia dell'account dell'utente aggiunto.
+     */
+    void addUserSignal( const QString&, const QString&, const QString&, const QString& );
 private slots:
     /** Esegue il log out dall'applicazione. Mostra la finestra di log in. */
     void logout();
@@ -104,9 +107,6 @@ private slots:
      * @param Qstring  Tipologia account dell'utente.
      */
     void addUserSlot( const QString&, const QString&, const QString&, const QString& );
-
-    /** */
-    void changeUserTypeSlot( const QString&, const QString& );
 
     /** */
     void updateMenuToolsButtons( const QItemSelection& );

@@ -18,10 +18,7 @@
 UserListWidget::UserListWidget( const QVector<SmartUtente> v, QWidget *parent ) :
     QWidget( parent )
 {
-    for( int i = 0; i < v.size(); i++ )
-        usersList.insert( v[i]->getUsername(), v[i] );
-
-    model = new TableModel( usersList.values(), this );
+    model = new TableModel( v.toList(), this );
 
     proxyModel = new QSortFilterProxyModel( this );
     proxyModel->setSourceModel( model );
@@ -70,14 +67,10 @@ void UserListWidget::setupUI() {
     );
 }
 
-// SLOT UserListWidget::addUserTableSlot
-void UserListWidget::addUserTableSlot( const SmartUtente& su ) {
-    usersList.insert( su->getUsername(), su );
-    addUser( su->getUsername(), su->getName(), su->getSurname(), su->getAccountType() );
-}
-
 // SLOT UserListWidget::addUser
-void UserListWidget::addUser( QString username, QString name, QString surname, QString type ) {
+void UserListWidget::addUser( const QString& username, const QString& name,
+                              const QString& surname, const QString& type )
+{
     model->insertRows( 0, 1, QModelIndex() );
 
     QModelIndex index = model->index( 0, 0, QModelIndex() );
@@ -144,12 +137,6 @@ void UserListWidget::openChangeTypeDialog() {
              this, SIGNAL( changeUserTypeSignal( QString, QString ) ) );
 
     changeUserTypeDialog->exec();
-}
-
-// SLOT UserListWidget::updateUserListSlot
-void UserListWidget::updateUserListSlot( const QString& un, const SmartUtente& su ) {
-    usersList.remove( un );
-    usersList.insert( un, su );
 }
 
 // SLOT UserListWidget::clearSelections

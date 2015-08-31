@@ -14,8 +14,6 @@ class TableModel;
 class UserListWidget : public QWidget {
     Q_OBJECT
 private:
-    QMap<QString, SmartUtente> usersList;
-
     TableModel *model;
     QSortFilterProxyModel *proxyModel;
     QTableView *tableView;
@@ -40,9 +38,6 @@ signals:
     /** */
     void changeUserTypeSignal( const QString&, const QString& );
 private slots:
-    /** */
-    void addUserTableSlot( const SmartUtente& );
-
     /** Aggiunge le informazioni di un utente in una riga della tabella.
      *
      * @param QString  Username dell'utente.
@@ -50,7 +45,7 @@ private slots:
      * @param QString  Cognome dell'utente.
      * @param QString  Tipologia account dell'utente.
      */
-    void addUser( QString, QString, QString, QString );
+    void addUser( const QString&, const QString&, const QString&, const QString& );
 
     /** Rimuove le informazioni di un utente da una riga della tabella. */
     void removeUser();
@@ -60,9 +55,6 @@ private slots:
 
     /** */
     void openChangeTypeDialog();
-
-    /** */
-    void updateUserListSlot( const QString&, const SmartUtente& );
 
     /** */
     void clearSelections();
