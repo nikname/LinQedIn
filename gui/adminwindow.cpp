@@ -73,11 +73,16 @@ void AdminWindow::initUI() {
              userListWidget, SLOT( openChangeTypeDialog() ) );
 
     removeUserButton = new QPushButton( userToolsWidget );
+    // Rimozione dalla tabella di un utente
     connect( removeUserButton, SIGNAL( clicked() ), userListWidget, SLOT( removeUser() ) );
 
     // Aggiunta alla tabella del nuovo utente
     connect( this, SIGNAL( addUserSignal( QString, QString, QString, QString ) ),
              userListWidget, SLOT( addUser( QString, QString, QString, QString ) ) );
+
+    // Rimozione dal database di un utente
+    connect( userListWidget, SIGNAL( removeUserSignal( QString ) ),
+             this, SLOT( removeUserSlot( QString ) ) );
 
     // ***
 
@@ -239,6 +244,11 @@ void AdminWindow::addUserSlot( const QString& un, const QString& n,
     else QMessageBox::information( this, tr( "Duplicate Username" ),
                                      tr( "The username \"%1\" already exists." )
                                      .arg( su->getUsername() ) );
+}
+
+// SLOT AdminWindow::removeUserSlot
+void AdminWindow::removeUserSlot( const QString& un ) {
+    admin->removeUser( un );
 }
 
 // SLOT AdminWindow::updateMenuToolsButtons

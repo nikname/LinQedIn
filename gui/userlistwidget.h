@@ -35,8 +35,11 @@ signals:
     /** */
     void selectionChanged( const QItemSelection& );
 
-    /** */
-    void changeUserTypeSignal( const QString&, const QString& );
+    /** Notifica AdminWindow della rimozione di un utente dalla tabella.
+     *
+     * @param QString  Username dell'utente rimosso.
+     */
+    void removeUserSignal( const QString& );
 private slots:
     /** Aggiunge le informazioni di un utente in una riga della tabella.
      *
@@ -49,9 +52,6 @@ private slots:
 
     /** Rimuove le informazioni di un utente da una riga della tabella. */
     void removeUser();
-
-    /** */
-    void changeUserTypeSlot( const QString&, const QString& );
 
     /** */
     void openChangeTypeDialog();

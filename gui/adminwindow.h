@@ -108,6 +108,12 @@ private slots:
      */
     void addUserSlot( const QString&, const QString&, const QString&, const QString& );
 
+    /** Rimuove un utente dal database.
+     *
+     * @param QString  Userneme dell'utente da rimuovere.
+     */
+    void removeUserSlot( const QString& );
+
     /** */
     void updateMenuToolsButtons( const QItemSelection& );
 
