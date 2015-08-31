@@ -47,21 +47,14 @@ void AdminWindow::closeEvent( QCloseEvent* event ) {
 void AdminWindow::initUI() {
     menuWidget = new QWidget( this );
 
-    homeButton = new QPushButton( this );
-    backButton = new QPushButton( this );
+    tableToolsWidget = new QWidget( menuWidget );
 
-    linqedinLabel = new QLabel( "<h2>LinQedIn</h2>", this );
+    homeButton = new QPushButton( tableToolsWidget );
+    backButton = new QPushButton( tableToolsWidget );
 
-    userListWidget = new UserListWidget( admin->getUsersList(), this );
+    linqedinLabel = new QLabel( "<h2>LinQedIn</h2>", tableToolsWidget );
 
-    openChangeTypeDialogButton = new QPushButton( this );
-    connect( openChangeTypeDialogButton, SIGNAL( clicked() ),
-             this, SLOT( openChangeTypeDialog() ) );
-
-    removeUserButton = new QPushButton( this );
-    //connect( removeUserButton, SIGNAL( clicked() ), this, SLOT() );
-
-    saveDatabaseButton = new QPushButton( this );
+    saveDatabaseButton = new QPushButton( tableToolsWidget );
     connect( saveDatabaseButton, SIGNAL( clicked() ), this, SLOT( saveDatabaseStatus() ) );
 
     addUserButton = new QPushButton( this );
@@ -70,8 +63,27 @@ void AdminWindow::initUI() {
     openSearchDialogButton = new QPushButton( this );
     connect( openSearchDialogButton, SIGNAL( clicked() ), this, SLOT( openSearchDialog() ) );
 
+    userToolsWidget = new QWidget( menuWidget );
+
+    closeUserToolsButton = new QPushButton( userToolsWidget );
+    connect( closeUserToolsButton, SIGNAL( clicked() ), this, SLOT( hideUserToolsButtons() ) );
+
+    openChangeTypeDialogButton = new QPushButton( userToolsWidget );
+    connect( openChangeTypeDialogButton, SIGNAL( clicked() ),
+             this, SLOT( openChangeTypeDialog() ) );
+
+    removeUserButton = new QPushButton( userToolsWidget );
+    //connect( removeUserButton, SIGNAL( clicked() ), this, SLOT() );
+
+    userListWidget = new UserListWidget( admin->getUsersList(), this );
+
     connect( this, SIGNAL( addUserTableSignal( SmartUtente ) ),
              userListWidget, SLOT( addUserTableSlot( SmartUtente ) ) );
+
+    connect( userListWidget, SIGNAL( selectionChanged( QItemSelection ) ),
+            this, SLOT( updateMenuToolsButtons( QItemSelection ) ) );
+
+    connect( closeUserToolsButton, SIGNAL( clicked() ), userListWidget, SLOT( clearSelections() ) );
 }
 
 // METODO AdminWindow::setupUI
@@ -84,14 +96,14 @@ void AdminWindow::setupUI() {
     menuWidget->setFixedHeight( 50 );
     menuWidget->setStyleSheet( "background: #069; color: white;" );
 
+    QWidget *buttonsFiller = new QWidget( menuWidget );
+    buttonsFiller->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Fixed );
+
     homeButton->setIcon( QIcon( QPixmap( ":/icons/icon/home.png" ) ) );
     setButtonProperties( homeButton );
     backButton->setIcon( QIcon( QPixmap( ":/icons/icon/arrow-left" ) ) );
     setButtonProperties( backButton );
     backButton->setVisible( false );
-
-    QWidget *middleFiller = new QWidget( menuWidget );
-    middleFiller->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Expanding );
 
     openSearchDialogButton->setIcon( QIcon( QPixmap( ":/icons/icon/magnify.png" ) ) );
     setButtonProperties( openSearchDialogButton );
@@ -102,20 +114,44 @@ void AdminWindow::setupUI() {
     addUserButton->setIcon( QIcon( QPixmap( ":/icons/icon/account-plus.png" ) ) );
     setButtonProperties( addUserButton );
 
-    QWidget *buttonsFiller = new QWidget( menuWidget );
-    buttonsFiller->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Fixed );
+    QHBoxLayout *tableToolsLayout = new QHBoxLayout( tableToolsWidget );
+    tableToolsLayout->addWidget( homeButton );
+    tableToolsLayout->addWidget( backButton );
+    tableToolsLayout->addSpacing( 10 );
+    tableToolsLayout->addWidget( linqedinLabel );
+    tableToolsLayout->addSpacing( 20 );
+    tableToolsLayout->addWidget( buttonsFiller );
+    tableToolsLayout->addWidget( saveDatabaseButton );
+    tableToolsLayout->addWidget( addUserButton );
+    tableToolsLayout->addWidget( openSearchDialogButton );
+    tableToolsLayout->setContentsMargins( 0, 0, 0, 0 );
+
+    userToolsWidget->setStyleSheet( "background: white" );
+
+    closeUserToolsButton->setIcon( QIcon( QPixmap( ":/icons/icon/close-black.png" ) ) );
+    setButtonProperties( closeUserToolsButton, "#EEE" );
+
+    openChangeTypeDialogButton->setIcon(
+                QIcon( QPixmap( ":/icons/icon/account-switch.png" ) ) );
+    setButtonProperties( openChangeTypeDialogButton, "#EEE" );
+
+    removeUserButton->setIcon( QIcon( QPixmap( ":/icons/icon/delete.png" ) ) );
+    setButtonProperties( removeUserButton, "#EEE" );
+
+    QHBoxLayout *userToolsLayout = new QHBoxLayout( userToolsWidget );
+    userToolsLayout->addWidget( closeUserToolsButton );
+    userToolsLayout->addWidget( buttonsFiller );
+    userToolsLayout->addWidget( openChangeTypeDialogButton );
+    userToolsLayout->addWidget( removeUserButton );
+    userToolsLayout->setContentsMargins( 0, 0, 0, 0 );
 
     QHBoxLayout *menuLayout = new QHBoxLayout( menuWidget );
-    menuLayout->addWidget( homeButton );
-    menuLayout->addWidget( backButton );
-    menuLayout->addSpacing( 10 );
-    menuLayout->addWidget( linqedinLabel );
-    menuLayout->addSpacing( 20 );
-    menuLayout->addWidget( buttonsFiller );
-    menuLayout->addWidget( saveDatabaseButton );
-    menuLayout->addWidget( addUserButton );
-    menuLayout->addWidget( openSearchDialogButton );
+    menuLayout->addWidget( tableToolsWidget );
+    menuLayout->addWidget( userToolsWidget );
     menuLayout->setContentsMargins( 0, 0, 0, 0 );
+
+    userToolsWidget->setVisible( false );
+    tableToolsWidget->setVisible( true );
 
     QVBoxLayout *layout = new QVBoxLayout( centralWidget );
     layout->addWidget( menuWidget );
@@ -153,12 +189,14 @@ void AdminWindow::createMenus() {
 }
 
 // METODO AdminWindow::setButtonProperties( QPushButton* )
-void AdminWindow::setButtonProperties( QPushButton* button ) {
+void AdminWindow::setButtonProperties( QPushButton* button, const QString& pressed_color ) {
     button->setFixedSize( 50, 50 );
-    button->setStyleSheet(
+    QString style = QString(
         "QPushButton { border-radius: 25px; outline: 0; }"
-        "QPushButton:pressed { background: #3385AD; }"
-    );
+        "QPushButton:pressed { background: %1; }"
+    ).arg( pressed_color );
+
+    button->setStyleSheet( style );
 }
 
 // SLOT AdminWindow::logout
@@ -207,6 +245,24 @@ void AdminWindow::addUserSlot( const QString& un, const QString& n,
     else QMessageBox::information( this, tr( "Duplicate Username" ),
                                      tr( "The username \"%1\" already exists." )
                                      .arg( su->getUsername() ) );
+}
+
+// SLOT AdminWindow::updateMenuToolsButtons
+void AdminWindow::updateMenuToolsButtons( const QItemSelection& selection ) {
+    QModelIndexList indexes = selection.indexes();
+
+    if( !indexes.isEmpty() ) {
+        tableToolsWidget->setVisible( false );
+        userToolsWidget->setVisible( true );
+    } else {
+        hideUserToolsButtons();
+    }
+}
+
+// SLOT AdminWindow::hideUserToolsButtons
+void AdminWindow::hideUserToolsButtons() {
+    userToolsWidget->setVisible( false );
+    tableToolsWidget->setVisible( true );
 }
 
 // SLOT AdminWindow::saveDatabaseStatus

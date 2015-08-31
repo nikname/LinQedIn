@@ -51,6 +51,9 @@ private slots:
 
     /** Rimuove le informazioni di un utente da una riga della tabella. */
     void removeUser();
+
+    /** */
+    void clearSelections();
 };
 
 #endif // USERLIST_WIDGET_H

@@ -1,7 +1,9 @@
 #ifndef ADMINWINDOW_H
 #define ADMINWINDOW_H
 
+#include <QItemSelection>
 #include <QMainWindow>
+#include "smartutente.h"
 
 class AdminSearchWidget;
 class LinQedInAdmin;
@@ -26,13 +28,17 @@ private:
 
     QWidget *menuWidget;
 
+    QWidget *tableToolsWidget;
     QPushButton *homeButton;
     QPushButton *backButton;
-    QPushButton *openChangeTypeDialogButton;
-    QPushButton *removeUserButton;
     QPushButton *openSearchDialogButton;
     QPushButton *saveDatabaseButton;
     QPushButton *addUserButton;
+
+    QWidget *userToolsWidget;
+    QPushButton *closeUserToolsButton;
+    QPushButton *openChangeTypeDialogButton;
+    QPushButton *removeUserButton;
 
     QLabel *linqedinLabel;
 
@@ -56,7 +62,7 @@ private:
      *
      * @param QPushButton*  Pulsante al quale applicare le proprietà.
      */
-    void setButtonProperties( QPushButton* );
+    void setButtonProperties( QPushButton*, const QString& = "#3385AD" );
 public:
     /** Costruttore esplicito ad 1 parametro con 1 valore di default.
      *  Come da buona pratica, delega l'inizializzazione della GUI ad un metodo ausiliario.
@@ -100,6 +106,12 @@ private slots:
      * @param Qstring  Tipologia account dell'utente.
      */
     void addUserSlot( const QString&, const QString&, const QString&, const QString& );
+
+    /** */
+    void updateMenuToolsButtons( const QItemSelection& );
+
+    /** */
+    void hideUserToolsButtons();
 
     /** Salva su file (XML) lo stato del database. */
     void saveDatabaseStatus();

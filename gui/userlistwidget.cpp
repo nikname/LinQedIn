@@ -95,3 +95,8 @@ void UserListWidget::removeUser() {
         model->removeRows( row, 1, QModelIndex() );
     }
 }
+
+// SLOT UserListWidget::clearSelections
+void UserListWidget::clearSelections() {
+    tableView->clearSelection();
+}
