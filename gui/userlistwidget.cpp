@@ -1,12 +1,12 @@
 #include <QDebug>
 #include <QHeaderView>
 #include <QPushButton>
-#include <QSortFilterProxyModel>
 #include <QTableView>
 #include <QTableWidget>
 #include <QVBoxLayout>
 #include "changeusertypedialog.h"
 #include "linqedin_admin.h"
+#include "mysortfilterproxymodel.h"
 #include "tablemodel.h"
 #include "userlistwidget.h"
 #include "utente.h"
@@ -19,12 +19,8 @@ UserListWidget::UserListWidget( const QVector<SmartUtente> v, QWidget *parent ) 
     QWidget( parent )
 {
     model = new TableModel( v.toList(), this );
-
-    proxyModel = new QSortFilterProxyModel( this );
-    proxyModel->setSourceModel( model );
-
+    proxyModel = new MySortFilterProxyModel( this );
     tableView = new QTableView( this );
-    tableView->setModel( proxyModel );
 
     initUI();
     setupUI();
@@ -32,6 +28,9 @@ UserListWidget::UserListWidget( const QVector<SmartUtente> v, QWidget *parent ) 
 
 // METODO UserListWidget::initUI
 void UserListWidget::initUI() {
+    proxyModel->setSourceModel( model );
+
+    tableView->setModel( proxyModel );
     connect( tableView->selectionModel(),
              SIGNAL( selectionChanged( QItemSelection, QItemSelection ) ),
              this, SIGNAL( selectionChanged( QItemSelection ) ) );
@@ -155,14 +154,14 @@ void UserListWidget::clearSelections() {
 void UserListWidget::filterTable( const QString& q, QList<QString> t, QList<QString> f ) {
     QString regExp = QString( "^[%1].*" ).arg( q );
 
-    if( proxyModel ) {
-        delete proxyModel;
-        proxyModel = 0;
-    }
-    proxyModel = new QSortFilterProxyModel( this );
-    proxyModel->setSourceModel( model );
+    QList<int> columns;
+    if( f.contains( "Username" ) ) columns.append( 0 );
+    if( f.contains( "Name" ) ) columns.append( 1 );
+    if( f.contains( "Surname" ) ) columns.append( 2 );
+
     proxyModel->setFilterRegExp( QRegExp( regExp, Qt::CaseInsensitive ) );
-    proxyModel->setFilterKeyColumn( 0 );
+    proxyModel->setFilterKeyColumns( columns );
+    proxyModel->invalidate();
 
     tableView->setModel( proxyModel );
     connect( tableView->selectionModel(),
@@ -172,15 +171,12 @@ void UserListWidget::filterTable( const QString& q, QList<QString> t, QList<QStr
 
 // SLOT UserListWidget::restoreTableSlot
 void UserListWidget::restoreTableSlot() {
-    if( proxyModel ) {
-        delete proxyModel;
-        proxyModel = 0;
-    }
-    proxyModel = new QSortFilterProxyModel( this );
-    proxyModel->setSourceModel( model );
+    proxyModel->setFilterKeyColumn( 0 );
+    proxyModel->invalidate();
 
     tableView->setModel( proxyModel );
     connect( tableView->selectionModel(),
              SIGNAL( selectionChanged( QItemSelection, QItemSelection ) ),
              this, SIGNAL( selectionChanged( QItemSelection ) ) );
+
 }

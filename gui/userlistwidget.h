@@ -7,7 +7,7 @@
 
 class LinQedInAdmin;
 class QPushButton;
-class QSortFilterProxyModel;
+class MySortFilterProxyModel;
 class QTableView;
 class TableModel;
 
@@ -15,7 +15,7 @@ class UserListWidget : public QWidget {
     Q_OBJECT
 private:
     TableModel *model;
-    QSortFilterProxyModel *proxyModel;
+    MySortFilterProxyModel *proxyModel;
     QTableView *tableView;
 
     /** Inizializza la UI. */
