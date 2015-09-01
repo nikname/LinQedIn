@@ -75,6 +75,12 @@ private slots:
 
     /** */
     void clearSelections();
+
+    /** */
+    void filterTable( const QString&, QList<QString>, QList<QString> );
+
+    /** */
+    void restoreTableSlot();
 };
 
 #endif // USERLIST_WIDGET_H

@@ -21,6 +21,7 @@ void AdminSearchDialog::initUI() {
     titleLabel = new QLabel( tr( "Search User" ), this );
 
     searchEdit = new QLineEdit( this );
+    connect( searchEdit, SIGNAL( textChanged( QString ) ), this, SLOT( checkInput( QString ) ) );
 
     typeCheckboxWidget = new QWidget( this );
     typeLabel = new QLabel( tr( "Type" ), typeCheckboxWidget );
@@ -117,5 +118,17 @@ void AdminSearchDialog::checkInput( const QString& input ) {
 
 // SLOT AdminSearchDialog::searchUsers
 void AdminSearchDialog::searchUsers() {
+    QList<QString> types;
+    if( typeCheckboxBasic->isChecked() ) types.append( "Basic" );
+    if( typeCheckboxExecutive->isChecked() ) types.append( "Executive" );
+    if( typeCheckboxBusiness->isChecked() ) types.append( "Business" );
 
+    QList<QString> fields;
+    if( fieldCheckboxUsername->isChecked() ) fields.append( "Username" );
+    if( fieldCheckboxName->isChecked() ) fields.append( "Name" );
+    if( fieldCheckboxSurname->isChecked() ) fields.append( "Surname" );
+
+    emit sendSearchParams( searchEdit->text(), types, fields );
+
+    this->close();
 }

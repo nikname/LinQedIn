@@ -19,6 +19,7 @@
 // COSTRUTTORE AdminWindow
 AdminWindow::AdminWindow( QWidget *parent ) :
     statusChanged( false ),
+    filterActive( false ),
     admin( new LinQedInAdmin() ),
     QMainWindow( parent )
 {
@@ -48,15 +49,13 @@ void AdminWindow::closeEvent( QCloseEvent* event ) {
 
 // METODO AdminWindow::initUI
 void AdminWindow::initUI() {
+    userListWidget = new UserListWidget( admin->getUsersList(), this );
+
     menuWidget = new QWidget( this );
 
     tableToolsWidget = new QWidget( menuWidget );
-
     homeButton = new QPushButton( tableToolsWidget );
-    backButton = new QPushButton( tableToolsWidget );
-
     linqedinLabel = new QLabel( "<h2>LinQedIn</h2>", tableToolsWidget );
-
     saveDatabaseButton = new QPushButton( tableToolsWidget );
     connect( saveDatabaseButton, SIGNAL( clicked() ), this, SLOT( saveDatabaseStatus() ) );
     addUserButton = new QPushButton( this );
@@ -64,18 +63,17 @@ void AdminWindow::initUI() {
     openSearchDialogButton = new QPushButton( this );
     connect( openSearchDialogButton, SIGNAL( clicked() ), this, SLOT( openSearchDialog() ) );
 
-    userListWidget = new UserListWidget( admin->getUsersList(), this );
+    searchResultsWidget = new QWidget( menuWidget );
+    backButton = new QPushButton( tableToolsWidget );
+    connect( backButton, SIGNAL( clicked() ), this, SLOT( backToTable() ) );
 
     userToolsWidget = new QWidget( menuWidget );
-
     closeUserToolsButton = new QPushButton( userToolsWidget );
-    connect( closeUserToolsButton, SIGNAL( clicked() ), this, SLOT( hideUserToolsButtons() ) );
+    connect( closeUserToolsButton, SIGNAL( clicked() ), this, SLOT( updateMenuToolsButtons() ) );
     connect( closeUserToolsButton, SIGNAL( clicked() ), userListWidget, SLOT( clearSelections() ) );
-
     openChangeTypeDialogButton = new QPushButton( userToolsWidget );
     connect( openChangeTypeDialogButton, SIGNAL( clicked() ),
              userListWidget, SLOT( openChangeTypeDialog() ) );
-
     removeUserButton = new QPushButton( userToolsWidget );
     // Rimozione dalla tabella di un utente
     connect( removeUserButton, SIGNAL( clicked() ), userListWidget, SLOT( removeUser() ) );
@@ -94,6 +92,8 @@ void AdminWindow::initUI() {
 
     connect( userListWidget, SIGNAL( selectionChanged( QItemSelection ) ),
             this, SLOT( updateMenuToolsButtons( QItemSelection ) ) );
+
+    connect( this, SIGNAL( restoreTableSignal() ), userListWidget, SLOT( restoreTableSlot() ) );
 }
 
 // METODO AdminWindow::setupUI
@@ -111,22 +111,15 @@ void AdminWindow::setupUI() {
 
     homeButton->setIcon( QIcon( QPixmap( ":/icons/icon/home.png" ) ) );
     setButtonProperties( homeButton );
-    backButton->setIcon( QIcon( QPixmap( ":/icons/icon/arrow-left" ) ) );
-    setButtonProperties( backButton );
-    backButton->setVisible( false );
-
     openSearchDialogButton->setIcon( QIcon( QPixmap( ":/icons/icon/magnify.png" ) ) );
     setButtonProperties( openSearchDialogButton );
-
     saveDatabaseButton->setIcon( QIcon( QPixmap( ":/icons/icon/content-save-all.png" ) ) );
     setButtonProperties( saveDatabaseButton );
-
     addUserButton->setIcon( QIcon( QPixmap( ":/icons/icon/account-plus.png" ) ) );
     setButtonProperties( addUserButton );
 
     QHBoxLayout *tableToolsLayout = new QHBoxLayout( tableToolsWidget );
     tableToolsLayout->addWidget( homeButton );
-    tableToolsLayout->addWidget( backButton );
     tableToolsLayout->addSpacing( 10 );
     tableToolsLayout->addWidget( linqedinLabel );
     tableToolsLayout->addSpacing( 20 );
@@ -136,15 +129,18 @@ void AdminWindow::setupUI() {
     tableToolsLayout->addWidget( openSearchDialogButton );
     tableToolsLayout->setContentsMargins( 0, 0, 0, 0 );
 
-    userToolsWidget->setStyleSheet( "background: white" );
+    backButton->setIcon( QIcon( QPixmap( ":/icons/icon/arrow-left" ) ) );
+    setButtonProperties( backButton );
 
+    QHBoxLayout *searchResultsLayout = new QHBoxLayout( searchResultsWidget );
+    searchResultsLayout->addWidget( backButton, 0, Qt::AlignLeft );
+    searchResultsLayout->setContentsMargins( 0, 0, 0, 0 );
+
+    userToolsWidget->setStyleSheet( "background: white" );
     closeUserToolsButton->setIcon( QIcon( QPixmap( ":/icons/icon/close-black.png" ) ) );
     setButtonProperties( closeUserToolsButton, "#EEE" );
-
-    openChangeTypeDialogButton->setIcon(
-                QIcon( QPixmap( ":/icons/icon/account-switch.png" ) ) );
+    openChangeTypeDialogButton->setIcon( QIcon( QPixmap( ":/icons/icon/account-switch.png" ) ) );
     setButtonProperties( openChangeTypeDialogButton, "#EEE" );
-
     removeUserButton->setIcon( QIcon( QPixmap( ":/icons/icon/delete.png" ) ) );
     setButtonProperties( removeUserButton, "#EEE" );
 
@@ -157,9 +153,11 @@ void AdminWindow::setupUI() {
 
     QHBoxLayout *menuLayout = new QHBoxLayout( menuWidget );
     menuLayout->addWidget( tableToolsWidget );
+    menuLayout->addWidget( searchResultsWidget );
     menuLayout->addWidget( userToolsWidget );
     menuLayout->setContentsMargins( 0, 0, 0, 0 );
 
+    searchResultsWidget->setVisible( false );
     userToolsWidget->setVisible( false );
     tableToolsWidget->setVisible( true );
 
@@ -270,15 +268,19 @@ void AdminWindow::updateMenuToolsButtons( const QItemSelection& selection ) {
     QModelIndexList indexes = selection.indexes();
 
     if( !indexes.isEmpty() ) {
+        searchResultsWidget->setVisible( false );
         tableToolsWidget->setVisible( false );
         userToolsWidget->setVisible( true );
-    } else hideUserToolsButtons();
-}
-
-// SLOT AdminWindow::hideUserToolsButtons
-void AdminWindow::hideUserToolsButtons() {
-    userToolsWidget->setVisible( false );
-    tableToolsWidget->setVisible( true );
+    } else {
+        userToolsWidget->setVisible( false );
+        if( filterActive ) {
+            tableToolsWidget->setVisible( false );
+            searchResultsWidget->setVisible( true );
+        } else {
+            searchResultsWidget->setVisible( false );
+            tableToolsWidget->setVisible( true );
+        }
+    }
 }
 
 // SLOT AdminWindow::saveDatabaseStatus
@@ -292,6 +294,24 @@ void AdminWindow::saveDatabaseStatus() {
 // SLOT AdminWindow::openSearchDialog
 void AdminWindow::openSearchDialog() {
     AdminSearchDialog *adminSearchDialog = new AdminSearchDialog( this );
+    connect( adminSearchDialog, SIGNAL( sendSearchParams( QString, QList<QString>, QList<QString> ) ),
+             userListWidget, SLOT( filterTable( QString, QList<QString>, QList<QString> ) ) );
+    connect( adminSearchDialog, SIGNAL( sendSearchParams( QString, QList<QString>, QList<QString> ) ),
+             this, SLOT( showSearchResultsMenu() ) );
 
     adminSearchDialog->exec();
+}
+
+// SLOT AdminWindow::showSearchResultsMenu
+void AdminWindow::showSearchResultsMenu() {
+    filterActive = true;
+    updateMenuToolsButtons();
+}
+
+// SLOT AdminWindow::backToTable
+void AdminWindow::backToTable() {
+    filterActive = false;
+    updateMenuToolsButtons();
+
+    emit restoreTableSignal();
 }

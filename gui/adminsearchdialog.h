@@ -50,7 +50,13 @@ public:
      */
     explicit AdminSearchDialog( QWidget *parent = 0 );
 signals:
-
+    /** Notifica AdminSearchWindow i parametri della ricerca.
+     *
+     * @param QString  Stringa da ricercare.
+     * @param QList<QString>  Lista dei campi nei quali ricercare la stringa.
+     * @param QList<QString>  Lista delle tipologie di account da filtrare.
+     */
+    void sendSearchParams( const QString&, QList<QString>, QList<QString> );
 public slots:
     /** */
     void checkInput( const QString& );

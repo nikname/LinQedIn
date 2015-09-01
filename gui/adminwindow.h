@@ -19,6 +19,7 @@ class AdminWindow : public QMainWindow {
     friend class AddUserDialog;
 private:
     bool statusChanged;
+    bool filterActive;
 
     LinQedInAdmin *admin;
 
@@ -32,10 +33,12 @@ private:
 
     QWidget *tableToolsWidget;
     QPushButton *homeButton;
-    QPushButton *backButton;
     QPushButton *openSearchDialogButton;
     QPushButton *saveDatabaseButton;
     QPushButton *addUserButton;
+
+    QWidget *searchResultsWidget;
+    QPushButton *backButton;
 
     QWidget *userToolsWidget;
     QPushButton *closeUserToolsButton;
@@ -91,6 +94,9 @@ signals:
      * @param QString  Tipologia dell'account dell'utente aggiunto.
      */
     void addUserSignal( const QString&, const QString&, const QString&, const QString& );
+
+    /** Ripristina la tabella degli utenti alla lista di tutti gli utenti del client. */
+    void restoreTableSignal();
 private slots:
     /** Esegue il log out dall'applicazione. Mostra la finestra di log in. */
     void logout();
@@ -120,16 +126,19 @@ private slots:
     void changeAccountTypeSlot( const QString&, const QString& );
 
     /** */
-    void updateMenuToolsButtons( const QItemSelection& );
-
-    /** */
-    void hideUserToolsButtons();
+    void updateMenuToolsButtons( const QItemSelection& = QItemSelection() );
 
     /** Salva su file (XML) lo stato del database. */
     void saveDatabaseStatus();
 
     /** */
     void openSearchDialog();
+
+    /** */
+    void showSearchResultsMenu();
+
+    /** */
+    void backToTable();
 };
 
 #endif // ADMINWINDOW_H

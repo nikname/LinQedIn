@@ -150,3 +150,37 @@ void UserListWidget::openChangeTypeDialog() {
 void UserListWidget::clearSelections() {
     tableView->clearSelection();
 }
+
+// SLOT UserListWidget::filterTable
+void UserListWidget::filterTable( const QString& q, QList<QString> t, QList<QString> f ) {
+    QString regExp = QString( "^[%1].*" ).arg( q );
+
+    if( proxyModel ) {
+        delete proxyModel;
+        proxyModel = 0;
+    }
+    proxyModel = new QSortFilterProxyModel( this );
+    proxyModel->setSourceModel( model );
+    proxyModel->setFilterRegExp( QRegExp( regExp, Qt::CaseInsensitive ) );
+    proxyModel->setFilterKeyColumn( 0 );
+
+    tableView->setModel( proxyModel );
+    connect( tableView->selectionModel(),
+             SIGNAL( selectionChanged( QItemSelection, QItemSelection ) ),
+             this, SIGNAL( selectionChanged( QItemSelection ) ) );
+}
+
+// SLOT UserListWidget::restoreTableSlot
+void UserListWidget::restoreTableSlot() {
+    if( proxyModel ) {
+        delete proxyModel;
+        proxyModel = 0;
+    }
+    proxyModel = new QSortFilterProxyModel( this );
+    proxyModel->setSourceModel( model );
+
+    tableView->setModel( proxyModel );
+    connect( tableView->selectionModel(),
+             SIGNAL( selectionChanged( QItemSelection, QItemSelection ) ),
+             this, SIGNAL( selectionChanged( QItemSelection ) ) );
+}
