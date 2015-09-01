@@ -16,11 +16,9 @@ bool MySortFilterProxyModel::filterAcceptsRow( int sourceRow, const QModelIndex&
          it != columnPatterns.constEnd(); ++it )
     {
         QModelIndex index = sourceModel()->index( sourceRow, it.key(), sourceParent );
-        test = ( index.data().toString().contains( it.value() ) );
-
-        if( !test ) return test;
+        test = test || ( index.data().toString().contains( it.value(), Qt::CaseInsensitive ) );
     }
-    return true;
+    return test;
 }
 
 // METODO MySortFilterProxyModel::setFilterKeyColumns

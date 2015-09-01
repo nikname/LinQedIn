@@ -65,8 +65,6 @@ void AdminSearchDialog::setupUI() {
     fieldLabel->setStyleSheet( "QLabel { font: bold; }" );
 
     fieldCheckboxUsername->setChecked( true );
-    fieldCheckboxName->setChecked( true );
-    fieldCheckboxSurname->setChecked( true );
 
     QVBoxLayout *fieldCheckboxLayout = new QVBoxLayout( fieldCheckboxWidget );
     fieldCheckboxLayout->addWidget( fieldLabel );
@@ -98,6 +96,8 @@ void AdminSearchDialog::setupUI() {
     layout->addWidget( buttonsWidget );
     layout->setMargin( 20 );
 
+    typeCheckboxWidget->setVisible( false ); // *** RICERCA PER TIPOLOGIA NON DISPONIBILE ***
+
     setStyleSheet( "background: white" );
     setWindowFlags( Qt::Dialog | Qt::FramelessWindowHint );
     setFixedWidth( 300 );
@@ -115,7 +115,7 @@ void AdminSearchDialog::paintEvent( QPaintEvent *) {
 void AdminSearchDialog::checkInput( const QString& input ) {
     Q_UNUSED( input )
 
-    if( searchEdit->text().isEmpty() )
+    if( searchEdit->text().trimmed().isEmpty() )
         setButtonDisabled( acceptButton, true );
     else setButtonEnabled( acceptButton, true );
 }
@@ -132,7 +132,7 @@ void AdminSearchDialog::searchUsers() {
     if( fieldCheckboxName->isChecked() ) fields.append( "Name" );
     if( fieldCheckboxSurname->isChecked() ) fields.append( "Surname" );
 
-    emit sendSearchParams( searchEdit->text(), types, fields );
+    emit sendSearchParams( searchEdit->text().trimmed(), types, fields );
 
     this->close();
 }

@@ -152,14 +152,11 @@ void UserListWidget::clearSelections() {
 
 // SLOT UserListWidget::filterTable
 void UserListWidget::filterTable( const QString& q, QList<QString> t, QList<QString> f ) {
-    QString regExp = QString( "^[%1].*" ).arg( q );
-
     QList<int> columns;
     if( f.contains( "Username" ) ) columns.append( 0 );
     if( f.contains( "Name" ) ) columns.append( 1 );
     if( f.contains( "Surname" ) ) columns.append( 2 );
 
-    proxyModel->setFilterRegExp( QRegExp( regExp, Qt::CaseInsensitive ) );
     proxyModel->setFilterKeyColumns( columns );
     proxyModel->addFilterFixedString( 0, q );
     proxyModel->addFilterFixedString( 1, q );
