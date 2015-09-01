@@ -52,6 +52,8 @@ public:
 signals:
     /** Notifica AdminSearchWindow i parametri della ricerca.
      *
+     * ATTENZIONE: la ricerca per tipologia non è ancora disponibile.
+     *
      * @param QString  Stringa da ricercare.
      * @param QList<QString>  Lista dei campi nei quali ricercare la stringa.
      * @param QList<QString>  Lista delle tipologie di account da filtrare.

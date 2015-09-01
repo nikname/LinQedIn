@@ -21,7 +21,7 @@ public:
     explicit MySortFilterProxyModel( QObject *parent = 0 );
 
     /** */
-    void setFilterKeyColumns( const QList<int>& );
+    void setFilterKeyColumns( const QList<int>& = QList<int>() );
 
     /** */
     void addFilterFixedString( int, const QString& );

@@ -161,22 +161,14 @@ void UserListWidget::filterTable( const QString& q, QList<QString> t, QList<QStr
 
     proxyModel->setFilterRegExp( QRegExp( regExp, Qt::CaseInsensitive ) );
     proxyModel->setFilterKeyColumns( columns );
+    proxyModel->addFilterFixedString( 0, q );
+    proxyModel->addFilterFixedString( 1, q );
+    proxyModel->addFilterFixedString( 2, q );
     proxyModel->invalidate();
-
-    tableView->setModel( proxyModel );
-    connect( tableView->selectionModel(),
-             SIGNAL( selectionChanged( QItemSelection, QItemSelection ) ),
-             this, SIGNAL( selectionChanged( QItemSelection ) ) );
 }
 
 // SLOT UserListWidget::restoreTableSlot
 void UserListWidget::restoreTableSlot() {
-    proxyModel->setFilterKeyColumn( 0 );
+    proxyModel->setFilterKeyColumns();
     proxyModel->invalidate();
-
-    tableView->setModel( proxyModel );
-    connect( tableView->selectionModel(),
-             SIGNAL( selectionChanged( QItemSelection, QItemSelection ) ),
-             this, SIGNAL( selectionChanged( QItemSelection ) ) );
-
 }

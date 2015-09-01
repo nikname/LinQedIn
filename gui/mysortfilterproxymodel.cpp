@@ -11,12 +11,14 @@ bool MySortFilterProxyModel::filterAcceptsRow( int sourceRow, const QModelIndex&
     if( columnPatterns.isEmpty() )
         return true;
 
+    bool test = false;
     for( QMap<int, QString>::const_iterator it = columnPatterns.constBegin();
          it != columnPatterns.constEnd(); ++it )
     {
         QModelIndex index = sourceModel()->index( sourceRow, it.key(), sourceParent );
+        test = ( index.data().toString().contains( it.value() ) );
 
-        if( index.data().toString() == it.value() ) return false;
+        if( !test ) return test;
     }
     return true;
 }

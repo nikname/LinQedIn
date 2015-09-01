@@ -65,6 +65,8 @@ void AdminSearchDialog::setupUI() {
     fieldLabel->setStyleSheet( "QLabel { font: bold; }" );
 
     fieldCheckboxUsername->setChecked( true );
+    fieldCheckboxName->setChecked( true );
+    fieldCheckboxSurname->setChecked( true );
 
     QVBoxLayout *fieldCheckboxLayout = new QVBoxLayout( fieldCheckboxWidget );
     fieldCheckboxLayout->addWidget( fieldLabel );
@@ -111,6 +113,8 @@ void AdminSearchDialog::paintEvent( QPaintEvent *) {
 
 // SLOT AdminSearchDialog::checkInput
 void AdminSearchDialog::checkInput( const QString& input ) {
+    Q_UNUSED( input )
+
     if( searchEdit->text().isEmpty() )
         setButtonDisabled( acceptButton, true );
     else setButtonEnabled( acceptButton, true );
