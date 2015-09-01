@@ -11,9 +11,7 @@ public:
      * @param QString name  Nome dell'utente da creare.
      * @param QString surname  Cognome dell'utente da creare.
      */
-    UtenteBasic( const QString& un = "",
-                 const QString& name = "",
-                 const QString& surname = "" )
+    UtenteBasic( const QString& un = "", const QString& name = "", const QString& surname = "" )
        : UtenteGratis( un, name, surname ) {}
 
     /** Costruttore di copia ridefinito.
@@ -23,12 +21,13 @@ public:
      */
     UtenteBasic( const Utente& );
 
-    /** Ricerca polimorfa virtuale.
-     *  Esegue la ricerca degli utenti nel database per utenti basic.
+    /** Ritorna le informazioni di un utente per utenti con tipologia di account Basic che eseguono
+     *  la ricerca.
      *
-     * @param Database  Database nel quale verrà effettuata la ricerca.
+     * @param SmartUtente  Utente del quale si vogliono ottenere le informazioni.
+     * @return QMap<QString, void *>  Mappa delle informazioni dell'utente.
      */
-    virtual void userSearch( const Database& ) const;
+    virtual QMap<QString, void *> getUserInfo( const SmartUtente& ) const;
 
     /** Distruttore virtuale.
      *  Invoca il distruttore della classe base diretta. */

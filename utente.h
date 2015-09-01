@@ -200,28 +200,21 @@ public:
      */
      Esperienza::Iteratore getExperiencesIterator() const;
 
-     /** Metodo polimorfo virtuale puro necessario per recuperare le informazioni di un utente in
-      *  base alla tipologia di account.
-      *  La scelta di una mappa piuttosto che un vettore o una lista è dovuta alla necessità di
-      *  distinguere se, ad esempio, la lista dei contatti dell'utente è vuota o se non si hanno i
-      *  permessi per visualizzarla.
-      *
-      *  Esempio:
-      *  Nel caso esista un elemento con chiave "connections" ed associato un vettore vuoto come
-      *  chiave, allora l'utente non ha contatti; nel caso invece non esista la chiave allora non
-      *  si hanno i permessi.
-      *
-      * @param SmartUtente  Utente del quale si vogliono ottenere le informazioni.
-      * @return QMap<QString, void *>  Mappa delle informazioni dell'utente.
-      */
-     virtual QMap<QString, void *> getUserInfo( const SmartUtente& ) = 0;
-
-    /** Ricerca polimorfa, virtuale pura.
-     *  Esegue la ricerca degli utenti nel database in base alla tipologia di account.
-     *
-     * @param Database  Database nel quale verrà effettuata la ricerca.
-     */
-    virtual void userSearch( const Database& ) const = 0;
+    /** Metodo polimorfo virtuale puro necessario per recuperare le informazioni di un utente in
+    *  base alla tipologia di account.
+    *  La scelta di una mappa piuttosto che un vettore o una lista è dovuta alla necessità di
+    *  distinguere se, ad esempio, la lista dei contatti dell'utente è vuota o se non si hanno i
+    *  permessi per visualizzarla.
+    *
+    *  Esempio:
+    *  Nel caso esista un elemento con chiave "connections" ed associato un vettore vuoto come
+    *  chiave, allora l'utente non ha contatti; nel caso invece non esista la chiave allora non
+    *  si hanno i permessi.
+    *
+    * @param SmartUtente  Utente del quale si vogliono ottenere le informazioni.
+    * @return QMap<QString, void *>  Mappa delle informazioni dell'utente.
+    */
+    virtual QMap<QString, void *> getUserInfo( const SmartUtente& ) const = 0;
 };
 
 /** Overloading operatore di output di QDebug.

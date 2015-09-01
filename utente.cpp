@@ -148,9 +148,6 @@ Esperienza::Iteratore Utente::getExperiencesIterator() const {
     return experiences->begin();
 }
 
-// OPERATOR () Utente
-void Utente::FuntoreRicerca::operator ()( const SmartUtente& x ) const {}
-
 // OPERATOR << Utente
 QDebug operator <<( QDebug qdbg, const Utente& u ) {
     qdbg << "*** PROFILO UTENTE ***" << "\n";

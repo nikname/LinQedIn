@@ -39,7 +39,6 @@ SOURCES += main.cpp\
     gui/usersearchwidget.cpp \
     utente_executive.cpp \
     gui/userlistwidget.cpp \
-    gui/menubutton.cpp \
     gui/profilewidget.cpp \
     gui/experienceswidget.cpp \
     gui/jobwidget.cpp \
@@ -87,7 +86,6 @@ HEADERS  += \
     gui/usersearchwidget.h \
     utente_executive.h \
     gui/userlistwidget.h \
-    gui/menubutton.h \
     gui/profilewidget.h \
     gui/experienceswidget.h \
     gui/jobwidget.h \
