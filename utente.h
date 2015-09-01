@@ -8,17 +8,10 @@
 #include "formazione.h"
 #include "esperienza.h"
 
-// Dichiarazioni incomplete
 class Rete;
 class Database;
 
 class Utente {
-
-    // NOTE:
-    // Rimossa la possibilità di cambiare username. Il cambio di username avrebbe significato la
-    // necessità di controllare la presenza di un altro utente nel database con lo stesso username.
-    // Non è necessario un iteratore sulla lista dei contatti dell'utente.
-
     friend class SmartUtente;
 private:
     QString username;
@@ -36,9 +29,7 @@ public:
      * @param QString name  Nome dell'utente da creare.
      * @param QString surname  Cognome dell'utente da creare.
      */
-    Utente( const QString& un = "",
-            const QString& name = "",
-            const QString& surname = "" );
+    Utente( const QString& un = "", const QString& name = "", const QString& surname = "" );
 
     /** Costruttore di copia di Utente.
      *  Incrementa il contatore di riferimenti all'oggetto utente di 1.
@@ -209,33 +200,28 @@ public:
      */
      Esperienza::Iteratore getExperiencesIterator() const;
 
+     /** Metodo polimorfo virtuale puro necessario per recuperare le informazioni di un utente in
+      *  base alla tipologia di account.
+      *  La scelta di una mappa piuttosto che un vettore o una lista è dovuta alla necessità di
+      *  distinguere se, ad esempio, la lista dei contatti dell'utente è vuota o se non si hanno i
+      *  permessi per visualizzarla.
+      *
+      *  Esempio:
+      *  Nel caso esista un elemento con chiave "connections" ed associato un vettore vuoto come
+      *  chiave, allora l'utente non ha contatti; nel caso invece non esista la chiave allora non
+      *  si hanno i permessi.
+      *
+      * @param SmartUtente  Utente del quale si vogliono ottenere le informazioni.
+      * @return QMap<QString, void *>  Mappa delle informazioni dell'utente.
+      */
+     virtual QMap<QString, void *> getUserInfo( const SmartUtente& ) = 0;
+
     /** Ricerca polimorfa, virtuale pura.
      *  Esegue la ricerca degli utenti nel database in base alla tipologia di account.
      *
      * @param Database  Database nel quale verrà effettuata la ricerca.
      */
     virtual void userSearch( const Database& ) const = 0;
-protected:
-    class FuntoreRicerca {
-    public:
-        int searchType;
-
-        /** Costruttore ad 1 parametro con 1 parametro di default.
-         *  Imposta il tipo di ricerca che l'utente può effettuare nel database.
-         *
-         * @param int type  Tipo di ricerca.
-         */
-        FuntoreRicerca( int type = 0 ) : searchType( type ) {}
-
-        /** Overloading dell'operatore di "chiamata a funzione".
-         *  Invoca il funtore passando come parametro un oggetto SmartUtente, del quale si
-         *  vogliono ottenere le informazioni.
-         *  L'effetto di questo varia in base al tipo di utente che lo invoca.
-         *
-         * @param SmartUtente  SmartUtente del quale si vogliono ottenere le informazioni.
-         */
-        void operator ()( const SmartUtente& ) const;
-    };
 };
 
 /** Overloading operatore di output di QDebug.

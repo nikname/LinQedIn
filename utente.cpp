@@ -8,15 +8,14 @@
 #include "database.h"
 
 // COSTRUTTORE Utente
-Utente::Utente( const QString& un,
-                const QString& name,
-                const QString& surname ) :
+Utente::Utente( const QString& un, const QString& name, const QString& surname ) :
     username( un ),
     profile( name, surname ),
     net( new Rete ),
     educations( new Formazione ),
     experiences( new Esperienza ),
-    references( 1 ) {}
+    references( 1 )
+{}
 
 // COSTRUTTORE DI COPIA Utente
 Utente::Utente( const Utente& u ) :
