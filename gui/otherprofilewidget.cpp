@@ -20,8 +20,6 @@ OtherProfileWidget::OtherProfileWidget( const SmartUtente& su, bool c, QWidget *
 
 // METODO OtherProfileWidget::initUI
 void OtherProfileWidget::initUI() {
-    ProfileWidget::initUI();
-
     addContactButton = new QPushButton( this );
     connect( addContactButton, SIGNAL( clicked() ), this, SLOT( addContact() ) );
     removeContactButton = new QPushButton( this );
@@ -33,8 +31,6 @@ void OtherProfileWidget::initUI() {
 
 // METODO OtherProfileWidget::setupUI
 void OtherProfileWidget::setupUI( bool c ) {
-    ProfileWidget::setupUI();
-
     QWidget *header = new QWidget( this );
     header->setStyleSheet( "background: white" );
 

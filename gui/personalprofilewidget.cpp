@@ -20,8 +20,6 @@ PersonalProfileWidget::PersonalProfileWidget( const SmartUtente& su, QWidget *pa
 
 // METODO PersonalProfileWidget::initUI
 void PersonalProfileWidget::initUI() {
-    ProfileWidget::initUI();
-
     editProfileButton = new QPushButton( this );
     connect( editProfileButton, SIGNAL( clicked() ), this, SLOT( openEditProfileDialog() ) );
 
@@ -47,8 +45,6 @@ void PersonalProfileWidget::initUI() {
 
 // METODO PersonalProfileWidget::setupUI
 void PersonalProfileWidget::setupUI() {
-    ProfileWidget::setupUI();
-
     QWidget *header = new QWidget( this );
     header->setStyleSheet( "background: white" );
 
