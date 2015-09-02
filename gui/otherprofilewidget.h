@@ -12,8 +12,23 @@ class QPushButton;
 class OtherProfileWidget : public ProfileWidget {
     Q_OBJECT
 private:
+    QLabel *lastExperienceLabel;
+    QLabel *lastEducationLabel;
+    QLabel *connectionsNumber;
+
+    QPushButton *backgroundTabButton;
+    QPushButton *connectionsTabButton;
+
     QPushButton *addContactButton;
     QPushButton *removeContactButton;
+
+    QWidget *backgroundTab;
+    QLabel *experiencesLabel;
+    ExperiencesWidget *experiencesWidget;
+    QLabel *educationsLabel;
+    EducationsWidget *educationsWidget;
+
+    ConnectionsWidget *connectionsTab;
 
     /** Inizializza la UI. */
     void initUI();
@@ -46,6 +61,15 @@ protected slots:
 
     /** */
     void removeContact();
+
+    /** Mostra la scheda della panoramica dell'utente. */
+    void showBackgroundTab();
+
+    /** Mostra la scheda dei contatti dell'utente. */
+    void showConnectionsTab();
+
+    /** Mostra la scheda delle altre informazioni dell'utente. */
+    void showOtherInfoTab();
 };
 
 #endif // OTHERPROFILEWIDGET_H

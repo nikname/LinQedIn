@@ -21,22 +21,9 @@ protected:
 
     QWidget *profileSummary;
     QLabel *nameSurnameLabel;
-    QLabel *lastExperienceLabel;
-    QLabel *lastEducationLabel;
-    QLabel *connectionsNumber;
 
     QVector<QPushButton *> tabButtons;
-    QPushButton *backgroundTabButton;
-    QPushButton *connectionsTabButton;
     QPushButton *otherInfoTabButton;
-
-    QWidget *backgroundTab;
-    QLabel *experiencesLabel;
-    ExperiencesWidget *experiencesWidget;
-    QLabel *educationsLabel;
-    EducationsWidget *educationsWidget;
-
-    ConnectionsWidget *connectionsTab;
 
     QWidget *otherInfoTab;
 
@@ -68,17 +55,8 @@ public:
     /** Distruttore virtuale puro. Ripulisce lo heap. */
     virtual ~ProfileWidget() = 0;
 signals:
-    /** */
-    void showContactSignal( const SmartUtente& );
+
 protected slots:
-    /** Mostra la scheda della panoramica dell'utente. */
-    void showBackgroundTab();
-
-    /** Mostra la scheda dei contatti dell'utente. */
-    void showConnectionsTab();
-
-    /** Mostra la scheda delle altre informazioni dell'utente. */
-    void showOtherInfoTab();
 };
 
 #endif // PROFILEWIDGET_H
