@@ -5,10 +5,10 @@
 #include <QDate>
 #include "profilo.h"
 #include "smartutente.h"
+#include "smartrete.h"
 #include "formazione.h"
 #include "esperienza.h"
 
-class Rete;
 class Database;
 
 class Utente {
@@ -19,7 +19,7 @@ private:
 protected:
     QString username;
     Profilo profile;
-    Rete* net;
+    SmartRete net;
     Formazione* educations;
     Esperienza* experiences;
 public:
@@ -138,13 +138,6 @@ public:
      * @return bool  true se è presente; false altrimenti.
      */
     bool isContact( const SmartUtente& );
-
-    /** Crea una nuova lista dei contatti. Rimuove un'eventuale lista preesistente.
-     *  Invoca il metodo setContactsList( QVector<SmartUtente> ) del campo dati net di tipo Rete.
-     *
-     * @param QVector<SmartUtente>  Lista dei nuovi contatti dell'utente.
-     */
-    void setContactsList( QVector<SmartUtente> );
 
     /** Elimina il campo dati net di tipo Rete *. */
     void unsetContactsList();

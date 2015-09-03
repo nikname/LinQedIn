@@ -156,12 +156,9 @@ void Database::parseUser( QXmlStreamReader& xmlReader ) {
     Utente* u = 0;
     QString un = xmlReader.attributes().value( "login" ).toString();
     QString type = xmlReader.attributes().value( "type" ).toString();
-    if( type == "basic" )
-        u = new UtenteBasic( un );
-    else if( type == "executive" )
-        u = new UtenteExecutive( un );
-    else if( type == "business" )
-        u = new UtenteBusiness( un );
+    if( type == "basic" ) u = new UtenteBasic( un );
+    else if( type == "executive" ) u = new UtenteExecutive( un );
+    else if( type == "business" ) u = new UtenteBusiness( un );
     else qDebug() << "#"; // throw
 
     xmlReader.readNext();

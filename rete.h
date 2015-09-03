@@ -8,21 +8,12 @@ class Database;
 class Utente;
 
 class Rete {
-
-    // NOTE:
-    // Solo creando un oggetto Utente è possibile creare un oggetto Rete.
-    // Poichè un oggetto di tipo Rete può venire creato solo tramite una new da un oggetto di
-    // tipo Utente, allora non sono necessari costruttore di copia e distruttore (nemmeno
-    // ridefiniti).
-    // L'aumento del contatore user_ref è lasciato al costruttore di copia di Utente.
-    // Fornire un'iteratore sarebbe inutile.
-
-    friend class Utente; // Necessaria per costruire e distruggere oggetti Utente.
+    friend class SmartRete;
 private:
     class Rete_rapp;
     Rete_rapp* contacts;
-    int user_ref; // Numero di utenti che si riferiscono all'oggetto Rete.
-
+    int user_ref; // Gestito da SmartRete
+public:
     /** Costruttore di default privato.
      *  Crea una lista vuota di contatti.
      *  Inizializza ad 1 il contatore di riferimenti user_ref.
@@ -30,10 +21,19 @@ private:
      */
     Rete();
 
-    ~Rete() {
-        qDebug() << "#";
-    }
-public:
+    /** Costruttore di copia di Rete.
+     *  Incrementa il contatore di riferimenti all'oggetto Rete di 1.
+     *  Utilizza la tecnica del references counting per il campo dati di tipo Rete_rapp.
+     *
+     * @param Rete  Oggetto Rete da copiare.
+     */
+    Rete( const Rete& );
+
+    /** Decrementa il campo references di Rete_rapp
+     *  In caso il valore diventi 0 invoca il distruttore dell'oggetto.
+     */
+    ~Rete();
+
     /** Aggiunge un contatto alla lista dei contatti dell'utente.
      *
      * @param SmartUtente  Utente da aggiungere.
@@ -59,13 +59,6 @@ public:
      */
     QVector<SmartUtente> getContactsList() const;
 
-    /** Crea una nuova lista dei contatti. Rimuove un'eventuale lista preesistente.
-     *
-     * @param QVector<SmartUtente>  Lista dei nuovi contatti dell'utente.
-     */
-    void setContactsList( QVector<SmartUtente> );
-
-
     /** Ridefinizione operatore delete.
      *  Se il campo user_ref è 0 invoca la delete standard su contacts,
      *  altrimenti si limita a decrementare il contatore di riferimenti.
@@ -74,5 +67,14 @@ public:
      */
     void operator delete( void* );
 };
+
+/** Overloading dell'operatore di output di QDebug.
+ *  Stampa su standard output la lista di nomi e cognomi della rete dei contatti.
+ *
+ * @param QDebug  QDebug.
+ * @param SmartRete  Rete dei contatti della quale stampare nome e cognome.
+ * @return QDebug  QDebug.
+ */
+QDebug operator <<( QDebug, const Rete& );
 
 #endif

@@ -11,7 +11,7 @@
 Utente::Utente( const QString& un, const QString& name, const QString& surname ) :
     username( un ),
     profile( name, surname ),
-    net( new Rete ),
+    net( SmartRete( new Rete() ) ),
     educations( new Formazione ),
     experiences( new Esperienza ),
     references( 1 )
@@ -25,18 +25,12 @@ Utente::Utente( const Utente& u ) :
     educations( u.educations ),
     experiences( u.experiences )
 {
-    net->user_ref++;
     educations->user_ref++;
     experiences->user_ref++;
 }
 
 // DISTRUTTORE Utente
 Utente::~Utente() {
-    if( net ) {
-        net->user_ref--;
-        if( net->user_ref == 0 )
-            delete net;
-    }
     if( educations ) {
         educations->user_ref--;
         if( educations->user_ref == 0 )
@@ -109,27 +103,14 @@ bool Utente::isContact( const SmartUtente& su ) {
     return net->isContact( su );
 }
 
-// METODO Utente::setContactsList
-void Utente::setContactsList( QVector<SmartUtente> v ) {
-    if( !net )
-        net = new Rete();
-    net->setContactsList( v );
-}
-
 // METODO Utente::isContactsListSet
 bool Utente::isContactsListSet() {
-    return net;
+    return &*net;
 }
 
 // METODO Utente::unsetContactsList
 void Utente::unsetContactsList() {
-    if( net ) {
-        net->user_ref--;
-        if( !net ) {
-            delete net;
-            net = 0;
-        }
-    }
+    delete &*net;
 }
 
 // METODO getContactsList Utente
@@ -161,7 +142,7 @@ void Utente::setEducationsList( QVector<SmartTitolo> v ) {
 void Utente::unsetEducationsList() {
     if( educations ) {
         educations->user_ref--;
-        if( !net ) {
+        if( !educations ) {
             delete educations;
             educations = 0;
         }
@@ -248,16 +229,7 @@ QDebug operator <<( QDebug qdbg, const Utente& u ) {
     qdbg << " Cognome: " << u.getSurname() << "\n";
     qdbg << " Data di nascita: " << u.getBirthday().toString( "dd/MM/yyyy" ) << "\n";
     qdbg << " Stato civile: " << u.getMaritialStatus() << "\n";
-    if( u.net ) {
-        qdbg << "CONTATTI: " << "\n";
-        QVector<SmartUtente> c = u.getContactsList();
-        if( c.size() == 0 )
-            qdbg << " ** Nessun contatto! **" << "\n";
-        else {
-            for( int i = 0; i < c.size(); i++ )
-                qdbg << " " << c[i]->getName() << c[i]->getSurname() << "\n";
-        }
-    }
+    qdbg << u.net;
     if( u.educations ) {
         qdbg << "FORMAZIONE: " << "\n";
         QVector<SmartTitolo> ed = u.getEducationsList();

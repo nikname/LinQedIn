@@ -57,7 +57,8 @@ SOURCES += main.cpp\
     gui/otherprofilewidget.cpp \
     gui/adminlogindialog.cpp \
     gui/adminsearchdialog.cpp \
-    gui/mysortfilterproxymodel.cpp
+    gui/mysortfilterproxymodel.cpp \
+    smartrete.cpp
 
 HEADERS  += \
     profilo.h \
@@ -105,7 +106,8 @@ HEADERS  += \
     gui/otherprofilewidget.h \
     gui/adminlogindialog.h \
     gui/adminsearchdialog.h \
-    gui/mysortfilterproxymodel.h
+    gui/mysortfilterproxymodel.h \
+    smartrete.h
 
 FORMS    +=
 
