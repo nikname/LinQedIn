@@ -124,8 +124,11 @@ bool Utente::isContactsListSet() {
 // METODO Utente::unsetContactsList
 void Utente::unsetContactsList() {
     if( net ) {
-        delete net;
-        net = 0;
+        net->user_ref--;
+        if( !net ) {
+            delete net;
+            net = 0;
+        }
     }
 }
 
@@ -146,8 +149,6 @@ void Utente::removeEducation( SmartTitolo t ) {
 
 // METODO getEducationsList Utente
 QVector<SmartTitolo> Utente::getEducationsList() const {
-    if( !educations )
-        educations = new Formazione();
     return educations->getEducationsList();
 }
 
@@ -159,8 +160,11 @@ void Utente::setEducationsList( QVector<SmartTitolo> v ) {
 // METODO Utente::unsetEducationsList
 void Utente::unsetEducationsList() {
     if( educations ) {
-        delete educations;
-        educations = 0;
+        educations->user_ref--;
+        if( !net ) {
+            delete educations;
+            educations = 0;
+        }
     }
 }
 
@@ -186,8 +190,6 @@ void Utente::removeExperience( SmartLavoro l ) {
 
 // METODO getExperiencesList Utente
 QVector<SmartLavoro> Utente::getExperiencesList() const {
-    if( !experiences )
-        experiences = new Esperienza();
     return experiences->getExperiencesList();
 }
 
@@ -204,14 +206,37 @@ bool Utente::isExperiencesListSet() {
 // METODO Utente::unsetExperiencesList
 void Utente::unsetExperiencesList() {
     if( experiences ) {
-        delete experiences;
-        experiences = 0;
+        experiences->user_ref--;
+        if( !experiences ) {
+            delete experiences;
+            experiences = 0;
+        }
     }
 }
 
 // METODO getExperiecesIterator Utente
 Esperienza::Iteratore Utente::getExperiencesIterator() const {
     return experiences->begin();
+}
+
+// OPERATOR () Utente
+SmartUtente Utente::FuntoreRicerca::operator ()( const SmartUtente& su ) const {
+    SmartUtente aux( su );
+    switch( searchType ) {
+    case 1:
+        aux->unsetContactsList();
+        aux->unsetEducationsList();
+        aux->unsetExperiencesList();
+        break;
+    case 2:
+        aux->unsetContactsList();
+        break;
+    case 3:
+        break;
+    default:
+        break;
+    }
+    return aux;
 }
 
 // OPERATOR << Utente
@@ -223,39 +248,45 @@ QDebug operator <<( QDebug qdbg, const Utente& u ) {
     qdbg << " Cognome: " << u.getSurname() << "\n";
     qdbg << " Data di nascita: " << u.getBirthday().toString( "dd/MM/yyyy" ) << "\n";
     qdbg << " Stato civile: " << u.getMaritialStatus() << "\n";
-    qdbg << "CONTATTI: " << "\n";
-    QVector<SmartUtente> c = u.getContactsList();
-    if( c.size() == 0 )
-        qdbg << " ** Nessun contatto! **" << "\n";
-    else {
-        for( int i = 0; i < c.size(); i++ )
-            qdbg << " " << c[i]->getName() << c[i]->getSurname() << "\n";
-    }
-    qdbg << "FORMAZIONE: " << "\n";
-    QVector<SmartTitolo> ed = u.getEducationsList();
-    if( ed.size() == 0 )
-        qdbg << " ** Nessun titolo di studio! **" << "\n";
-    else {
-        for( int i = 0; i < ed.size(); i++ ) {
-            qdbg << " Scuola: " << ed[i]->getSchool() << "\n";
-            qdbg << " Data diploma: " <<
-                    ed[i]->getDateAttended().toString( "yyyy" ) << "\n";
-            qdbg << " Laurea: " << ed[i]->getDegree() << "\n";
-            qdbg << " Campo di studio: " << ed[i]->getFieldOfStudy() << "\n";
-            qdbg << " Votazione: " << ed[i]->getGrade() << "\n";
+    if( u.net ) {
+        qdbg << "CONTATTI: " << "\n";
+        QVector<SmartUtente> c = u.getContactsList();
+        if( c.size() == 0 )
+            qdbg << " ** Nessun contatto! **" << "\n";
+        else {
+            for( int i = 0; i < c.size(); i++ )
+                qdbg << " " << c[i]->getName() << c[i]->getSurname() << "\n";
         }
     }
-    qdbg << "ESPERIENZE: " << "\n";
-    QVector<SmartLavoro> ex = u.getExperiencesList();
-    if( ex.size() == 0 )
-        qdbg << " ** Nessuna esperienza lavorativa! **" << "\n";
-    else {
-        for( int i = 0; i < ex.size(); i++ ) {
-            qdbg << " Azienda: " << ex[i]->getCompanyName() << "\n";
-            qdbg << " Ruolo: " << ex[i]->getTitle() << "\n";
-            qdbg << " Luogo: " << ex[i]->getLocation() << "\n";
-            qdbg << " Inizio: " << ex[i]->getBegin().toString( "dd/MM/yyyy" ) << "\n";
-            qdbg << " Fine: " << ex[i]->getEnd().toString( "dd/MM/yyyy" ) << "\n";
+    if( u.educations ) {
+        qdbg << "FORMAZIONE: " << "\n";
+        QVector<SmartTitolo> ed = u.getEducationsList();
+        if( ed.size() == 0 )
+            qdbg << " ** Nessun titolo di studio! **" << "\n";
+        else {
+            for( int i = 0; i < ed.size(); i++ ) {
+                qdbg << " Scuola: " << ed[i]->getSchool() << "\n";
+                qdbg << " Data diploma: " <<
+                        ed[i]->getDateAttended().toString( "yyyy" ) << "\n";
+                qdbg << " Laurea: " << ed[i]->getDegree() << "\n";
+                qdbg << " Campo di studio: " << ed[i]->getFieldOfStudy() << "\n";
+                qdbg << " Votazione: " << ed[i]->getGrade() << "\n";
+            }
+        }
+    }
+    if( u.experiences ) {
+        qdbg << "ESPERIENZE: " << "\n";
+        QVector<SmartLavoro> ex = u.getExperiencesList();
+        if( ex.size() == 0 )
+            qdbg << " ** Nessuna esperienza lavorativa! **" << "\n";
+        else {
+            for( int i = 0; i < ex.size(); i++ ) {
+                qdbg << " Azienda: " << ex[i]->getCompanyName() << "\n";
+                qdbg << " Ruolo: " << ex[i]->getTitle() << "\n";
+                qdbg << " Luogo: " << ex[i]->getLocation() << "\n";
+                qdbg << " Inizio: " << ex[i]->getBegin().toString( "dd/MM/yyyy" ) << "\n";
+                qdbg << " Fine: " << ex[i]->getEnd().toString( "dd/MM/yyyy" ) << "\n";
+            }
         }
     }
     return qdbg;

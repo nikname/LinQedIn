@@ -13,6 +13,7 @@ class Database;
 
 class Utente {
     friend class SmartUtente;
+    friend QDebug operator <<( QDebug, const Utente& );
 private:
     int references; // Gestito da SmartUtente
 protected:
@@ -251,13 +252,40 @@ public:
      */
      Esperienza::Iteratore getExperiencesIterator() const;
 
-    /** Metodo polimorfo virtuale puro necessario per recuperare le informazioni di un utente in
-    *  base alla tipologia di account.
+    /** Ricerca polimorfa, virtuale pura.
+    *  In base alla tipologia di account ritorna una lista di utenti con determinate informazioni.
     *
-    * @param SmartUtente  Utente del quale si vogliono ottenere le informazioni.
-    * @return SmartUtente  Utente con le sole informazioni visualizzabili.
+    * @param QVector<SmartUtente>  Lista di utenti sulla quale cercare.
     */
-    virtual SmartUtente getUserInfo( const SmartUtente& ) const = 0;
+    virtual QVector<SmartUtente> searchUsers( QVector<SmartUtente> ) const = 0;
+
+    /** Ridefinizione operatore di assegnazione. Effettua un'assegnazione profonda dei campi dati.
+     *
+     * @param SmartUtente  Utente dal quale creare il nuovo utente.
+     * @return SmartUtente&  Oggetto SmartUtente da assegnare.
+     */
+    SmartUtente& operator =( const SmartUtente& );
+protected:
+    class FuntoreRicerca {
+    public:
+        int searchType;
+
+        /** Costruttore ad 1 parametro con 1 parametro di default.
+         *  Imposta il tipo di ricerca che l'utente può effettuare nel database.
+         *
+         * @param int type  Tipo di ricerca.
+         */
+        FuntoreRicerca( int type = 1 ) : searchType( type ) {}
+
+        /** Overloading dell'operatore di "chiamata a funzione".
+         *  Invoca il funtore passando come parametro un oggetto SmartUtente, del quale si
+         *  vogliono ottenere le informazioni.
+         *  L'effetto di questo varia in base al tipo di utente che lo invoca.
+         *
+         * @param SmartUtente  SmartUtente del quale si vogliono ottenere le informazioni.
+         */
+        SmartUtente operator ()( const SmartUtente& ) const;
+    };
 };
 
 /** Overloading operatore di output di QDebug.

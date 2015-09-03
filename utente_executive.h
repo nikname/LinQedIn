@@ -21,14 +21,6 @@ public:
      */
     UtenteExecutive( const Utente& );
 
-    /** Ritorna le informazioni di un utente per utenti con tipologia di account Executive che
-     *  eseguono la ricerca.
-     *
-     * @param SmartUtente  Utente del quale si vogliono ottenere le informazioni.
-     * @return SmartUtente  Utente con le sole informazioni visualizzabili.
-     */
-    virtual SmartUtente getUserInfo( const SmartUtente& ) const;
-
     /** Distruttore virtuale.
      *  Invoca il distruttore della classe base diretta. */
     virtual ~UtenteExecutive() {}
@@ -40,6 +32,13 @@ public:
      * @return QString  Tipologia dell'account.
      */
     virtual QString getAccountType() const;
+
+    /** Ricerca polimorfa, virtuale pura.
+     *  Ritorna una lista di utenti con le informazioni accessibili da utenti di tipo UtenteExecutive."
+     *
+     * @param QVector<SmartUtente>  Lista di utenti sulla quale cercare.
+     */
+    virtual QVector<SmartUtente> searchUsers( QVector<SmartUtente> ) const;
 };
 
 #endif

@@ -29,6 +29,10 @@ private:
      *  Viene invocato solo dal costruttore di Utente.
      */
     Rete();
+
+    ~Rete() {
+        qDebug() << "#";
+    }
 public:
     /** Aggiunge un contatto alla lista dei contatti dell'utente.
      *

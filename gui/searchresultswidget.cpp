@@ -5,9 +5,9 @@
 
 // COSTRUTTORE SearchResultsWidget
 SearchResultsWidget::SearchResultsWidget(
-        QVector<SmartUtente> ul, const SmartUtente& su, const QString& query, QWidget *parent ) :
+        QVector<SmartUtente> v, const SmartUtente& su, const QString& query, QWidget *parent ) :
     QWidget( parent ),
-    usersList( ul )
+    usersList( su->searchUsers( v ) )
 {
     initUI( su, query );
     setupUI();

@@ -345,9 +345,7 @@ void ClientWindow::showUserSlot( SmartUtente su ) {
         delete profileWidget;
         profileWidget = 0;
     }
-    profileWidget = new OtherProfileWidget( client->user->getUserInfo( su ),
-                                            client->user->isContact( su ), this );
-    // ...
+    profileWidget = new OtherProfileWidget( su, client->user->isContact( su ), this );
     connect( profileWidget, SIGNAL( addContactSignal( SmartUtente ) ),
              this, SLOT( addContactSlot( SmartUtente ) ) );
     connect( profileWidget, SIGNAL( removeContactSignal( SmartUtente ) ),
