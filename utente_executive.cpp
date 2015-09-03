@@ -3,6 +3,12 @@
 // COSTRUTTORE DI COPIA di UtenteExecutive
 UtenteExecutive::UtenteExecutive( const Utente& u ) : UtentePagante( u ) {}
 
+// METODO UtenteExecutive::clone
+Utente *UtenteExecutive::clone() const {
+    Utente *aux = new UtenteExecutive( getUsername(), getName(), getSurname() );
+    return aux;
+}
+
 // METODO UtenteExecutive::getAccountType
 QString UtenteExecutive::getAccountType() const {
     return "Executive";
@@ -12,8 +18,10 @@ QString UtenteExecutive::getAccountType() const {
 QVector<SmartUtente> UtenteExecutive::searchUsers( QVector<SmartUtente> v ) const {
     QVector<SmartUtente> aux;
     for( int i = 0; i < v.size(); i++ ) {
-        FuntoreRicerca functor( 1 );
-        aux.append( functor( v[i] ) );
+        if( v[i]->getUsername() != getUsername() ) {
+            FuntoreRicerca functor( 2 );
+            aux.append( functor( v[i]->clone() ) );
+        }
     }
     return aux;
 }

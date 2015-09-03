@@ -5,11 +5,11 @@
 #include <QDate>
 #include "profilo.h"
 #include "smartutente.h"
-#include "smartrete.h"
 #include "formazione.h"
 #include "esperienza.h"
 
 class Database;
+class Rete;
 
 class Utente {
     friend class SmartUtente;
@@ -19,9 +19,30 @@ private:
 protected:
     QString username;
     Profilo profile;
-    SmartRete net;
+    Rete* net;
     Formazione* educations;
     Esperienza* experiences;
+
+    class FuntoreRicerca {
+    public:
+        int searchType;
+
+        /** Costruttore ad 1 parametro con 1 parametro di default.
+         *  Imposta il tipo di ricerca che l'utente può effettuare nel database.
+         *
+         * @param int type  Tipo di ricerca.
+         */
+        FuntoreRicerca( int type = 0 ) : searchType( type ) {}
+
+        /** Overloading dell'operatore di "chiamata a funzione".
+         *  Invoca il funtore passando come parametro un oggetto SmartUtente, del quale si
+         *  vogliono ottenere le informazioni.
+         *  L'effetto di questo varia in base al tipo di utente che lo invoca.
+         *
+         * @param SmartUtente  SmartUtente del quale si vogliono ottenere le informazioni.
+         */
+        SmartUtente operator ()( const SmartUtente& ) const;
+    };
 public:
     /** Costruttore a 3 parametri con 3 parametri di default.
      *  Costruisce un utente associandgli username, nome e cognome.
@@ -258,27 +279,16 @@ public:
      * @return SmartUtente&  Oggetto SmartUtente da assegnare.
      */
     SmartUtente& operator =( const SmartUtente& );
+
+    /** Metodo virtuale puro di utilità necessario per creare copie profonde di oggetti di tipo
+     *  Utente. Ogni classe concreta derivata da utente restituisce una copia profonda di un
+     *  utente della sua stessa tipologia.
+     *
+     * @param Utente *  Utente dal quale fare la copia profonda.
+     * @param Utente *  Copia profonda dell'oggetto Utente.
+     */
+    virtual Utente *clone() const = 0;
 protected:
-    class FuntoreRicerca {
-    public:
-        int searchType;
-
-        /** Costruttore ad 1 parametro con 1 parametro di default.
-         *  Imposta il tipo di ricerca che l'utente può effettuare nel database.
-         *
-         * @param int type  Tipo di ricerca.
-         */
-        FuntoreRicerca( int type = 1 ) : searchType( type ) {}
-
-        /** Overloading dell'operatore di "chiamata a funzione".
-         *  Invoca il funtore passando come parametro un oggetto SmartUtente, del quale si
-         *  vogliono ottenere le informazioni.
-         *  L'effetto di questo varia in base al tipo di utente che lo invoca.
-         *
-         * @param SmartUtente  SmartUtente del quale si vogliono ottenere le informazioni.
-         */
-        SmartUtente operator ()( const SmartUtente& ) const;
-    };
 };
 
 /** Overloading operatore di output di QDebug.

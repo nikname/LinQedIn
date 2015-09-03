@@ -11,7 +11,7 @@
 Utente::Utente( const QString& un, const QString& name, const QString& surname ) :
     username( un ),
     profile( name, surname ),
-    net( SmartRete( new Rete() ) ),
+    net( new Rete() ),
     educations( new Formazione ),
     experiences( new Esperienza ),
     references( 1 )
@@ -41,6 +41,30 @@ Utente::~Utente() {
         if( experiences->user_ref == 0 )
             delete experiences;
     }
+}
+
+// OPERATOR () Utente::FuntoreRicerca
+SmartUtente Utente::FuntoreRicerca::operator ()( const SmartUtente& su ) const {
+    SmartUtente aux( su );
+    switch( searchType ) {
+    case 1:
+        delete aux->net;
+        aux->net = 0;
+        delete aux->educations;
+        aux->educations = 0;
+        delete aux->experiences;
+        aux->experiences = 0;
+        break;
+    case 2:
+        delete aux->net;
+        aux->net = 0;
+        break;
+    case 3:
+        break;
+    default:
+        break;
+    }
+    return aux;
 }
 
 // METODO getUsername Utente
@@ -110,7 +134,7 @@ bool Utente::isContactsListSet() {
 
 // METODO Utente::unsetContactsList
 void Utente::unsetContactsList() {
-    delete &*net;
+
 }
 
 // METODO getContactsList Utente
@@ -198,26 +222,6 @@ void Utente::unsetExperiencesList() {
 // METODO getExperiecesIterator Utente
 Esperienza::Iteratore Utente::getExperiencesIterator() const {
     return experiences->begin();
-}
-
-// OPERATOR () Utente
-SmartUtente Utente::FuntoreRicerca::operator ()( const SmartUtente& su ) const {
-    SmartUtente aux( su );
-    switch( searchType ) {
-    case 1:
-        aux->unsetContactsList();
-        aux->unsetEducationsList();
-        aux->unsetExperiencesList();
-        break;
-    case 2:
-        aux->unsetContactsList();
-        break;
-    case 3:
-        break;
-    default:
-        break;
-    }
-    return aux;
 }
 
 // OPERATOR << Utente

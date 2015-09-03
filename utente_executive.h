@@ -25,6 +25,13 @@ public:
      *  Invoca il distruttore della classe base diretta. */
     virtual ~UtenteExecutive() {}
 
+    /** Metodo virtuale di utilità necessario per creare copie profonde di oggetti di tipo Utente.
+     *  Restituisce una copia profonda di se stesso.
+     *
+     * @param Utente *  Copia profonda dell'oggetto Utente.
+     */
+    virtual Utente *clone() const;
+
     /** Ritorna la tipologia dell'account sotto forma di stringa.
      *  Il metodo viene ridefinito in ogni sottoclasse concreta in modo che all'invocazione su di
      *  un qualsiasi utente ritorni la tipologia corretta.

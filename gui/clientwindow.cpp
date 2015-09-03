@@ -171,6 +171,7 @@ void ClientWindow::setupUI() {
     );
 
     setCentralWidget( centralWidget );
+    setMinimumSize( 600, 400 );
     setWindowTitle( "LinQedIn Client" );
 }
 
