@@ -20,51 +20,88 @@ OtherProfileWidget::OtherProfileWidget( const SmartUtente& su, bool c, QWidget *
 
 // METODO OtherProfileWidget::initUI
 void OtherProfileWidget::initUI() {
-    QVector<SmartLavoro> experiencesList = user->getExperiencesList();
-    if( experiencesList.size() == 0 )
-        lastExperienceLabel = new QLabel( "--", this );
-    else {
-        SmartLavoro aux = experiencesList.last();
-        lastExperienceLabel = new QLabel( aux->getTitle() + " at " + aux->getCompanyName(), this );
+    if( user->isExperiencesListSet() ) {
+        QVector<SmartLavoro> experiencesList = user->getExperiencesList();
+        if( experiencesList.size() == 0 )
+            lastExperienceLabel = new QLabel( "--", this );
+        else {
+            SmartLavoro aux = experiencesList.last();
+            lastExperienceLabel = new QLabel( aux->getTitle() + " at " + aux->getCompanyName(), this );
+        }
+    } else {
+        lastExperienceLabel = 0;
     }
 
-    QVector<SmartTitolo> educationsList = user->getEducationsList();
-    if( educationsList.size() == 0 )
-        lastEducationLabel = new QLabel( "--", this );
-    else {
-        SmartTitolo aux = educationsList.last();
-        lastEducationLabel = new QLabel( aux->getFieldOfStudy() + " at " + aux->getSchool(), this );
+    if( user->isEducationsListSet() ) {
+        QVector<SmartTitolo> educationsList = user->getEducationsList();
+        if( educationsList.size() == 0 )
+            lastEducationLabel = new QLabel( "--", this );
+        else {
+            SmartTitolo aux = educationsList.last();
+            lastEducationLabel = new QLabel( aux->getFieldOfStudy() + " at " + aux->getSchool(), this );
+        }
+    } else {
+        lastEducationLabel = 0;
     }
 
-    QVector<SmartUtente> contactsList = user->getContactsList();
-    connectionsNumber = new QLabel(
-                QString::number( contactsList.size() ) + tr( " connections" ), this );
+    if( user->isContactsListSet() ) {
+        QVector<SmartUtente> contactsList = user->getContactsList();
+        connectionsNumber = new QLabel(
+                    QString::number( contactsList.size() ) + tr( " connections" ), this );
 
-    backgroundTabButton = new QPushButton( tr( "Background" ), this );
-    connect( backgroundTabButton, SIGNAL( clicked() ), this, SLOT( showBackgroundTab() ) );
-    connectionsTabButton = new QPushButton( tr( "Connections" ), this );
-    connect( connectionsTabButton, SIGNAL( clicked() ), this, SLOT( showConnectionsTab() ) );
-    connect( otherInfoTabButton, SIGNAL( clicked() ), this, SLOT( showOtherInfoTab() ) );
+        connectionsTabButton = new QPushButton( tr( "Connections" ), this );
+        connect( connectionsTabButton, SIGNAL( clicked() ), this, SLOT( showConnectionsTab() ) );
 
-    ProfileWidget::tabButtons.append( backgroundTabButton );
-    ProfileWidget::tabButtons.append( connectionsTabButton );
+        connectionsTab = new ConnectionsWidget( user, this );
+        connect( connectionsTab, SIGNAL( showContactSignal( SmartUtente ) ),
+                 this, SIGNAL( showContactSignal( SmartUtente ) ) );
+
+        ProfileWidget::tabButtons.append( connectionsTabButton );
+    } else {
+        connectionsNumber = 0;
+        connectionsTabButton = 0;
+        connectionsTab = 0;
+    }
+
+    if( user->isEducationsListSet() || user->isExperiencesListSet() ) {
+        backgroundTabButton = new QPushButton( tr( "Background" ), this );
+        connect( backgroundTabButton, SIGNAL( clicked() ), this, SLOT( showBackgroundTab() ) );
+
+        ProfileWidget::tabButtons.append( backgroundTabButton );
+
+        backgroundTab = new QWidget( this );
+
+        if( user->isExperiencesListSet() ) {
+            experiencesLabel = new QLabel( tr( "Experiences" ), backgroundTab );
+            experiencesWidget = new ExperiencesWidget( user, backgroundTab );
+        } else {
+            experiencesLabel = 0;
+            experiencesWidget = 0;
+        }
+
+        if( user->isExperiencesListSet() ) {
+            educationsLabel = new QLabel( tr( "Educations" ), backgroundTab );
+            educationsWidget = new EducationsWidget( user, backgroundTab );
+        } else {
+            educationsLabel = 0;
+            educationsWidget = 0;
+        }
+    } else {
+        backgroundTabButton = 0;
+        backgroundTab = 0;
+        experiencesLabel = 0;
+        experiencesWidget = 0;
+        educationsLabel = 0;
+        educationsWidget = 0;
+    }
+
+    connect( ProfileWidget::otherInfoTabButton, SIGNAL( clicked() ),
+             this, SLOT( showOtherInfoTab() ) );
 
     addContactButton = new QPushButton( this );
     connect( addContactButton, SIGNAL( clicked() ), this, SLOT( addContact() ) );
     removeContactButton = new QPushButton( this );
     connect( removeContactButton, SIGNAL( clicked() ), this, SLOT( removeContact() ) );
-
-    backgroundTab = new QWidget( this );
-
-    experiencesLabel = new QLabel( tr( "Experiences" ), backgroundTab );
-    experiencesWidget = new ExperiencesWidget( user, backgroundTab );
-
-    educationsLabel = new QLabel( tr( "Educations" ), backgroundTab );
-    educationsWidget = new EducationsWidget( user, backgroundTab );
-
-    connectionsTab = new ConnectionsWidget( user, this );
-    connect( connectionsTab, SIGNAL( showContactSignal( SmartUtente ) ),
-             this, SIGNAL( showContactSignal( SmartUtente ) ) );
 }
 
 // METODO OtherProfileWidget::setupUI
@@ -73,17 +110,17 @@ void OtherProfileWidget::setupUI( bool c ) {
     header->setStyleSheet( "background: white" );
 
     nameSurnameLabel->setStyleSheet( "color: rgba(0,0,0,0.87)" );
-    lastExperienceLabel->setStyleSheet( "color: rgba(0,0,0,0.54);" );
-    lastEducationLabel->setStyleSheet( "color: rgba(0,0,0,0.54);" );
+    if( lastExperienceLabel ) lastExperienceLabel->setStyleSheet( "color: rgba(0,0,0,0.54);" );
+    if( lastEducationLabel ) lastEducationLabel->setStyleSheet( "color: rgba(0,0,0,0.54);" );
 
     QWidget *profileSummaryFiller = new QWidget( ProfileWidget::profileSummary );
     profileSummaryFiller->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Expanding );
 
     QVBoxLayout *profileSummaryLayout = new QVBoxLayout( ProfileWidget::profileSummary );
     profileSummaryLayout->addWidget( ProfileWidget::nameSurnameLabel );
-    profileSummaryLayout->addWidget( lastExperienceLabel );
-    profileSummaryLayout->addWidget( lastEducationLabel );
-    profileSummaryLayout->addWidget( connectionsNumber, 0, Qt::AlignRight );
+    if( lastExperienceLabel ) profileSummaryLayout->addWidget( lastExperienceLabel );
+    if( lastEducationLabel ) profileSummaryLayout->addWidget( lastEducationLabel );
+    if( connectionsNumber ) profileSummaryLayout->addWidget( connectionsNumber, 0, Qt::AlignRight );
     profileSummaryLayout->addWidget( profileSummaryFiller );
 
     QHBoxLayout *headerLayout = new QHBoxLayout( header );
@@ -95,10 +132,11 @@ void OtherProfileWidget::setupUI( bool c ) {
     QWidget *infoTabsButtonsWidget = new QWidget( infoTabsWidget );
     infoTabsButtonsWidget->setStyleSheet( "background: white" );
 
-    setProfileButtonProperties( backgroundTabButton );
-    setProfileButtonProperties( connectionsTabButton );
-
-    setProfileButtonSelected( backgroundTabButton );
+    if( backgroundTabButton ) {
+        setProfileButtonProperties( backgroundTabButton );
+        setProfileButtonSelected( backgroundTabButton );
+    }
+    if( connectionsTabButton ) setProfileButtonProperties( connectionsTabButton );
 
     addContactButton->setFixedSize( 50, 50 );
     addContactButton->setIcon( QIcon( QPixmap( ":/icons/icon/account-plus.png" ) ) );
@@ -121,34 +159,38 @@ void OtherProfileWidget::setupUI( bool c ) {
     else removeContactButton->setVisible( false );
 
     QHBoxLayout *infoTabsButtonLayout = new QHBoxLayout( infoTabsButtonsWidget );
-    infoTabsButtonLayout->addWidget( backgroundTabButton );
-    infoTabsButtonLayout->addWidget( connectionsTabButton );
+    if( backgroundTabButton ) infoTabsButtonLayout->addWidget( backgroundTabButton );
+    if( connectionsTabButton ) infoTabsButtonLayout->addWidget( connectionsTabButton );
     infoTabsButtonLayout->addWidget( otherInfoTabButton );
     infoTabsButtonLayout->addWidget( buttonsFiller );
     infoTabsButtonLayout->addWidget( addContactButton );
     infoTabsButtonLayout->addWidget( removeContactButton );
 
-    experiencesLabel->setStyleSheet( "QLabel { color: rgba(0,0,0,0.54); padding-left: 10px; }" );
-    educationsLabel->setStyleSheet( "QLabel { color: rgba(0,0,0,0.54); padding-left: 10px; }" );
+    if( experiencesLabel )
+        experiencesLabel->setStyleSheet( "QLabel { color: rgba(0,0,0,0.54); padding-left: 10px; }" );
+    if( educationsLabel )
+        educationsLabel->setStyleSheet( "QLabel { color: rgba(0,0,0,0.54); padding-left: 10px; }" );
 
-    connectionsTab->hideToolsButtons();
-    experiencesWidget->hideToolsButtons();
-    educationsWidget->hideToolsButtons();
+    if( connectionsTab ) connectionsTab->hideToolsButtons();
+    if( experiencesWidget ) experiencesWidget->hideToolsButtons();
+    if( educationsWidget ) educationsWidget->hideToolsButtons();
 
-    QVBoxLayout *backgroundTabLayout = new QVBoxLayout( backgroundTab );
-    backgroundTabLayout->addWidget( experiencesLabel );
-    backgroundTabLayout->addWidget( experiencesWidget );
-    backgroundTabLayout->addWidget( educationsLabel );
-    backgroundTabLayout->addWidget( educationsWidget );
-    backgroundTabLayout->setMargin( 0 );
+    if( backgroundTab ) {
+        QVBoxLayout *backgroundTabLayout = new QVBoxLayout( backgroundTab );
+        if( experiencesLabel ) backgroundTabLayout->addWidget( experiencesLabel );
+        if( experiencesWidget ) backgroundTabLayout->addWidget( experiencesWidget );
+        if( educationsLabel ) backgroundTabLayout->addWidget( educationsLabel );
+        if( educationsWidget ) backgroundTabLayout->addWidget( educationsWidget );
+        backgroundTabLayout->setMargin( 0 );
+    }
 
-    connectionsTab->setVisible( false );
+    if( connectionsTab ) connectionsTab->setVisible( false );
     otherInfoTab->setVisible( false );
 
     QVBoxLayout *infoTabLayout = new QVBoxLayout( infoTabsWidget );
     infoTabLayout->addWidget( infoTabsButtonsWidget );
-    infoTabLayout->addWidget( backgroundTab );
-    infoTabLayout->addWidget( connectionsTab );
+    if( backgroundTab ) infoTabLayout->addWidget( backgroundTab );
+    if( connectionsTab ) infoTabLayout->addWidget( connectionsTab );
     infoTabLayout->addWidget( ProfileWidget::otherInfoTab );
     infoTabLayout->setMargin( 0 );
 
@@ -191,8 +233,8 @@ void OtherProfileWidget::showConnectionsTab() {
 
 // SLOT OtherProfileWidget::showOtherInfoTab()
 void OtherProfileWidget::showOtherInfoTab() {
-    backgroundTab->setVisible( false );
-    connectionsTab->setVisible( false );
+    if( backgroundTab ) backgroundTab->setVisible( false );
+    if( connectionsTab ) connectionsTab->setVisible( false );
     ProfileWidget::otherInfoTab->setVisible( true );
     setProfileButtonSelected( ProfileWidget::otherInfoTabButton );
 }

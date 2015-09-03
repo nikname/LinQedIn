@@ -14,12 +14,13 @@ class Database;
 class Utente {
     friend class SmartUtente;
 private:
+    int references; // Gestito da SmartUtente
+protected:
     QString username;
     Profilo profile;
     Rete* net;
     Formazione* educations;
     Esperienza* experiences;
-    int references; // Gestito da SmartUtente
 public:
     /** Costruttore a 3 parametri con 3 parametri di default.
      *  Costruisce un utente associandgli username, nome e cognome.
@@ -137,6 +138,22 @@ public:
      */
     bool isContact( const SmartUtente& );
 
+    /** Crea una nuova lista dei contatti. Rimuove un'eventuale lista preesistente.
+     *  Invoca il metodo setContactsList( QVector<SmartUtente> ) del campo dati net di tipo Rete.
+     *
+     * @param QVector<SmartUtente>  Lista dei nuovi contatti dell'utente.
+     */
+    void setContactsList( QVector<SmartUtente> );
+
+    /** Elimina il campo dati net di tipo Rete *. */
+    void unsetContactsList();
+
+    /** Controlla se il campo dati net di tipo Rete è un puntatore valido.
+     *
+     * @return bool  true se è valido; false altrimenti (i.e. punta all'indirizzo 0)
+     */
+    bool isContactsListSet();
+
     /** Ritorna un QVector di SmartUtente contenente i contatti nella rete dell'utente.
      *  Invoca il metodo getContactsList() del campo dati net di tipo Rete.
      *
@@ -164,6 +181,23 @@ public:
      * @return QVector<SmartTitolo>  Vettore di puntatori ai titoli di studio dell'utente.
      */
     QVector<SmartTitolo> getEducationsList() const;
+
+    /** Crea una nuova lista dei titoli di studio. Rimuove un'eventuale lista preesistente.
+     *  Invoca il metodo setEducationsList( QVector<SmartTitolo> ) del campo dati educations di tipo
+     *  Formazione.
+     *
+     * @param  QVector<SmartTitolo>  Lista dei nuovi titoli di studio dell'utente.
+     */
+    void setEducationsList( QVector<SmartTitolo> );
+
+    /** Elimina il campo dati educations di tipo Formazione *. */
+    void unsetEducationsList();
+
+    /** Controlla se il campo dati educations di tipo Formazione è un puntatore valido.
+     *
+     * @return bool  true se è valido; false altrimenti (i.e. punta all'indirizzo 0)
+     */
+    bool isEducationsListSet();
 
     /** Restituisce un iteratore sulla lista dei titoli di studio dell'utente.
      *  Invoca il metodo begin() di Formazione.
@@ -193,6 +227,23 @@ public:
      */
     QVector<SmartLavoro> getExperiencesList() const;
 
+    /** Crea una nuova lista delle esperienze lavorative. Rimuove un'eventuale lista preesistente.
+     *  Invoca il metodo setExperiencesList( QVector<SmartLavoro> ) del campo dati educations di tipo
+     *  Esperienza.
+     *
+     * @param  QVector<SmartLavoro>  Lista delle nuove esperienze lavorative.
+     */
+    void setExperiencesList( QVector<SmartLavoro> );
+
+    /** Elimina il campo dati experiences di tipo Esperienza *. */
+    void unsetExperiencesList();
+
+    /** Controlla se il campo dati experiences di tipo Esperienza è un puntatore valido.
+     *
+     * @return bool  true se è valido; false altrimenti (i.e. punta all'indirizzo 0)
+     */
+    bool isExperiencesListSet();
+
     /** Restituisce un iteratore sulla lista delle esperienze lavorative dell'utente.
      *  Invoca il metodo begin() di Esperienza.
      *
@@ -202,19 +253,11 @@ public:
 
     /** Metodo polimorfo virtuale puro necessario per recuperare le informazioni di un utente in
     *  base alla tipologia di account.
-    *  La scelta di una mappa piuttosto che un vettore o una lista è dovuta alla necessità di
-    *  distinguere se, ad esempio, la lista dei contatti dell'utente è vuota o se non si hanno i
-    *  permessi per visualizzarla.
-    *
-    *  Esempio:
-    *  Nel caso esista un elemento con chiave "connections" ed associato un vettore vuoto come
-    *  chiave, allora l'utente non ha contatti; nel caso invece non esista la chiave allora non
-    *  si hanno i permessi.
     *
     * @param SmartUtente  Utente del quale si vogliono ottenere le informazioni.
-    * @return QMap<QString, void *>  Mappa delle informazioni dell'utente.
+    * @return SmartUtente  Utente con le sole informazioni visualizzabili.
     */
-    virtual QMap<QString, void *> getUserInfo( const SmartUtente& ) const = 0;
+    virtual SmartUtente getUserInfo( const SmartUtente& ) const = 0;
 };
 
 /** Overloading operatore di output di QDebug.

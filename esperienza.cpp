@@ -84,6 +84,17 @@ QVector<SmartLavoro> Esperienza::getExperiencesList() const {
     return v;
 }
 
+// METODO Esperienza::setExperiencesList
+void Esperienza::setExperiencesList( QVector<SmartLavoro> v ) {
+    if( experiences ) {
+        delete experiences;
+        experiences = 0;
+    }
+    experiences = new Esperienza_rapp();
+    for( int i = 0; i < v.size(); i ++ )
+        addExperience( v[i] );
+}
+
 // OPERATOR delete Esperienza
 void Esperienza::operator delete( void* p ) {
     if( p ) {

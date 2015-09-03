@@ -103,6 +103,24 @@ bool Utente::isContact( const SmartUtente& su ) {
     return net->isContact( su );
 }
 
+// METODO Utente::setContactsList
+void Utente::setContactsList( QVector<SmartUtente> v ) {
+    net->setContactsList( v );
+}
+
+// METODO Utente::isContactsListSet
+bool Utente::isContactsListSet() {
+    return net;
+}
+
+// METODO Utente::unsetContactsList
+void Utente::unsetContactsList() {
+    if( net ) {
+        delete net;
+        net = 0;
+    }
+}
+
 // METODO getContactsList Utente
 QVector<SmartUtente> Utente::getContactsList() const {
     return net->getContactsList();
@@ -123,6 +141,24 @@ QVector<SmartTitolo> Utente::getEducationsList() const {
     return educations->getEducationsList();
 }
 
+// METODO Utente::setEducationsList
+void Utente::setEducationsList( QVector<SmartTitolo> v ) {
+    educations->setEducationsList( v );
+}
+
+// METODO Utente::unsetEducationsList
+void Utente::unsetEducationsList() {
+    if( educations ) {
+        delete educations;
+        educations = 0;
+    }
+}
+
+// METODO Utente::isEducationsListSet
+bool Utente::isEducationsListSet() {
+    return educations;
+}
+
 // METODO getEducationsIterator
 Formazione::Iteratore Utente::getEducationsIterator() const {
     return educations->begin();
@@ -141,6 +177,24 @@ void Utente::removeExperience( SmartLavoro l ) {
 // METODO getExperiencesList Utente
 QVector<SmartLavoro> Utente::getExperiencesList() const {
     return experiences->getExperiencesList();
+}
+
+// METODO Utente::setExperiencesList
+void Utente::setExperiencesList( QVector<SmartLavoro> v ) {
+    experiences->setExperiencesList( v );
+}
+
+// METODO Utente::isExperiencesListSet
+bool Utente::isExperiencesListSet() {
+    return experiences;
+}
+
+// METODO Utente::unsetExperiencesList
+void Utente::unsetExperiencesList() {
+    if( experiences ) {
+        delete experiences;
+        experiences = 0;
+    }
 }
 
 // METODO getExperiecesIterator Utente

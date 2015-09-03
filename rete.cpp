@@ -61,6 +61,17 @@ QVector<SmartUtente> Rete::getContactsList() const {
     return v;
 }
 
+// METODO Rete::setContactsList
+void Rete::setContactsList( QVector<SmartUtente> v ) {
+    if( contacts->contactsList.size() ) {
+        delete contacts;
+        contacts = 0;
+    }
+    contacts = new Rete_rapp();
+    for( int i = 0; i < v.size(); i++ )
+        addContact( v[i] );
+}
+
 // OPERATOR delete di Rete
 void Rete::operator delete( void* p ) {
     if( p ) {

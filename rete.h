@@ -55,6 +55,13 @@ public:
      */
     QVector<SmartUtente> getContactsList() const;
 
+    /** Crea una nuova lista dei contatti. Rimuove un'eventuale lista preesistente.
+     *
+     * @param QVector<SmartUtente>  Lista dei nuovi contatti dell'utente.
+     */
+    void setContactsList( QVector<SmartUtente> );
+
+
     /** Ridefinizione operatore delete.
      *  Se il campo user_ref è 0 invoca la delete standard su contacts,
      *  altrimenti si limita a decrementare il contatore di riferimenti.

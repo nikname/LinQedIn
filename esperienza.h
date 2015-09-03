@@ -76,6 +76,12 @@ public:
      */
     QVector<SmartLavoro> getExperiencesList() const;
 
+    /** Crea una nuova lista delle esperienze lavorative. Rimuove un'eventuale lista preesistente.
+     *
+     * @param  QVector<SmartLavoro>  Lista delle nuove esperienze lavorative.
+     */
+    void setExperiencesList( QVector<SmartLavoro> );
+
     /** Operatore delete ridefinito.
      *  Decrementa user_ref di 1. Se user_ref vale 0 invoca il distuttore di Esperienza_rapp.
      */

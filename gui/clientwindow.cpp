@@ -339,13 +339,14 @@ void ClientWindow::searchUsers() {
 }
 
 // SLOT ClientWindow::showUserSlot
-void ClientWindow::showUserSlot( SmartUtente user ) {
+void ClientWindow::showUserSlot( SmartUtente su ) {
     if( profileWidget ) {
         contentLayout->removeWidget( profileWidget );
         delete profileWidget;
         profileWidget = 0;
     }
-    profileWidget = new OtherProfileWidget( user, client->user->isContact( user ), this );
+    profileWidget = new OtherProfileWidget( client->user->getUserInfo( su ),
+                                            client->user->isContact( su ), this );
     // ...
     connect( profileWidget, SIGNAL( addContactSignal( SmartUtente ) ),
              this, SLOT( addContactSlot( SmartUtente ) ) );

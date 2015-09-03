@@ -25,9 +25,9 @@ public:
      *  eseguono la ricerca.
      *
      * @param SmartUtente  Utente del quale si vogliono ottenere le informazioni.
-     * @return QMap<QString, void *>  Mappa delle informazioni dell'utente.
+     * @return SmartUtente  Utente con le sole informazioni visualizzabili.
      */
-    virtual QMap<QString, void *> getUserInfo( const SmartUtente& ) const;
+    virtual SmartUtente getUserInfo( const SmartUtente& ) const;
 
     /** Distruttore virtuale.
      *  Invoca il distruttore della classe base diretta. */

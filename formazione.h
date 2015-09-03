@@ -76,6 +76,12 @@ public:
      */
     QVector<SmartTitolo> getEducationsList() const;
 
+    /** Crea una nuova lista dei titoli di studio. Rimuove un'eventuale lista preesistente.
+     *
+     * @param  QVector<SmartTitolo>  Lista dei nuovi titoli di studio dell'utente.
+     */
+    void setEducationsList( QVector<SmartTitolo> );
+
     /** Operatore delete ridefinito.
      *  Decrementa user_ref di 1. Se user_ref vale 0 invoca il distruttore di Formazione_rapp.
      */

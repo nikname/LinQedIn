@@ -47,7 +47,8 @@ void PersonalProfileWidget::initUI() {
     connect( backgroundTabButton, SIGNAL( clicked() ), this, SLOT( showBackgroundTab() ) );
     connectionsTabButton = new QPushButton( tr( "Connections" ), this );
     connect( connectionsTabButton, SIGNAL( clicked() ), this, SLOT( showConnectionsTab() ) );
-    connect( otherInfoTabButton, SIGNAL( clicked() ), this, SLOT( showOtherInfoTab() ) );
+    connect( ProfileWidget::otherInfoTabButton, SIGNAL( clicked() ),
+             this, SLOT( showOtherInfoTab() ) );
 
     ProfileWidget::tabButtons.append( backgroundTabButton );
     ProfileWidget::tabButtons.append( connectionsTabButton );

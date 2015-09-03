@@ -84,6 +84,17 @@ QVector<SmartTitolo> Formazione::getEducationsList() const {
     return v;
 }
 
+// METODO Formazione::setEducationsList
+void Formazione::setEducationsList( QVector<SmartTitolo> v ) {
+    if( titles ) {
+        delete titles;
+        titles = 0;
+    }
+    titles = new Formazione_rapp();
+    for( int i = 0; i < v.size(); i++ )
+        addEducation( v[i] );
+}
+
 // OPERATOR delete Formazione
 void Formazione::operator delete( void* p ) {
     if( p ) {
