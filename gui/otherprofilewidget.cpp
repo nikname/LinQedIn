@@ -217,17 +217,17 @@ void OtherProfileWidget::removeContact() {
 
 // SLOT OtherProfileWidget::showBackgroundTab()
 void OtherProfileWidget::showBackgroundTab() {
-    backgroundTab->setVisible( true );
-    setProfileButtonSelected( backgroundTabButton );
-    connectionsTab->setVisible( false );
+    if( backgroundTab ) backgroundTab->setVisible( true );
+    if( backgroundTabButton ) setProfileButtonSelected( backgroundTabButton );
+    if( connectionsTab ) connectionsTab->setVisible( false );
     ProfileWidget::otherInfoTab->setVisible( false );
 }
 
 // SLOT OtherProfileWidget::showConnectionsTab()
 void OtherProfileWidget::showConnectionsTab() {
-    backgroundTab->setVisible( false );
-    connectionsTab->setVisible( true );
-    setProfileButtonSelected( connectionsTabButton );
+    if( backgroundTab ) backgroundTab->setVisible( false );
+    if( connectionsTab ) connectionsTab->setVisible( true );
+    if( connectionsTabButton ) setProfileButtonSelected( connectionsTabButton );
     ProfileWidget::otherInfoTab->setVisible( false );
 }
 

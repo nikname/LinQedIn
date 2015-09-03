@@ -15,7 +15,7 @@
 #include "utente.h"
 
 // COSTRUTTORE ClientWindow
-ClientWindow::ClientWindow( QString username, QWidget *parent ) :
+ClientWindow::ClientWindow( const QString& username, QWidget *parent ) :
     QMainWindow( parent ),
     client( new LinQedInClient( username ) )
 {

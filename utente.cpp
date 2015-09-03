@@ -32,15 +32,21 @@ Utente::Utente( const Utente& u ) :
 
 // DISTRUTTORE Utente
 Utente::~Utente() {
-    net->user_ref--;
-    if( net->user_ref == 0 )
-        delete net;
-    educations->user_ref--;
-    if( educations->user_ref == 0 )
-        delete educations;
-    experiences->user_ref--;
-    if( experiences->user_ref == 0 )
-        delete experiences;
+    if( net ) {
+        net->user_ref--;
+        if( net->user_ref == 0 )
+            delete net;
+    }
+    if( educations ) {
+        educations->user_ref--;
+        if( educations->user_ref == 0 )
+            delete educations;
+    }
+    if( experiences ) {
+        experiences->user_ref--;
+        if( experiences->user_ref == 0 )
+            delete experiences;
+    }
 }
 
 // METODO getUsername Utente
@@ -105,6 +111,8 @@ bool Utente::isContact( const SmartUtente& su ) {
 
 // METODO Utente::setContactsList
 void Utente::setContactsList( QVector<SmartUtente> v ) {
+    if( !net )
+        net = new Rete();
     net->setContactsList( v );
 }
 
@@ -138,6 +146,8 @@ void Utente::removeEducation( SmartTitolo t ) {
 
 // METODO getEducationsList Utente
 QVector<SmartTitolo> Utente::getEducationsList() const {
+    if( !educations )
+        educations = new Formazione();
     return educations->getEducationsList();
 }
 
@@ -176,6 +186,8 @@ void Utente::removeExperience( SmartLavoro l ) {
 
 // METODO getExperiencesList Utente
 QVector<SmartLavoro> Utente::getExperiencesList() const {
+    if( !experiences )
+        experiences = new Esperienza();
     return experiences->getExperiencesList();
 }
 
