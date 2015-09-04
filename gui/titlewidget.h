@@ -58,7 +58,7 @@ public slots:
     void openEditTitleDialog();
 
     /** */
-    void updateTitleInfoSlot( const QString&, int, int, int, const QString& );
+    void updateTitleInfoSlot( const QString&, const QDate&, const QString& );
 
     /** */
     void removeTitle();

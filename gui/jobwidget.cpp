@@ -22,8 +22,8 @@ void JobWidget::initUI() {
 
     companyNameLabel = new QLabel( job->getCompanyName(), this );
     titleLabel = new QLabel( job->getTitle(), this );
-    periodLabel = new QLabel( job->getBegin().toString( "dd/MM/yyyy" ) + " - " +
-                              job->getEnd().toString( "dd/MM/yyyy" ), this );
+    periodLabel = new QLabel( job->getBegin().toString( "yyyy" ) + " - " +
+                              job->getEnd().toString( "yyyy" ), this );
 
     removeJobButton = new QPushButton( this );
     connect( removeJobButton, SIGNAL( clicked() ), this, SLOT( removeJob() ) );
@@ -110,22 +110,23 @@ void JobWidget::hideToolsButtons() {
 // SLOT JobWidget::openEditJobDialog
 void JobWidget::openEditJobDialog() {
     EditJobDialog *editJobDialog = new EditJobDialog( this );
-    connect( editJobDialog, SIGNAL( updateJobInfoSignal( QString, QString, int, int ) ),
-             this, SLOT( updateJobInfoSlot( QString, QString, int, int ) ) );
+    connect( editJobDialog, SIGNAL( updateJobInfoSignal( QString, QString, QDate, QDate ) ),
+             this, SLOT( updateJobInfoSlot( QString, QString, QDate, QDate ) ) );
 
     editJobDialog->exec();
 }
 
 // SLOT JobWidget::updateJobInfoSlot
-void JobWidget::updateJobInfoSlot( const QString& cn, const QString& t, int b, int e ) {
+void JobWidget::updateJobInfoSlot( const QString& cn, const QString& t,
+                                   const QDate& b, const QDate& e ) {
     job->setCompanyName( cn );
     job->setTitle( t );
-    job->setBegin( QDate( b, 1, 1 ) );
-    job->setEnd( QDate( e, 1, 1 ) );
+    job->setBegin( b );
+    job->setEnd( e );
 
     companyNameLabel->setText( cn );
     titleLabel->setText( t );
-    periodLabel->setText( QString::number( b ) + " - " + QString::number( e ) );
+    periodLabel->setText( b.toString( "yyyy" ) + " - " + e.toString( "yyyy" ) );
 
     emit updateJobInfoSignal( job );
 }

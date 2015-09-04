@@ -35,7 +35,7 @@ public:
     explicit EditTitleDialog( QWidget *parent = 0 );
 signals:
     /** */
-    void updateTitleInfoSignal( const QString&, int, int, int, const QString& );
+    void updateTitleInfoSignal( const QString&, const QDate&, const QString& );
 public slots:
     /** */
     void checkInput( const QString& );

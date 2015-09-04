@@ -1,3 +1,4 @@
+#include <QDate>
 #include <QLabel>
 #include <QLineEdit>
 #include <QPushButton>
@@ -96,8 +97,9 @@ void EditJobDialog::checkInput( const QString& input ) {
 
 // SLOT EditJobDialog::updateJobInfo
 void EditJobDialog::updateJobInfo() {
-    emit updateJobInfoSignal( companyNameEdit->text(), titleEdit->text(),
-                              beginEdit->text().toInt(), endEdit->text().toInt() );
+    QDate b = QDate( beginEdit->text().toInt(), 1, 1 );
+    QDate e = QDate( endEdit->text().toInt(), 1, 1 );
+    emit updateJobInfoSignal( companyNameEdit->text(), titleEdit->text(), b, e );
 
     this->close();
 }

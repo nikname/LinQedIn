@@ -34,7 +34,7 @@ public:
     explicit EditJobDialog( QWidget *parent = 0 );
 signals:
     /** */
-    void updateJobInfoSignal( const QString&, const QString&, int, int );
+    void updateJobInfoSignal( const QString&, const QString&, const QDate&, const QDate& );
 public slots:
     /** */
     void checkInput( const QString& );

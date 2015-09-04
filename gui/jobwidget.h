@@ -58,7 +58,7 @@ public slots:
     void openEditJobDialog();
 
     /** */
-    void updateJobInfoSlot( const QString&, const QString&, int, int );
+    void updateJobInfoSlot( const QString&, const QString&, const QDate&, const QDate& );
 
     /** */
     void removeJob();

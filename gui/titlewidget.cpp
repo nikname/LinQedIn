@@ -109,22 +109,20 @@ void TitleWidget::hideToolsButtons() {
 // SLOT TitleWidget::openEditTitleDialog
 void TitleWidget::openEditTitleDialog() {
     EditTitleDialog *editTitleDialog = new EditTitleDialog( this );
-    connect( editTitleDialog, SIGNAL( updateTitleInfoSignal( QString, int, int, int, QString ) ),
-             this, SLOT( updateTitleInfoSlot( QString, int, int, int, QString ) ) );
+    connect( editTitleDialog, SIGNAL( updateTitleInfoSignal( QString, QDate, QString ) ),
+             this, SLOT( updateTitleInfoSlot( QString, QDate, QString ) ) );
 
     editTitleDialog->exec();
 }
 
-// SLOT TitleWidget::updateTitleInfoSlot( QString, int, int, int, QString )
-void TitleWidget::updateTitleInfoSlot( const QString& s, int d, int m, int y, const QString& fos ) {
+// SLOT TitleWidget::updateTitleInfoSlot
+void TitleWidget::updateTitleInfoSlot( const QString& s, const QDate& a, const QString& fos ) {
     title->setSchool( s );
-    title->setDateAttended( QDate( y, m, d ) );
+    title->setDateAttended( a );
     title->setFieldOfStudy( fos );
 
     schoolLabel->setText( s );
-    dateAttendedLabel->setText( QString::number( d ) + "/" +
-                                QString::number( m ) + "/" +
-                                QString::number( y ) );
+    dateAttendedLabel->setText( a.toString( "dd/MM/yyyy" ) );
     fieldOfStudyLabel->setText( fos );
 
     emit updateTitleInfoSignal( title );

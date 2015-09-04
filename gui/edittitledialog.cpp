@@ -1,3 +1,4 @@
+#include <QDate>
 #include <QLabel>
 #include <QLineEdit>
 #include <QPushButton>
@@ -104,9 +105,10 @@ void EditTitleDialog::checkInput( const QString& input ) {
 
 // SLOT EditTitleDialog::updateTitleInfo
 void EditTitleDialog::updateTitleInfo() {
-    emit updateTitleInfoSignal( schoolEdit->text(), dayAttendedEdit->text().toInt(),
-                                monthAttendedEdit->text().toInt(), yearAttendedEdit->text().toInt(),
-                                fieldOfStudyEdit->text() );
+    QDate a = QDate( dayAttendedEdit->text().toInt(),
+                     monthAttendedEdit->text().toInt(),
+                     yearAttendedEdit->text().toInt() );
+    emit updateTitleInfoSignal( schoolEdit->text(), a, fieldOfStudyEdit->text() );
 
     this->close();
 }
