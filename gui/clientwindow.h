@@ -91,7 +91,7 @@ public:
      * @param QString  Username dell'utente del client.
      * @param QWidget  Puntatore al QWidget padre. Se nullo si riferisce a quello top-level.
      */
-    explicit ClientWindow( QString = "", QWidget* = 0 );
+    explicit ClientWindow( const QString& = "", QWidget* = 0 );
 
     /** Distruttore ridefinito.
      *  Ripulise lo heap.

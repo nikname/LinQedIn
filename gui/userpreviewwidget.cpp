@@ -24,12 +24,16 @@ void UserPreviewWidget::initUI() {
 
     userLabel = new QLabel( user->getName() + " " + user->getSurname(), this );
 
-    QVector<SmartLavoro> experiencesList = user->getExperiencesList();
-    if( experiencesList.size() == 0 )
-        lastJobLabel = new QLabel( "--", this );
-    else {
-        SmartLavoro lastJob = experiencesList.last();
-        lastJobLabel = new QLabel( lastJob->getTitle() + " at " + lastJob->getCompanyName(), this );
+    if( user->isExperiencesListSet() ) {
+        QVector<SmartLavoro> experiencesList = user->getExperiencesList();
+        if( experiencesList.size() == 0 )
+            lastJobLabel = new QLabel( "--", this );
+        else {
+            SmartLavoro lastJob = experiencesList.last();
+            lastJobLabel = new QLabel( lastJob->getTitle() + " at " + lastJob->getCompanyName(), this );
+        }
+    } else {
+        lastJobLabel = 0;
     }
 
     userInfoButton = new QPushButton( this );
@@ -46,11 +50,11 @@ void UserPreviewWidget::setupUI() {
     QWidget *infoPreviewWidget = new QWidget( this );
 
     userLabel->setStyleSheet( "QLabel { font: bold; color: rgba(0,0,0,0.87); }" );
-    lastJobLabel->setStyleSheet( "QLabel { color: rgba(0,0,0,0.54); }" );
+    if( lastJobLabel ) lastJobLabel->setStyleSheet( "QLabel { color: rgba(0,0,0,0.54); }" );
 
     QVBoxLayout *infoPreviewLayout = new QVBoxLayout( infoPreviewWidget );
     infoPreviewLayout->addWidget( userLabel );
-    infoPreviewLayout->addWidget( lastJobLabel );
+    if( lastJobLabel ) infoPreviewLayout->addWidget( lastJobLabel );
 
     QWidget *toolWidget = new QWidget( this );
 

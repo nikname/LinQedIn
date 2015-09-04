@@ -15,7 +15,7 @@
 #include "utente.h"
 
 // COSTRUTTORE ClientWindow
-ClientWindow::ClientWindow( QString username, QWidget *parent ) :
+ClientWindow::ClientWindow( const QString& username, QWidget *parent ) :
     QMainWindow( parent ),
     client( new LinQedInClient( username ) )
 {
@@ -171,6 +171,7 @@ void ClientWindow::setupUI() {
     );
 
     setCentralWidget( centralWidget );
+    setMinimumSize( 600, 400 );
     setWindowTitle( "LinQedIn Client" );
 }
 
@@ -339,14 +340,13 @@ void ClientWindow::searchUsers() {
 }
 
 // SLOT ClientWindow::showUserSlot
-void ClientWindow::showUserSlot( SmartUtente user ) {
+void ClientWindow::showUserSlot( SmartUtente su ) {
     if( profileWidget ) {
         contentLayout->removeWidget( profileWidget );
         delete profileWidget;
         profileWidget = 0;
     }
-    profileWidget = new OtherProfileWidget( user, client->user->isContact( user ), this );
-    // ...
+    profileWidget = new OtherProfileWidget( su, client->user->isContact( su ), this );
     connect( profileWidget, SIGNAL( addContactSignal( SmartUtente ) ),
              this, SLOT( addContactSlot( SmartUtente ) ) );
     connect( profileWidget, SIGNAL( removeContactSignal( SmartUtente ) ),

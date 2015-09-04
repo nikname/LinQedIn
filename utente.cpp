@@ -8,15 +8,14 @@
 #include "database.h"
 
 // COSTRUTTORE Utente
-Utente::Utente( const QString& un,
-                const QString& name,
-                const QString& surname ) :
+Utente::Utente( const QString& un, const QString& name, const QString& surname ) :
     username( un ),
     profile( name, surname ),
-    net( new Rete ),
+    net( new Rete() ),
     educations( new Formazione ),
     experiences( new Esperienza ),
-    references( 1 ) {}
+    references( 1 )
+{}
 
 // COSTRUTTORE DI COPIA Utente
 Utente::Utente( const Utente& u ) :
@@ -33,15 +32,41 @@ Utente::Utente( const Utente& u ) :
 
 // DISTRUTTORE Utente
 Utente::~Utente() {
-    net->user_ref--;
-    if( net->user_ref == 0 )
-        delete net;
-    educations->user_ref--;
-    if( educations->user_ref == 0 )
-        delete educations;
-    experiences->user_ref--;
-    if( experiences->user_ref == 0 )
-        delete experiences;
+    if( net ) {
+        net->user_ref--;
+        if( net->user_ref == 0 )
+            delete net;
+    }
+    if( educations ) {
+        educations->user_ref--;
+        if( educations->user_ref == 0 )
+            delete educations;
+    }
+    if( experiences ) {
+        experiences->user_ref--;
+        if( experiences->user_ref == 0 )
+            delete experiences;
+    }
+}
+
+// OPERATOR () Utente::FuntoreRicerca
+SmartUtente Utente::FuntoreRicerca::operator ()( const SmartUtente& su ) const {
+    SmartUtente aux( su->clone() );
+    switch( searchType ) {
+    case 1:
+        aux->unsetContactsList();
+        aux->unsetEducationsList();
+        aux->unsetExperiencesList();
+        break;
+    case 2:
+        aux->unsetContactsList();
+        break;
+    case 3:
+        break;
+    default:
+        break;
+    }
+    return aux;
 }
 
 // METODO getUsername Utente
@@ -104,6 +129,22 @@ bool Utente::isContact( const SmartUtente& su ) {
     return net->isContact( su );
 }
 
+// METODO Utente::isContactsListSet
+bool Utente::isContactsListSet() {
+    return net;
+}
+
+// METODO Utente::unsetContactsList
+void Utente::unsetContactsList() {
+    if( net ) {
+        net->user_ref--;
+        if( !net->user_ref ) {
+            delete net;
+            net = 0;
+        }
+    }
+}
+
 // METODO getContactsList Utente
 QVector<SmartUtente> Utente::getContactsList() const {
     return net->getContactsList();
@@ -122,6 +163,27 @@ void Utente::removeEducation( SmartTitolo t ) {
 // METODO getEducationsList Utente
 QVector<SmartTitolo> Utente::getEducationsList() const {
     return educations->getEducationsList();
+}
+
+// METODO Utente::setEducationsList
+void Utente::setEducationsList( QVector<SmartTitolo> v ) {
+    educations->setEducationsList( v );
+}
+
+// METODO Utente::unsetEducationsList
+void Utente::unsetEducationsList() {
+    if( educations ) {
+        educations->user_ref--;
+        if( !educations->user_ref ) {
+            delete educations;
+            educations = 0;
+        }
+    }
+}
+
+// METODO Utente::isEducationsListSet
+bool Utente::isEducationsListSet() {
+    return educations;
 }
 
 // METODO getEducationsIterator
@@ -144,13 +206,31 @@ QVector<SmartLavoro> Utente::getExperiencesList() const {
     return experiences->getExperiencesList();
 }
 
+// METODO Utente::setExperiencesList
+void Utente::setExperiencesList( QVector<SmartLavoro> v ) {
+    experiences->setExperiencesList( v );
+}
+
+// METODO Utente::isExperiencesListSet
+bool Utente::isExperiencesListSet() {
+    return experiences;
+}
+
+// METODO Utente::unsetExperiencesList
+void Utente::unsetExperiencesList() {
+    if( experiences ) {
+        experiences->user_ref--;
+        if( !experiences->user_ref ) {
+            delete experiences;
+            experiences = 0;
+        }
+    }
+}
+
 // METODO getExperiecesIterator Utente
 Esperienza::Iteratore Utente::getExperiencesIterator() const {
     return experiences->begin();
 }
-
-// OPERATOR () Utente
-void Utente::FuntoreRicerca::operator ()( const SmartUtente& x ) const {}
 
 // OPERATOR << Utente
 QDebug operator <<( QDebug qdbg, const Utente& u ) {
@@ -161,40 +241,8 @@ QDebug operator <<( QDebug qdbg, const Utente& u ) {
     qdbg << " Cognome: " << u.getSurname() << "\n";
     qdbg << " Data di nascita: " << u.getBirthday().toString( "dd/MM/yyyy" ) << "\n";
     qdbg << " Stato civile: " << u.getMaritialStatus() << "\n";
-    qdbg << "CONTATTI: " << "\n";
-    QVector<SmartUtente> c = u.getContactsList();
-    if( c.size() == 0 )
-        qdbg << " ** Nessun contatto! **" << "\n";
-    else {
-        for( int i = 0; i < c.size(); i++ )
-            qdbg << " " << c[i]->getName() << c[i]->getSurname() << "\n";
-    }
-    qdbg << "FORMAZIONE: " << "\n";
-    QVector<SmartTitolo> ed = u.getEducationsList();
-    if( ed.size() == 0 )
-        qdbg << " ** Nessun titolo di studio! **" << "\n";
-    else {
-        for( int i = 0; i < ed.size(); i++ ) {
-            qdbg << " Scuola: " << ed[i]->getSchool() << "\n";
-            qdbg << " Data diploma: " <<
-                    ed[i]->getDateAttended().toString( "yyyy" ) << "\n";
-            qdbg << " Laurea: " << ed[i]->getDegree() << "\n";
-            qdbg << " Campo di studio: " << ed[i]->getFieldOfStudy() << "\n";
-            qdbg << " Votazione: " << ed[i]->getGrade() << "\n";
-        }
-    }
-    qdbg << "ESPERIENZE: " << "\n";
-    QVector<SmartLavoro> ex = u.getExperiencesList();
-    if( ex.size() == 0 )
-        qdbg << " ** Nessuna esperienza lavorativa! **" << "\n";
-    else {
-        for( int i = 0; i < ex.size(); i++ ) {
-            qdbg << " Azienda: " << ex[i]->getCompanyName() << "\n";
-            qdbg << " Ruolo: " << ex[i]->getTitle() << "\n";
-            qdbg << " Luogo: " << ex[i]->getLocation() << "\n";
-            qdbg << " Inizio: " << ex[i]->getBegin().toString( "dd/MM/yyyy" ) << "\n";
-            qdbg << " Fine: " << ex[i]->getEnd().toString( "dd/MM/yyyy" ) << "\n";
-        }
-    }
+    if( u.net ) qdbg << u.net;
+    if( u.educations ) qdbg << u.educations;
+    if( u.experiences ) qdbg << u.experiences;
     return qdbg;
 }

@@ -1,7 +1,7 @@
 #include "linqedin_client.h"
 
 // COSTRUTTORE LinQedInClient
-LinQedInClient::LinQedInClient( QString un ) : db( new Database ) {
+LinQedInClient::LinQedInClient( const QString& un ) : db( new Database ) {
     db->loadUsersList();
     if( db->contains( un ) ) {
         user = db->find( un );

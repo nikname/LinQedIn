@@ -11,11 +11,7 @@ class Database {
     // NOTE:
     // Il metodo Database::insert( SmartUtente ) è accessibile solo da oggetti di tipo
     // LinQedInAdmin. In questo modo solo l'utente amministratore può aggiungere nuovi
-    // utenti al database. Oggetti di tipo LinQedInClient non possono aggiungere nuovi
     // utenti al database.
-    // Da prendere il considerazione il fatto di rendere privato il costruttore di
-    // Database e rendere anche la classe LinQedInClient amica. In questo modo però anche
-    // quest'ultima potrebbe aggiungere nuovi utenti.
 
     friend class LinQedInAdmin; // Necessario per poter aggiungere utenti al database.
 private:

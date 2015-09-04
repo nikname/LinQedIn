@@ -1,36 +1,51 @@
 #ifndef ESPERIENZA_H
 #define ESPERIENZA_H
+#include <QDate>
 #include <QDebug>
 #include <QString>
-#include <QDate>
 #include "smartlavoro.h"
 
 class Esperienza {
 
     // NOTE:
-    // Solo creando un oggetto Utente è possibile creare un oggetto Esperienza.
-    // Poichè un oggetto di tipo Esperienza può venire creato solo tramite una new da un oggetto di
-    // tipo Utente, allora non sono necessari costruttore di copia e distruttore (nemmeno ridefiniti).
-    // L'aumento del contatore user_ref è lasciato al costruttore di copia di Utente.
     // Nelle classi innestate si può accedere solo a campi dati statici della classe contenitrice!
     // La classe Iteratore non ha bisogno di un costruttore ridefinito. L'Iteratore viene construito
     // con il metodo begin() sull'oggetto Esperienza di invocazione.
     // Nel metodo begin() non serve controllare se experiences è valido in quanto se creo un oggetto
     // Esperienza allora viene creato in automatico un oggetto Esperienza_rapp.
 
-    friend class Utente; // Necessario per costruire e distruggere oggetti Esperienza
+    friend class Utente;
 private:
     class Esperienza_rapp;
     Esperienza_rapp* experiences;
     int user_ref; // Numero di utenti che si riferiscono all'oggetto Esperienza.
 
+    /** Costruttore ad 1 parametro di utilità. Utilizzato per fare copie profonde.
+     *  Viene utilizzato dal metodo clone().
+     *
+     * @param Esperienza_rapp *  Oggetto Esperienza_rapp del quale fare la copia.
+     */
+    Esperienza( Esperienza_rapp * );
+public:
     /** Costruttore di default ridefinito.
      *  Crea una lista vuota di esperienze lavorative.
      *  Inizializza ad 1 il contatore di riferimenti user_ref.
-     *  Viene invocato solo dal costruttore di Utente.
      */
     Esperienza();
-public:
+
+    /** Costruttore di copia di Esperienza.
+     *  Incrementa il contatore di riferimenti all'oggetto Esperienza di 1.
+     *  Utilizza la tecnica del references counting per il campo dati di tipo Esperienza_rapp.
+     *
+     * @param Esperienza  Oggetto Esperienza da copiare.
+     */
+    Esperienza( const Esperienza& );
+
+    /** Decrementa il campo references di Esperienza_rapp
+     *  In caso il valore diventi 0 invoca il distruttore dell'oggetto.
+     */
+    ~Esperienza();
+
     class Iteratore {
         friend class Esperienza;
     private:
@@ -76,10 +91,31 @@ public:
      */
     QVector<SmartLavoro> getExperiencesList() const;
 
+    /** Crea una nuova lista delle esperienze lavorative. Rimuove un'eventuale lista preesistente.
+     *
+     * @param  QVector<SmartLavoro>  Lista delle nuove esperienze lavorative.
+     */
+    void setExperiencesList( QVector<SmartLavoro> );
+
     /** Operatore delete ridefinito.
      *  Decrementa user_ref di 1. Se user_ref vale 0 invoca il distuttore di Esperienza_rapp.
      */
     void operator delete( void* );
+
+    /** Metodo di utilità necessario per creare copie profonde di oggetti di tipo Esperienza.
+     *
+     * @return Esperienza *  Copia profonda dell'oggetto stesso.
+     */
+    Esperienza *clone() const;
 };
+
+/** Overloading dell'operatore di output di QDebug.
+ *  Stampa su standard output la lista delle esperienze lavorative.
+ *
+ * @param QDebug  QDebug.
+ * @param Esperienza  Lista delle esperienze lavorative.
+ * @return QDebug  QDebug.
+ */
+QDebug operator <<( QDebug, const Esperienza& );
 
 #endif // ESPERIENZA_H

@@ -14,6 +14,21 @@ class PersonalProfileWidget : public ProfileWidget {
 private:
     QPushButton *editProfileButton;
 
+    QLabel *lastExperienceLabel;
+    QLabel *lastEducationLabel;
+    QLabel *connectionsNumber;
+
+    QPushButton *backgroundTabButton;
+    QPushButton *connectionsTabButton;
+
+    QWidget *backgroundTab;
+    QLabel *experiencesLabel;
+    ExperiencesWidget *experiencesWidget;
+    QLabel *educationsLabel;
+    EducationsWidget *educationsWidget;
+
+    ConnectionsWidget *connectionsTab;
+
     /** Inizializza la UI. */
     void initUI();
 
@@ -33,6 +48,15 @@ signals:
     /** */
     void removeContactSignal( const SmartUtente& );
 protected slots:
+    /** Mostra la scheda della panoramica dell'utente. */
+    void showBackgroundTab();
+
+    /** Mostra la scheda dei contatti dell'utente. */
+    void showConnectionsTab();
+
+    /** Mostra la scheda delle altre informazioni dell'utente. */
+    void showOtherInfoTab();
+
     /** */
     void openEditProfileDialog();
 

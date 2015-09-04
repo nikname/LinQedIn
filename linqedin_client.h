@@ -14,7 +14,7 @@ public:
      *
      * @param QString  Username dell'utente che accede.
      */
-    LinQedInClient( QString );
+    LinQedInClient( const QString& );
 
     /** Salva tutte le informazioni dell'utente sul database. */
     void saveUserInfo();
