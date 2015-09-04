@@ -9,7 +9,7 @@ UtenteBasic::UtenteBasic( const Utente& u ) : UtenteGratis( u ) {}
 
 // METODO UtenteBasic::clone
 Utente *UtenteBasic::clone() const {
-    return new UtenteBasic( username, profile, net->clone(), 0, 0 );
+    return new UtenteBasic( username, profile, net->clone(), 0, experiences->clone() );
 }
 
 // METODO UtenteBasic::getAccountType

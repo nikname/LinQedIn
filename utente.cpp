@@ -210,13 +210,7 @@ bool Utente::isExperiencesListSet() {
 
 // METODO Utente::unsetExperiencesList
 void Utente::unsetExperiencesList() {
-    if( experiences ) {
-        experiences->user_ref--;
-        if( !experiences ) {
-            delete experiences;
-            experiences = 0;
-        }
-    }
+
 }
 
 // METODO getExperiecesIterator Utente
@@ -233,7 +227,8 @@ QDebug operator <<( QDebug qdbg, const Utente& u ) {
     qdbg << " Cognome: " << u.getSurname() << "\n";
     qdbg << " Data di nascita: " << u.getBirthday().toString( "dd/MM/yyyy" ) << "\n";
     qdbg << " Stato civile: " << u.getMaritialStatus() << "\n";
-    qdbg << u.net;
+    if( u.net )
+        qdbg << u.net;
     if( u.educations ) {
         qdbg << "FORMAZIONE: " << "\n";
         QVector<SmartTitolo> ed = u.getEducationsList();
@@ -251,19 +246,7 @@ QDebug operator <<( QDebug qdbg, const Utente& u ) {
         }
     }
     if( u.experiences ) {
-        qdbg << "ESPERIENZE: " << "\n";
-        QVector<SmartLavoro> ex = u.getExperiencesList();
-        if( ex.size() == 0 )
-            qdbg << " ** Nessuna esperienza lavorativa! **" << "\n";
-        else {
-            for( int i = 0; i < ex.size(); i++ ) {
-                qdbg << " Azienda: " << ex[i]->getCompanyName() << "\n";
-                qdbg << " Ruolo: " << ex[i]->getTitle() << "\n";
-                qdbg << " Luogo: " << ex[i]->getLocation() << "\n";
-                qdbg << " Inizio: " << ex[i]->getBegin().toString( "dd/MM/yyyy" ) << "\n";
-                qdbg << " Fine: " << ex[i]->getEnd().toString( "dd/MM/yyyy" ) << "\n";
-            }
-        }
+        qdbg << u.experiences;
     }
     return qdbg;
 }

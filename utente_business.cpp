@@ -6,7 +6,7 @@ UtenteBusiness::UtenteBusiness( const Utente& u ) : UtentePagante( u ) {}
 
 // METODO UtenteBusiness::clone
 Utente *UtenteBusiness::clone() const {
-    return new UtenteBusiness( username, profile, net->clone(), 0, 0 );
+    return new UtenteBusiness( username, profile, net->clone(), 0, experiences->clone() );
 }
 
 // METODO UtenteBusiness::getAccountType

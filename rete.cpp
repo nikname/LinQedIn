@@ -1,9 +1,9 @@
-#include "rete.h"
 #include <QList>
 #include <QListIterator>
+#include "database.h"
+#include "rete.h"
 #include "smartutente.h"
 #include "utente.h"
-#include "database.h"
 
 // CLASSE Rete_rapp
 class Rete::Rete_rapp {

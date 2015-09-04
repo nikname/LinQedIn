@@ -8,11 +8,11 @@ class Database;
 class Utente;
 
 class Rete {
-    friend class SmartRete;
+    friend class Utente;
 private:
     class Rete_rapp;
     Rete_rapp* contacts;
-    int user_ref; // Gestito da SmartRete
+    int user_ref;
 
     /** Costruttore ad 1 parametro di utilità. Utilizzato per fare copie prodonde.
      *  Viene utilizzato dal metodo clone().
@@ -24,7 +24,6 @@ public:
     /** Costruttore di default.
      *  Crea una lista vuota di contatti.
      *  Inizializza ad 1 il contatore di riferimenti user_ref.
-     *  Viene invocato solo dal costruttore di Utente.
      */
     Rete();
 
@@ -85,7 +84,7 @@ public:
  *  Stampa su standard output la lista di nomi e cognomi della rete dei contatti.
  *
  * @param QDebug  QDebug.
- * @param SmartRete  Rete dei contatti della quale stampare nome e cognome.
+ * @param Rete  Rete dei contatti della quale stampare nome e cognome.
  * @return QDebug  QDebug.
  */
 QDebug operator <<( QDebug, const Rete& );
