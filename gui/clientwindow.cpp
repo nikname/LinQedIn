@@ -316,7 +316,25 @@ void ClientWindow::closeSearchBox() {
 
 // SLOT ClientWindow::showPersonalProfile()
 void ClientWindow::showPersonalProfile() {
-    profileWidget->setVisible( true );
+    if( dynamic_cast<PersonalProfileWidget *>( profileWidget ) ) // profilo utilizzatore client
+        profileWidget->setVisible( true );
+    else {
+        if( profileWidget ) {
+            contentLayout->removeWidget( profileWidget );
+            delete profileWidget;
+            profileWidget = 0;
+        }
+        profileWidget = new PersonalProfileWidget( client->user, this );
+        connect( profileWidget, SIGNAL( showContactSignal( SmartUtente ) ),
+                 this, SLOT( showUserSlot( SmartUtente ) ) );
+
+        if( QVBoxLayout *auxLayout = dynamic_cast<QVBoxLayout *>( contentLayout ) )
+            auxLayout->insertWidget( 0, profileWidget );
+
+        homeButton->setVisible( true );
+        backButton->setVisible( false );
+        openSearchButton->setVisible( true );
+    }
     setMenuButtonSelected( profileButton );
 }
 
