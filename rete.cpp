@@ -50,7 +50,8 @@ Rete::Rete() :
 
 // COSTRUTTORE Rete( Rete_rapp * )
 Rete::Rete( Rete::Rete_rapp * rapp ) :
-    contacts( rapp )
+    contacts( rapp ),
+    user_ref( 1 )
 {}
 
 // COSTRUTTORE di COPIA Rete

@@ -48,7 +48,8 @@ Esperienza::Esperienza() :
 
 // COSTRUTTORE Esperienza( Esperienza_rapp * )
 Esperienza::Esperienza( Esperienza::Esperienza_rapp * rapp ) :
-    experiences( rapp )
+    experiences( rapp ),
+    user_ref( 1 )
 {}
 
 // COSTRUTTORE di COPIA Esperienza

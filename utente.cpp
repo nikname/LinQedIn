@@ -25,12 +25,18 @@ Utente::Utente( const Utente& u ) :
     educations( u.educations ),
     experiences( u.experiences )
 {
+    net->user_ref++;
     educations->user_ref++;
     experiences->user_ref++;
 }
 
 // DISTRUTTORE Utente
 Utente::~Utente() {
+    if( net ) {
+        net->user_ref--;
+        if( net->user_ref == 0 )
+            delete net;
+    }
     if( educations ) {
         educations->user_ref--;
         if( educations->user_ref == 0 )
@@ -48,16 +54,12 @@ SmartUtente Utente::FuntoreRicerca::operator ()( const SmartUtente& su ) const {
     SmartUtente aux( su->clone() );
     switch( searchType ) {
     case 1:
-        delete aux->net;
-        aux->net = 0;
-        delete aux->educations;
-        aux->educations = 0;
-        delete aux->experiences;
-        aux->experiences = 0;
+        aux->unsetContactsList();
+        aux->unsetEducationsList();
+        aux->unsetExperiencesList();
         break;
     case 2:
-        delete aux->net;
-        aux->net = 0;
+        aux->unsetContactsList();
         break;
     case 3:
         break;
@@ -129,12 +131,18 @@ bool Utente::isContact( const SmartUtente& su ) {
 
 // METODO Utente::isContactsListSet
 bool Utente::isContactsListSet() {
-    return &*net;
+    return net;
 }
 
 // METODO Utente::unsetContactsList
 void Utente::unsetContactsList() {
-
+    if( net ) {
+        net->user_ref--;
+        if( !net->user_ref ) {
+            delete net;
+            net = 0;
+        }
+    }
 }
 
 // METODO getContactsList Utente
@@ -166,7 +174,7 @@ void Utente::setEducationsList( QVector<SmartTitolo> v ) {
 void Utente::unsetEducationsList() {
     if( educations ) {
         educations->user_ref--;
-        if( !educations ) {
+        if( !educations->user_ref ) {
             delete educations;
             educations = 0;
         }
@@ -210,7 +218,13 @@ bool Utente::isExperiencesListSet() {
 
 // METODO Utente::unsetExperiencesList
 void Utente::unsetExperiencesList() {
-
+    if( experiences ) {
+        experiences->user_ref--;
+        if( !experiences->user_ref ) {
+            delete experiences;
+            experiences = 0;
+        }
+    }
 }
 
 // METODO getExperiecesIterator Utente

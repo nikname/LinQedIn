@@ -48,7 +48,8 @@ Formazione::Formazione() :
 
 // COSTRUTTORE Formazione( Formazione_rapp * )
 Formazione::Formazione( Formazione::Formazione_rapp * rapp ) :
-    titles( rapp )
+    titles( rapp ),
+    user_ref( 1 )
 {}
 
 // COSTRUTTORE di COPIA Formazione
