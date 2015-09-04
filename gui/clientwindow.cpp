@@ -351,7 +351,7 @@ void ClientWindow::searchUsers() {
              this, SLOT( showUserSlot( SmartUtente ) ) );
 
     if( QVBoxLayout *auxLayout = dynamic_cast<QVBoxLayout *>( contentLayout ) )
-        auxLayout->insertWidget( 0, searchResultsWidget, 0, Qt::AlignCenter );
+        auxLayout->insertWidget( 0, searchResultsWidget  );
 
     profileWidget->setVisible( false );
     searchResultsWidget->setVisible( true );

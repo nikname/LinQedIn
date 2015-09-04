@@ -78,7 +78,6 @@ void UserPreviewWidget::setupUI() {
     layout->addWidget( toolWidget );
     layout->setSpacing( 0 );
 
-    setMaximumWidth( 350 );
     setStyleSheet( "background: white" );
 }
 
