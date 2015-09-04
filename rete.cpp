@@ -83,7 +83,11 @@ void Rete::removeContact( const SmartUtente& su ) {
 
 // METODO Rete::isContact
 bool Rete::isContact( const SmartUtente& c ) {
-    return contacts->contactsList.contains( c );
+    QListIterator<SmartUtente> it( contacts->contactsList );
+    while( it.hasNext() )
+        if( it.next()->getUsername() == c->getUsername() )
+            return true;
+    return false;
 }
 
 // METODO getContactsList di Rete
