@@ -4,6 +4,7 @@
 #include "editprofiledialog.h"
 #include "lavoro.h"
 #include "personalprofilewidget.h"
+#include "otherinfowidget.h"
 #include "titolo.h"
 #include "utente.h"
 #include "connectionswidget.h"

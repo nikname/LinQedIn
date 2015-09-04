@@ -21,7 +21,7 @@ private:
     /** Realizza la UI. Mostra la GUI. */
     void setupUI();
 public:
-    /** Costruttore esplicito ad 1 parametro con 1 parametro di default.
+    /** Costruttore esplicito ad 2 parametri con 1 parametro di default.
      *
      * @param SmartUtente  Utente utilizzatore del client.
      * @param QWidget  Puntatore al QWidget padre. Se nullo si riferisce a quello top-level.

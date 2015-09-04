@@ -38,6 +38,9 @@ protected:
     /** */
     void setLineEditProperties( QLineEdit * );
 
+    /** */
+    void setTitleLabelProperties( QLabel * );
+
     /** Override.
      *
      * @param QPaintEvent

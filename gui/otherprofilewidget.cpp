@@ -4,6 +4,7 @@
 #include "editprofiledialog.h"
 #include "lavoro.h"
 #include "otherprofilewidget.h"
+#include "otherinfowidget.h"
 #include "titolo.h"
 #include "utente.h"
 #include "connectionswidget.h"
@@ -174,6 +175,7 @@ void OtherProfileWidget::setupUI( bool c ) {
     if( connectionsTab ) connectionsTab->hideToolsButtons();
     if( experiencesWidget ) experiencesWidget->hideToolsButtons();
     if( educationsWidget ) educationsWidget->hideToolsButtons();
+    ProfileWidget::otherInfoTab->hideToolsButtons();
 
     if( backgroundTab ) {
         QVBoxLayout *backgroundTabLayout = new QVBoxLayout( backgroundTab );
@@ -185,7 +187,7 @@ void OtherProfileWidget::setupUI( bool c ) {
     }
 
     if( connectionsTab ) connectionsTab->setVisible( false );
-    otherInfoTab->setVisible( false );
+    if( backgroundTab ) otherInfoTab->setVisible( false );
 
     QVBoxLayout *infoTabLayout = new QVBoxLayout( infoTabsWidget );
     infoTabLayout->addWidget( infoTabsButtonsWidget );

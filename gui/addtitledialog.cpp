@@ -57,13 +57,14 @@ void AddTitleDialog::setupUI() {
     yearAttendedEdit->setPlaceholderText( tr( "Year" ) );
     setLineEditProperties( yearAttendedEdit );
 
-    QLabel *separatorLabel = new QLabel( " - ", this );
+    QLabel *separatorLabel1 = new QLabel( " - ", this );
+    QLabel *separatorLabel2 = new QLabel( " - ", this );
 
     QHBoxLayout *dateAttendedLayout = new QHBoxLayout( dateAttendedWidget );
     dateAttendedLayout->addWidget( dayAttendedEdit );
-    dateAttendedLayout->addWidget( separatorLabel );
+    dateAttendedLayout->addWidget( separatorLabel1 );
     dateAttendedLayout->addWidget( monthAttendedEdit );
-    dateAttendedLayout->addWidget( separatorLabel );
+    dateAttendedLayout->addWidget( separatorLabel2 );
     dateAttendedLayout->addWidget( yearAttendedEdit );
     dateAttendedLayout->setMargin( 0 );
 

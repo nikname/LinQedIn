@@ -10,6 +10,7 @@ class ConnectionsWidget;
 class EducationsWidget;
 class ExperiencesWidget;
 class QLabel;
+class OtherInfoWidget;
 class QPushButton;
 
 class ProfileWidget : public QWidget {
@@ -25,7 +26,7 @@ protected:
     QVector<QPushButton *> tabButtons;
     QPushButton *otherInfoTabButton;
 
-    QWidget *otherInfoTab;
+    OtherInfoWidget *otherInfoTab;
 
     /** Inizializza la UI. */
     void initUI();

@@ -3,6 +3,7 @@
 #include "connectionswidget.h"
 #include "educationswidget.h"
 #include "experienceswidget.h"
+#include "otherinfowidget.h"
 #include "profilewidget.h"
 #include "utente.h"
 #include "lavoro.h"
@@ -32,7 +33,7 @@ void ProfileWidget::initUI() {
 
     tabButtons.append( otherInfoTabButton );
 
-    otherInfoTab = new QWidget( this );
+    otherInfoTab = new OtherInfoWidget( user, this );
 }
 
 // METODO ProfileWidget::setupUI
@@ -43,6 +44,7 @@ void ProfileWidget::setupUI() {
     nameSurnameLabel->setStyleSheet( "color: rgba(0,0,0,0.87)" );
 
     setProfileButtonProperties( otherInfoTabButton );
+    setProfileButtonSelected( otherInfoTabButton );
 }
 
 // METODO ProfileWidget::setProfileButtonProperties( QPushButton* )

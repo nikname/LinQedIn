@@ -57,7 +57,9 @@ SOURCES += main.cpp\
     gui/otherprofilewidget.cpp \
     gui/adminlogindialog.cpp \
     gui/adminsearchdialog.cpp \
-    gui/mysortfilterproxymodel.cpp
+    gui/mysortfilterproxymodel.cpp \
+    gui/otherinfowidget.cpp \
+    gui/editpersonalinfodialog.cpp
 
 HEADERS  += \
     profilo.h \
@@ -105,7 +107,9 @@ HEADERS  += \
     gui/otherprofilewidget.h \
     gui/adminlogindialog.h \
     gui/adminsearchdialog.h \
-    gui/mysortfilterproxymodel.h
+    gui/mysortfilterproxymodel.h \
+    gui/otherinfowidget.h \
+    gui/editpersonalinfodialog.h
 
 FORMS    +=
 

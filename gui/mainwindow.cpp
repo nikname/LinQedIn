@@ -174,7 +174,6 @@ void MainWindow::loginUser() {
     QString username = userUsername->text();
 
     // TODO: controllare username e password
-    // ClientWindow *clientWindow = new ClientWindow( username );
     ClientWindow *clientWindow = new ClientWindow( username );
     this->close();
 }
