@@ -83,6 +83,9 @@ protected slots:
 
     /** */
     void contactToRemoveSlot( const SmartUtente& );
+
+    /** */
+    void updatePersonalInfoSlot( const QDate&, const QString& );
 };
 
 #endif // PERSONALPROFILEWIDGET_H

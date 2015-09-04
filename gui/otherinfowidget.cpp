@@ -57,9 +57,9 @@ void OtherInfoWidget::setupUI() {
 
     QGridLayout *personalInfoLayout = new QGridLayout( personalInfoWidget );
     personalInfoLayout->addWidget( birthdayLabel, 0, 0 );
-    personalInfoLayout->addWidget( userBirthday, 0, 1 );
+    personalInfoLayout->addWidget( userBirthday, 0, 1, 1, 3 );
     personalInfoLayout->addWidget( maritialStatusLabel, 1, 0 );
-    personalInfoLayout->addWidget( userMaritialStatus, 1, 1 );
+    personalInfoLayout->addWidget( userMaritialStatus, 1, 1, 1, 3 );
 
     setSectionLabelProperties( accountInfoLabel );
 
@@ -110,6 +110,16 @@ void OtherInfoWidget::hideToolsButtons() {
 // SLOT OtherInfoWidget::openEditPersonalInfoDialog
 void OtherInfoWidget::openEditPersonalInfoDialog() {
     EditPersonalInfoDialog *editPersonalInfoDialog = new EditPersonalInfoDialog( this );
+    connect( editPersonalInfoDialog, SIGNAL( sendDetails( QDate, QString ) ),
+             this, SIGNAL( updatePersonalInfoSignal( QDate, QString ) ) );
+    connect( editPersonalInfoDialog, SIGNAL( sendDetails( QDate, QString ) ),
+             this, SLOT( updatePersonalInfo( QDate, QString ) ) );
 
     editPersonalInfoDialog->exec();
+}
+
+// SLOT OtherInfoWidget::updatePersonalInfo
+void OtherInfoWidget::updatePersonalInfo( const QDate& b, const QString& ms ) {
+    userBirthday->setText( b.toString( "yyyy/MM/dd" ) );
+    userMaritialStatus->setText( ms );
 }

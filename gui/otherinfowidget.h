@@ -54,10 +54,14 @@ public:
     /** */
     void hideToolsButtons();
 signals:
-
+    /** */
+    void updatePersonalInfoSignal( const QDate&, const QString& );
 public slots:
     /** */
     void openEditPersonalInfoDialog();
+
+    /** */
+    void updatePersonalInfo( const QDate&, const QString& );
 };
 
 #endif // OTHERINFOWIDGET_H

@@ -10,6 +10,7 @@ class QPushButton;
 
 class EditPersonalInfoDialog : public LinQedInDialog {
     Q_OBJECT
+    friend class OtherInfoWidget;
 private:
     QLabel *titleLabel;
 
@@ -35,10 +36,14 @@ public:
      */
     explicit EditPersonalInfoDialog( QWidget *parent = 0 );
 signals:
-
+    /** */
+    void sendDetails( const QDate&, const QString& );
 public slots:
     /** */
     void checkInput( const QString& );
+
+    /** */
+    void editPersonalInfo();
 };
 
 #endif // EDITPERSONALINFODIALOG_H

@@ -1,3 +1,4 @@
+#include <QDate>
 #include <QLabel>
 #include <QLineEdit>
 #include <QPushButton>
@@ -29,7 +30,7 @@ void EditPersonalInfoDialog::initUI() {
              this, SLOT( checkInput( QString ) ) );
 
     acceptButton = new QPushButton( "OK", this );
-    connect( acceptButton, SIGNAL( clicked() ), this, SLOT( accept() ) );
+    connect( acceptButton, SIGNAL( clicked() ), this, SLOT( editPersonalInfo() ) );
     rejectButton = new QPushButton( tr( "CANCEL" ), this );
     connect( rejectButton, SIGNAL( clicked() ), this, SLOT( reject() ) );
 }
@@ -95,12 +96,16 @@ void EditPersonalInfoDialog::setupUI() {
 
 // SLOT EditPersonalInfoDialog::checkInput( QString )
 void EditPersonalInfoDialog::checkInput( const QString& input ) {
-    if( ( dayEdit->text().isEmpty() &&
-          monthEdit->text().isEmpty() &&
-          yearEdit->text().isEmpty() ) ||
-        ( !dayEdit->text().isEmpty() &&
-          !monthEdit->text().isEmpty() &&
-          !yearEdit->text().isEmpty() ) )
+    if( ( dayEdit->text().isEmpty() && monthEdit->text().isEmpty() && yearEdit->text().isEmpty() ) ||
+        ( !dayEdit->text().isEmpty() && !monthEdit->text().isEmpty() && !yearEdit->text().isEmpty() ) )
         setButtonEnabled( acceptButton, true );
     else setButtonDisabled( acceptButton, true );
+}
+
+// SLOT EditPersonalInfoDialog::editPersonalInfo
+void EditPersonalInfoDialog::editPersonalInfo() {
+    QDate b = QDate( yearEdit->text().toInt(), monthEdit->text().toInt(), dayEdit->text().toInt() );
+    emit sendDetails( b, maritialStatusEdit->text() );
+
+    this->close();
 }

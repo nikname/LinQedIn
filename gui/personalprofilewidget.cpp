@@ -79,6 +79,9 @@ void PersonalProfileWidget::initUI() {
              this, SIGNAL( showContactSignal( SmartUtente ) ) );
     connect( connectionsTab, SIGNAL( contactToRemoveSignal( SmartUtente ) ),
              this, SLOT( contactToRemoveSlot( SmartUtente ) ) );
+
+    connect( ProfileWidget::otherInfoTab, SIGNAL( updatePersonalInfoSignal( QDate,QString ) ),
+             this, SLOT( updatePersonalInfoSlot( QDate, QString ) ) );
 }
 
 // METODO PersonalProfileWidget::setupUI
@@ -255,4 +258,10 @@ void PersonalProfileWidget::contactToRemoveSlot( const SmartUtente& su ) {
 
     connectionsNumber->setText(
                 QString::number( user->getContactsList().size() ) + tr( " connections" ) );
+}
+
+// SLOT PersonalProfileWidget::updatePersonalInfoSlot
+void PersonalProfileWidget::updatePersonalInfoSlot( const QDate& b, const QString& ms ) {
+    ProfileWidget::user->setBirthday( b );
+    ProfileWidget::user->setMaritialStatus( ms );
 }
