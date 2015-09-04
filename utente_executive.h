@@ -2,7 +2,23 @@
 #define UTENTE_EXPRESS_H
 #include "utente_pagante.h"
 
+class Profilo;
+class Rete;
+class Formazione;
+class Esperienza;
+
 class UtenteExecutive : public UtentePagante {
+protected:
+    /** Costruttore a 5 parametri. Necessario per le copie profonde. Invocato dal metodo clone().
+     *
+     * @param QString  Username dell'utente.
+     * @param Profilo  Informazioni personali dell'utente.
+     * @param Rete *  Rete dei contatti dell'utente.
+     * @param Formazione *  Lista dei titoli di studio dell'utente.
+     * @param Esperienza *  Esperienze lavorative dell'utente.
+     */
+    UtenteExecutive( const QString& un, const Profilo& p, Rete *n, Formazione *ed, Esperienza *ex ) :
+        UtentePagante( un, p, n, ed, ex ) {}
 public:
     /** Costruttore a 3 parametri con 3 parametri di default.
      *  Invoca il costruttore a 3 parametri della classe base diretta.

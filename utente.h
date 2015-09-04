@@ -23,6 +23,22 @@ protected:
     Formazione* educations;
     Esperienza* experiences;
 
+    /** Costruttore a 5 parametri. Necessario per le copie profonde. Invocato dal metodo clone().
+     *
+     * @param QString  Username dell'utente.
+     * @param Profilo  Informazioni personali dell'utente.
+     * @param Rete *  Rete dei contatti dell'utente.
+     * @param Formazione *  Lista dei titoli di studio dell'utente.
+     * @param Esperienza *  Esperienze lavorative dell'utente.
+     */
+    Utente( const QString& un, const Profilo& p, Rete *n, Formazione *ed, Esperienza *ex ) :
+        username( un ),
+        profile( p ),
+        net( n ),
+        educations( ed ),
+        experiences( ex )
+    {}
+
     class FuntoreRicerca {
     public:
         int searchType;
@@ -284,8 +300,7 @@ public:
      *  Utente. Ogni classe concreta derivata da utente restituisce una copia profonda di un
      *  utente della sua stessa tipologia.
      *
-     * @param Utente *  Utente dal quale fare la copia profonda.
-     * @param Utente *  Copia profonda dell'oggetto Utente.
+     * @return Utente *  Copia profonda dell'oggetto Utente.
      */
     virtual Utente *clone() const = 0;
 protected:

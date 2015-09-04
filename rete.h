@@ -13,8 +13,15 @@ private:
     class Rete_rapp;
     Rete_rapp* contacts;
     int user_ref; // Gestito da SmartRete
+
+    /** Costruttore ad 1 parametro di utilità. Utilizzato per fare copie prodonde.
+     *  Viene utilizzato dal metodo clone().
+     *
+     * @param Rete_rapp *  Oggetto Rete_rapp del quale fare la copia.
+     */
+    Rete( Rete_rapp * );
 public:
-    /** Costruttore di default privato.
+    /** Costruttore di default.
      *  Crea una lista vuota di contatti.
      *  Inizializza ad 1 il contatore di riferimenti user_ref.
      *  Viene invocato solo dal costruttore di Utente.
@@ -66,6 +73,12 @@ public:
      * @param void*  Puntatore all'oggetto Rete.
      */
     void operator delete( void* );
+
+    /** Metodo di utilità necessario per creare copie profonde di oggetti di tipo Rete.
+     *
+     * @return Rete *  Copia prondonda dell'oggetto stesso.
+     */
+    Rete *clone() const;
 };
 
 /** Overloading dell'operatore di output di QDebug.

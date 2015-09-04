@@ -1,12 +1,12 @@
 #include "utente_executive.h"
+#include "rete.h"
 
 // COSTRUTTORE DI COPIA di UtenteExecutive
 UtenteExecutive::UtenteExecutive( const Utente& u ) : UtentePagante( u ) {}
 
 // METODO UtenteExecutive::clone
 Utente *UtenteExecutive::clone() const {
-    Utente *aux = new UtenteExecutive( getUsername(), getName(), getSurname() );
-    return aux;
+    return new UtenteExecutive( username, profile, net->clone(), 0, 0 );
 }
 
 // METODO UtenteExecutive::getAccountType
@@ -20,7 +20,7 @@ QVector<SmartUtente> UtenteExecutive::searchUsers( QVector<SmartUtente> v ) cons
     for( int i = 0; i < v.size(); i++ ) {
         if( v[i]->getUsername() != getUsername() ) {
             FuntoreRicerca functor( 2 );
-            aux.append( functor( v[i]->clone() ) );
+            aux.append( functor( v[i] ) );
         }
     }
     return aux;

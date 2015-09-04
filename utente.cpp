@@ -45,7 +45,7 @@ Utente::~Utente() {
 
 // OPERATOR () Utente::FuntoreRicerca
 SmartUtente Utente::FuntoreRicerca::operator ()( const SmartUtente& su ) const {
-    SmartUtente aux( su );
+    SmartUtente aux( su->clone() );
     switch( searchType ) {
     case 1:
         delete aux->net;

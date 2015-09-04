@@ -11,12 +11,11 @@ public:
     QList<SmartUtente> contactsList;
     int references;
 
-    /** Costruttore di default.
-     *  Inizializza il campo contactsList con una QList di SmartUtente vuota.
+    /** Costruttore ad 1 parametro con 1 valore di default.
      *  Inizializza a 1 il numero di riferimenti.
      */
-    Rete_rapp() :
-        contactsList( QList<SmartUtente>() ),
+    Rete_rapp( QList<SmartUtente> l = QList<SmartUtente>() ) :
+        contactsList( l ),
         references( 1 ) // Gestito da Rete
     {}
 
@@ -33,12 +32,25 @@ public:
                 p_aux->contactsList.clear();
         }
     }
+
+    /** Metodo di utilità necessario per creare copie profonde di oggetti di tipo Rete_rapp.
+     *
+     * @return Rete_rapp *  Copia implicita della lista di contatti.
+     */
+    Rete_rapp *clone() const {
+        return new Rete_rapp( contactsList );
+    }
 };
 
 // COSTRUTTORE Rete
 Rete::Rete() :
     contacts( new Rete_rapp ),
     user_ref( 1 )
+{}
+
+// COSTRUTTORE Rete( Rete_rapp * )
+Rete::Rete( Rete::Rete_rapp * rapp ) :
+    contacts( rapp )
 {}
 
 // COSTRUTTORE di COPIA Rete
@@ -90,6 +102,11 @@ void Rete::operator delete( void* p ) {
         if( p_aux->user_ref == 0 )
             delete p_aux->contacts;
     }
+}
+
+// METODO Rete::clone
+Rete *Rete::clone() const {
+    return new Rete( contacts->clone() );
 }
 
 // OPERATOR << Rete

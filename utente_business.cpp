@@ -1,12 +1,12 @@
 #include "utente_business.h"
+#include "rete.h"
 
 // COSTRUTTORE DI COPIA di UtenteBusiness
 UtenteBusiness::UtenteBusiness( const Utente& u ) : UtentePagante( u ) {}
 
 // METODO UtenteBusiness::clone
 Utente *UtenteBusiness::clone() const {
-    Utente *aux = new UtenteBusiness( getUsername(), getName(), getSurname() );
-    return aux;
+    return new UtenteBusiness( username, profile, net->clone(), 0, 0 );
 }
 
 // METODO UtenteBusiness::getAccountType
@@ -20,7 +20,7 @@ QVector<SmartUtente> UtenteBusiness::searchUsers( QVector<SmartUtente> v ) const
     for( int i = 0; i < v.size(); i++ ) {
         if( v[i]->getUsername() != getUsername() ) {
             FuntoreRicerca functor( 3 );
-            aux.append( functor( v[i]->clone() ) );
+            aux.append( functor( v[i] ) );
         }
     }
     return aux;
