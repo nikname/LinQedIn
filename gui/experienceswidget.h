@@ -1,6 +1,7 @@
 #ifndef EXPERIENCESWIDGET_H
 #define EXPERIENCESWIDGET_H
 
+#include <QDate>
 #include <QWidget>
 #include "smartlavoro.h"
 #include "smartutente.h"
@@ -62,7 +63,7 @@ public slots:
     void openAddJobDialog();
 
     /** */
-    void addNewJobSlot( const QString&, const QString&, int, int );
+    void addNewJobSlot( const QString&, const QString&, const QDate&, const QDate& );
 
     /** */
     void removeJobSlot( const SmartLavoro& );

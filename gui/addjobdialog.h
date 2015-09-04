@@ -1,6 +1,7 @@
 #ifndef ADDJOBDIALOG_H
 #define ADDJOBDIALOG_H
 
+#include <QDate>
 #include <QDialog>
 #include "linqedindialog.h"
 
@@ -34,7 +35,7 @@ public:
     explicit AddJobDialog( QWidget *parent = 0 );
 signals:
     /** */
-    void addNewJobSignal( QString, QString, int, int );
+    void addNewJobSignal( const QString&, const QString&, const QDate&, const QDate& );
 public slots:
     /** */
     void checkInput( const QString& );

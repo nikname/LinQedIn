@@ -97,9 +97,10 @@ void AddJobDialog::checkInput( const QString& input ) {
 }
 
 // SLOT AddJobDialog::addNewJob()
-void AddJobDialog::addNewJob() {    
-    emit addNewJobSignal( companyNameEdit->text(), titleEdit->text(),
-                          beginEdit->text().toInt(), endEdit->text().toInt() );
+void AddJobDialog::addNewJob() {
+    QDate b = QDate( beginEdit->text().toInt(), 1, 1 );
+    QDate e = QDate( endEdit->text().toInt(), 1, 1 );
+    emit addNewJobSignal( companyNameEdit->text(), titleEdit->text(), b, e );
 
     this->close();
 }

@@ -83,15 +83,16 @@ void ExperiencesWidget::hideToolsButtons() {
 // SLOT ExperiencesWidget::openAddJobDialog
 void ExperiencesWidget::openAddJobDialog() {
     AddJobDialog *addJobDialog = new AddJobDialog( this );
-    connect( addJobDialog, SIGNAL( addNewJobSignal( QString, QString, int, int ) ),
-             this, SLOT( addNewJobSlot( QString, QString, int, int ) ) );
+    connect( addJobDialog, SIGNAL( addNewJobSignal( QString, QString, QDate, QDate ) ),
+             this, SLOT( addNewJobSlot( QString, QString, QDate, QDate ) ) );
 
     addJobDialog->exec();
 }
 
 // SLOT ExperiencesWidget::addNewJobSlot
-void ExperiencesWidget::addNewJobSlot( const QString& cn, const QString& t, int b, int e ) {
-    SmartLavoro aux = SmartLavoro( new Lavoro( cn, t, "", QDate( b, 1, 1 ), QDate( e, 1, 1 ) ) );
+void ExperiencesWidget::addNewJobSlot( const QString& cn, const QString& t,
+                                       const QDate& b, const QDate& e ) {
+    SmartLavoro aux = SmartLavoro( new Lavoro( cn, t, "", b, e ) );
 
     jobsList.append( aux );
     jobWidgetsList.append( new JobWidget( aux, this ) );
