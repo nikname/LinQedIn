@@ -1,18 +1,21 @@
-#include "formazione.h"
-#include "titolo.h"
 #include <QList>
 #include <QListIterator>
+#include "formazione.h"
+#include "titolo.h"
 
 // CLASSE Formazione_rapp
 class Formazione::Formazione_rapp {
 public:
     QList<SmartTitolo> titlesList; // Puntatore per permetterne la modifica
+    int references;
 
-    /** Costruttore di default rifefinito.
-     *  Inizializza il campo titlesList con una QList di SmartTitolo vuota.
+    /** Costruttore ad 1 parametro con 1 parametro di default.
+     *  Inizializza ad 1 il numero dei riferimenti.
      */
-    Formazione_rapp() :
-        titlesList( QList<SmartTitolo>() ) {}
+    Formazione_rapp( QList<SmartTitolo> l = QList<SmartTitolo>() ) :
+        titlesList( l ),
+        references( 1 ) // Gestito da Formazione
+    {}
 
     /** Distruttore Formazione_rapp.
      *  Invoca il metodo clear() sulla lista dei titoli di studio dell'utente.
@@ -22,11 +25,46 @@ public:
     void operator delete( void* p ) {
         if( p ) {
             Formazione_rapp* p_aux = static_cast<Formazione_rapp*>( p );
-            if( !p_aux->titlesList.isEmpty() )
+            p_aux->references--;
+            if( !p_aux->references )
                 p_aux->titlesList.clear();
         }
     }
+
+    /** Metodo di utilità necessario per creare copie profonde di oggetti di tipo Formazione_rapp.
+     *
+     * @return Formazione_rapp *  Copia implicita della lista delle esperienze lavorative.
+     */
+    Formazione_rapp *clone() const {
+        return new Formazione_rapp( titlesList );
+    }
 };
+
+// COSTRUTTORE Formazione
+Formazione::Formazione() :
+    titles( new Formazione_rapp ),
+    user_ref( 1 )
+{}
+
+// COSTRUTTORE Formazione( Formazione_rapp * )
+Formazione::Formazione( Formazione::Formazione_rapp * rapp ) :
+    titles( rapp )
+{}
+
+// COSTRUTTORE di COPIA Formazione
+Formazione::Formazione( const Formazione& ed ) :
+    titles( ed.titles )
+{
+    user_ref++;
+    titles->references++;
+}
+
+// DISTRUTTORE Formazione
+Formazione::~Formazione() {
+    titles->references--;
+    if( titles->references == 0 )
+        delete titles;
+}
 
 // CLASSE Iteratore_rapp
 class Formazione::Iteratore::Iteratore_rapp {
@@ -59,11 +97,6 @@ Formazione::Iteratore Formazione::begin() const {
     aux.iterator = new Iteratore::Iteratore_rapp( titles->titlesList );
     return aux;
 }
-
-// COSTRUTTORE Formazione
-Formazione::Formazione() :
-    titles( new Formazione_rapp ),
-    user_ref( 1 ) {}
 
 // METODO addEducation Formazione
 void Formazione::addEducation( SmartTitolo t ) {
@@ -102,5 +135,28 @@ void Formazione::operator delete( void* p ) {
         p_aux->user_ref--;
         if( p_aux->user_ref == 0 )
             delete p_aux->titles;
+    }
+}
+
+// METODO Formazione::clone
+Formazione *Formazione::clone() const {
+    return new Formazione( titles->clone() );
+}
+
+// OPERATOR << Formazione
+QDebug operator <<( QDebug qdbg, const Formazione& e ) {
+    qdbg << "FORMAZIONE: " << "\n";
+    QVector<SmartTitolo> ed = e.getEducationsList();
+    if( ed.size() == 0 )
+        qdbg << " ** Nessun titolo di studio! **" << "\n";
+    else {
+        for( int i = 0; i < ed.size(); i++ ) {
+            qdbg << " Scuola: " << ed[i]->getSchool() << "\n";
+            qdbg << " Data diploma: " <<
+                    ed[i]->getDateAttended().toString( "yyyy" ) << "\n";
+            qdbg << " Laurea: " << ed[i]->getDegree() << "\n";
+            qdbg << " Campo di studio: " << ed[i]->getFieldOfStudy() << "\n";
+            qdbg << " Votazione: " << ed[i]->getGrade() << "\n";
+        }
     }
 }

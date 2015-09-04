@@ -1,8 +1,8 @@
 #ifndef ESPERIENZA_H
 #define ESPERIENZA_H
+#include <QDate>
 #include <QDebug>
 #include <QString>
-#include <QDate>
 #include "smartlavoro.h"
 
 class Esperienza {
@@ -34,7 +34,7 @@ public:
     Esperienza();
 
     /** Costruttore di copia di Esperienza.
-     *  Incrementa il contatore di riferimenti all'oggetto Rete di 1.
+     *  Incrementa il contatore di riferimenti all'oggetto Esperienza di 1.
      *  Utilizza la tecnica del references counting per il campo dati di tipo Esperienza_rapp.
      *
      * @param Esperienza  Oggetto Esperienza da copiare.
@@ -113,7 +113,7 @@ public:
  *  Stampa su standard output la lista delle esperienze lavorative.
  *
  * @param QDebug  QDebug.
- * @param Rete  Lista delle esperienza lavorative.
+ * @param Esperienza  Lista delle esperienze lavorative.
  * @return QDebug  QDebug.
  */
 QDebug operator <<( QDebug, const Esperienza& );

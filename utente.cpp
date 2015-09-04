@@ -227,26 +227,8 @@ QDebug operator <<( QDebug qdbg, const Utente& u ) {
     qdbg << " Cognome: " << u.getSurname() << "\n";
     qdbg << " Data di nascita: " << u.getBirthday().toString( "dd/MM/yyyy" ) << "\n";
     qdbg << " Stato civile: " << u.getMaritialStatus() << "\n";
-    if( u.net )
-        qdbg << u.net;
-    if( u.educations ) {
-        qdbg << "FORMAZIONE: " << "\n";
-        QVector<SmartTitolo> ed = u.getEducationsList();
-        if( ed.size() == 0 )
-            qdbg << " ** Nessun titolo di studio! **" << "\n";
-        else {
-            for( int i = 0; i < ed.size(); i++ ) {
-                qdbg << " Scuola: " << ed[i]->getSchool() << "\n";
-                qdbg << " Data diploma: " <<
-                        ed[i]->getDateAttended().toString( "yyyy" ) << "\n";
-                qdbg << " Laurea: " << ed[i]->getDegree() << "\n";
-                qdbg << " Campo di studio: " << ed[i]->getFieldOfStudy() << "\n";
-                qdbg << " Votazione: " << ed[i]->getGrade() << "\n";
-            }
-        }
-    }
-    if( u.experiences ) {
-        qdbg << u.experiences;
-    }
+    if( u.net ) qdbg << u.net;
+    if( u.educations ) qdbg << u.educations;
+    if( u.experiences ) qdbg << u.experiences;
     return qdbg;
 }

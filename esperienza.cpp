@@ -31,7 +31,7 @@ public:
         }
     }
 
-    /** Metodo di utilità necessario per creare copie profonde di oggetti di tipo Esperienza_rapp-
+    /** Metodo di utilità necessario per creare copie profonde di oggetti di tipo Esperienza_rapp.
      *
      * @return Esperienza_rapp *  Copia implicita della lista delle esperienze lavorative.
      */

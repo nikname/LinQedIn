@@ -6,7 +6,8 @@ UtenteExecutive::UtenteExecutive( const Utente& u ) : UtentePagante( u ) {}
 
 // METODO UtenteExecutive::clone
 Utente *UtenteExecutive::clone() const {
-    return new UtenteExecutive( username, profile, net->clone(), 0, experiences->clone() );
+    return new UtenteExecutive( username, profile, net->clone(),
+                                educations->clone(), experiences->clone() );
 }
 
 // METODO UtenteExecutive::getAccountType
