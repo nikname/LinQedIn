@@ -39,13 +39,15 @@ void MainWindow::initUI() {
     titleLabel = new QLabel( tr( "<h1>LinQedIn</h1>" ) );
 
     userUsername = new QLineEdit( this );
+    connect( userUsername, SIGNAL( textChanged( QString ) ), this, SLOT( checkInput( QString ) ) );
     userPassword = new QLineEdit( this );
+    connect( userPassword, SIGNAL( textChanged( QString ) ), this, SLOT( checkInput( QString ) ) );
     loginButton = new QPushButton( "Log In" );
     connect( loginButton, SIGNAL( clicked() ), this, SLOT( loginUser() ) );
 
     openAdminLoginButton = new QPushButton();
-    //connect( openAdminLoginButton, SIGNAL( clicked() ), this, SLOT( openAdminLoginDialog() ) );
-    connect( openAdminLoginButton, SIGNAL( clicked() ), this, SLOT( loginAdmin() ) );
+    connect( openAdminLoginButton, SIGNAL( clicked() ), this, SLOT( openAdminLoginDialog() ) );
+    //connect( openAdminLoginButton, SIGNAL( clicked() ), this, SLOT( loginAdmin() ) );
 }
 
 // METODO MainWindow::setupUI
@@ -68,6 +70,8 @@ void MainWindow::setupUI() {
                                        Qt::ImhNoPredictiveText |
                                        Qt::ImhNoAutoUppercase );
 
+    setButtonDisabled( loginButton, true );
+
     QWidget *userAreaWidget = new QWidget( centralWidget );
     userAreaWidget->setFixedWidth( 300 );
 
@@ -83,6 +87,7 @@ void MainWindow::setupUI() {
     openAdminLoginButton->setIcon( QIcon( QPixmap( ":/icons/icon/account-key.png" ) ) );
     openAdminLoginButton->setFixedWidth( 30 );
     openAdminLoginButton->setFixedHeight( 30 );
+    setButtonEnabled( openAdminLoginButton, true );
 
     QVBoxLayout *layout = new QVBoxLayout( centralWidget );
     layout->addWidget( topVFiller );
@@ -98,9 +103,6 @@ void MainWindow::setupUI() {
         //  "fy: 0.5, radius: 0.5, stop: 0 white, stop: 1 #069); }"
         "QLabel { color: white; }"
         "QLineEdit { border: 1px solid gray; border-radius: 5px; background: white; }"
-        "QPushButton { border: 2px solid #003D5C; border-radius: 5px;"
-            "background: #003D5C; color: white; outline: none; }"
-        "QPushButton:pressed { border: 2px solid #00527A; background: #00527A; }"
     );
 
     setCentralWidget( centralWidget );
@@ -125,6 +127,46 @@ void MainWindow::createMenus() {
     menu->addAction( exitAct );
     helpMenu = menuBar()->addMenu( tr( "&Help" ) );
     helpMenu->addAction( aboutAct );
+}
+
+// METODO MainWindow::setButtonEnabledProperties( QPushButton * )
+void MainWindow::setButtonEnabledProperties( QPushButton *button ) {
+    button->setStyleSheet(
+        "QPushButton { border: 2px solid rgb(0,61,92); border-radius: 5px;"
+            "background: rgb(0,61,92); color: white; outline: none; }"
+        "QPushButton:pressed { border: 2px solid #00527A; background: #00527A; }"
+    );
+}
+
+// METODO MainWindow::setButtonDisabledProperties( QPushButton * )
+void MainWindow::setButtonDisabledProperties( QPushButton *button ) {
+    button->setStyleSheet(
+        "QPushButton { border: 2px solid rgba(0,61,92,0.70); border-radius: 5px;"
+            "background: rgba(0,61,92,0.70); color: rgba(255,255,255,0.30); outline: none; }"
+    );
+}
+
+// METODO MainWindow::setButtonDisabled( QPushButton *, bool )
+void MainWindow::setButtonDisabled( QPushButton *button, bool state ) {
+    button->setDisabled( state );
+    if( state )
+        setButtonDisabledProperties( button );
+    else setButtonEnabledProperties( button );
+}
+
+// METODO MainWindow::setButtonEnabled( QPushButton *, bool )
+void MainWindow::setButtonEnabled( QPushButton *button, bool state ) {
+    button->setEnabled( state );
+    if( !state )
+        setButtonDisabledProperties( button );
+    else setButtonEnabledProperties( button );
+}
+
+// SLOT MainWindow::checkInput( QString )
+void MainWindow::checkInput( const QString& input ) {
+    if( userUsername->text().trimmed().isEmpty() || userPassword->text().trimmed().isEmpty() )
+        setButtonDisabled( loginButton, true );
+    else setButtonEnabled( loginButton, true );
 }
 
 // SLOT MainWindow::loginUser

@@ -70,5 +70,6 @@ void AdminLoginDialog::checkInput( const QString& input ) {
 void AdminLoginDialog::checkPassword() {
     // TODO: controllo password
 
+    this->close();
     emit adminLoginSignal();
 }

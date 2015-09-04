@@ -33,13 +33,17 @@ void LinQedInDialog::setButtonDisabledProperties( QPushButton *button ) {
 // METODO LinQedInDialog::setButtonDisabled( QPushButton *, bool )
 void LinQedInDialog::setButtonDisabled( QPushButton *button, bool state ) {
     button->setDisabled( state );
-    setButtonDisabledProperties( button );
+    if( state )
+        setButtonDisabledProperties( button );
+    else setButtonEnabledProperties( button );
 }
 
 // METODO LinQedInDialog::setButtonEnabled( QPushButton *, bool )
 void LinQedInDialog::setButtonEnabled( QPushButton *button, bool state ) {
     button->setEnabled( state );
-    setButtonEnabledProperties( button );
+    if( !state )
+        setButtonDisabledProperties( button );
+    else setButtonEnabledProperties( button );
 }
 
 // METODO LinQedInDialog::setLineEditProperties( QLineEdit * )

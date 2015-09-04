@@ -38,11 +38,25 @@ private:
      */
     void createMenus();
 
-    /** Crea l'area per il login dell'utente. */
-    void createUserArea();
+    /** Disabilita un pulsante. Applica proprietà specifiche in base allo stato del pulsante.
+     *
+     * @param QPushButton  Pulsante interessato dal cambio di stato (abilitato/disabilitato).
+     * @param bool  true se il pulsante deve essere disabilitato; false altrimenti.
+     */
+    void setButtonDisabled( QPushButton *, bool );
 
-    /** Crea l'area per il login dell'amministratore. */
-    void createAdminArea();
+    /** Abilita un pulsante. Applica proprietà specifiche in base allo stato del pulsante.
+     *
+     * @param QPushButton  Pulsante interessato dal cambio di stato (abilitato/disabilitato).
+     * @param bool  true se il pulsante deve essere abilitato; false altrimenti.
+     */
+    void setButtonEnabled( QPushButton *, bool );
+
+    /** */
+    void setButtonEnabledProperties( QPushButton * );
+
+    /** */
+    void setButtonDisabledProperties( QPushButton * );
 public:
     /** Costruttore esplicito ad 1 parametro con 1 valore di dafault.
      *  Come da buona pratica, delega l'inizializzazione della GUI ad un metodo ausiliario.
@@ -56,7 +70,10 @@ public:
      *  Ripulisce lo heap.
      */
     ~MainWindow();
-private slots:
+public slots:
+    /** */
+    void checkInput( const QString& );
+
     /** */
     void loginUser();
 
