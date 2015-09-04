@@ -22,8 +22,8 @@ void JobWidget::initUI() {
 
     companyNameLabel = new QLabel( job->getCompanyName(), this );
     titleLabel = new QLabel( job->getTitle(), this );
-    periodLabel = new QLabel( job->getBegin().toString( "yyyy/MM/dd" ) + " - " +
-                              job->getEnd().toString( "yyyy/MM/dd" ), this );
+    periodLabel = new QLabel( job->getBegin().toString( "dd/MM/yyyy" ) + " - " +
+                              job->getEnd().toString( "dd/MM/yyyy" ), this );
 
     removeJobButton = new QPushButton( this );
     connect( removeJobButton, SIGNAL( clicked() ), this, SLOT( removeJob() ) );

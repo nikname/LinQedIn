@@ -59,12 +59,12 @@ private:
     void parseExperience( QXmlStreamReader&, SmartUtente );
 
     /** Scorre un elemento <date> nel file xml.
-     *  Crea un oggetto di tipo QDate e lo aggiunge in base all'oggetto adeguato.
+     *  Crea un oggetto di tipo QDate.
      *
      * @param QXmlStreamReader  Lettore di file xml passato per riferimento.
-     * @param SmartUtente  Utente del quale si vuole aggiungere una data.
+     * @return QDate  Oggetto QDate creato con i valori letti da file (XML)
      */
-    void parseDate( QXmlStreamReader&, SmartUtente );
+    QDate parseDate( QXmlStreamReader& );
 
     /** Ricrea la lista dei contatti per ogni utente da file (XML).
      *

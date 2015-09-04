@@ -83,15 +83,15 @@ void EducationsWidget::hideToolsButtons() {
 // SLOT EducationsWidget::openAddTitleDialog
 void EducationsWidget::openAddTitleDialog() {
     AddTitleDialog *addTitleDialog = new AddTitleDialog( this );
-    connect( addTitleDialog, SIGNAL( addNewTitleSignal( QString, int, int, int, QString ) ),
-             this, SLOT( addNewTitleSlot( QString, int, int, int, QString ) ) );
+    connect( addTitleDialog, SIGNAL( addNewTitleSignal( QString, QDate, QString ) ),
+             this, SLOT( addNewTitleSlot( QString, QDate, QString ) ) );
 
     addTitleDialog->exec();
 }
 
 // SLOT EducationsWidget::addNewTitleSlot
-void EducationsWidget::addNewTitleSlot( const QString& s, int d, int m, int y, const QString& fos ) {
-    SmartTitolo aux = SmartTitolo( new Titolo( s, QDate( y, m, d ), "", fos, "" ) );
+void EducationsWidget::addNewTitleSlot( const QString& s, const QDate& a, const QString& fos ) {
+    SmartTitolo aux = SmartTitolo( new Titolo( s, a, "", fos, "" ) );
 
     titlesList.append( aux );
     titleWidgetsList.append( new TitleWidget( aux, this ) );

@@ -1,6 +1,7 @@
 #ifndef ADDTITLEDIALOG_H
 #define ADDTITLEDIALOG_H
 
+#include <QDate>
 #include <QDialog>
 #include "linqedindialog.h"
 
@@ -32,10 +33,10 @@ public:
      *
      * @param QWidget  Puntatore al QWidget padre. Se nullo si riferisce a quello top-level.
      */
-    explicit AddTitleDialog(QWidget *parent = 0);
+    explicit AddTitleDialog( QWidget *parent = 0 );
 signals:
     /** */
-    void addNewTitleSignal( QString, int, int, int, QString );
+    void addNewTitleSignal( const QString&, const QDate&, const QString& );
 public slots:
     /** */
     void checkInput( const QString& );

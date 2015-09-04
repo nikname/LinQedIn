@@ -1,6 +1,7 @@
 #ifndef EDUCATIONSWIDGET_H
 #define EDUCATIONSWIDGET_H
 
+#include <QDate>
 #include <QWidget>
 #include "smarttitolo.h"
 #include "smartutente.h"
@@ -62,7 +63,7 @@ public slots:
     void openAddTitleDialog();
 
     /** */
-    void addNewTitleSlot( const QString&, int, int, int, const QString& );
+    void addNewTitleSlot( const QString&, const QDate&, const QString& );
 
     /** */
     void removeTitleSlot( const SmartTitolo& );

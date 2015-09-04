@@ -22,7 +22,7 @@ void TitleWidget::initUI() {
 
     schoolLabel = new QLabel( title->getSchool() );
     fieldOfStudyLabel = new QLabel( title->getFieldOfStudy() );
-    dateAttendedLabel = new QLabel( title->getDateAttended().toString( "yyyy/MM/dd" ) );
+    dateAttendedLabel = new QLabel( title->getDateAttended().toString( "dd/MM/yyyy" ) );
 
     removeTitleButton = new QPushButton( this );
     connect( removeTitleButton, SIGNAL( clicked() ), this, SLOT( removeTitle() ) );

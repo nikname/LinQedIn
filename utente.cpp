@@ -241,8 +241,8 @@ QDebug operator <<( QDebug qdbg, const Utente& u ) {
     qdbg << " Cognome: " << u.getSurname() << "\n";
     qdbg << " Data di nascita: " << u.getBirthday().toString( "dd/MM/yyyy" ) << "\n";
     qdbg << " Stato civile: " << u.getMaritialStatus() << "\n";
-    if( u.net ) qdbg << u.net;
-    if( u.educations ) qdbg << u.educations;
-    if( u.experiences ) qdbg << u.experiences;
+    if( u.net ) qdbg << *( u.net );
+    if( u.educations ) qdbg << *( u.educations );
+    if( u.experiences ) qdbg << *( u.experiences );
     return qdbg;
 }

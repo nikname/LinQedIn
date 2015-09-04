@@ -56,13 +56,13 @@ void Database::parseProfile( QXmlStreamReader& xmlReader, SmartUtente u ) {
     if( xmlReader.name() == "surname" )
         u->setSurname( xmlReader.readElementText() );
     if( xmlReader.name() == "birthday" )
-        parseDate( xmlReader, u );
+        u->setBirthday( parseDate( xmlReader ) );
     if( xmlReader.name() == "maritialStatus" )
         u->setMaritialStatus( xmlReader.readElementText() );
 }
 
 // METODO Database::parseDate
-void Database::parseDate( QXmlStreamReader& xmlReader, SmartUtente u ) {
+QDate Database::parseDate( QXmlStreamReader& xmlReader ) {
     int year = 0;
     int month = 0;
     int day = 0;
@@ -80,7 +80,7 @@ void Database::parseDate( QXmlStreamReader& xmlReader, SmartUtente u ) {
         if( xmlReader.name() == "day" )
             day = xmlReader.readElementText().toInt();
     }
-    u->setBirthday( QDate( year, month, day ) );
+    return QDate( year, month, day );
 }
 
 // METODO Database::parseNet
@@ -112,7 +112,7 @@ void Database::parseEducation( QXmlStreamReader& xmlReader, SmartUtente u ) {
         if( xmlReader.name() == "school" )
             t->setSchool( xmlReader.readElementText() );
         if( xmlReader.name() == "dateAttended" )
-            parseDate( xmlReader, u );
+            t->setDateAttended( parseDate( xmlReader ) );
         if( xmlReader.name() == "degree" )
             t->setDegree( xmlReader.readElementText() );
         if( xmlReader.name() == "fieldOfStudy" )
@@ -137,9 +137,9 @@ void Database::parseExperience( QXmlStreamReader& xmlReader, SmartUtente u ) {
         if( xmlReader.name() == "location" )
             j->setLocation( xmlReader.readElementText() );
         if( xmlReader.name() == "begin" )
-            parseDate( xmlReader, u );
+            j->setBegin( parseDate( xmlReader ) );
         if( xmlReader.name() == "end" )
-            parseDate( xmlReader, u );
+            j->setEnd( parseDate( xmlReader ) );
         xmlReader.readNext();
     }
     u->addExperience( SmartLavoro( j ) );

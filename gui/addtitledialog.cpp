@@ -109,9 +109,10 @@ void AddTitleDialog::checkInput( const QString& input ) {
 
 // SLOT AddTitleDialog::addNewTitle()
 void AddTitleDialog::addNewTitle() {
-    emit addNewTitleSignal( schoolEdit->text(), dayAttendedEdit->text().toInt(),
-                          monthAttendedEdit->text().toInt(), yearAttendedEdit->text().toInt(),
-                          fieldOfStudyEdit->text() );
+    QDate a = QDate( dayAttendedEdit->text().toInt(),
+                     monthAttendedEdit->text().toInt(),
+                     yearAttendedEdit->text().toInt() );
+    emit addNewTitleSignal( schoolEdit->text(), a, fieldOfStudyEdit->text() );
 
     this->close();
 }
