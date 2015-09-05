@@ -80,39 +80,39 @@ public:
     Iteratore_rapp( QList<SmartLavoro> list ) : it( list ) {}
 };
 
-// METODO hasNext Iteratore
+// METODO Esperienza::Iteratore::hasNext
 bool Esperienza::Iteratore::hasNext() const {
     if( iterator )
         return iterator->it.hasNext();
     return false;
 }
 
-// METODO next Iteratore
+// METODO Esperienza::Iteratore::next
 SmartLavoro Esperienza::Iteratore::next() {
     return iterator->it.next();
 }
 
-// METODO begin Iteratore
+// METODO Esperienza::Iteratore::begin
 Esperienza::Iteratore Esperienza::begin() const {
     Iteratore aux;
     aux.iterator = new Iteratore::Iteratore_rapp( experiences->experiencesList );
     return aux;
 }
 
-// METODO addExperience Esperienza
-void Esperienza::addExperience( SmartLavoro l ) {
+// METODO Esperienza::addExperience( SmartLavoro )
+void Esperienza::addExperience( const SmartLavoro& l ) {
     experiences->experiencesList.append( l );
 }
 
-// METODO removeExperience Esperienza
-void Esperienza::removeExperience( SmartLavoro l ) {
+// METODO Esperienza::removeExperience( SmartLavoro )
+void Esperienza::removeExperience( const SmartLavoro& l ) {
     experiences->experiencesList.removeAll( l );
 }
 
-// METODO getExperiencesList Esperienza
+// METODO Esperienza::getExperiencesList
 QVector<SmartLavoro> Esperienza::getExperiencesList() const {
     QVector<SmartLavoro> v;
-    QListIterator<SmartLavoro> it( experiences->experiencesList ); // QMutableListIterator ?
+    QListIterator<SmartLavoro> it( experiences->experiencesList );
     while( it.hasNext() )
         v.push_back( SmartLavoro( it.next() ) );
     return v;
@@ -129,7 +129,7 @@ void Esperienza::setExperiencesList( QVector<SmartLavoro> v ) {
         addExperience( v[i] );
 }
 
-// OPERATOR delete Esperienza
+// OPERATORE delete Esperienza
 void Esperienza::operator delete( void* p ) {
     if( p ) {
         Esperienza* p_aux = static_cast<Esperienza*>( p );
@@ -144,8 +144,8 @@ Esperienza *Esperienza::clone() const {
     return new Esperienza( experiences->clone() );
 }
 
-// OPERATOR << Esperienza
-QDebug operator <<( QDebug qdbg, const Esperienza& e ) {
+// OVERLOADING
+QDebug& operator <<( QDebug& qdbg, const Esperienza& e ) {
     qdbg << "ESPERIENZE: " << "\n";
     QVector<SmartLavoro> ex = e.getExperiencesList();
     if( ex.size() == 0 )
@@ -154,9 +154,9 @@ QDebug operator <<( QDebug qdbg, const Esperienza& e ) {
         for( int i = 0; i < ex.size(); i++ ) {
             qdbg << " Azienda: " << ex[i]->getCompanyName() << "\n";
             qdbg << " Ruolo: " << ex[i]->getTitle() << "\n";
-            qdbg << " Luogo: " << ex[i]->getLocation() << "\n";
             qdbg << " Inizio: " << ex[i]->getBegin().toString( "dd/MM/yyyy" ) << "\n";
             qdbg << " Fine: " << ex[i]->getEnd().toString( "dd/MM/yyyy" ) << "\n";
         }
     }
+    return qdbg;
 }

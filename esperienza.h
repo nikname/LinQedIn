@@ -8,9 +8,6 @@
 class Esperienza {
 
     // NOTE:
-    // Nelle classi innestate si può accedere solo a campi dati statici della classe contenitrice!
-    // La classe Iteratore non ha bisogno di un costruttore ridefinito. L'Iteratore viene construito
-    // con il metodo begin() sull'oggetto Esperienza di invocazione.
     // Nel metodo begin() non serve controllare se experiences è valido in quanto se creo un oggetto
     // Esperienza allora viene creato in automatico un oggetto Esperienza_rapp.
 
@@ -77,13 +74,13 @@ public:
      *
      * @param SmartLavoro  Esperienza da aggiungere alle esperienze lavorative.
      */
-    void addExperience( SmartLavoro );
+    void addExperience( const SmartLavoro& );
 
     /** Rimuove un'esperienza dalle esperienze lavorative.
      *
      * @param SmartLavoro  Esperienza da riumuovere dalle esperienze lavorative.
      */
-    void removeExperience( SmartLavoro );
+    void removeExperience( const SmartLavoro& );
 
     /** Ritorna un vettore di puntatori ai titoli di studio dell'utente.
      *
@@ -116,6 +113,6 @@ public:
  * @param Esperienza  Lista delle esperienze lavorative.
  * @return QDebug  QDebug.
  */
-QDebug operator <<( QDebug, const Esperienza& );
+QDebug& operator <<( QDebug&, const Esperienza& );
 
 #endif // ESPERIENZA_H

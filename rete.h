@@ -4,8 +4,6 @@
 #include <QString>
 
 class SmartUtente;
-class Database;
-class Utente;
 
 class Rete {
     friend class Utente;
@@ -22,14 +20,13 @@ private:
     Rete( Rete_rapp * );
 public:
     /** Costruttore di default.
-     *  Crea una lista vuota di contatti.
-     *  Inizializza ad 1 il contatore di riferimenti user_ref.
+     *  Crea una lista vuota di contatti. Inizializza ad 1 il contatore di riferimenti.
      */
     Rete();
 
     /** Costruttore di copia di Rete.
-     *  Incrementa il contatore di riferimenti all'oggetto Rete di 1.
-     *  Utilizza la tecnica del references counting per il campo dati di tipo Rete_rapp.
+     *  Incrementa il contatore di riferimenti di 1. Utilizza la tecnica del references
+     *  counting per il campo dati di tipo Rete_rapp.
      *
      * @param Rete  Oggetto Rete da copiare.
      */
@@ -55,11 +52,11 @@ public:
     /** Controlla se un utente è presente tra i contatti.
      *
      * @param SmartUtente  Utente da cercare tra i contatti dell'utente.
-     * @@return bool  true se è presente; false altrimenti.
+     * @return bool  true se è presente; false altrimenti.
      */
-    bool isContact( const SmartUtente& );
+    bool isContact( const SmartUtente& ) const;
 
-    /** Ritorna un QVector di SmartUtente contenente i contatti nella rete dell'utente.
+    /** Ritorna la lista dei contatti nella rete dell'utente.
      *
      * @return QVector<SmartUtente>  Vettore dei contatti nella rete dell'utente.
      */
@@ -87,6 +84,6 @@ public:
  * @param Rete  Rete dei contatti della quale stampare nome e cognome.
  * @return QDebug  QDebug.
  */
-QDebug operator <<( QDebug, const Rete& );
+QDebug& operator <<( QDebug&, const Rete& );
 
 #endif

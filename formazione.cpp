@@ -6,7 +6,7 @@
 // CLASSE Formazione_rapp
 class Formazione::Formazione_rapp {
 public:
-    QList<SmartTitolo> titlesList; // Puntatore per permetterne la modifica
+    QList<SmartTitolo> titlesList;
     int references;
 
     /** Costruttore ad 1 parametro con 1 parametro di default.
@@ -80,39 +80,39 @@ public:
     Iteratore_rapp( QList<SmartTitolo> list ) : it( list ) {}
 };
 
-// METODO hasNext Iteratore
+// METODO Formazione::Iteratore::hasNext
 bool Formazione::Iteratore::hasNext() const {
     if( iterator )
         return iterator->it.hasNext();
     return false;
 }
 
-// METODO next Iteratore
+// METODO Formazione::Iteratore::next
 SmartTitolo Formazione::Iteratore::next() {
     return iterator->it.next();
 }
 
-// METODO begin Iteratore
+// METODO Formazione::Iteratore::begin
 Formazione::Iteratore Formazione::begin() const {
     Iteratore aux;
     aux.iterator = new Iteratore::Iteratore_rapp( titles->titlesList );
     return aux;
 }
 
-// METODO addEducation Formazione
-void Formazione::addEducation( SmartTitolo t ) {
+// METODO Formazione::Iteratore::addEducation( SmartTitolo )
+void Formazione::addEducation( const SmartTitolo& t ) {
     titles->titlesList.append( t );
 }
 
-// METODO removeEducation Formazione
-void Formazione::removeEducation( SmartTitolo t ) {
+// METODO Formazione::Iteratore::removeEducation( SmartTitolo )
+void Formazione::removeEducation( const SmartTitolo& t ) {
     titles->titlesList.removeOne( t );
 }
 
 // METODO getTitlesList Formazione
 QVector<SmartTitolo> Formazione::getEducationsList() const {
     QVector<SmartTitolo> v;
-    QListIterator<SmartTitolo> it( titles->titlesList ); // QMutableListIterator ?
+    QListIterator<SmartTitolo> it( titles->titlesList );
     while( it.hasNext() )
         v.push_back( SmartTitolo( it.next() ) );
     return v;
@@ -145,7 +145,7 @@ Formazione *Formazione::clone() const {
 }
 
 // OPERATOR << Formazione
-QDebug operator <<( QDebug qdbg, const Formazione& e ) {
+QDebug& operator <<( QDebug& qdbg, const Formazione& e ) {
     qdbg << "FORMAZIONE: " << "\n";
     QVector<SmartTitolo> ed = e.getEducationsList();
     if( ed.size() == 0 )
@@ -155,9 +155,8 @@ QDebug operator <<( QDebug qdbg, const Formazione& e ) {
             qdbg << " Scuola: " << ed[i]->getSchool() << "\n";
             qdbg << " Data diploma: " <<
                     ed[i]->getDateAttended().toString( "yyyy" ) << "\n";
-            qdbg << " Laurea: " << ed[i]->getDegree() << "\n";
             qdbg << " Campo di studio: " << ed[i]->getFieldOfStudy() << "\n";
-            qdbg << " Votazione: " << ed[i]->getGrade() << "\n";
         }
     }
+    return qdbg;
 }

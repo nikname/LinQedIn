@@ -1,0 +1,76 @@
+\documentclass[a4paper,openany]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[english,italian]{babel}
+\usepackage{afterpage}
+\usepackage{graphicx}
+\usepackage{fancyvrb}
+\usepackage[inline]{enumitem}
+
+\title{RELAZIONE PROGETTO\\PROGRAMMAZIONE ad OGGETTI}
+\author{Nicola Dalla Costa (1051222)}
+\date{}
+
+\begin{document}
+\maketitle
+%\afterpage{\null\thispagestyle{empty}\clearpage}
+\raggedbottom
+
+\section*{Introduzione}
+Lo scopo del progetto, denominato \textit{LinQedIn}, era lo sviluppo in C++/Qt di un sistema minimale per l'amministrazione ed utilizzo tramite interfaccia utente grafica di un (piccolo) database di contatti professionali ispirato a LinkedIn. 
+
+LinkedIn è il principale servizio web di rete sociale per contatti professionali, gratuito ma con servizi opzionali a pagamento. Attualmente prevede quattro tipologie di account, ma per semplicità sono state considerate solo Business ed Exectutive, oltre a quella gratuita Basic.
+
+Tra le funzionalità disponibili all'utente amministratore troviamo: inserimento e rimozione utenti, ricerca utenti e cambio tipologia di account di un utente. Lato utente invece sono disponibili: aggiornamento informazioni profilo, aggiunta e rimozione contatti ed una funzionalità di ricerca crescenti in base alla tipologia di account.
+
+Per la realizzazione della GUI è stato utilizzato IDE QtCreator ma senza l'ausilio del tool QtDesigner. In questo modo il codice risulta più pulito.
+
+Nonostante il progetto si limiti ad offrire le funzionalità richieste, nella realizzazione è stata data molta importanza a concetti come information hiding, modularità, estendibilità e qualità del codice. Il design pattern Model-View-Controller non è stato seguito intenzionalmente ma è stata rispettata la separazione tra parte logica ed interfaccia grafica.
+
+La realizzazione del progetto è costata solo nell'ultimo mese di lavoro più di 100 ore. Impossibile definire una quantità totale indicativa.
+
+\section*{Parte Logica}
+La parte logica si compone di 18 classi, delle quali 6 di queste formano la gerarchia della classe Utente. Delle rimanenti troviamo: Profilo per le informazioni personali dell'utente, Rete per la lista dei contatti, Formazione e Titolo per la lista dei titoli di studio, Esperienza e Lavoro per la lista delle esperienze lavorative e Database per la gestione della lista degli utenti del client. Oltre a queste sono presenti le 3 classi SmartUtente, SmartTitolo e SmartLavoro per la gestione dei campi puntatore. Di seguito le vederemo nel dettaglio.
+
+\subsection*{Profilo}
+Utilizzata per la gestione delle informazioni personali di un utente. Di queste informazioni fanno parte: nome, cognome, data di nascita e stato civile. 
+
+La rappesentazione interna viene nascosta con l'utilizzo di un puntatore ad una classe interna privata InfoPersonali. In questo modo viene nascosto all'utente finale la modalità di memorizzazione dei dati (\textit{information hiding}). La ridefinizione del costruttore di default crea un nuovo oggetto InfoPersonali. 
+
+L'utilizzo di un puntatore per nascondere la rappresentazione interna può provocare problemi di condivisione di memoria. Per questo motivo in caso di costruzione di copia di un oggetto Profilo, viene effettuata una copia profonda del campo dati puntatore InfoPersonali. In questi casi è necessario che anche l'operatore di assegnazione sia ridefinito in modo che effettui un'assegnazione profonda. Vengono forniti metodi getter e setter per tutte le informazioni memorizzabili in un oggetto Profilo.\footnote{Nella descrizione delle classi seguenti questa informazione sarà omessa.}
+
+\subsection*{Rete}
+Utilizzata per la gestione della lista dei contatti di un utente. I contatti sono memorizzati come oggetti di tipo SmartUtente che saranno descritti più avanti.
+
+La rappresentazione interna viene nascosta con l'utilizzo di un puntatore ad una classe interna privata Rete\_rapp. A differenza del campo dati di tipo InfoPersonali* per il Profilo, qui si è pensato di gestire la copia di oggetti Rete con la tecnica del \textit{references counting}: la copia o la distruzione di un oggetto Rete si limita ad incrementare o diminuire il campo riferimenti, mentre solo in caso di modifica effettiva di un oggetto avviene una copia. La distruzione effettiva si verifica solo quando il campo riferimenti arriva a 0.
+
+Per ottenere la lista dei contatti, poichè non è nota la modalità di memorizzazione, è stato fornito il metodo \texttt{QVector<SmartUtente> getContactsList() const} che ritorna la lista dei contatti in un semplice QVector. Oltre ai metodi per aggiungere e rimovere un contatto, viene reso disponibile il metodo \texttt{bool isContact() const} che controlla la presenza di un utente nella lista dei contatti. Il controllo viene fatto confrontando l'username. Il motivo di questa scelta, della presenza del metodo \texttt{Rete *clone() const} e della ridefinizione dell'operatore \texttt{delete} verrà motivata nella ricerca degli utenti.
+
+\subsection*{Lavoro e Titolo}
+Utilizzate per la gestione delle esperienze lavorative e dei titoli di studio rispettivamente. La prima memorizza informazioni riguardo il nome dell'azienda, il ruolo o posizione ricoperta, la data di inizio e la data di fine. La seconda memorizza informazioni riguardo il nome della scuola o università, la data di conseguimento diploma o laurea e il campo di studi.
+
+Sono inoltre fornite le due classi SmartLavoro e SmartTitolo, le quali permettono di gestire in modo automatico il campo riferimenti in caso di condivisione di memoria tra puntatori ad oggetti di tipo Lavoro o Titolo.
+
+\subsection*{Esperienza e Formazione}
+Utilizzate per memorizzare la lista delle esperienze lavorative e per la lista dei titoli di studio di un utente. Le esperienze lavorative vengono memorizzate con puntatori ad oggetti di tipo Lavoro. 
+
+Come per la classe Rete la rappresentazione interna viene nascosta con l'utilizzo di puntatori alle classi interne private Esperienza\_rapp e Formazione\_rapp definite in Esperienze e Formazione rispettivamente. La copia degli oggetti viene sempre gestita con la tecnica del refereces counting e sono disponibili dei metodi che ritornano le liste delle esperienze lavorative e dei titoli di studio come istanze di QVector.
+
+Per entrambe è stato inoltre fornito un iteratore con i soli metodi \texttt{begin()}, \texttt{hasNext()} e \texttt{next()}. La realizzazione di questo iteratore è stata difficile in quanto le classi interne possono accedere solo ai membri statici delle classi contenitrici ed entrambe le classi (contenitrice ed iteratore) dovevano rispettare l'information hiding.
+
+La presenza dei metodi \texttt{*clone() const} e della ridefinizione dell'operatore \texttt{delete} in entrambe le classi verrà motivata nella ricerca degli utenti.
+
+\subsection*{Utente}
+Utilizzata per la gestione degli utenti del client. Contiene un campo dati di tipo QString per memorizzare l'username, un campo dati Profilo e tre campi dati puntatore ad oggetti di tipo Rete, Formazione ed Esperienza. 
+
+La scelta dei puntatori è dovuta al fatto che le liste di contatti, esperienze lavorative e titoli di studio possono crescere e la copia di utenti potrebbe comportare spreco di memoria. La copia degli utenti viene sempre gestita con la tecnica del refereces counting.
+
+Fornire metodi che ritornino un accesso diretto ad un campo dati tramite puntatore non è una buona pratica. Per questo motivo sono stati riportati tutti i metodi pubblici dei campi dati puntatore nella classe Utente, i quali invocano i metodi corrispondenti nella classe nella quale sono definiti. Purtroppo in questo modo si crea una forte dipendenza con le classi Rete, Formazione ed Esperienza ma l'utilizzo dei metodi risulta più semplice.
+
+\subsubsection*{Gerarchia}
+La classe Utente è una classe base polimorfa ed astratta in quanto contiene il distruttore definito virtuale e puro (condizione necessaria e sufficiente ma sono dichiarati altri metodi virtuali o virtuali puri).
+
+Come sottoclassi dirette della gerar
+
+\subsubsection*{Ricerca}
+
+\end{document}

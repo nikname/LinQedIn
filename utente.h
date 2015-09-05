@@ -289,13 +289,6 @@ public:
     */
     virtual QVector<SmartUtente> searchUsers( QVector<SmartUtente> ) const = 0;
 
-    /** Ridefinizione operatore di assegnazione. Effettua un'assegnazione profonda dei campi dati.
-     *
-     * @param SmartUtente  Utente dal quale creare il nuovo utente.
-     * @return SmartUtente&  Oggetto SmartUtente da assegnare.
-     */
-    SmartUtente& operator =( const SmartUtente& );
-
     /** Metodo virtuale puro di utilità necessario per creare copie profonde di oggetti di tipo
      *  Utente. Ogni classe concreta derivata da utente restituisce una copia profonda di un
      *  utente della sua stessa tipologia.

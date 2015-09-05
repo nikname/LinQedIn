@@ -1,6 +1,5 @@
 #include <QList>
 #include <QListIterator>
-#include "database.h"
 #include "rete.h"
 #include "smartutente.h"
 #include "utente.h"
@@ -69,20 +68,20 @@ Rete::~Rete() {
         delete contacts;
 }
 
-// METODO addContact di Rete
+// METODO Rete::addContact( SmartUtente )
 void Rete::addContact( const SmartUtente& su ) {
     if( !isContact( su ) )
         contacts->contactsList.append( su );
 }
 
-// METODO removeContact di Rete
+// METODO Rete::removeContact( SmartUtente )
 void Rete::removeContact( const SmartUtente& su ) {
     if( isContact( su ) )
         contacts->contactsList.removeOne( su );
 }
 
-// METODO Rete::isContact
-bool Rete::isContact( const SmartUtente& c ) {
+// METODO Rete::isContact( SmartUtente )
+bool Rete::isContact( const SmartUtente& c ) const {
     QListIterator<SmartUtente> it( contacts->contactsList );
     while( it.hasNext() )
         if( it.next()->getUsername() == c->getUsername() )
@@ -90,7 +89,7 @@ bool Rete::isContact( const SmartUtente& c ) {
     return false;
 }
 
-// METODO getContactsList di Rete
+// METODO Rete::getContactsList
 QVector<SmartUtente> Rete::getContactsList() const {
     QVector<SmartUtente> v;
     QListIterator<SmartUtente> it( contacts->contactsList );
@@ -114,8 +113,8 @@ Rete *Rete::clone() const {
     return new Rete( contacts->clone() );
 }
 
-// OPERATOR << Rete
-QDebug operator <<( QDebug qdbg, const Rete& n ) {
+// OVERLOADING
+QDebug& operator <<( QDebug& qdbg, const Rete& n ) {
     qdbg << "CONTATTI: " << "\n";
     QVector<SmartUtente> c = n.getContactsList();
     if( c.size() == 0 )

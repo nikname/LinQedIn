@@ -8,14 +8,10 @@
 class Formazione {
 
     // NOTE:
-    // L'aumento del contatore user_ref è lasciato al costruttore di copia di Utente.
-    // Nelle classi innestate si può accedere solo a campi dati statici della classe contenitrice!
-    // La classe Iteratore non ha bisogno di un costruttore ridefinito. L'Iteratore viene construito
-    // con il metodo begin() sull'oggetto Formazione di invocazione.
     // Nel metodo begin() non serve controllare se titles è valido in quanto se creo un oggetto
     // Formazione allora viene creato in automatico un oggetto Formazione_rapp.
 
-    friend class Utente; // Necessario per costruire e distruggere oggetti Formazione
+    friend class Utente;
 private:
     class Formazione_rapp;
     Formazione_rapp* titles;
@@ -78,13 +74,13 @@ public:
      *
      * @param SmartTitolo  Titolo di studio da aggiungere.
      */
-    void addEducation( SmartTitolo );
+    void addEducation( const SmartTitolo& );
 
     /** Rimuove un titolo di studio dall'elenco dei titoli di studio.
      *
      * @param SmartTitolo  Titolo di studio da rimuovere.
      */
-    void removeEducation( SmartTitolo );
+    void removeEducation( const SmartTitolo& );
 
     /** Ritorna un vettore di puntatori ai titoli di studio dell'utente.
      *
@@ -116,6 +112,6 @@ public:
  * @param Formazione  Lista dei titoli di studio.
  * @return QDebug  QDebug.
  */
-QDebug operator <<( QDebug, const Formazione& );
+QDebug& operator <<( QDebug&, const Formazione& );
 
 #endif // FORMAZIONE_H
