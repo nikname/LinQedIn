@@ -22,43 +22,6 @@ protected:
     Rete* net;
     Formazione* educations;
     Esperienza* experiences;
-
-    /** Costruttore a 5 parametri. Necessario per le copie profonde. Invocato dal metodo clone().
-     *
-     * @param QString  Username dell'utente.
-     * @param Profilo  Informazioni personali dell'utente.
-     * @param Rete *  Rete dei contatti dell'utente.
-     * @param Formazione *  Lista dei titoli di studio dell'utente.
-     * @param Esperienza *  Esperienze lavorative dell'utente.
-     */
-    Utente( const QString& un, const Profilo& p, Rete *n, Formazione *ed, Esperienza *ex ) :
-        username( un ),
-        profile( p ),
-        net( n ),
-        educations( ed ),
-        experiences( ex )
-    {}
-
-    class FuntoreRicerca {
-    public:
-        int searchType;
-
-        /** Costruttore ad 1 parametro con 1 parametro di default.
-         *  Imposta il tipo di ricerca che l'utente può effettuare nel database.
-         *
-         * @param int type  Tipo di ricerca.
-         */
-        FuntoreRicerca( int type = 0 ) : searchType( type ) {}
-
-        /** Overloading dell'operatore di "chiamata a funzione".
-         *  Invoca il funtore passando come parametro un oggetto SmartUtente, del quale si
-         *  vogliono ottenere le informazioni.
-         *  L'effetto di questo varia in base al tipo di utente che lo invoca.
-         *
-         * @param SmartUtente  SmartUtente del quale si vogliono ottenere le informazioni.
-         */
-        SmartUtente operator ()( const SmartUtente& ) const;
-    };
 public:
     /** Costruttore a 3 parametri con 3 parametri di default.
      *  Costruisce un utente associandgli username, nome e cognome.
@@ -176,15 +139,6 @@ public:
      */
     bool isContact( const SmartUtente& );
 
-    /** Elimina il campo dati net di tipo Rete *. */
-    void unsetContactsList();
-
-    /** Controlla se il campo dati net di tipo Rete è un puntatore valido.
-     *
-     * @return bool  true se è valido; false altrimenti (i.e. punta all'indirizzo 0)
-     */
-    bool isContactsListSet();
-
     /** Ritorna un QVector di SmartUtente contenente i contatti nella rete dell'utente.
      *  Invoca il metodo getContactsList() del campo dati net di tipo Rete.
      *
@@ -220,15 +174,6 @@ public:
      * @param  QVector<SmartTitolo>  Lista dei nuovi titoli di studio dell'utente.
      */
     void setEducationsList( QVector<SmartTitolo> );
-
-    /** Elimina il campo dati educations di tipo Formazione *. */
-    void unsetEducationsList();
-
-    /** Controlla se il campo dati educations di tipo Formazione è un puntatore valido.
-     *
-     * @return bool  true se è valido; false altrimenti (i.e. punta all'indirizzo 0)
-     */
-    bool isEducationsListSet();
 
     /** Restituisce un iteratore sulla lista dei titoli di studio dell'utente.
      *  Invoca il metodo begin() di Formazione.
@@ -266,15 +211,6 @@ public:
      */
     void setExperiencesList( QVector<SmartLavoro> );
 
-    /** Elimina il campo dati experiences di tipo Esperienza *. */
-    void unsetExperiencesList();
-
-    /** Controlla se il campo dati experiences di tipo Esperienza è un puntatore valido.
-     *
-     * @return bool  true se è valido; false altrimenti (i.e. punta all'indirizzo 0)
-     */
-    bool isExperiencesListSet();
-
     /** Restituisce un iteratore sulla lista delle esperienze lavorative dell'utente.
      *  Invoca il metodo begin() di Esperienza.
      *
@@ -283,20 +219,11 @@ public:
      Esperienza::Iteratore getExperiencesIterator() const;
 
     /** Ricerca polimorfa, virtuale pura.
-    *  In base alla tipologia di account ritorna una lista di utenti con determinate informazioni.
-    *
-    * @param QVector<SmartUtente>  Lista di utenti sulla quale cercare.
-    */
-    virtual QVector<SmartUtente> searchUsers( QVector<SmartUtente> ) const = 0;
-
-    /** Metodo virtuale puro di utilità necessario per creare copie profonde di oggetti di tipo
-     *  Utente. Ogni classe concreta derivata da utente restituisce una copia profonda di un
-     *  utente della sua stessa tipologia.
+     *  In base alla tipologia di account ritorna una lista delle informazione visualizzabili.
      *
-     * @return Utente *  Copia profonda dell'oggetto Utente.
+     * @return QList<QString>  Lista delle informazioni visualizzabili.
      */
-    virtual Utente *clone() const = 0;
-protected:
+    virtual QList<QString> getUserInfo() const = 0;
 };
 
 /** Overloading operatore di output di QDebug.

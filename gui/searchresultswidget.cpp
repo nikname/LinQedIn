@@ -7,7 +7,7 @@
 SearchResultsWidget::SearchResultsWidget(
         QVector<SmartUtente> v, const SmartUtente& su, const QString& query, QWidget *parent ) :
     QWidget( parent ),
-    usersList( su->searchUsers( v ) )
+    usersList( v )
 {
     initUI( su, query );
     setupUI();
@@ -20,7 +20,7 @@ void SearchResultsWidget::initUI( const SmartUtente& su, const QString& query ) 
                 usersList[i]->getName().contains( query, Qt::CaseInsensitive ) ||
                 usersList[i]->getSurname().contains( query, Qt::CaseInsensitive ) ) )
         {
-            UserPreviewWidget *aux = new UserPreviewWidget( usersList[i], this );
+            UserPreviewWidget *aux = new UserPreviewWidget( usersList[i], su->getUserInfo(), this );
             connect( aux, SIGNAL( showUserSignal( SmartUtente ) ),
                      this, SIGNAL( showUserSignal( SmartUtente ) ) );
             userPreviewWidgetsList.append( aux );

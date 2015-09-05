@@ -10,16 +10,16 @@ ConnectionsWidget::ConnectionsWidget( const SmartUtente& su, QWidget *parent ) :
     QWidget( parent ),
     contactsList( su->getContactsList() )
 {
-    initUI();
+    initUI( su );
     setupUI();
 }
 
 // METODO ConnectionsWidget::initUI
-void ConnectionsWidget::initUI() {
+void ConnectionsWidget::initUI( const SmartUtente& su ) {
     userPreviewWidgetsLayout = new QGridLayout( this );
 
     for( int i = 0; i < contactsList.size(); i++ ) {
-        UserPreviewWidget *aux = new UserPreviewWidget( contactsList[i], this );
+        UserPreviewWidget *aux = new UserPreviewWidget( contactsList[i], su->getUserInfo(), this );
         connect( aux, SIGNAL( showUserSignal( SmartUtente ) ),
                  this, SIGNAL( showContactSignal( SmartUtente ) ) );
         userPreviewWidgetsList.append( aux );

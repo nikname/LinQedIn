@@ -16,7 +16,7 @@ private:
     QVector<UserPreviewWidget*> userPreviewWidgetsList;
 
     /** Inizializza la UI. */
-    void initUI();
+    void initUI( const SmartUtente& );
 
     /** Realizza la UI. Mostra la GUI. */
     void setupUI();

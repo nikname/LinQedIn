@@ -19,8 +19,11 @@ private:
     QPushButton *userInfoButton;
     QPushButton *removeUserButton;
 
-    /** Inizializza la UI. */
-    void initUI();
+    /** Inizializza la UI in base alle informazioni visualizzabili.
+     *
+     * @param QList<QString>  Lista delle informazioni visualizzabili.
+     */
+    void initUI( QList<QString> );
 
     /** Realizza la UI. Mostra la GUI. */
     void setupUI();
@@ -38,7 +41,7 @@ private:
     void paintEvent( QPaintEvent * );
 public:
     /** */
-    explicit UserPreviewWidget( const SmartUtente&, QWidget *parent = 0 );
+    explicit UserPreviewWidget( const SmartUtente&, QList<QString>, QWidget *parent = 0 );
 
     /** */
     SmartUtente getUser();

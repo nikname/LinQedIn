@@ -92,7 +92,7 @@ void ExperiencesWidget::openAddJobDialog() {
 // SLOT ExperiencesWidget::addNewJobSlot
 void ExperiencesWidget::addNewJobSlot( const QString& cn, const QString& t,
                                        const QDate& b, const QDate& e ) {
-    SmartLavoro aux = SmartLavoro( new Lavoro( cn, t, "", b, e ) );
+    SmartLavoro aux = SmartLavoro( new Lavoro( cn, t, b, e ) );
 
     jobsList.append( aux );
     jobWidgetsList.append( new JobWidget( aux, this ) );

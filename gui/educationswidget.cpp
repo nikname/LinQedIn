@@ -91,7 +91,7 @@ void EducationsWidget::openAddTitleDialog() {
 
 // SLOT EducationsWidget::addNewTitleSlot
 void EducationsWidget::addNewTitleSlot( const QString& s, const QDate& a, const QString& fos ) {
-    SmartTitolo aux = SmartTitolo( new Titolo( s, a, "", fos, "" ) );
+    SmartTitolo aux = SmartTitolo( new Titolo( s, a, fos ) );
 
     titlesList.append( aux );
     titleWidgetsList.append( new TitleWidget( aux, this ) );

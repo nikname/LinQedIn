@@ -30,8 +30,11 @@ private:
 
     ConnectionsWidget *connectionsTab;
 
-    /** Inizializza la UI. */
-    void initUI();
+    /** Inizializza la UI in base alle informazioni visualizzabili.
+     *
+     * @param QList<QString>  Lista delle informazioni visualizzabili.
+     */
+    void initUI( QList<QString> );
 
     /** Realizza la UI. Mostra la GUI.
      *
@@ -42,10 +45,11 @@ public:
     /** Costruttore esplicito a 2 parametri con 1 parametro di default.
      *
      * @param SmartUtente  Utente del quale mostrare le informazioni.
+     * @param QList<QString>  Lista delle informazioni da visualizzare.
      * @param bool  true se è un contatto dell'utente del client; 0 altrimenti.
      * @param QWidget  Puntatore al QWidget padre. Se nullo si riferisce a quello top-level.
      */
-    explicit OtherProfileWidget( const SmartUtente&, bool, QWidget *parent = 0 );
+    explicit OtherProfileWidget( const SmartUtente&, QList<QString>, bool, QWidget *parent = 0 );
 signals:
     /** */
     void showContactSignal( const SmartUtente& );

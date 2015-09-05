@@ -10,21 +10,21 @@
 #include "lavoro.h"
 
 // COSTRUTTORE UserPreviewWidget
-UserPreviewWidget::UserPreviewWidget( const SmartUtente& su, QWidget *parent ) :
+UserPreviewWidget::UserPreviewWidget( const SmartUtente& su, QList<QString> i, QWidget *parent ) :
     QWidget( parent ),
     user( su )
 {
-    initUI();
+    initUI( i );
     setupUI();
 }
 
 // METODO UserPreviewWidget::initUI
-void UserPreviewWidget::initUI() {
+void UserPreviewWidget::initUI( QList<QString> i ) {
     profilePicLabel = new QLabel( this );
 
     userLabel = new QLabel( user->getName() + " " + user->getSurname(), this );
 
-    if( user->isExperiencesListSet() ) {
+    if( i.contains( "experiences" ) ) {
         QVector<SmartLavoro> experiencesList = user->getExperiencesList();
         if( experiencesList.size() == 0 )
             lastJobLabel = new QLabel( "--", this );

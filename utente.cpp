@@ -49,26 +49,6 @@ Utente::~Utente() {
     }
 }
 
-// OPERATOR () Utente::FuntoreRicerca
-SmartUtente Utente::FuntoreRicerca::operator ()( const SmartUtente& su ) const {
-    SmartUtente aux( su->clone() );
-    switch( searchType ) {
-    case 1:
-        aux->unsetContactsList();
-        aux->unsetEducationsList();
-        aux->unsetExperiencesList();
-        break;
-    case 2:
-        aux->unsetContactsList();
-        break;
-    case 3:
-        break;
-    default:
-        break;
-    }
-    return aux;
-}
-
 // METODO getUsername Utente
 QString Utente::getUsername() const {
     return username;
@@ -129,22 +109,6 @@ bool Utente::isContact( const SmartUtente& su ) {
     return net->isContact( su );
 }
 
-// METODO Utente::isContactsListSet
-bool Utente::isContactsListSet() {
-    return net;
-}
-
-// METODO Utente::unsetContactsList
-void Utente::unsetContactsList() {
-    if( net ) {
-        net->user_ref--;
-        if( !net->user_ref ) {
-            delete net;
-            net = 0;
-        }
-    }
-}
-
 // METODO getContactsList Utente
 QVector<SmartUtente> Utente::getContactsList() const {
     return net->getContactsList();
@@ -170,22 +134,6 @@ void Utente::setEducationsList( QVector<SmartTitolo> v ) {
     educations->setEducationsList( v );
 }
 
-// METODO Utente::unsetEducationsList
-void Utente::unsetEducationsList() {
-    if( educations ) {
-        educations->user_ref--;
-        if( !educations->user_ref ) {
-            delete educations;
-            educations = 0;
-        }
-    }
-}
-
-// METODO Utente::isEducationsListSet
-bool Utente::isEducationsListSet() {
-    return educations;
-}
-
 // METODO getEducationsIterator
 Formazione::Iteratore Utente::getEducationsIterator() const {
     return educations->begin();
@@ -209,22 +157,6 @@ QVector<SmartLavoro> Utente::getExperiencesList() const {
 // METODO Utente::setExperiencesList
 void Utente::setExperiencesList( QVector<SmartLavoro> v ) {
     experiences->setExperiencesList( v );
-}
-
-// METODO Utente::isExperiencesListSet
-bool Utente::isExperiencesListSet() {
-    return experiences;
-}
-
-// METODO Utente::unsetExperiencesList
-void Utente::unsetExperiencesList() {
-    if( experiences ) {
-        experiences->user_ref--;
-        if( !experiences->user_ref ) {
-            delete experiences;
-            experiences = 0;
-        }
-    }
 }
 
 // METODO getExperiecesIterator Utente

@@ -113,12 +113,8 @@ void Database::parseEducation( QXmlStreamReader& xmlReader, SmartUtente u ) {
             t->setSchool( xmlReader.readElementText() );
         if( xmlReader.name() == "dateAttended" )
             t->setDateAttended( parseDate( xmlReader ) );
-        if( xmlReader.name() == "degree" )
-            t->setDegree( xmlReader.readElementText() );
         if( xmlReader.name() == "fieldOfStudy" )
             t->setFieldOfStudy( xmlReader.readElementText() );
-        if( xmlReader.name() == "grade" )
-            t->setGrade( xmlReader.readElementText() );
         xmlReader.readNext();
     }
     u->addEducation( SmartTitolo( t ) );
@@ -134,8 +130,6 @@ void Database::parseExperience( QXmlStreamReader& xmlReader, SmartUtente u ) {
             j->setCompanyName( xmlReader.readElementText() );
         if( xmlReader.name() == "title" )
             j->setTitle( xmlReader.readElementText() );
-        if( xmlReader.name() == "location" )
-            j->setLocation( xmlReader.readElementText() );
         if( xmlReader.name() == "begin" )
             j->setBegin( parseDate( xmlReader ) );
         if( xmlReader.name() == "end" )
@@ -335,9 +329,7 @@ void Database::saveUsersList() const {
             xmlWriter.writeEndElement();
             // </dateAttended>
 
-            xmlWriter.writeTextElement( "degree", t->getDegree() );
-            xmlWriter.writeTextElement( "fieldOfStudy", t->getFieldOfStudy());
-            xmlWriter.writeTextElement( "grade", t->getGrade() );
+            xmlWriter.writeTextElement( "fieldOfStudy", t->getFieldOfStudy() );
             xmlWriter.writeEndElement();
             // </title>
         }
@@ -353,7 +345,6 @@ void Database::saveUsersList() const {
             xmlWriter.writeStartElement( "job" );
             xmlWriter.writeTextElement( "companyName", j->getCompanyName() );
             xmlWriter.writeTextElement( "title", j->getTitle() );
-            xmlWriter.writeTextElement( "location", j->getLocation() );
             // <begin>
             xmlWriter.writeStartElement( "begin" );
             QDate begin = j->getBegin();

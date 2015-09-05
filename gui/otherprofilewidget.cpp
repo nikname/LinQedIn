@@ -12,16 +12,17 @@
 #include "experienceswidget.h"
 
 // COSTRUTTORE OtherProfileWidget
-OtherProfileWidget::OtherProfileWidget( const SmartUtente& su, bool c, QWidget *parent) :
+OtherProfileWidget::OtherProfileWidget( const SmartUtente& su, QList<QString> i,
+                                        bool c, QWidget *parent) :
     ProfileWidget( su, parent )
 {
-    initUI();
+    initUI( i );
     setupUI( c );
 }
 
 // METODO OtherProfileWidget::initUI
-void OtherProfileWidget::initUI() {
-    if( user->isExperiencesListSet() ) {
+void OtherProfileWidget::initUI( QList<QString> i ) {
+    if( i.contains( "experiences" ) ) {
         QVector<SmartLavoro> experiencesList = user->getExperiencesList();
         if( experiencesList.size() == 0 )
             lastExperienceLabel = new QLabel( "--", this );
@@ -33,7 +34,7 @@ void OtherProfileWidget::initUI() {
         lastExperienceLabel = 0;
     }
 
-    if( user->isEducationsListSet() ) {
+    if( i.contains( "educations" ) ) {
         QVector<SmartTitolo> educationsList = user->getEducationsList();
         if( educationsList.size() == 0 )
             lastEducationLabel = new QLabel( "--", this );
@@ -45,7 +46,7 @@ void OtherProfileWidget::initUI() {
         lastEducationLabel = 0;
     }
 
-    if( user->isContactsListSet() ) {
+    if( i.contains( "contacts" ) ) {
         QVector<SmartUtente> contactsList = user->getContactsList();
         connectionsNumber = new QLabel(
                     QString::number( contactsList.size() ) + tr( " connections" ), this );
@@ -64,7 +65,7 @@ void OtherProfileWidget::initUI() {
         connectionsTab = 0;
     }
 
-    if( user->isEducationsListSet() || user->isExperiencesListSet() ) {
+    if( i.contains( "educations" ) || i.contains( "experiences" ) ) {
         backgroundTabButton = new QPushButton( tr( "Background" ), this );
         connect( backgroundTabButton, SIGNAL( clicked() ), this, SLOT( showBackgroundTab() ) );
 
@@ -72,7 +73,7 @@ void OtherProfileWidget::initUI() {
 
         backgroundTab = new QWidget( this );
 
-        if( user->isExperiencesListSet() ) {
+        if( i.contains( "experiences" ) ) {
             experiencesLabel = new QLabel( tr( "Experiences" ), backgroundTab );
             experiencesWidget = new ExperiencesWidget( user, backgroundTab );
         } else {
@@ -80,7 +81,7 @@ void OtherProfileWidget::initUI() {
             experiencesWidget = 0;
         }
 
-        if( user->isExperiencesListSet() ) {
+        if( i.contains( "educations" ) ) {
             educationsLabel = new QLabel( tr( "Educations" ), backgroundTab );
             educationsWidget = new EducationsWidget( user, backgroundTab );
         } else {
