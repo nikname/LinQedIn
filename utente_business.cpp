@@ -1,7 +1,7 @@
 #include "utente_business.h"
 
 // COSTRUTTORE DI COPIA di UtenteBusiness
-UtenteBusiness::UtenteBusiness( const Utente& u ) : UtentePagante( u ) {}
+UtenteBusiness::UtenteBusiness( const Utente& u ) : Utente( u ) {}
 
 // METODO UtenteBusiness::getAccountType
 QString UtenteBusiness::getAccountType() const {

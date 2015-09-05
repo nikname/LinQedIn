@@ -1,8 +1,8 @@
 #ifndef UTENTE_BASIC_H
 #define UTENTE_BASIC_H
-#include "utente_gratis.h"
+#include "utente.h"
 
-class UtenteBasic : public UtenteGratis {
+class UtenteBasic : public Utente {
 public:
     /** Costruttore a 3 parametri con 3 parametri di default.
      *  Invoca il costruttore a 3 parametri della classe base diretta.
@@ -12,7 +12,7 @@ public:
      * @param QString surname  Cognome dell'utente da creare.
      */
     UtenteBasic( const QString& un = "", const QString& name = "", const QString& surname = "" )
-       : UtenteGratis( un, name, surname ) {}
+       : Utente( un, name, surname ) {}
 
     /** Costruttore di copia ridefinito.
      *  Invoca il costruttore di copia della classe base.

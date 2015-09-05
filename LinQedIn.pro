@@ -24,8 +24,6 @@ SOURCES += main.cpp\
     linqedin_client.cpp \
     utente_basic.cpp \
     utente_business.cpp \
-    utente_gratis.cpp \
-    utente_pagante.cpp \
     titolo.cpp \
     lavoro.cpp \
     smarttitolo.cpp \
@@ -65,8 +63,6 @@ HEADERS  += \
     profilo.h \
     rete.h \
     utente.h \
-    utente_gratis.h \
-    utente_pagante.h \
     utente_basic.h \
     utente_business.h \
     esperienza.h \

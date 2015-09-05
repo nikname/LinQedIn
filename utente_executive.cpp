@@ -1,8 +1,7 @@
 #include "utente_executive.h"
-#include "rete.h"
 
 // COSTRUTTORE DI COPIA di UtenteExecutive
-UtenteExecutive::UtenteExecutive( const Utente& u ) : UtentePagante( u ) {}
+UtenteExecutive::UtenteExecutive( const Utente& u ) : Utente( u ) {}
 
 // METODO UtenteExecutive::getAccountType
 QString UtenteExecutive::getAccountType() const {

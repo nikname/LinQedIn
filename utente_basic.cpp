@@ -1,7 +1,7 @@
 #include "utente_basic.h"
 
 // COSTRUTTORE DI COPIA di UtenteBasic
-UtenteBasic::UtenteBasic( const Utente& u ) : UtenteGratis( u ) {}
+UtenteBasic::UtenteBasic( const Utente& u ) : Utente( u ) {}
 
 // METODO UtenteBasic::getAccountType
 QString UtenteBasic::getAccountType() const {

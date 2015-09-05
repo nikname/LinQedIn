@@ -1,8 +1,8 @@
 #ifndef UTENTE_EXPRESS_H
 #define UTENTE_EXPRESS_H
-#include "utente_pagante.h"
+#include "utente.h"
 
-class UtenteExecutive : public UtentePagante {
+class UtenteExecutive : public Utente {
 public:
     /** Costruttore a 3 parametri con 3 parametri di default.
      *  Invoca il costruttore a 3 parametri della classe base diretta.
@@ -12,7 +12,7 @@ public:
      * @param QString surname  Cognome dell'utente da creare.
      */
     UtenteExecutive( const QString& un = "", const QString& name = "", const QString& surname = "" )
-         : UtentePagante( un, name, surname ) {}
+         : Utente( un, name, surname ) {}
 
     /** Costruttore di copia ridefinito.
      *  Invoca il costruttore di copia della classe base.
