@@ -46,12 +46,6 @@ Esperienza::Esperienza() :
     user_ref( 1 )
 {}
 
-// COSTRUTTORE Esperienza( Esperienza_rapp * )
-Esperienza::Esperienza( Esperienza::Esperienza_rapp * rapp ) :
-    experiences( rapp ),
-    user_ref( 1 )
-{}
-
 // COSTRUTTORE di COPIA Esperienza
 Esperienza::Esperienza( const Esperienza& n ) :
     experiences( n.experiences )
@@ -127,21 +121,6 @@ void Esperienza::setExperiencesList( QVector<SmartLavoro> v ) {
     experiences = new Esperienza_rapp();
     for( int i = 0; i < v.size(); i ++ )
         addExperience( v[i] );
-}
-
-// OPERATORE delete Esperienza
-void Esperienza::operator delete( void* p ) {
-    if( p ) {
-        Esperienza* p_aux = static_cast<Esperienza*>( p );
-        p_aux->user_ref--;
-        if( p_aux->user_ref == 0 )
-            delete p_aux->experiences;
-    }
-}
-
-// METODO Esperienza::clone
-Esperienza *Esperienza::clone() const {
-    return new Esperienza( experiences->clone() );
 }
 
 // OVERLOADING

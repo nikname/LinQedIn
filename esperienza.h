@@ -16,13 +16,6 @@ private:
     class Esperienza_rapp;
     Esperienza_rapp* experiences;
     int user_ref; // Numero di utenti che si riferiscono all'oggetto Esperienza.
-
-    /** Costruttore ad 1 parametro di utilità. Utilizzato per fare copie profonde.
-     *  Viene utilizzato dal metodo clone().
-     *
-     * @param Esperienza_rapp *  Oggetto Esperienza_rapp del quale fare la copia.
-     */
-    Esperienza( Esperienza_rapp * );
 public:
     /** Costruttore di default ridefinito.
      *  Crea una lista vuota di esperienze lavorative.
@@ -93,17 +86,6 @@ public:
      * @param  QVector<SmartLavoro>  Lista delle nuove esperienze lavorative.
      */
     void setExperiencesList( QVector<SmartLavoro> );
-
-    /** Operatore delete ridefinito.
-     *  Decrementa user_ref di 1. Se user_ref vale 0 invoca il distuttore di Esperienza_rapp.
-     */
-    void operator delete( void* );
-
-    /** Metodo di utilità necessario per creare copie profonde di oggetti di tipo Esperienza.
-     *
-     * @return Esperienza *  Copia profonda dell'oggetto stesso.
-     */
-    Esperienza *clone() const;
 };
 
 /** Overloading dell'operatore di output di QDebug.

@@ -46,12 +46,6 @@ Formazione::Formazione() :
     user_ref( 1 )
 {}
 
-// COSTRUTTORE Formazione( Formazione_rapp * )
-Formazione::Formazione( Formazione::Formazione_rapp * rapp ) :
-    titles( rapp ),
-    user_ref( 1 )
-{}
-
 // COSTRUTTORE di COPIA Formazione
 Formazione::Formazione( const Formazione& ed ) :
     titles( ed.titles )
@@ -127,21 +121,6 @@ void Formazione::setEducationsList( QVector<SmartTitolo> v ) {
     titles = new Formazione_rapp();
     for( int i = 0; i < v.size(); i++ )
         addEducation( v[i] );
-}
-
-// OPERATOR delete Formazione
-void Formazione::operator delete( void* p ) {
-    if( p ) {
-        Formazione* p_aux = static_cast<Formazione*>( p );
-        p_aux->user_ref--;
-        if( p_aux->user_ref == 0 )
-            delete p_aux->titles;
-    }
-}
-
-// METODO Formazione::clone
-Formazione *Formazione::clone() const {
-    return new Formazione( titles->clone() );
 }
 
 // OPERATOR << Formazione

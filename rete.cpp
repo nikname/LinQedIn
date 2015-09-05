@@ -47,12 +47,6 @@ Rete::Rete() :
     user_ref( 1 )
 {}
 
-// COSTRUTTORE Rete( Rete_rapp * )
-Rete::Rete( Rete::Rete_rapp * rapp ) :
-    contacts( rapp ),
-    user_ref( 1 )
-{}
-
 // COSTRUTTORE di COPIA Rete
 Rete::Rete( const Rete& n ) :
     contacts( n.contacts )
@@ -81,12 +75,8 @@ void Rete::removeContact( const SmartUtente& su ) {
 }
 
 // METODO Rete::isContact( SmartUtente )
-bool Rete::isContact( const SmartUtente& c ) const {
-    QListIterator<SmartUtente> it( contacts->contactsList );
-    while( it.hasNext() )
-        if( it.next()->getUsername() == c->getUsername() )
-            return true;
-    return false;
+bool Rete::isContact( const SmartUtente& su ) const {
+    return contacts->contactsList.contains( su );
 }
 
 // METODO Rete::getContactsList
@@ -96,21 +86,6 @@ QVector<SmartUtente> Rete::getContactsList() const {
     while( it.hasNext() )
         v.push_back( it.next() );
     return v;
-}
-
-// OPERATOR delete di Rete
-void Rete::operator delete( void* p ) {
-    if( p ) {
-        Rete* p_aux = static_cast<Rete*>( p );
-        p_aux->user_ref--;
-        if( p_aux->user_ref == 0 )
-            delete p_aux->contacts;
-    }
-}
-
-// METODO Rete::clone
-Rete *Rete::clone() const {
-    return new Rete( contacts->clone() );
 }
 
 // OVERLOADING

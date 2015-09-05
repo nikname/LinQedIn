@@ -16,13 +16,6 @@ private:
     class Formazione_rapp;
     Formazione_rapp* titles;
     int user_ref; // Numero di utenti che si riferiscono all'oggetto Formazione.
-
-    /** Costruttore ad 1 parametro di utilità. Utilizzato per fare copie profonde.
-     *  Viene utilizzato dal metodo clone().
-     *
-     * @return Formazione_rapp *  Oggetto Formazione_rapp del quale fare la copia.
-     */
-    Formazione( Formazione_rapp * );
 public:
     /** Costruttore privato di default.
      *  Crea una lista vuota di titoli di studio.
@@ -93,17 +86,6 @@ public:
      * @param  QVector<SmartTitolo>  Lista dei nuovi titoli di studio dell'utente.
      */
     void setEducationsList( QVector<SmartTitolo> );
-
-    /** Operatore delete ridefinito.
-     *  Decrementa user_ref di 1. Se user_ref vale 0 invoca il distruttore di Formazione_rapp.
-     */
-    void operator delete( void* );
-
-    /** Metodo di utilità necessario per creare copie profonde di oggetti di tipo Formazione.
-     *
-     * @return Formazione *  Copia profonda dell'oggetto stesso.
-     */
-    Formazione *clone() const;
 };
 
 /** Overloading dell'operatore di output di QDebug.
