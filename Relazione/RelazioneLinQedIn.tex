@@ -24,7 +24,7 @@ Tra le funzionalità disponibili all'utente amministratore troviamo: inserimento
 
 Per la realizzazione della GUI è stato utilizzato IDE QtCreator ma senza l'ausilio del tool QtDesigner. In questo modo il codice risulta più pulito.
 
-Nonostante il progetto si limiti ad offrire le funzionalità richieste, nella realizzazione è stata data molta importanza a concetti come information hiding, modularità, estendibilità e qualità del codice. Il design pattern Model-View-Controller non è stato seguito intenzionalmente ma è stata rispettata la separazione tra parte logica ed interfaccia grafica.
+Nonostante il progetto si limiti ad offrire le funzionalità richieste, nella realizzazione è stata data molta importanza a concetti come information hiding, modularità, estendibilità e qualità del codice. 
 
 La realizzazione del progetto è costata solo nell'ultimo mese di lavoro più di 100 ore. Impossibile definire una quantità totale indicativa.
 
@@ -48,7 +48,7 @@ Per ottenere la lista dei contatti, poichè non è nota la modalità di memorizz
 \subsection*{Lavoro e Titolo}
 Utilizzate per la gestione delle esperienze lavorative e dei titoli di studio rispettivamente. La prima memorizza informazioni riguardo: nome dell'azienda, ruolo o posizione ricoperta, data di inizio e di fine. La seconda memorizza informazioni riguardo: nome della scuola o università, data di conseguimento diploma o laurea e campo di studi.
 
-Sono inoltre fornite le due classi SmartLavoro e SmartTitolo, le quali permettono di gestire in modo automatico il campo riferimenti in caso di condivisione di memoria tra puntatori ad oggetti di tipo Lavoro o Titolo.
+Sono inoltre fornite le due classi \textbf{SmartLavoro} e \textbf{SmartTitolo}, le quali permettono di gestire in modo automatico il campo riferimenti in caso di condivisione di memoria tra puntatori ad oggetti di tipo Lavoro o Titolo.
 
 \subsection*{Esperienza e Formazione}
 Utilizzate per memorizzare la lista delle esperienze lavorative e per la lista dei titoli di studio di un utente. Le esperienze lavorative vengono memorizzate con puntatori ad oggetti di tipo Lavoro. I titoli di studio vengono memorizzati come puntatori ad oggetti di tipo Titolo.
@@ -64,12 +64,12 @@ La scelta dei puntatori è dovuta al fatto che le liste di contatti, esperienze 
 
 Fornire metodi che permettono un accesso diretto ad un campo dati tramite puntatore non è una buona pratica. Per questo motivo sono stati riportati tutti i metodi pubblici dei campi dati puntatore nella classe Utente, i quali invocano i metodi corrispondenti nella classe di appartenenza. Purtroppo in questo modo si crea una forte dipendenza con le classi Rete, Formazione ed Esperienza ma l'utilizzo dei metodi risulta più semplice.
 
-Viene fornita inoltre la classe SmartUtente per la gestione automatica del campo riferimenti in caso di condivisione di memoria tra puntatori ad oggetti di tipo Utente.
+Viene fornita inoltre la classe \textbf{SmartUtente} per la gestione automatica del campo riferimenti in caso di condivisione di memoria tra puntatori ad oggetti di tipo Utente.
 
 \subsubsection*{Gerarchia}
 La classe Utente è una classe base polimorfa ed astratta in quanto contiene il distruttore definito virtuale e puro (condizione necessaria e sufficiente ma anche altr metodi sono dichiarati virtuali o virtuali puri).
 
-Inizialmente, poichè la differenza principale tra le varie tipologie di account sta nell'essere gratuito o meno, erano state create due sottoclassi (sempre astratte) UtenteGratis e UtentePagante. Da UtenteGratis poi veniva derivata la classe concreta UtenteBasic, mentre da UtentePagante venivano derivate le classi UtenteExecutive ed UtenteBusiness.
+Inizialmente, poichè la differenza principale tra le varie tipologie di account sta nell'essere gratuito o meno, erano state create due sottoclassi (sempre astratte) UtenteGratis e UtentePagante. Da UtenteGratis poi veniva derivata la classe concreta \textbf{UtenteBasic}, mentre da UtentePagante venivano derivate le classi \textbf{UtenteExecutive} ed \textbf{UtenteBusiness}.
 
 Nonostante questa fosse la gerarchia più corretta, data l'assenza di nuovi campi dati o metodi definiti nelle due classi intermedie (e per semplicità), è stato deciso di rimuovere UtentePagante ed UtenteGratis e far derivare direttamente le 3 classi concrete da Utente.
 
@@ -83,7 +83,25 @@ Questo però aveva comportato la necessità di aggiungere dei metodi \texttt{*cl
 Anche se funzionante come soluzione era troppo complessa e c'era il serio rischio di introduzione di errori. Per questo motivo si è passati ad una soluzione molto più semplice. Tolti tutti i metodi, costruttori ed operatori aggiunti e la classe funtore, si è aggiunto un metodo virtuale puro \texttt{QList<QString> getUserInfo() const} che restituisce una lista con degli indicatori per i campi accessibili dall'utente. Purtroppo anche se più semplice per molti versi è peggiore della precedente in quanto in questo modo il risultato non è l'utente con le sole informazioni visualizzabili, ma una semplice lista da utilizzare per filtrarle.
 
 Durante la stesura di questa relazione mi sono reso conto che la prima soluzione funzionante era la migliore e la complessità era dovuta al fatto che i campi dati puntatore venivano creati con una lista di default, mentre la cosa più logica era quella di inizializzare i campi a 0 ed aggiungere i controlli necessari nei metodi in Utente.
- 
-\subsection*{} 
+
+\subsection*{Database}
+Utilizzata per la gestione degli utenti del client. Si è deciso di memorizzare gli utenti nel database tramite una mappa, dove l'username è la chiave associata allo SmartUtente (puntatore ad Utente). La rappresentazione interna è nascosta all'utente finale tramite l'utilizzo della classe interna Database\_rapp. In questo modo il codice è indipendente dalla rappresentazione e possono essere effettuate modifiche alla modalità di memorizzazione senza aver bisogno di modificare i metodi forniti all'utente. Altro motivo è dovuto al fatto che le funzioni di ricerca, inserimento e rimozione di un utente viene fatta in tempo O(1), quindi costante.
+
+La dichiarazione di amicizia con la classe LinQedInAdmin è necessaria in quanto i metodi, dichiarati privati, per l'inserimento e rimozione di utenti da database deve essere disponibile solo all'utente amministratore.
+
+Il salvataggio di utenti avviene su file XML con l'utilizzo di QXmlStreamWriter, mentre il caricamento con QXmlStreamReader. In caso il file non esista viene creato. Particolare attenzione bisogna dare al caricamento degli utenti, in quanto la creazione della lista dei contatti avviene solo dopo aver caricato tutti gli utenti nel database. Questo perchè la lista dei contatti è composta da oggetti SmartUtente e non si può inserire un utente se non esiste.
+
+Tra gli altri metodi pubblici, viene fornito il metodo \texttt{QVector<SmartUtente> getUsersList() const} che restituisce la lista degli utenti del database.
+
+\subsection*{LinQedInClient}
+Utilizzata per la gesione del client lato utente. Contiente un campo dati SmartUtente che corrisponde all'utente utilizzatore del client ed un puntatore ad un oggetto Database che rappresenta il database degli utenti del client. Mette a disposizione dei semplici metodi per salvare i campi dati dell'utente utilizzatore del client. La definizione di questi metodi si limita a richiamare la funzione \texttt{void saveUsersList() const} in quanto, essendo un piccolo database di utenti, la riscrittura di tutto il file non è onerosa.
+
+\subsection*{LinQedInAdmin}
+Utilizzata per la gestione del client lato amministratore. A differenza di LinQedInClient, questa classe funziona come controller (del pattern Model-View-Controller) in quanto i metodi forniti collegano la parte logica alle funzionalità della parte grafica. Vengono messi a disposizione metodi per inserimento, rimozione, ricerca e cambio tipolgia di account degli utenti, oltre ai metodi per il caricamento ed il salvataggio.
+
+\section*{Parte Grafica}
+La parte grafica si compone di 29 classi. Nella realizzazione della GUI si è cercato di seguire i principi del \textit{Material Design}.
+
+\susbsection*{}
 
 \end{document}

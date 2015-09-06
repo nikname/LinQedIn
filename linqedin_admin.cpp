@@ -1,8 +1,8 @@
+#include <QDebug>
 #include "linqedin_admin.h"
 #include "utente_basic.h"
 #include "utente_executive.h"
 #include "utente_business.h"
-#include <QDebug>
 
 // COSTRUTTORE LinQedInAdmin
 LinQedInAdmin::LinQedInAdmin() : db( new Database ) {
@@ -14,13 +14,13 @@ LinQedInAdmin::~LinQedInAdmin() {
     delete db;
 }
 
-// METODO LinQedInAdmin::insertUser
-bool LinQedInAdmin::insertUser( SmartUtente su ) {
+// METODO LinQedInAdmin::insertUser( SmartUtente )
+bool LinQedInAdmin::insertUser( const SmartUtente& su ) {
     return db->insert( su );
 }
 
-// METODO LinQedInAdmin::getUser
-SmartUtente LinQedInAdmin::getUser( QString u ) const {
+// METODO LinQedInAdmin::getUser( QString )
+SmartUtente LinQedInAdmin::getUser( const QString& u ) const {
     if( db->contains( u ) ) {
         QVectorIterator<SmartUtente> it( db->getUsersList() );
         while( it.hasNext() ) {
@@ -32,23 +32,20 @@ SmartUtente LinQedInAdmin::getUser( QString u ) const {
     return SmartUtente();
 }
 
-// METODO LinQedInAdmin::removeUser
-bool LinQedInAdmin::removeUser( QString u ) {
+// METODO LinQedInAdmin::removeUser( QString )
+bool LinQedInAdmin::removeUser( const QString& u ) {
     return db->remove( u );
 }
 
-// METODO LinQedInAdmin::changeSubscriptionType
-void LinQedInAdmin::changeSubscriptionType( QString un, QString type ) {
+// METODO LinQedInAdmin::changeSubscriptionType( QString, QString )
+void LinQedInAdmin::changeSubscriptionType( const QString& un, const QString& type ) {
     if( db->contains( un ) ) {
         SmartUtente su = getUser( un );
         db->remove( un );
-        if( type == "Basic" ) {
-            db->insert( new UtenteBasic( *su ) );
-        } else if( type == "Executive" ) {
-            db->insert( new UtenteExecutive( *su ) );
-        } else if( type == "Business" ) {
-            db->insert( new UtenteBusiness( *su ) );
-        } else {}
+        if( type == "Basic" ) { db->insert( new UtenteBasic( *su ) ); }
+        else if( type == "Executive" ) { db->insert( new UtenteExecutive( *su ) ); }
+        else if( type == "Business" ) { db->insert( new UtenteBusiness( *su ) ); }
+        else {}
     }
 }
 

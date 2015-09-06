@@ -57,7 +57,8 @@ SOURCES += main.cpp\
     gui/adminsearchdialog.cpp \
     gui/mysortfilterproxymodel.cpp \
     gui/otherinfowidget.cpp \
-    gui/editpersonalinfodialog.cpp
+    gui/editpersonalinfodialog.cpp \
+    gui/loginwindow.cpp
 
 HEADERS  += \
     profilo.h \
@@ -75,7 +76,6 @@ HEADERS  += \
     lavoro.h \
     smarttitolo.h \
     smartlavoro.h \
-    gui/mainwindow.h \
     gui/adminwindow.h \
     gui/clientwindow.h \
     gui/tablemodel.h \
@@ -105,7 +105,9 @@ HEADERS  += \
     gui/adminsearchdialog.h \
     gui/mysortfilterproxymodel.h \
     gui/otherinfowidget.h \
-    gui/editpersonalinfodialog.h
+    gui/editpersonalinfodialog.h \
+    gui/mainwindow.h \
+    gui/loginwindow.h
 
 FORMS    +=
 

@@ -8,7 +8,7 @@
 #include "adduserdialog.h"
 #include "adminsearchdialog.h"
 #include "adminwindow.h"
-#include "mainwindow.h"
+#include "loginwindow.h"
 #include "userlistwidget.h"
 #include "linqedin_admin.h"
 #include "utente.h"
@@ -211,7 +211,7 @@ void AdminWindow::setButtonProperties( QPushButton* button, const QString& press
 void AdminWindow::logout() {
     this->close();
 
-    new MainWindow();
+    new LoginWindow();
 }
 
 // SLOT AdminWindow::about
