@@ -1,11 +1,7 @@
-#include "utente.h"
-#include "rete.h"
-#include "smartutente.h"
-#include "formazione.h"
-#include "titolo.h"
-#include "esperienza.h"
 #include "lavoro.h"
-#include "database.h"
+#include "rete.h"
+#include "titolo.h"
+#include "utente.h"
 
 // COSTRUTTORE Utente
 Utente::Utente( const QString& un, const QString& name, const QString& surname ) :
@@ -49,78 +45,78 @@ Utente::~Utente() {
     }
 }
 
-// METODO getUsername Utente
+// METODO Utente::getUsername
 QString Utente::getUsername() const {
     return username;
 }
 
-// METODO getName Utente
+// METODO Utente::getName
 QString Utente::getName() const {
     return profile.getName();
 }
 
-// METODO getSurname Utente
+// METODO Utente::getSurname
 QString Utente::getSurname() const {
     return profile.getSurname();
 }
 
-// METODO getBirthday Utente
+// METODO Utente::getBirthday
 QDate Utente::getBirthday() const {
     return profile.getBirthday();
 }
 
-// METODO getMaritialStatus Utente
+// METODO Utente::getMaritialStatus
 QString Utente::getMaritialStatus() const {
     return profile.getMaritialStatus();
 }
 
-// METODO setName Utente
+// METODO Utente::setName( QString )
 void Utente::setName( const QString& n ) {
     profile.setName( n );
 }
 
-// METODO setSurname Utente
+// METODO Utente::setSurname( QString )
 void Utente::setSurname( const QString& s ) {
     profile.setSurname( s );
 }
 
-// METODO setBirthday Utente
+// METODO Utente::setBirthday( QDate )
 void Utente::setBirthday( const QDate& b ) {
     profile.setBirthday( b );
 }
 
-// METODO setMaritialStatus Utente
+// METODO Utente::setMaritialStatus( QString )
 void Utente::setMaritialStatus( const QString& ms ) {
     profile.setMaritialStatus( ms );
 }
 
-// METODO addContact Utente
+// METODO Utente::addContact( SmartUtente )
 void Utente::addContact( const SmartUtente& su ) {
     net->addContact( su );
 }
 
-// METODO removeContact Utente
+// METODO Utente::removeContact( SmartUtente )
 void Utente::removeContact( const SmartUtente& su ) {
     net->removeContact( su );
 }
 
-// METODO Utente::isContact
+// METODO Utente::isContact( SmartUtente )
 bool Utente::isContact( const SmartUtente& su ) {
     return net->isContact( su );
 }
 
-// METODO getContactsList Utente
+// METODO Utente::getContactsList
 QVector<SmartUtente> Utente::getContactsList() const {
     return net->getContactsList();
 }
 
-// METODO addEducation Utente
-void Utente::addEducation( SmartTitolo t ) {
+// METODO Utente::addEducation( SmartTitolo )
+void Utente::addEducation( const SmartTitolo& t ) {
     educations->addEducation( t );
 }
 
 // METODO removeEducation Utente
-void Utente::removeEducation( SmartTitolo t ) {
+void Utente::removeEducation( const SmartTitolo& t ) {
     educations->removeEducation( t );
 }
 
@@ -129,34 +125,24 @@ QVector<SmartTitolo> Utente::getEducationsList() const {
     return educations->getEducationsList();
 }
 
-// METODO Utente::setEducationsList
-void Utente::setEducationsList( QVector<SmartTitolo> v ) {
-    educations->setEducationsList( v );
-}
-
-// METODO getEducationsIterator
+// METODO Utente::getEducationsIterator
 Formazione::Iteratore Utente::getEducationsIterator() const {
     return educations->begin();
 }
 
-// METODO addExperience Utente
-void Utente::addExperience( SmartLavoro l ) {
+// METODO Utente::addExperience( SmartLavoro )
+void Utente::addExperience( const SmartLavoro& l ) {
     experiences->addExperience( l );
 }
 
-// METODO removeExperience Utente
-void Utente::removeExperience( SmartLavoro l ) {
+// METODO Utente::removeExperience( SmartLavoro )
+void Utente::removeExperience( const SmartLavoro& l ) {
     experiences->removeExperience( l );
 }
 
-// METODO getExperiencesList Utente
+// METODO Utente::getExperiencesList
 QVector<SmartLavoro> Utente::getExperiencesList() const {
     return experiences->getExperiencesList();
-}
-
-// METODO Utente::setExperiencesList
-void Utente::setExperiencesList( QVector<SmartLavoro> v ) {
-    experiences->setExperiencesList( v );
 }
 
 // METODO getExperiecesIterator Utente
@@ -165,7 +151,7 @@ Esperienza::Iteratore Utente::getExperiencesIterator() const {
 }
 
 // OPERATOR << Utente
-QDebug operator <<( QDebug qdbg, const Utente& u ) {
+QDebug& operator <<( QDebug& qdbg, const Utente& u ) {
     qdbg << "*** PROFILO UTENTE ***" << "\n";
     qdbg << "USERNAME: " << u.getUsername() << "\n";
     qdbg << "PROFILO:" << "\n";

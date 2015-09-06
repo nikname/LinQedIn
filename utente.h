@@ -4,16 +4,17 @@
 #include <QString>
 #include <QDate>
 #include "profilo.h"
-#include "smartutente.h"
-#include "formazione.h"
 #include "esperienza.h"
+#include "formazione.h"
+#include "smartlavoro.h"
+#include "smarttitolo.h"
+#include "smartutente.h"
 
-class Database;
 class Rete;
 
 class Utente {
     friend class SmartUtente;
-    friend QDebug operator <<( QDebug, const Utente& );
+    friend QDebug& operator <<( QDebug&, const Utente& );
 private:
     int references; // Gestito da SmartUtente
 protected:
@@ -27,11 +28,11 @@ public:
      *  Costruisce un utente associandgli username, nome e cognome.
      *  Inizializza il contatore di riferimenti ad 1.
      *
-     * @param QString un  Username dell'utente da creare.
-     * @param QString name  Nome dell'utente da creare.
-     * @param QString surname  Cognome dell'utente da creare.
+     * @param QString  Username dell'utente da creare.
+     * @param QString  Nome dell'utente da creare.
+     * @param QString  Cognome dell'utente da creare.
      */
-    Utente( const QString& un = "", const QString& name = "", const QString& surname = "" );
+    Utente( const QString& = "", const QString& = "", const QString& = "" );
 
     /** Costruttore di copia di Utente.
      *  Incrementa il contatore di riferimenti all'oggetto utente di 1.
@@ -151,14 +152,14 @@ public:
      *
      * @param SmartTitolo  Titolo di studio da aggiungere.
      */
-    void addEducation( SmartTitolo );
+    void addEducation( const SmartTitolo& );
 
     /** Rimuove un titolo di studio dall'elenco dei titoli di studio.
      *  Invoca il metodo removeEducation() del campo dati educations dell'utente.
      *
      * @param SmartTitolo  Titolo di studio da rimuovere.
      */
-    void removeEducation( SmartTitolo );
+    void removeEducation( const SmartTitolo& );
 
     /** Ritorna un vettore di puntatori ai titoli di studio dell'utente.
      *  Invoca il metodo getEducationsList() del campo dati educations dell'utente.
@@ -166,14 +167,6 @@ public:
      * @return QVector<SmartTitolo>  Vettore di puntatori ai titoli di studio dell'utente.
      */
     QVector<SmartTitolo> getEducationsList() const;
-
-    /** Crea una nuova lista dei titoli di studio. Rimuove un'eventuale lista preesistente.
-     *  Invoca il metodo setEducationsList( QVector<SmartTitolo> ) del campo dati educations di tipo
-     *  Formazione.
-     *
-     * @param  QVector<SmartTitolo>  Lista dei nuovi titoli di studio dell'utente.
-     */
-    void setEducationsList( QVector<SmartTitolo> );
 
     /** Restituisce un iteratore sulla lista dei titoli di studio dell'utente.
      *  Invoca il metodo begin() di Formazione.
@@ -187,14 +180,14 @@ public:
      *
      * @param SmartLavoro  Esperienza da aggiungere alle esperienze lavorative.
      */
-    void addExperience( SmartLavoro );
+    void addExperience( const SmartLavoro& );
 
     /** Rimuove un'esperienza dalle esperienze lavorative.
      *  Invoca il metodo removeExperience() del campo dati experiences dell'utente.
      *
      * @param SmartLavoro  Esperienza da riumuovere dalle esperienze lavorative.
      */
-    void removeExperience( SmartLavoro );
+    void removeExperience( const SmartLavoro& );
 
     /** Ritorna un vettore di puntatori ai titoli di studio dell'utente.
      *  Invoca il metodo getExperiencesList() del campo dati experiences dell'utente.
@@ -202,14 +195,6 @@ public:
      * @return QVector<SmartLavoro>  Vettore di puntatori ai titoli di studio dell'utente.
      */
     QVector<SmartLavoro> getExperiencesList() const;
-
-    /** Crea una nuova lista delle esperienze lavorative. Rimuove un'eventuale lista preesistente.
-     *  Invoca il metodo setExperiencesList( QVector<SmartLavoro> ) del campo dati educations di tipo
-     *  Esperienza.
-     *
-     * @param  QVector<SmartLavoro>  Lista delle nuove esperienze lavorative.
-     */
-    void setExperiencesList( QVector<SmartLavoro> );
 
     /** Restituisce un iteratore sulla lista delle esperienze lavorative dell'utente.
      *  Invoca il metodo begin() di Esperienza.
@@ -233,6 +218,6 @@ public:
  * @param Utente  Oggetto Utente.
  * @param QDebug  QDebug.
  */
-QDebug operator <<( QDebug, const Utente& );
+QDebug& operator <<( QDebug&, const Utente& );
 
 #endif

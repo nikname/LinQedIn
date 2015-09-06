@@ -29,7 +29,7 @@ Nonostante il progetto si limiti ad offrire le funzionalità richieste, nella re
 La realizzazione del progetto è costata solo nell'ultimo mese di lavoro più di 100 ore. Impossibile definire una quantità totale indicativa.
 
 \section*{Parte Logica}
-La parte logica si compone di 18 classi che ora vederemo nel dettaglio.
+La parte logica si compone di 16 classi che ora vederemo nel dettaglio.
 
 \subsection*{Profilo}
 Utilizzata per la gestione delle informazioni personali di un utente. Di queste informazioni fanno parte: nome, cognome, data di nascita e stato civile. 
@@ -62,13 +62,28 @@ Utilizzata per la gestione degli utenti del client. Contiene un campo dati di ti
 
 La scelta dei puntatori è dovuta al fatto che le liste di contatti, esperienze lavorative e titoli di studio possono crescere e la copia di utenti potrebbe comportare spreco di memoria. La copia degli utenti viene sempre gestita con la tecnica del references counting.
 
-Fornire metodi che ritornino un accesso diretto ad un campo dati tramite puntatore non è una buona pratica. Per questo motivo sono stati riportati tutti i metodi pubblici dei campi dati puntatore nella classe Utente, i quali invocano i metodi corrispondenti nella classe nella quale sono definiti. Purtroppo in questo modo si crea una forte dipendenza con le classi Rete, Formazione ed Esperienza ma l'utilizzo dei metodi risulta più semplice.
+Fornire metodi che permettono un accesso diretto ad un campo dati tramite puntatore non è una buona pratica. Per questo motivo sono stati riportati tutti i metodi pubblici dei campi dati puntatore nella classe Utente, i quali invocano i metodi corrispondenti nella classe di appartenenza. Purtroppo in questo modo si crea una forte dipendenza con le classi Rete, Formazione ed Esperienza ma l'utilizzo dei metodi risulta più semplice.
+
+Viene fornita inoltre la classe SmartUtente per la gestione automatica del campo riferimenti in caso di condivisione di memoria tra puntatori ad oggetti di tipo Utente.
 
 \subsubsection*{Gerarchia}
-La classe Utente è una classe base polimorfa ed astratta in quanto contiene il distruttore definito virtuale e puro (condizione necessaria e sufficiente ma sono dichiarati altri metodi virtuali o virtuali puri).
+La classe Utente è una classe base polimorfa ed astratta in quanto contiene il distruttore definito virtuale e puro (condizione necessaria e sufficiente ma anche altr metodi sono dichiarati virtuali o virtuali puri).
 
-Come sottoclassi dirette della gerar
+Inizialmente, poichè la differenza principale tra le varie tipologie di account sta nell'essere gratuito o meno, erano state create due sottoclassi (sempre astratte) UtenteGratis e UtentePagante. Da UtenteGratis poi veniva derivata la classe concreta UtenteBasic, mentre da UtentePagante venivano derivate le classi UtenteExecutive ed UtenteBusiness.
+
+Nonostante questa fosse la gerarchia più corretta, data l'assenza di nuovi campi dati o metodi definiti nelle due classi intermedie (e per semplicità), è stato deciso di rimuovere UtentePagante ed UtenteGratis e far derivare direttamente le 3 classi concrete da Utente.
 
 \subsubsection*{Ricerca}
+La funzionalità di ricerca è stata l'ultima ad essere sviluppata. Purtroppo la versione definitiva non è una buona soluzione ma non lo erano nemmeno le altre valutate e provate.
+
+Una delle versioni faceva uso della classe FuntoreRicerca, classe funtore, definita interna ad Utente e di un metodo \texttt{QVector<SmartUtente> searchUsers( QVector<SmartUtente> )} virtuale puro che in base alla ridefinizione nelle classi concrete ritornava un vettore di nuovi oggetti SmartUtente creati di copia dal vettore passato come parametro, ai quali venivano rimossi i campi non visualizzabili in base alla tipologia. 
+
+Questo però aveva comportato la necessità di aggiungere dei metodi \texttt{*clone() const} e di costruttori appositi in tutte le classi concrete della gerarchia Utente e lo stesso nelle classi Rete, Formazione ed Esperienza, la ridefinizione dell'operatore \texttt{delete} nelle ultime 3 e l'aggiunta di metodi per distruggere manualmente i campi dati puntatore della classe Utente in base alle informazioni che si volevano rendere disponibili. In questo modo però era necessaria anche la modifica dei metodi della classe Utente per controllare che i campi dati puntatore fossero validi. La necessità di distruggere i campi dati era dovuta al fatto che, ad esempio, una lista di contatti vuota è diversa da una lista di contatti inaccessibile.
+
+Anche se funzionante come soluzione era troppo complessa e c'era il serio rischio di introduzione di errori. Per questo motivo si è passati ad una soluzione molto più semplice. Tolti tutti i metodi, costruttori ed operatori aggiunti e la classe funtore, si è aggiunto un metodo virtuale puro \texttt{QList<QString> getUserInfo() const} che restituisce una lista con degli indicatori per i campi accessibili dall'utente. Purtroppo anche se più semplice per molti versi è peggiore della precedente in quanto in questo modo il risultato non è l'utente con le sole informazioni visualizzabili, ma una semplice lista da utilizzare per filtrarle.
+
+Durante la stesura di questa relazione mi sono reso conto che la prima soluzione funzionante era la migliore e la complessità era dovuta al fatto che i campi dati puntatore venivano creati con una lista di default, mentre la cosa più logica era quella di inizializzare i campi a 0 ed aggiungere i controlli necessari nei metodi in Utente.
+ 
+\subsection*{} 
 
 \end{document}
