@@ -2,7 +2,7 @@
 #define ADMINWINDOW_H
 
 #include <QItemSelection>
-#include <QMainWindow>
+#include "linqedinwindow.h"
 #include "smartutente.h"
 
 class AdminSearchWidget;
@@ -14,7 +14,7 @@ class QPushButton;
 class SmartUtente;
 class UserListWidget;
 
-class AdminWindow : public QMainWindow {
+class AdminWindow : public LinQedInWindow {
     Q_OBJECT
     friend class AddUserDialog;
 private:
@@ -23,11 +23,7 @@ private:
 
     LinQedInAdmin *admin;
 
-    QMenu *menu;
     QAction *logoutAct;
-    QAction *exitAct;
-    QMenu *helpMenu;
-    QAction *aboutAct;
 
     QWidget *menuWidget;
 
@@ -62,12 +58,6 @@ private:
 
     /** Crea il menu. Associa le action al menu ed inserisce il menu nella barra del menu. */
     void createMenus();
-
-    /** Applica delle proprietà agli altri pulsanti dell'area del menu.
-     *
-     * @param QPushButton*  Pulsante al quale applicare le proprietà.
-     */
-    void setButtonProperties( QPushButton*, const QString& = "#3385AD" );
 public:
     /** Costruttore esplicito ad 1 parametro con 1 valore di default.
      *  Come da buona pratica, delega l'inizializzazione della GUI ad un metodo ausiliario.
@@ -100,9 +90,6 @@ signals:
 private slots:
     /** Esegue il log out dall'applicazione. Mostra la finestra di log in. */
     void logout();
-
-    /** Mostra le informazioni dell'applicazione su di una finestra di dialogo. */
-    void about();
 
     /** Apre una nuova finestra per l'inserimento di un nuovo utente. */
     void openAddUserDialog();

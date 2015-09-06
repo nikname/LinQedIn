@@ -1,10 +1,10 @@
-#include <QDebug>
-#include <QIcon>
+#include <QAction>
+#include <QBoxLayout>
 #include <QLabel>
+#include <QMenu>
 #include <QMenuBar>
 #include <QMessageBox>
 #include <QPushButton>
-#include <QVBoxLayout>
 #include "adduserdialog.h"
 #include "adminsearchdialog.h"
 #include "adminwindow.h"
@@ -18,10 +18,10 @@
 
 // COSTRUTTORE AdminWindow
 AdminWindow::AdminWindow( QWidget *parent ) :
+    LinQedInWindow( parent ),
     statusChanged( false ),
     filterActive( false ),
-    admin( new LinQedInAdmin() ),
-    QMainWindow( parent )
+    admin( new LinQedInAdmin() )
 {
     initUI();
     setupUI();
@@ -49,6 +49,8 @@ void AdminWindow::closeEvent( QCloseEvent* event ) {
 
 // METODO AdminWindow::initUI
 void AdminWindow::initUI() {
+    logoutAct = new QAction( tr( "Log Out" ), this );
+
     userListWidget = new UserListWidget( admin->getUsersList(), this );
 
     menuWidget = new QWidget( this );
@@ -174,37 +176,13 @@ void AdminWindow::setupUI() {
 
 // METODO AdminWindow::createMenuActions
 void AdminWindow::createMenuActions() {
-    logoutAct = new QAction( tr( "Log Out" ), this );
     logoutAct->setStatusTip( tr( "Log out dall'applicazione"));
     connect( logoutAct, SIGNAL( triggered() ), this, SLOT( logout() ) );
-
-    exitAct = new QAction( tr( "Exit" ), this );
-    exitAct->setStatusTip( tr( "Chiudi applicazione" ) );
-    connect( exitAct, SIGNAL( triggered() ), this, SLOT( close() ) );
-
-    aboutAct = new QAction( tr( "About" ), this );
-    aboutAct->setStatusTip( tr( "Mostra informazioni sull'applicazione") );
-    connect( aboutAct, SIGNAL( triggered() ), this, SLOT( about() ) );
 }
 
 // METODO AdminWindow::createMenus
 void AdminWindow::createMenus() {
-    menu = menuBar()->addMenu( tr( "&Menu" ) );
-    menu->addAction( logoutAct );
-    menu->addAction( exitAct );
-    helpMenu = menuBar()->addMenu( tr( "&Help" ) );
-    helpMenu->addAction( aboutAct );
-}
-
-// METODO AdminWindow::setButtonProperties( QPushButton* )
-void AdminWindow::setButtonProperties( QPushButton* button, const QString& pressed_color ) {
-    button->setFixedSize( 50, 50 );
-    QString style = QString(
-        "QPushButton { border-radius: 25px; outline: 0; }"
-        "QPushButton:pressed { background: %1; }"
-    ).arg( pressed_color );
-
-    button->setStyleSheet( style );
+    menu->insertAction( exitAct, logoutAct );
 }
 
 // SLOT AdminWindow::logout
@@ -212,17 +190,6 @@ void AdminWindow::logout() {
     this->close();
 
     new LoginWindow();
-}
-
-// SLOT AdminWindow::about
-void AdminWindow::about() {
-    QMessageBox::about( this, tr("About Menu"), tr(
-        "<b>LinQedIn</b>"
-        "<p>Progetto per il corso di Programmazione ad Oggetti presso l'Università degli "
-        "Studi di Padova.</p>"
-        "<p>Lo scopo del progetto era lo sviluppo in C++/Qt di un sistema minimale per "
-        "l'amministrazione ed utilizzo tramite interfaccia utente grafica di un (piccolo) "
-        "database di contatti professionali ispirato a LinkedIn.</p>" ) );
 }
 
 // SLOT AdminWindow::openAddUserDialog

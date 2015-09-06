@@ -2,6 +2,7 @@
 #include <QMenu>
 #include <QMenuBar>
 #include <QMessageBox>
+#include <QPushButton>
 #include "linqedinwindow.h"
 
 // COSTRUTTORE LinQedInWindow
@@ -42,6 +43,17 @@ void LinQedInWindow::createMenuActions() {
 void LinQedInWindow::createMenus() {
     menu->addAction( exitAct );
     helpMenu->addAction( aboutAct );
+}
+
+// METODO LinQedInWindow::setButtonProperties( QPushButton*, QString )
+void LinQedInWindow::setButtonProperties( QPushButton* button, const QString& pressed_color ) {
+    button->setFixedSize( 50, 50 );
+    QString style = QString(
+        "QPushButton { border-radius: 25px; outline: 0; }"
+        "QPushButton:pressed { background: %1; }"
+    ).arg( pressed_color );
+
+    button->setStyleSheet( style );
 }
 
 // SLOT LinQedInWindow::about

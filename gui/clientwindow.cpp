@@ -3,6 +3,7 @@
 #include <QLabel>
 #include <QLineEdit>
 #include <QMenu>
+#include <QMenuBar>
 #include <QMessageBox>
 #include <QPushButton>
 #include <QScrollArea>
@@ -213,15 +214,6 @@ void ClientWindow::setMenuButtonSelected( QPushButton *button ) {
             }
         } else { } // throw ...
     }
-}
-
-// METODO ClientWindow::setButtonProperties( QPushButton* )
-void ClientWindow::setButtonProperties( QPushButton* button ) {
-    button->setFixedSize( 50, 50 );
-    button->setStyleSheet(
-        "QPushButton { border-radius: 25px; outline: 0; }"
-        "QPushButton:pressed { background: #3385AD; }"
-    );
 }
 
 // SLOT ClientWindow::logout

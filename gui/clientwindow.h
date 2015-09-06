@@ -53,9 +53,7 @@ private:
     /** Crea le varie action necessarie. */
     void createMenuActions();
 
-    /** Crea il menu.
-     *  Associa le action al menu ed inserisce il menu nella barra del menu.
-     */
+    /** Crea il menu. Associa le action al menu ed inserisce il menu nella barra del menu. */
     void createMenus();
 
     /** Applica delle proprietà ai pulsanti del menu utente.
@@ -69,12 +67,6 @@ private:
      * @param QPushButton*  Bottone selezionato.
      */
     void setMenuButtonSelected( QPushButton* );
-
-    /** Applica delle proprietà agli altri pulsanti dell'area del menu.
-     *
-     * @param QPushButton*  Pulsante al quale applicare le proprietà.
-     */
-    void setButtonProperties( QPushButton* );
 protected:
     /** Override. Salva su file (XML) i dati dell'utente.
      *

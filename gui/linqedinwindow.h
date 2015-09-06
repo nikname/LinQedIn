@@ -5,6 +5,7 @@
 
 class QAction;
 class QMenu;
+class QPushButton;
 
 class LinQedInWindow : public QMainWindow {
     Q_OBJECT
@@ -25,6 +26,13 @@ protected:
     QAction *exitAct;
     QMenu *helpMenu;
     QAction *aboutAct;
+
+    /** Applica delle proprietà agli altri pulsanti dell'area del menu.
+     *
+     * @param QPushButton*  Pulsante al quale applicare le proprietà.
+     * @param QString  Codice del colore di background.
+     */
+    void setButtonProperties( QPushButton*, const QString& = "#3385AD" );
 public:
     /** Costruttore esplicito ad 1 parametro con 1 valore di dafault.
      *  Come da buona pratica, delega l'inizializzazione della GUI ad un metodo ausiliario.
