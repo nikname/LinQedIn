@@ -16,7 +16,7 @@
 
 // COSTRUTTORE ClientWindow
 ClientWindow::ClientWindow( const QString& username, QWidget *parent ) :
-    QMainWindow( parent ),
+    LinQedInWindow( parent ),
     client( new LinQedInClient( username ) )
 {
     initUI();
@@ -39,11 +39,7 @@ void ClientWindow::closeEvent( QCloseEvent *event ) {
 
 // METODO ClientWindow::initUI
 void ClientWindow::initUI() {
-    menu = menuBar()->addMenu( tr( "&Menu" ) );
     logoutAct = new QAction( tr( "Log Out" ), this );
-    exitAct = new QAction( tr( "Exit" ), this );
-    helpMenu = menuBar()->addMenu( tr( "&Help" ) );
-    aboutAct = new QAction( tr( "About" ), this );
 
     menuWidget = new QWidget( this );
 
@@ -179,19 +175,11 @@ void ClientWindow::setupUI() {
 void ClientWindow::createMenuActions() {
     logoutAct->setStatusTip( tr( "Log out dall'applicazione"));
     connect( logoutAct, SIGNAL( triggered() ), this, SLOT( logout() ) );
-
-    exitAct->setStatusTip( tr( "Chiudi applicazione" ) );
-    connect( exitAct, SIGNAL( triggered() ), this, SLOT( close() ) );
-
-    aboutAct->setStatusTip( tr( "Mostra informazioni sull'applicazione") );
-    connect( aboutAct, SIGNAL( triggered() ), this, SLOT( about() ) );
 }
 
 // METODO ClientWindow::createMenus
 void ClientWindow::createMenus() {
-    menu->addAction( logoutAct );
-    menu->addAction( exitAct );
-    helpMenu->addAction( aboutAct );
+    menu->insertAction( exitAct, logoutAct );
 }
 
 // METODO ClientWindow::setMenuButtonsProperties
@@ -241,17 +229,6 @@ void ClientWindow::logout() {
     this->close();
 
     new LoginWindow;
-}
-
-// SLOT ClientWindow::about
-void ClientWindow::about() {
-    QMessageBox::about( this, tr("About Menu"), tr(
-        "<b>LinQedIn</b>"
-        "<p>Progetto per il corso di Programmazione ad Oggetti presso l'Università degli "
-        "Studi di Padova.</p>"
-        "<p>Lo scopo del progetto era lo sviluppo in C++/Qt di un sistema minimale per "
-        "l'amministrazione ed utilizzo tramite interfaccia utente grafica di un (piccolo) "
-        "database di contatti professionali ispirato a LinkedIn.</p>" ) );
 }
 
 // SLOT ClientWindow::openSearchBox()

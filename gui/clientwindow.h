@@ -1,8 +1,8 @@
 #ifndef CLIENTWINDOW_H
 #define CLIENTWINDOW_H
 
-#include <QMainWindow>
 #include <QString>
+#include "linqedinwindow.h"
 #include "smartutente.h"
 
 class LinQedInClient;
@@ -15,16 +15,12 @@ class QPushButton;
 class QScrollArea;
 class SearchResultsWidget;
 
-class ClientWindow : public QMainWindow {
+class ClientWindow : public LinQedInWindow {
     Q_OBJECT
 private:
     LinQedInClient *client;
 
-    QMenu *menu;
     QAction *logoutAct;
-    QAction *exitAct;
-    QMenu *helpMenu;
-    QAction *aboutAct;
 
     QWidget *menuWidget;
 
@@ -96,13 +92,16 @@ public:
     /** Distruttore ridefinito.
      *  Ripulise lo heap.
      */
-    ~ClientWindow();
+    virtual ~ClientWindow();
+signals:
+    /** */
+    void updateContactsListSignal( const SmartUtente& );
+
+    /** */
+    void showUserSignal( const SmartUtente& );
 private slots:
     /** Esegue il log out dall'applicazione. Mostra la finestra di log in. */
     void logout();
-
-    /** Mostra le informazioni dell'applicazione su di una finestra pop-up. */
-    void about();
 
     /** Mostra il box di ricerca. */
     void openSearchBox();
@@ -139,12 +138,6 @@ private slots:
 
     /** */
     void updateContactsSlot( const QString& );
-signals:
-    /** */
-    void updateContactsListSignal( const SmartUtente& );
-
-    /** */
-    void showUserSignal( const SmartUtente& );
 };
 
 #endif // CLIENTWINDOW_H

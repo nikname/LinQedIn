@@ -32,7 +32,7 @@ public:
      *
      * @param QWidget  Puntatore al QWidget padre. Se nullo si riferisce a quello top-level.
      */
-    explicit LinQedInWindow(QWidget *parent = 0);
+    explicit LinQedInWindow( QWidget *parent = 0 );
 
     /** Distruttore virtuale puro.
      *  Ripulisce lo heap.
@@ -40,7 +40,7 @@ public:
     virtual ~LinQedInWindow() = 0;
 signals:
 
-public slots:
+protected slots:
     /** Mostra le informazioni dell'applicazione su di una finestra pop-up. */
     void about();
 };
