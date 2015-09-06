@@ -1,21 +1,16 @@
 #ifndef LOGINWINDOW_H
 #define LOGINWINDOW_H
 
-#include <QMainWindow>
 #include <QMenuBar>
+#include "linqedinwindow.h"
 
 class QLabel;
 class QLineEdit;
 class QPushButton;
 
-class LoginWindow : public QMainWindow {
+class LoginWindow : public LinQedInWindow {
     Q_OBJECT
 private:
-    QMenu *menu;
-    QAction *exitAct;
-    QMenu *helpMenu;
-    QAction *aboutAct;
-
     QLabel *titleLabel;
 
     QLineEdit *userUsername;
@@ -82,9 +77,6 @@ public slots:
 
     /** */
     void openAdminLoginDialog();
-
-    /** Mostra le informazioni dell'applicazione su di una finestra pop-up. */
-    void about();
 };
 
 #endif // LOGINWINDOW_H

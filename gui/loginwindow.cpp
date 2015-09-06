@@ -16,7 +16,7 @@
 
 // COSTRUTTORE LoginWindow
 LoginWindow::LoginWindow( QWidget *parent ) :
-    QMainWindow( parent )
+    LinQedInWindow( parent )
 {
     initUI();
     setupUI();
@@ -40,7 +40,6 @@ void LoginWindow::initUI() {
 
     openAdminLoginButton = new QPushButton();
     connect( openAdminLoginButton, SIGNAL( clicked() ), this, SLOT( openAdminLoginDialog() ) );
-    //connect( openAdminLoginButton, SIGNAL( clicked() ), this, SLOT( loginAdmin() ) );
 }
 
 // METODO LoginWindow::setupUI
@@ -104,23 +103,10 @@ void LoginWindow::setupUI() {
 }
 
 // METODO LoginWindow::createMenuActions
-void LoginWindow::createMenuActions() {
-    exitAct = new QAction( tr( "Exit" ), this );
-    exitAct->setStatusTip( tr( "Esci dall'applicazione" ) );
-    connect( exitAct, SIGNAL( triggered() ), this, SLOT( close() ) );
-
-    aboutAct = new QAction( tr( "About" ), this );
-    aboutAct->setStatusTip( tr( "Mostra le informazioni dell'applicazione") );
-    connect( aboutAct, SIGNAL( triggered() ), this, SLOT( about() ) );
-}
+void LoginWindow::createMenuActions() {}
 
 // METODO LoginWindow::createMenus
-void LoginWindow::createMenus() {
-    menu = menuBar()->addMenu( tr( "&Menu" ) );
-    menu->addAction( exitAct );
-    helpMenu = menuBar()->addMenu( tr( "&Help" ) );
-    helpMenu->addAction( aboutAct );
-}
+void LoginWindow::createMenus() {}
 
 // METODO LoginWindow::setButtonEnabledProperties( QPushButton * )
 void LoginWindow::setButtonEnabledProperties( QPushButton *button ) {
@@ -185,15 +171,4 @@ void LoginWindow::openAdminLoginDialog() {
     connect( adminLoginDialog, SIGNAL( adminLoginSignal() ), this, SLOT( loginAdmin() ) );
 
     adminLoginDialog->exec();
-}
-
-// SLOT LoginWindow::about
-void LoginWindow::about() {
-    QMessageBox::about( this, tr("About Menu"), tr(
-        "<b>LinQedIn</b>"
-        "<p>Progetto per il corso di Programmazione ad Oggetti presso l'Università degli "
-        "Studi di Padova.</p>"
-        "<p>Lo scopo del progetto era lo sviluppo in C++/Qt di un sistema minimale per "
-        "l'amministrazione ed utilizzo tramite interfaccia utente grafica di un (piccolo) "
-        "database di contatti professionali ispirato a LinkedIn.</p>" ) );
 }

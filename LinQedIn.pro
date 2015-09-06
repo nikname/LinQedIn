@@ -28,7 +28,6 @@ SOURCES += main.cpp\
     lavoro.cpp \
     smarttitolo.cpp \
     smartlavoro.cpp \
-    gui/mainwindow.cpp \
     gui/adminwindow.cpp \
     gui/clientwindow.cpp \
     gui/tablemodel.cpp \
@@ -58,7 +57,8 @@ SOURCES += main.cpp\
     gui/mysortfilterproxymodel.cpp \
     gui/otherinfowidget.cpp \
     gui/editpersonalinfodialog.cpp \
-    gui/loginwindow.cpp
+    gui/loginwindow.cpp \
+    gui/linqedinwindow.cpp
 
 HEADERS  += \
     profilo.h \
@@ -106,8 +106,8 @@ HEADERS  += \
     gui/mysortfilterproxymodel.h \
     gui/otherinfowidget.h \
     gui/editpersonalinfodialog.h \
-    gui/mainwindow.h \
-    gui/loginwindow.h
+    gui/loginwindow.h \
+    gui/linqedinwindow.h
 
 FORMS    +=
 
