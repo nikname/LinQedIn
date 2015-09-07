@@ -141,7 +141,7 @@ Nella realizzazione della GUI della classe ClientWindow mi sono ispirato ad un c
 
 \begin{figure}[!ht]
 \centering
-\includegraphics[width=0.7\textwidth]{ClientWindow.png}
+\includegraphics[width=0.6\textwidth]{ClientWindow.png}
 \caption{ClientWindow}
 \end{figure}
 
@@ -200,12 +200,30 @@ Alla pressione del pulsante della ricerca nel menu utente (quando il box di rice
 A differenza della scheda dei contatti, i risultati sono disposti in un elenco.
 
 \subsection*{AdminWindow}
+Richiama lo stesso design semplice ed intuitivo della classe ClientWindow.
 
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=0.6\textwidth]{AdminWindow.png}
+\caption{AdminWindow}
+\end{figure}
+
+A differenza del client utente, le modifiche possono essere annullate alla chiusura del client. Ad ogni modo il salvataggio è possibile in ogni momento tramite il pulsante dedicato presente nel menu. Il menù offre anche la possibilità di aggiunta e ricerca utenti. Il contenuto effettivo del client della finestra del client è composta da un'istanza di UserListWidget, la quale mostra la lista degli utenti in una tabella.
+
+L'aggiunta di un utente avviene tramite la creazione di un'istanza di \textbf{AddUserDialog}. I campi richiesti per l'inserimento sono: username, nome, cognome e tipologi di account. Allo stesso modo la ricerca avviene tramite un'istanza di \textbf{AdminSearchDialog} ed è possibile selezionare in quali campi tra username, nome e password cercare una determinata stringa. Maggiori informazioni riguardo a queste funzionalità saranno fornite più avanti.
+
+In caso di selezione di un utente il menu viene sostituito e vengono mostrate le azioni possibili sull'utente selezionato. Queste azioni sono: rimozione utente e cambio tipologia dell'account. Il cambio tipologia avviene tramite un'istanza di \textbf{ChangeUserTypeDialog}.
+
+Contiene due campi dati booleani che indicano se lo stato del database è cambiato e se la lista degli utenti visualizzata è il risultato di una ricerca.
 
 \subsubsection*{UserListWidget}
+Per la realizzazione della tabella della lista degli utenti è stato seguito l'esempio ``Address Book Example'' presente nel sito ufficiale di Qt.
 
-\subsubsection*{MyProxySortFilterModel}
+La classe UserListWidget funziona da controller (del pattern MVC), dove il model è un'istanza della classe TableModel (definita dal sottoscritto e derivata da QAbstractTableModel), mentre la view è un'istanza della classe QTableView. Poichè l'inserimento di un nuovo utente avveniva in fondo alla tabella, è stata utilizzata un'istanza della classe MySortFilterProxyModel, derivata da QSortFilterProxyModel. La ridefinizione è stata necessaria anche per permettere la ricerca su più campi.
 
 \subsubsection*{TableModel}
+Classe derivata da QAbstractTabelModel. Memorizza il contenuto della tabella in una lista di vettori di oggetti QString. Implementa i metodi \texttt{int rowCount( QModelIndex ) const}, \texttt{int columnCount( QModelIndex ) const}, \texttt{int data( QModelIndex, int ) const} e \texttt{int headerData( QModelIndex, int ) const}, necessari della classe base. Inoltre fornisce un'implementazione per i metodi \texttt{bool insertRows( int, int, QModelIndex )}, \texttt{bool removeRows( int, int, QModelIndex )} e \texttt{bool setData( QModelIndex, QVariant, int )}, per permettere l'inserimento e rimozione di righe dalla tabella.
+
+\subsubsection*{MyProxySortFilterModel}
 
 \end{document}

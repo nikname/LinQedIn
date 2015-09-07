@@ -48,7 +48,14 @@ signals:
      */
     void changeAccountTypeSignal( const QString&, const QString& );
 
-    /** */
+    /** In caso di modifica dell'utente selezionato viene notificato il parent.
+     *  Attualmente l'unica modifica possibile è la tipologia di account.
+     *
+     * @param QString  Username dell'utente dopo la modifica.
+     * @param QString  Nome dell'utente dopo la modifica.
+     * @param QString  Cognome dell'utente dopo la modifica.
+     * @param QString  Tipologia di account dell'utente dopo la modifica.
+     */
     void sendDetails( const QString&, const QString&, const QString&, const QString& );
 private slots:
     /** Aggiunge le informazioni di un utente in una riga della tabella.
@@ -70,16 +77,24 @@ private slots:
      */
     void changeAccountType( const QString&, const QString& );
 
-    /** */
+    /** Apre la finestra di dialogo per il cambio di tipologia dell'account dell'utente. */
     void openChangeTypeDialog();
 
-    /** */
+    /** Deseleziona la riga della tabella selezionata. In questo modo dopo la modifica o rimozione
+     *  di un utente è possibile visualizzare il menu principale.
+     */
     void clearSelections();
 
-    /** */
+    /** Applica un filtro alla tabella in base alla query, ai campi di interesse ed in base alla
+     *  tipologia specificata. Per il momento la ricerca per tipologia non è disponibile.
+     *
+     * @param QString  Stringa da ricercare.
+     * @param QList<QString>  Lista dei campi nei quali cercare.
+     * @param QList<QString>  Lista di quali tipologie di account considerare.
+     */
     void filterTable( const QString&, QList<QString>, QList<QString> );
 
-    /** */
+    /** Ripristina il contenuto della tabella con la lista completa degli utenti. */
     void restoreTableSlot();
 };
 

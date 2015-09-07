@@ -63,7 +63,7 @@ void UserListWidget::setupUI() {
     );
 }
 
-// SLOT UserListWidget::addUser
+// SLOT UserListWidget::addUser( QString, QString, QString, QString )
 void UserListWidget::addUser( const QString& username, const QString& name,
                               const QString& surname, const QString& type )
 {
@@ -101,8 +101,10 @@ void UserListWidget::removeUser() {
     tableView->clearSelection();
 }
 
-// SLOT UserListWidget::changeAccountType
+// SLOT UserListWidget::changeAccountType( QString, QString )
 void UserListWidget::changeAccountType( const QString& un, const QString& t ) {
+    Q_UNUSED( un )
+
     QItemSelectionModel *selectionModel = tableView->selectionModel();
 
     QModelIndexList indexes = selectionModel->selectedRows();
@@ -150,7 +152,7 @@ void UserListWidget::clearSelections() {
     tableView->clearSelection();
 }
 
-// SLOT UserListWidget::filterTable
+// SLOT UserListWidget::filterTable( QString, QList<QString>, QList<QString> )
 void UserListWidget::filterTable( const QString& q, QList<QString> t, QList<QString> f ) {
     QList<int> columns;
     if( f.contains( "Username" ) ) columns.append( 0 );

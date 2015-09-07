@@ -34,7 +34,7 @@ AdminWindow::~AdminWindow() {
     delete admin;
 }
 
-// METODO AdminWindow::closeEvent
+// METODO AdminWindow::closeEvent( QCloseEvent * )
 void AdminWindow::closeEvent( QCloseEvent* event ) {
     if( statusChanged ) {
         QMessageBox::StandardButton closeDialog;
@@ -201,7 +201,7 @@ void AdminWindow::openAddUserDialog() {
     addUserDialog->exec();
 }
 
-// SLOT AdminWindow::addUserSlot
+// SLOT AdminWindow::addUserSlot( QString, QString, QString, QString )
 void AdminWindow::addUserSlot( const QString& un, const QString& n,
                                const QString& s, const QString& t )
 {
@@ -218,19 +218,19 @@ void AdminWindow::addUserSlot( const QString& un, const QString& n,
                                      .arg( su->getUsername() ) );
 }
 
-// SLOT AdminWindow::removeUserSlot
+// SLOT AdminWindow::removeUserSlot( QString )
 void AdminWindow::removeUserSlot( const QString& un ) {
     admin->removeUser( un );
     statusChanged = true;
 }
 
-// SLOT AdminWindow::changeAccountTypeSlot
+// SLOT AdminWindow::changeAccountTypeSlot( QString, QString )
 void AdminWindow::changeAccountTypeSlot( const QString& un, const QString& t ) {
     admin->changeSubscriptionType( un, t );
     statusChanged = true;
 }
 
-// SLOT AdminWindow::updateMenuToolsButtons
+// SLOT AdminWindow::updateMenuToolsButtons( QItemSelection )
 void AdminWindow::updateMenuToolsButtons( const QItemSelection& selection ) {
     QModelIndexList indexes = selection.indexes();
 

@@ -6,7 +6,7 @@ MySortFilterProxyModel::MySortFilterProxyModel( QObject *parent ) :
     QSortFilterProxyModel( parent )
 {}
 
-// METODO MySortFilterProxyModel::filterAcceptsRow
+// METODO MySortFilterProxyModel::filterAcceptsRow( int, QModelIndex )
 bool MySortFilterProxyModel::filterAcceptsRow( int sourceRow, const QModelIndex& sourceParent ) const {
     if( columnPatterns.isEmpty() )
         return true;
@@ -21,16 +21,16 @@ bool MySortFilterProxyModel::filterAcceptsRow( int sourceRow, const QModelIndex&
     return test;
 }
 
-// METODO MySortFilterProxyModel::setFilterKeyColumns
-void MySortFilterProxyModel::setFilterKeyColumns( const QList<int> &filterColumns ) {
+// METODO MySortFilterProxyModel::setFilterKeyColumns( QList<int> )
+void MySortFilterProxyModel::setFilterKeyColumns( const QList<int>& filterColumns ) {
     columnPatterns.clear();
 
     foreach( int column, filterColumns )
         columnPatterns.insert( column, QString() );
 }
 
-// METODO MySortFilterProxyModel::addFilterFixedString
-void MySortFilterProxyModel::addFilterFixedString( int column, const QString &pattern ) {
+// METODO MySortFilterProxyModel::addFilterFixedString( int, QString )
+void MySortFilterProxyModel::addFilterFixedString( int column, const QString& pattern ) {
     if( !columnPatterns.contains( column ) )
         return;
 

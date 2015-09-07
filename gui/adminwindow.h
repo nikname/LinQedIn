@@ -109,22 +109,35 @@ private slots:
      */
     void removeUserSlot( const QString& );
 
-    /** */
+    /** Esegue l'effettivo cambio di tipologia di account dell'utente.
+     *  Imposta il flag stateChanged a true.
+     *
+     * @param QString  Username dell'utente interessato dal cambio di tipologia.
+     * @param QString  Nuova tipologia di account.
+     */
     void changeAccountTypeSlot( const QString&, const QString& );
 
-    /** */
+    /** Eseguito quando viene selezionata una cella nella tabella degli utenti. Se la cella è
+     *  valida allora mostra il menu delle azioni sull'utente selezionato. Altrimenti, in base
+     *  al valore del flag filterActive mostra il menu generale o il menu dei risultati della
+     *  ricerca.
+     *
+     * @param QItemSelection  Indice della tabella selezionato.
+     */
     void updateMenuToolsButtons( const QItemSelection& = QItemSelection() );
 
     /** Salva su file (XML) lo stato del database. */
     void saveDatabaseStatus();
 
-    /** */
+    /** Apre la finestra di dialogo per la ricerca degli utenti. */
     void openSearchDialog();
 
-    /** */
+    /** Mostra il menu da visualizzare quando si effettua una ricerca. */
     void showSearchResultsMenu();
 
-    /** */
+    /** Ripristina il contenuto della tabella all'elenco di tutti gli utenti del database.
+     *  Ripristina il valore del flag filterActive a false.
+     */
     void backToTable();
 };
 
