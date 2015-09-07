@@ -61,6 +61,8 @@ void AdminLoginDialog::setupUI() {
 
 // SLOT AdminLoginDialog::checkInput( QString )
 void AdminLoginDialog::checkInput( const QString& input ) {
+    Q_UNUSED( input )
+
     if( passwordEdit->text().isEmpty() )
         setButtonDisabled( acceptButton, true );
     else setButtonEnabled( acceptButton, true );

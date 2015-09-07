@@ -11,12 +11,7 @@ class QPushButton;
 class AdminLoginDialog : public LinQedInDialog {
     Q_OBJECT
 private:
-    QLabel *titleLabel;
-
     QLineEdit *passwordEdit;
-
-    QPushButton *rejectButton;
-    QPushButton *acceptButton;
 
     /** Inizializza la UI. */
     void initUI();
@@ -30,13 +25,19 @@ public:
      */
     explicit AdminLoginDialog( QWidget *parent = 0 );
 signals:
-    /** */
+    /** Notifica il parent di aprire il client per l'amministratore. */
     void adminLoginSignal();
 public slots:
-    /** */
+    /** Controlla il contenuto dell'input utente. Nel caso il campo della password risulti vuoto
+     *  (gli spazi ad inizio e fine non vengono considerati) disabilita il pulsante di conferma.
+     *
+     * @param QString  Contenuto dell'input utente.
+     */
     void checkInput( const QString& );
 
-    /** */
+    /** Chiude la finestra di dialogo ed emette il segnale adminLoginSingal(). Per semplicità, il
+     *  controllo effettivo della password non viene eseguito.
+     */
     void checkPassword();
 };
 

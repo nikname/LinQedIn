@@ -29,16 +29,28 @@ protected:
      */
     void setButtonEnabled( QPushButton *, bool );
 
-    /** */
+    /** Applica proprieta specifiche per pulsanti abilitati.
+     *
+     * @param QPushButton *  Pulsante al quale applicare le proprietà.
+     */
     void setButtonEnabledProperties( QPushButton * );
 
-    /** */
+    /** Applica proprieta specifiche per pulsanti disabilitati.
+     *
+     * @param QPushButton *  Pulsante al quale applicare le proprietà.
+     */
     void setButtonDisabledProperties( QPushButton * );
 
-    /** */
+    /** Applica proprieta specifiche alle aree di input utente.
+     *
+     * @param QLineEdit *  Area di input utente alla quale applicare le proprietà.
+     */
     void setLineEditProperties( QLineEdit * );
 
-    /** */
+    /** Applica proprieta specifiche alle etichette che fungono da titolo alle aree di input utente.
+     *
+     * @param QLabel *  Etichetta alla quale applicare le proprietà.
+     */
     void setTitleLabelProperties( QLabel * );
 
     /** Override.
@@ -53,8 +65,8 @@ public:
      */
     explicit LinQedInDialog( QWidget *parent = 0 );
 
-    /** */
-    ~LinQedInDialog() = 0;
+    /** Distruttore virtuale puro. */
+    virtual ~LinQedInDialog() = 0;
 };
 
 #endif // LINQEDINDIALOG_H

@@ -1,4 +1,4 @@
-\documentclass[a4paper,openany]{article}
+\documentclass[a4paper]{article}
 \usepackage[utf8]{inputenc}
 \usepackage[english,italian]{babel}
 \usepackage{afterpage}
@@ -24,9 +24,11 @@ Tra le funzionalità disponibili all'utente amministratore troviamo: inserimento
 
 Per la realizzazione della GUI è stato utilizzato IDE QtCreator ma senza l'ausilio del tool QtDesigner. In questo modo il codice risulta più pulito.
 
-Nonostante il progetto si limiti ad offrire le funzionalità richieste, nella realizzazione è stata data molta importanza a concetti come information hiding, modularità, estendibilità e qualità del codice. 
+Nonostante il progetto si limiti ad offrire le funzionalità richieste, nella realizzazione è stata data molta importanza a concetti come information hiding, modularità, estendibilità e qualità del codice.
 
 La realizzazione del progetto è costata solo nell'ultimo mese di lavoro più di 100 ore. Impossibile definire una quantità totale indicativa.
+
+La presente relazione non deve essere considerata come documentazione. Viene fornita una breve descrizione di tutte le classi e della logica, soffermandosi solo nei dettagli più importanti.\footnote{Una documentazione più dettagliata è presente nel codice sottoforma di commenti.}
 
 \section*{Parte Logica}
 La parte logica si compone di 16 classi che ora vederemo nel dettaglio.
@@ -36,7 +38,7 @@ Utilizzata per la gestione delle informazioni personali di un utente. Di queste 
 
 La rappesentazione interna viene nascosta con l'utilizzo di un puntatore ad una classe interna privata InfoPersonali. In questo modo viene nascosto all'utente finale la modalità di memorizzazione dei dati (\textit{information hiding}).
 
-L'utilizzo di un puntatore per nascondere la rappresentazione interna può provocare problemi di condivisione di memoria. Per questo motivo in caso di costruzione di copia di un oggetto Profilo, viene effettuata una copia profonda del campo dati di tipo InfoPersonali*. In questi casi è necessario che anche l'operatore di assegnazione sia ridefinito in modo che effettui un'assegnazione profonda. Vengono forniti metodi getter e setter per tutte le informazioni memorizzabili in un oggetto Profilo.\footnote{Nella descrizione delle classi seguenti questa informazione sarà omessa.}
+L'utilizzo di un puntatore per nascondere la rappresentazione interna può provocare problemi di condivisione di memoria. Per questo motivo in caso di costruzione di copia di un oggetto Profilo, viene effettuata una copia profonda del campo dati di tipo InfoPersonali*. In questi casi è necessario che anche l'operatore di assegnazione sia ridefinito in modo che effettui un'assegnazione profonda. Vengono forniti metodi getter e setter per tutte le informazioni memorizzabili in un oggetto Profilo.\footnote{Per questa e tutte le altre classi seguenti saranno omessi i metodi getter e setter.}
 
 \subsection*{Rete}
 Utilizzata per la gestione della lista dei contatti di un utente. I contatti sono memorizzati come oggetti di tipo SmartUtente che saranno descritti più avanti.
@@ -102,6 +104,46 @@ Utilizzata per la gestione del client lato amministratore. A differenza di LinQe
 \section*{Parte Grafica}
 La parte grafica si compone di 29 classi. Nella realizzazione della GUI si è cercato di seguire i principi del \textit{Material Design}.
 
-\susbsection*{}
+Una delle caratteristiche che accomunano tutte la componenti della GUI è la presenza dei due metodi privati ausiliari \texttt{void initUI()} e \texttt{void setupUI()} per l'inizialiazzazione e realizzazione della GUI rispettivamente. Inoltre la ridefinizione del distruttore non è necessaria in quanto nell'inizializzazione dei campi dati di tipo puntatore viene passato come QWidget parent \texttt{this}. In questo modo alla distruzione del parent (quindi dell'instaza della classe) vengono distrutti tutti gli oggetti figli.
+
+\subsection*{LinQedInWindow}
+Classe base astratta che estende QMainWindow, da utilizzare come classe base per tutte le finestre del client. Offre campi e metodi comuni. Così facendo la necessità di una stessa modifica in ognuna di queste può essere effettuata una sola volta. Le classi derivate sono: LoginWindow, AdminWindow e ClientWindow.
+
+\subsection*{LinQedInDialog}
+Classe base astratta che estende QDialog, da utilizzare come classe base per tutte le finestre di dialogo del client. Come per LinQedInWindow, offre campi e metodi comuni. Le classi derivate sono: AddJobDialog, AddTitleDialog, AddUserDialog, AdminLoginDialog, AdminSearchDialog, ChangeUserTypeDialog, EditJobDialog, EditProfileDialog e EditTitleDialog.
+
+\subsection*{LoginWindow}
+\begin{figure}[!ht]
+\centering
+\caption{Finestra di login}
+\includegraphics[width=0.6\textwidth]{LoginWindow.png}
+\end{figure}
+
+L'accesso ad entrambi i client (per gli utenti o per l'amministratore) avviene tramite la stessa finestra di login.
+
+Il pulsante per l'accesso utente risulta disabilitato e viene abilitato solo quando entrabi i campi (username e password) risultano non vuoti. Per fare questo è stato connesso lo slot \texttt{void checkInput( QString )} al segnale \texttt{textChanged( QString )} che viene emesso ogni volta che il contenuto di uno tra i due oggetti QLineEdit viene modificato. Gli spazi ad inizio e fine vengono ignorati. Il controllo effettivo avviene solo nell'username, mentre il campo password è stato aggiunto solo per completezza. Il controllo di entrambi i campi non è stato ritenuto molto importante, ma è stata data più attenzione all'utilizzo corretto delle librerie Qt, alla qualità ed all'usabilità. Non è esclusa una probabile implementazione futura.
+
+Al pulsante di log in è connesso lo slot \texttt{void loginUser()} che crea un'istanza di ClientWindow (passando l'username) con parent 0 (quindi top-level) e distrugge l'istanza di LoginWindow.
+
+L'accesso amministrativo avviene tramite l'apertura della finestra di dialogo di tipo AdminLoginDialog. Alla pressione del pulsante nell'angolo in basso a destra è connesso lo slot \texttt{void openAdminLoginDialog()} che crea un oggetto AdminLoginDialog.
+
+\begin{figure}[!ht]
+\centering
+\caption{AdminLoginDialog}
+\includegraphics[width=0.4\textwidth]{AdminLoginDialog.png}
+\end{figure}
+
+Nella costruzione di quest'ultima viene passato come oggetto QWidget parent l'istanza della classe LoginWindow. In questo modo non risulta possibile chiudere il client senza prima aver chiuso la finestra di dialogo.
+
+Come per l'accesso utente, il pulsante di conferma password risulta disabilitato finchè la password inserita contiene almeno un carattere. Gli spazi ad inizio e fine sono esclusi. Al pulsante di conferma è connesso lo slot \texttt{void checkPassword()} (per semplicità, anche in questo caso non avviene una verifica effettiva) che prima chiude la finestra di login e successivamente emette il segnale \texttt{void adminLoginSignal()}. Al segnale è connesso lo slot \texttt{void adminLogin()} del parent che si comporta come lo slot per l'accesso utente ma questa volta crea un'istanza di AdminWindow.
+
+\subsection*{ClientWindow}
+Nella realizzazione della GUI della classe ClientWindow mi sono ispirato ad un concept presente su \textit{Behance}\footnote{\textit{Linkedin Material Design}, realizzato da Rico Monteiro e pubblicato con licenza ``Attribution-NonCommercial 3.0 Unported (CC BY-NC 3.0)''}.
+
+\begin{figure}[!ht]
+\centering
+\caption{ClientWindow}
+\includegraphics[width=0.7\textwidth]{ClientWindow.png}
+\end{figure}
 
 \end{document}

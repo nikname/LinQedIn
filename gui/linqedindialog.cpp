@@ -55,12 +55,12 @@ void LinQedInDialog::setLineEditProperties( QLineEdit *lineEdit ) {
 }
 
 
-// METODO LinQedInDialog::setTitleLabelProperties
+// METODO LinQedInDialog::setTitleLabelProperties( QLabel * )
 void LinQedInDialog::setTitleLabelProperties( QLabel *label ) {
     label->setStyleSheet( "QLabel { color: rgba(0,0,0,0.54); font: 12px; }" );
 }
 
-// METODO LinQedInDialog::paintEvent
+// METODO LinQedInDialog::paintEvent( QPaintEvent * )
 void LinQedInDialog::paintEvent( QPaintEvent *) {
     QStyleOption opt;
     opt.init( this );
