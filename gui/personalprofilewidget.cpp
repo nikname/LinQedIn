@@ -10,6 +10,9 @@
 #include "connectionswidget.h"
 #include "educationswidget.h"
 #include "experienceswidget.h"
+#include "smartlavoro.h"
+#include "smarttitolo.h"
+#include "smartutente.h"
 
 // COSTRUTTORE PersonalProfileWidget
 PersonalProfileWidget::PersonalProfileWidget( const SmartUtente& su, QWidget *parent ) :
@@ -204,7 +207,7 @@ void PersonalProfileWidget::updateProfileInfoSlot( const QString& n, const QStri
 void PersonalProfileWidget::jobToAddSlot( const SmartLavoro& sl ) {
     ProfileWidget::user->addExperience( sl );
 
-    lastExperienceLabel->setText( sl->getTitle() + " at " + sl->getCompanyName() );
+    updateLastJobInfoSlot( sl );
 }
 
 // SLOT PersonalProfileWidget::jobToRemove
@@ -214,10 +217,7 @@ void PersonalProfileWidget::jobToRemoveSlot( const SmartLavoro& sl ) {
     QVector<SmartLavoro> experiencesList = ProfileWidget::user->getExperiencesList();
     if( experiencesList.size() == 0 ) {
         lastExperienceLabel->setText( "--" );
-    } else {
-        SmartLavoro aux = experiencesList.last();
-        lastExperienceLabel->setText( aux->getTitle() + " at " + aux->getCompanyName() );
-    }
+    } else updateLastJobInfoSlot( experiencesList.last() );
 }
 
 // SLOT PersonalProfileWidget::updateLastJobInfoSlot
@@ -229,7 +229,7 @@ void PersonalProfileWidget::updateLastJobInfoSlot( const SmartLavoro& sl ) {
 void PersonalProfileWidget::titleToAddSlot( const SmartTitolo& st ) {
     ProfileWidget::user->addEducation( st );
 
-    lastEducationLabel->setText( st->getFieldOfStudy() + " at " + st->getSchool() );
+    updateLastTitleInfoSlot( st );
 }
 
 // SLOT PersonalProfileWidget::titleToRemoveSlot
@@ -239,10 +239,7 @@ void PersonalProfileWidget::titleToRemoveSlot( const SmartTitolo& st ) {
     QVector<SmartTitolo> educationsList = ProfileWidget::user->getEducationsList();
     if( educationsList.size() == 0 ) {
         lastEducationLabel->setText( "--" );
-    } else {
-        SmartTitolo aux = educationsList.last();
-        lastEducationLabel->setText( aux->getFieldOfStudy() + " at " + aux->getSchool() );
-    }
+    } else updateLastTitleInfoSlot( educationsList.last() );
 }
 
 // SLOT PersonalProfileWidget::updateLastTitleInfoSlot

@@ -146,4 +146,26 @@ Nella realizzazione della GUI della classe ClientWindow mi sono ispirato ad un c
 \includegraphics[width=0.7\textwidth]{ClientWindow.png}
 \end{figure}
 
+A parte i componenti grafici contiene un puntatore ad un oggetto LinQedInClient, necessario per il salvataggio delle informazioni su database. La presenza di questo richiede la ridefinizione del destruttore che si occuperà della distruzione effettiva dell'oggetto.
+
+Il menu inteno al client permette di spostarsi di sezione. Purtroppo il progetto richiedeva solo la gestione del profilo dell'utente del client e per questo motivo l'unica sezione possibile è il profilo. Ad ogni modo il codice della classe è stato realizzato in modo da permettere l'aggiunta di sezioni in modo semplice, e grazie all'utilizzo dei un vettore di QPushButton* rendere visibile o nascosto un widget risulta pratico, così come applicare il metodo per rendere selezionata la sezione nella quale ci si trova. Il pulsante della lente di ingrandimento sostituisce la il contenuto della barra del menu con un campo di input utente nella quale inserire la query da ricercare. È inoltre disponibile un pulsante di chiusura che ripristina il menu iniziale.
+
+Il contenuto effettivo della finestra del client può essere di tipo ProfileWidget* oppure SearchResultWidget*. Entrambi sono contenuti in una QScrollArea per permettere al contenuto di aumentare di dimensione e rimanere visualizzabile.
+
+\subsubsection*{ProfileWidget}
+Classe base astratta per la realizzazione del profilo. Le classi derivate concrete sono \textbf{PersonalProfileWidget} (per il profilo dell'utente del client) e \textbf{OtherProfileWidget} (per il profilo di un contatto o di un risulatato della ricerca). Un'istanza della prima permette di visualizzare i pulsanti per la modifica, aggiunta o rimozione di contenuti, mentre un'istanza della seconda permette la visualizzazione del pulsante di aggiunta o rimozione tra i contatti. Il contenuto effettivo della seconda dipende dalla tipologia dell'account dell'utente del client. Le istanze delle due classi concrete avevano bisogno di SIGNAL e SLOT differenti. Anche per questo motivo è stata preferita una gerarchia.
+
+Il contenuto effettivo del profilo dell'utente si compone di un header nella quale sono contenuti nome e cognome, utilima esperienza lavorativa dell'utente ed ultimo titolo di studio conseguito. Inoltre viene fornito in numero di utenti nella rete. Nel caso di istanze di PersonalProfileWidget tutte queste informazioni sono aggiornate in caso di modifiche grazie a connessioni tra SIGNAL e SLOT che vengono omesse da questa relazione. Si rimanda al codice per il dettaglio.
+
+La parte sottostante all'header si compone di 3 schede, ma i pulsanti e i widget effettivi sono oggetti distinti (non istanze di QTabWidget). Questo perchè in questo modo si aveva più libertà nella realizzazione del design. Ad ogni modo, come per il menu utente, l'aggiunta di schede è facilitata. 
+
+La prima scheda fornisce una panoramicha delle esperienze lavorative e dei titoli di studio dell'utente, visualizzate dalla più recente alla meno. L'ordine di aggiunta ripecchia l'ordine cronologico. Le classi utilizzate per la realizzazione di questa scheda sono ExperiencesWidget ed EducationsWidget. Per le istanze di OtherProfileWidget questa e le informazioni sull'header risultano visibili solo ad utenti Exectuive e Business.
+
+La seconda fornisce la lista (a griglia) dei contatti dell'utente. Per la realizzazione è stata utilizzata un'istanza della classe ConnectionsWidget. Per le istanze di OtherProfileWidget questa ed il numero dei contatti nell'header è visibile solo ad utenti Business.
+
+L'ultima scheda fornisce maggiori informazioni sull'utente. Per la realizzazione è stata utilizzata un'istanza della classe OtherInfoWidget ereditata da ProfileWidget in quanto sono informazioni accessibili a tutte le tipologie di account.
+
+\subsubsection*{ExperiencesWidget e EducationsWidget}
+Compongono il contenuto della panoramica dell'utente.
+
 \end{document}

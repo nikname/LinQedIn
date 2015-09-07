@@ -3,12 +3,7 @@
 
 #include <QWidget>
 #include "smartutente.h"
-#include "smartlavoro.h"
-#include "smarttitolo.h"
 
-class ConnectionsWidget;
-class EducationsWidget;
-class ExperiencesWidget;
 class QLabel;
 class OtherInfoWidget;
 class QPushButton;

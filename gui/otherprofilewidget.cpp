@@ -10,6 +10,9 @@
 #include "connectionswidget.h"
 #include "educationswidget.h"
 #include "experienceswidget.h"
+#include "smartlavoro.h"
+#include "smarttitolo.h"
+#include "smartutente.h"
 
 // COSTRUTTORE OtherProfileWidget
 OtherProfileWidget::OtherProfileWidget( const SmartUtente& su, QList<QString> i,
@@ -20,7 +23,7 @@ OtherProfileWidget::OtherProfileWidget( const SmartUtente& su, QList<QString> i,
     setupUI( c );
 }
 
-// METODO OtherProfileWidget::initUI
+// METODO OtherProfileWidget::initUI( QList<QString> )
 void OtherProfileWidget::initUI( QList<QString> i ) {
     if( i.contains( "experiences" ) ) {
         QVector<SmartLavoro> experiencesList = user->getExperiencesList();
@@ -106,7 +109,7 @@ void OtherProfileWidget::initUI( QList<QString> i ) {
     connect( removeContactButton, SIGNAL( clicked() ), this, SLOT( removeContact() ) );
 }
 
-// METODO OtherProfileWidget::setupUI
+// METODO OtherProfileWidget::setupUI( bool )
 void OtherProfileWidget::setupUI( bool c ) {
     QWidget *header = new QWidget( this );
     header->setStyleSheet( "background: white" );
@@ -218,7 +221,7 @@ void OtherProfileWidget::removeContact() {
     removeContactButton->setVisible( false );
 }
 
-// SLOT OtherProfileWidget::showBackgroundTab()
+// SLOT OtherProfileWidget::showBackgroundTab
 void OtherProfileWidget::showBackgroundTab() {
     if( backgroundTab ) backgroundTab->setVisible( true );
     if( backgroundTabButton ) setProfileButtonSelected( backgroundTabButton );
@@ -226,7 +229,7 @@ void OtherProfileWidget::showBackgroundTab() {
     ProfileWidget::otherInfoTab->setVisible( false );
 }
 
-// SLOT OtherProfileWidget::showConnectionsTab()
+// SLOT OtherProfileWidget::showConnectionsTab
 void OtherProfileWidget::showConnectionsTab() {
     if( backgroundTab ) backgroundTab->setVisible( false );
     if( connectionsTab ) connectionsTab->setVisible( true );
@@ -234,7 +237,7 @@ void OtherProfileWidget::showConnectionsTab() {
     ProfileWidget::otherInfoTab->setVisible( false );
 }
 
-// SLOT OtherProfileWidget::showOtherInfoTab()
+// SLOT OtherProfileWidget::showOtherInfoTab
 void OtherProfileWidget::showOtherInfoTab() {
     if( backgroundTab ) backgroundTab->setVisible( false );
     if( connectionsTab ) connectionsTab->setVisible( false );

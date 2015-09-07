@@ -1,7 +1,6 @@
 #ifndef LOGINWINDOW_H
 #define LOGINWINDOW_H
 
-#include <QMenuBar>
 #include "linqedinwindow.h"
 
 class QLabel;
@@ -47,10 +46,16 @@ private:
      */
     void setButtonEnabled( QPushButton *, bool );
 
-    /** */
+    /** Applica proprieta specifiche per pulsanti abilitati.
+     *
+     * @param QPushButton *  Pulsante al quale applicare le proprietà.
+     */
     void setButtonEnabledProperties( QPushButton * );
 
-    /** */
+    /** Applica proprieta specifiche per pulsanti disabilitati.
+     *
+     * @param QPushButton *  Pulsante al quale applicare le proprietà.
+     */
     void setButtonDisabledProperties( QPushButton * );
 public:
     /** Costruttore esplicito ad 1 parametro con 1 valore di dafault.
@@ -66,16 +71,21 @@ public:
      */
     ~LoginWindow();
 public slots:
-    /** */
+    /** Controlla il contenuto dell'input utente. Nel caso almeno uno dei campi username e password
+     *  risulti vuoto (gli spazi ad inizio e fine non vengono considerati) disabilita il pulsante di
+     *  log in.
+     *
+     * @param QString  Contenuto dell'input utente.
+     */
     void checkInput( const QString& );
 
-    /** */
+    /** Apre il client per l'utente e chiude la finestra corrente. */
     void loginUser();
 
-    /** */
+    /** Apre il client per l'amministratore e chiude la finestra corrente. */
     void loginAdmin();
 
-    /** */
+    /** Apre la finestra di dialogo per l'accesso amministrativo. */
     void openAdminLoginDialog();
 };
 

@@ -1,10 +1,6 @@
-#include <QAction>
 #include <QBoxLayout>
-#include <QFrame>
 #include <QLabel>
 #include <QLineEdit>
-#include <QMenu>
-#include <QMenuBar>
 #include <QMessageBox>
 #include <QPainter>
 #include <QPushButton>
@@ -143,6 +139,8 @@ void LoginWindow::setButtonEnabled( QPushButton *button, bool state ) {
 
 // SLOT LoginWindow::checkInput( QString )
 void LoginWindow::checkInput( const QString& input ) {
+    Q_UNUSED( input )
+
     if( userUsername->text().trimmed().isEmpty() || userPassword->text().trimmed().isEmpty() )
         setButtonDisabled( loginButton, true );
     else setButtonEnabled( loginButton, true );
@@ -153,15 +151,14 @@ void LoginWindow::loginUser() {
     QString username = userUsername->text();
 
     // TODO: controllare username e password
-    ClientWindow *clientWindow = new ClientWindow( username );
+    new ClientWindow( username );
     this->close();
 }
 
 // SLOT LoginWindows::loginAdmin
 void LoginWindow::loginAdmin() {
     // TODO: controllo password
-    AdminWindow *adminWindow = new AdminWindow();
-
+    new AdminWindow();
     this->close();
 }
 

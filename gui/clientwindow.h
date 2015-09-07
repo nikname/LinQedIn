@@ -10,7 +10,6 @@ class ProfileWidget;
 class QAction;
 class QLabel;
 class QLineEdit;
-class QMenu;
 class QPushButton;
 class QScrollArea;
 class SearchResultsWidget;
@@ -123,7 +122,7 @@ private slots:
     void showUserSlot( SmartUtente );
 
     /** */
-    void addContactSlot( const SmartUtente& ); // o SmartUtente ?
+    void addContactSlot( const SmartUtente& );
 
     /** */
     void removeContactSlot( const SmartUtente& );

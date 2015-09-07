@@ -1,13 +1,8 @@
 #include <QLabel>
 #include <QPushButton>
-#include "connectionswidget.h"
-#include "educationswidget.h"
-#include "experienceswidget.h"
 #include "otherinfowidget.h"
 #include "profilewidget.h"
 #include "utente.h"
-#include "lavoro.h"
-#include "titolo.h"
 
 // COSTRUTTORE ProfileWidget
 ProfileWidget::ProfileWidget( const SmartUtente& su, QWidget *parent ) :
