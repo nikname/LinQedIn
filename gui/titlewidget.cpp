@@ -78,7 +78,7 @@ void TitleWidget::setupUI() {
                    "border-top: none; border-left: none; border-right: none; }" );
 }
 
-// METODO TitleWidget::paintEvent
+// METODO TitleWidget::paintEvent( QPaintEvent * )
 void TitleWidget::paintEvent( QPaintEvent *) {
     QStyleOption opt;
     opt.init( this );
@@ -86,7 +86,7 @@ void TitleWidget::paintEvent( QPaintEvent *) {
     style()->drawPrimitive( QStyle::PE_Widget, &opt, &p, this );
 }
 
-// METODO TitleWidget::setToolButtonProperties
+// METODO TitleWidget::setToolButtonProperties( QPushButton * )
 void TitleWidget::setToolButtonProperties( QPushButton *button ) {
     button->setFixedSize( 24, 24 );
     button->setStyleSheet(
@@ -115,7 +115,7 @@ void TitleWidget::openEditTitleDialog() {
     editTitleDialog->exec();
 }
 
-// SLOT TitleWidget::updateTitleInfoSlot
+// SLOT TitleWidget::updateTitleInfoSlot( QString, QDate, QString )
 void TitleWidget::updateTitleInfoSlot( const QString& s, const QDate& a, const QString& fos ) {
     title->setSchool( s );
     title->setDateAttended( a );

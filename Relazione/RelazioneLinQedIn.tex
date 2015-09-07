@@ -155,7 +155,7 @@ Il contenuto effettivo della finestra del client può essere di tipo ProfileWidg
 \subsubsection*{ProfileWidget}
 Classe base astratta per la realizzazione del profilo. Le classi derivate concrete sono \textbf{PersonalProfileWidget} (per il profilo dell'utente del client) e \textbf{OtherProfileWidget} (per il profilo di un contatto o di un risulatato della ricerca). Un'istanza della prima permette di visualizzare i pulsanti per la modifica, aggiunta o rimozione di contenuti, mentre un'istanza della seconda permette la visualizzazione del pulsante di aggiunta o rimozione tra i contatti. Il contenuto effettivo della seconda dipende dalla tipologia dell'account dell'utente del client. Le istanze delle due classi concrete avevano bisogno di SIGNAL e SLOT differenti. Anche per questo motivo è stata preferita una gerarchia.
 
-Il contenuto effettivo del profilo dell'utente si compone di un header nella quale sono contenuti nome e cognome, utilima esperienza lavorativa dell'utente ed ultimo titolo di studio conseguito. Inoltre viene fornito in numero di utenti nella rete. Nel caso di istanze di PersonalProfileWidget tutte queste informazioni sono aggiornate in caso di modifiche grazie a connessioni tra SIGNAL e SLOT che vengono omesse da questa relazione. Si rimanda al codice per il dettaglio.
+Il contenuto effettivo del profilo dell'utente si compone di un header nella quale sono contenuti nome e cognome, utilima esperienza lavorativa dell'utente ed ultimo titolo di studio conseguito. Inoltre viene fornito in numero di utenti nella rete. Nel caso di istanze di PersonalProfileWidget tutte queste informazioni sono aggiornate in caso di modifiche grazie a connessioni tra SIGNAL e SLOT che vengono omesse da questa relazione. Si rimanda al codice per il dettaglio. È disponibile la modifica di nome e cognome tramite l'apertura di una finestra di dialogo di tipo \texttt{EditProfileDialog}.
 
 La parte sottostante all'header si compone di 3 schede, ma i pulsanti e i widget effettivi sono oggetti distinti (non istanze di QTabWidget). Questo perchè in questo modo si aveva più libertà nella realizzazione del design. Ad ogni modo, come per il menu utente, l'aggiunta di schede è facilitata. 
 
@@ -166,6 +166,33 @@ La seconda fornisce la lista (a griglia) dei contatti dell'utente. Per la realiz
 L'ultima scheda fornisce maggiori informazioni sull'utente. Per la realizzazione è stata utilizzata un'istanza della classe OtherInfoWidget ereditata da ProfileWidget in quanto sono informazioni accessibili a tutte le tipologie di account.
 
 \subsubsection*{ExperiencesWidget e EducationsWidget}
-Compongono il contenuto della panoramica dell'utente.
+Utilizzate nella scheda della panoramica dell'utente, sono composte da puntatori ad oggetti di tipo \textbf{JobWidget} e \textbf{TitleWidget} rispettivamente. A differenza della classe ProfileWidget, per semplicità, è stato deciso di non creare una gerarchia per permettere non rendere possibili aggiunta, rimozione e modifica nelle istanze di OtherProfileWidget, ma è stato fornito un metodo \texttt{void hideToolsButtons() const} in entrambe le classi che nascondono il pulsante di aggiunta e richiamano lo stesso metodo nelle istanze degli oggetti JobWidget o TitleWidget contenuti. La scelta della gerarchia avrebbe significato la necessita di ulteriori due ulteriori gerarchie per queste ultime due classi.
+
+In entrambi i widget è disponibie l'aggiunta di esperienze lavorative e titoli di studio tramite la creazione di oggetti di tipo \textbf{AddJobDialog} e \textbf{AddTitleDialog}. In caso di aggiunta vengono aggiornate le informazioni nell'header del profilo. I widget da aggiungere vengono aggiuti prima in un vettore di puntatori a widget di quel tipo e successivamente inseriti alla posizione 0 del layout che li contiene. Per fare questo è stato necessario aggiungere come campo dati un puntatore a Layout (indipendente dalla scelta del layout effettiva) e nel metodo di aggiunta eseguire \texttt{dynamic\_cast} al tipo del layout effettivamente utilizzato.
+
+Ogni widget di tipo JobWidget e TitleWidget offre la possibilità di modifica e rimozione. La modifica avviene tramite la creazione di oggetti di tipo \textbf{EditJobWidget} ed \textbf{EditTitleWidget} e in caso la modifica avvenga all'ultima esperienza lavorativa o titolo di studio allora viene aggiornato l'header del profilo. La rimozione si preoccupa di fare invocare \texttt{delete} sul widget da rimuovere.
+
+\subsubsection*{ConnectionsWidget}
+Mostra gli utenti presenti nella rete dell'utente del quale si sta visualizzando il profilo. L'anteprima dei contatti viene creata con instanze di \textbf{UserPreviewWidget}. La disposizione è a griglia.
+
+\begin{figure}[!ht]
+\centering
+\caption{ConnectionsWidget}
+\includegraphics[width=0.7\textwidth]{ConnectionsWidget.png}
+\end{figure}
+
+\subsubsection*{OtherInfoWidget}
+
+\subsubsection*{SearchResultWidget}
+
+\subsubsection*{UserPreviewWidget}
+
+\subsection*{AdminWindow}
+
+\subsubsection*{UserListWidget}
+
+\subsubsection*{MyProxySortFilterModel}
+
+\subsubsection*{TableModel}
 
 \end{document}

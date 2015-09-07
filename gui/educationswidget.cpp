@@ -47,7 +47,7 @@ void EducationsWidget::setupUI() {
     setStyleSheet( "background: white" );
 }
 
-// METODO EducationsWidget::paintEvent
+// METODO EducationsWidget::paintEvent( QPaintEvent * )
 void EducationsWidget::paintEvent( QPaintEvent *) {
     QStyleOption opt;
     opt.init( this );
@@ -55,7 +55,7 @@ void EducationsWidget::paintEvent( QPaintEvent *) {
     style()->drawPrimitive( QStyle::PE_Widget, &opt, &p, this );
 }
 
-// METODO EducationsWidget::addTitleWidget
+// METODO EducationsWidget::addTitleWidget( TitleWidget * )
 void EducationsWidget::addTitleWidget( TitleWidget *widget ) {
     titleWidgetsLayout->addWidget( widget );
     connect( widget, SIGNAL( removeTitleSignal( SmartTitolo ) ),
@@ -64,7 +64,7 @@ void EducationsWidget::addTitleWidget( TitleWidget *widget ) {
              this, SLOT( updateTitleInfoSlot( SmartTitolo ) ) );
 }
 
-// METODO EducationsWidget::insertTitleWidget
+// METODO EducationsWidget::insertTitleWidget( int, TitleWidget * )
 void EducationsWidget::insertTitleWidget( int pos, TitleWidget *widget ) {
     dynamic_cast<QVBoxLayout *>( titleWidgetsLayout )->insertWidget( pos, widget );
     connect( widget, SIGNAL( removeTitleSignal( SmartTitolo ) ),
@@ -74,7 +74,7 @@ void EducationsWidget::insertTitleWidget( int pos, TitleWidget *widget ) {
 }
 
 // METODO EducationsWidget::hideToolsButtons
-void EducationsWidget::hideToolsButtons() {
+void EducationsWidget::hideToolsButtons() const {
     for( int i = 0; i < titlesList.size(); i++ )
         titleWidgetsList[i]->hideToolsButtons();
     addTitleButton->setVisible( false );
@@ -89,7 +89,7 @@ void EducationsWidget::openAddTitleDialog() {
     addTitleDialog->exec();
 }
 
-// SLOT EducationsWidget::addNewTitleSlot
+// SLOT EducationsWidget::addNewTitleSlot( QString, QDate, QString )
 void EducationsWidget::addNewTitleSlot( const QString& s, const QDate& a, const QString& fos ) {
     SmartTitolo aux = SmartTitolo( new Titolo( s, a, fos ) );
 
@@ -100,7 +100,7 @@ void EducationsWidget::addNewTitleSlot( const QString& s, const QDate& a, const 
     emit titleToAddSignal( aux );
 }
 
-// SLOT EducationsWidget::removeTitleSlot
+// SLOT EducationsWidget::removeTitleSlot( SmartTitolo )
 void EducationsWidget::removeTitleSlot( const SmartTitolo& st ) {
     int pos = titlesList.indexOf( st );
     if( pos > -1 )
@@ -119,7 +119,7 @@ void EducationsWidget::removeTitleSlot( const SmartTitolo& st ) {
     emit titleToRemoveSignal( st );
 }
 
-// SLOT EducationsWidget::updateTitleInfoSlot
+// SLOT EducationsWidget::updateTitleInfoSlot( SmartTitolo )
 void EducationsWidget::updateTitleInfoSlot( const SmartTitolo& st ) {
     if( titlesList.last() == st )
         emit updateLastTitleInfoSignal( st );

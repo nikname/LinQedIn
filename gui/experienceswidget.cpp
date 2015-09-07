@@ -47,7 +47,7 @@ void ExperiencesWidget::setupUI() {
     setStyleSheet( "background: white" );
 }
 
-// METODO ExperiencesWidget::paintEvent
+// METODO ExperiencesWidget::paintEvent( QPaintEvent * )
 void ExperiencesWidget::paintEvent( QPaintEvent *) {
     QStyleOption opt;
     opt.init( this );
@@ -55,7 +55,7 @@ void ExperiencesWidget::paintEvent( QPaintEvent *) {
     style()->drawPrimitive( QStyle::PE_Widget, &opt, &p, this );
 }
 
-// METODO ExperiencesWidget::addJobWidget
+// METODO ExperiencesWidget::addJobWidget( JobWidget * )
 void ExperiencesWidget::addJobWidget( JobWidget *widget ) {
     jobWidgetsLayout->addWidget( widget );
     connect( widget, SIGNAL( removeJobSignal( SmartLavoro ) ),
@@ -64,7 +64,7 @@ void ExperiencesWidget::addJobWidget( JobWidget *widget ) {
              this, SLOT( updateJobInfoSlot( SmartLavoro ) ) );
 }
 
-// METODO ExperiencesWidget::insertJobWidget
+// METODO ExperiencesWidget::insertJobWidget( int, JobWidget * )
 void ExperiencesWidget::insertJobWidget( int pos, JobWidget *widget ) {
     dynamic_cast<QVBoxLayout *>( jobWidgetsLayout )->insertWidget( pos, widget );
     connect( widget, SIGNAL( removeJobSignal( SmartLavoro ) ),
@@ -74,7 +74,7 @@ void ExperiencesWidget::insertJobWidget( int pos, JobWidget *widget ) {
 }
 
 // SLOT ExperiencesWidget::hideToolsButtons
-void ExperiencesWidget::hideToolsButtons() {
+void ExperiencesWidget::hideToolsButtons() const {
     for( int i = 0; i < jobWidgetsList.size(); i++ )
         jobWidgetsList[i]->hideToolsButtons();
     addJobButton->setVisible( false );
@@ -89,7 +89,7 @@ void ExperiencesWidget::openAddJobDialog() {
     addJobDialog->exec();
 }
 
-// SLOT ExperiencesWidget::addNewJobSlot
+// SLOT ExperiencesWidget::addNewJobSlot( QString, QString, QDate, QDate )
 void ExperiencesWidget::addNewJobSlot( const QString& cn, const QString& t,
                                        const QDate& b, const QDate& e ) {
     SmartLavoro aux = SmartLavoro( new Lavoro( cn, t, b, e ) );
@@ -101,7 +101,7 @@ void ExperiencesWidget::addNewJobSlot( const QString& cn, const QString& t,
     emit jobToAddSignal( aux );
 }
 
-// SLOT ExperiencesWidget::removeJobSlot
+// SLOT ExperiencesWidget::removeJobSlot( SmartLavoro )
 void ExperiencesWidget::removeJobSlot( const SmartLavoro& sl ) {
     int pos = jobsList.indexOf( sl );
     if( pos > -1 )
@@ -120,7 +120,7 @@ void ExperiencesWidget::removeJobSlot( const SmartLavoro& sl ) {
     emit jobToRemoveSignal( sl );
 }
 
-// SLOT ExperiencesWidget::updateJobInfoSlot
+// SLOT ExperiencesWidget::updateJobInfoSlot( SmartLavoro )
 void ExperiencesWidget::updateJobInfoSlot( const SmartLavoro& sl ) {
     if( jobsList.last() == sl )
         emit updateLastJobInfoSignal( sl );

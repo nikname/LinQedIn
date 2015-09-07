@@ -79,7 +79,7 @@ void JobWidget::setupUI() {
                    "border-top: none; border-left: none; border-right: none; }" );
 }
 
-// METODO JobWidget::paintEvent
+// METODO JobWidget::paintEvent( QPaintEvent * )
 void JobWidget::paintEvent( QPaintEvent *) {
     QStyleOption opt;
     opt.init( this );
@@ -87,7 +87,7 @@ void JobWidget::paintEvent( QPaintEvent *) {
     style()->drawPrimitive( QStyle::PE_Widget, &opt, &p, this );
 }
 
-// METODO JobWidget::setToolButtonProperties
+// METODO JobWidget::setToolButtonProperties( QPushButton * )
 void JobWidget::setToolButtonProperties( QPushButton *button ) {
     button->setFixedSize( 24, 24 );
     button->setStyleSheet(
@@ -116,7 +116,7 @@ void JobWidget::openEditJobDialog() {
     editJobDialog->exec();
 }
 
-// SLOT JobWidget::updateJobInfoSlot
+// SLOT JobWidget::updateJobInfoSlot( QString, QString, QDate, QDate )
 void JobWidget::updateJobInfoSlot( const QString& cn, const QString& t,
                                    const QDate& b, const QDate& e ) {
     job->setCompanyName( cn );
