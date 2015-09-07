@@ -4,8 +4,8 @@
 #include "searchresultswidget.h"
 
 // COSTRUTTORE SearchResultsWidget
-SearchResultsWidget::SearchResultsWidget(
-        QVector<SmartUtente> v, const SmartUtente& su, const QString& query, QWidget *parent ) :
+SearchResultsWidget::SearchResultsWidget( QVector<SmartUtente> v, const SmartUtente& su,
+                                          const QString& query, QWidget *parent ) :
     QWidget( parent ),
     usersList( v )
 {
@@ -13,7 +13,7 @@ SearchResultsWidget::SearchResultsWidget(
     setupUI();
 }
 
-// METODO SearchResultsWidget::initUI
+// METODO SearchResultsWidget::initUI( SmartUtente, QString )
 void SearchResultsWidget::initUI( const SmartUtente& su, const QString& query ) {
     for( int i = 0; i < usersList.size(); i++ ) {
         if( usersList[i] != su && (

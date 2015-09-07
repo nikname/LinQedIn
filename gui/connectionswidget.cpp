@@ -14,7 +14,7 @@ ConnectionsWidget::ConnectionsWidget( const SmartUtente& su, QWidget *parent ) :
     setupUI();
 }
 
-// METODO ConnectionsWidget::initUI
+// METODO ConnectionsWidget::initUI( SmartUtente )
 void ConnectionsWidget::initUI( const SmartUtente& su ) {
     userPreviewWidgetsLayout = new QGridLayout( this );
 
@@ -41,12 +41,12 @@ void ConnectionsWidget::setupUI() {
 }
 
 // SLOT ConnectionsWidget::hideToolsButtons
-void ConnectionsWidget::hideToolsButtons() {
+void ConnectionsWidget::hideToolsButtons() const {
     for( int i = 0; i < userPreviewWidgetsList.size(); i++ )
         userPreviewWidgetsList[i]->hideRemoveUserButton();
 }
 
-// SLOT ConnectionsWidget::removeUserSlot
+// SLOT ConnectionsWidget::removeUserSlot( SmartUtente )
 void ConnectionsWidget::removeUserSlot( const SmartUtente& su ) {
     int pos = contactsList.indexOf( su );
     if( pos > -1 )

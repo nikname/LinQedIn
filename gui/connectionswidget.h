@@ -28,16 +28,25 @@ public:
      */
     explicit ConnectionsWidget( const SmartUtente&, QWidget *parent = 0 );
 
-    /** */
-    void hideToolsButtons();
+    /** Metodo di utilità. Per ogni anteprima utente rimuove il pulsante di rimozione contatto. */
+    void hideToolsButtons() const;
 signals:
-    /** */
+    /** Notifica il parent quale contatto è da rimuovere.
+     *
+     * @param SmartUtente  Contatto da rimuovere.
+     */
     void contactToRemoveSignal( const SmartUtente& );
 
-    /** */
+    /** Notifica il parent di quale utente visualizzare il profilo.
+     *
+     * @param SmartUtente  Utente del quale visualizzare il profilo.
+     */
     void showContactSignal( const SmartUtente& );
 public slots:
-    /** */
+    /** Rimuove un contatto dalla lista dei contatti. Aggiorna la GUI.
+     *
+     * @param SmartUtente  Contatto da rimuovere.
+     */
     void removeUserSlot( const SmartUtente& );
 };
 

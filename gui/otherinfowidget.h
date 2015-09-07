@@ -51,16 +51,25 @@ public:
      */
     explicit OtherInfoWidget( const SmartUtente&, QWidget *parent = 0 );
 
-    /** */
-    void hideToolsButtons();
+    /** Nasconde i pulsanti di modifica. */
+    void hideToolsButtons() const;
 signals:
-    /** */
+    /** Notifica al parent le notifiche delle informazioni aggiuntive sul profilo ed aggiorna la GUI.
+     *  Dei valori vuoti sono ammessi e servono per cancellare le informazioni.
+     *
+     * @param QDate  Nuova data di nascita dell'utente.
+     * @param QString  Nuovo stato civile dell'utente.
+     */
     void updatePersonalInfoSignal( const QDate&, const QString& );
 public slots:
-    /** */
+    /** Apre la finestra di modifica delle informazioni personali. */
     void openEditPersonalInfoDialog();
 
-    /** */
+    /** Aggiorna la GUI con le nuove informazioni.
+     *
+     * @param QDate  Nuova data di nascita.
+     * @param QString  Nuovo stato civile.
+     */
     void updatePersonalInfo( const QDate&, const QString& );
 };
 

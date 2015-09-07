@@ -14,7 +14,7 @@ OtherInfoWidget::OtherInfoWidget( const SmartUtente& su, QWidget *parent ) :
     setupUI();
 }
 
-// METODO OtherProfileWidget::initUI
+// METODO OtherProfileWidget::initUI( SmartUtente )
 void OtherInfoWidget::initUI( const SmartUtente& su ) {
     personalInfoLabel = new QLabel( tr( "Personal Info" ), this );
 
@@ -83,7 +83,7 @@ void OtherInfoWidget::setupUI() {
     layout->setMargin( 0 );
 }
 
-// METODO OtherInfoWidget::setToolButtonProperties
+// METODO OtherInfoWidget::setToolButtonProperties( QPushButton * )
 void OtherInfoWidget::setToolButtonProperties( QPushButton *button ) {
     button->setFixedSize( 24, 24 );
     button->setStyleSheet(
@@ -92,18 +92,18 @@ void OtherInfoWidget::setToolButtonProperties( QPushButton *button ) {
     );
 }
 
-// METODO OtherInfoWidget::setSectionLabelProperties
+// METODO OtherInfoWidget::setSectionLabelProperties( QLabel * )
 void OtherInfoWidget::setSectionLabelProperties( QLabel *label ) {
     label->setStyleSheet( "QLabel { color: rgba(0,0,0,0.54); padding-left: 10px; }" );
 }
 
-// METODO OtherInfoWidget::setTitleLabelProperties
+// METODO OtherInfoWidget::setTitleLabelProperties( QLabel * )
 void OtherInfoWidget::setTitleLabelProperties( QLabel *label ) {
     label->setStyleSheet( "QLabel { color: rgba(0,0,0,0.54); padding-left: 10px; font: 12px; }" );
 }
 
 // METODO OtherInfoWidget::hideToolsButtons
-void OtherInfoWidget::hideToolsButtons() {
+void OtherInfoWidget::hideToolsButtons() const {
     editPersonalInfoButton->setVisible( false );
 }
 
@@ -118,7 +118,7 @@ void OtherInfoWidget::openEditPersonalInfoDialog() {
     editPersonalInfoDialog->exec();
 }
 
-// SLOT OtherInfoWidget::updatePersonalInfo
+// SLOT OtherInfoWidget::updatePersonalInfo( QDate, QString )
 void OtherInfoWidget::updatePersonalInfo( const QDate& b, const QString& ms ) {
     userBirthday->setText( b.toString( "yyyy/MM/dd" ) );
     userMaritialStatus->setText( ms );

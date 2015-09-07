@@ -40,25 +40,40 @@ private:
      */
     void paintEvent( QPaintEvent * );
 public:
-    /** */
-    explicit UserPreviewWidget( const SmartUtente&, QList<QString>, QWidget *parent = 0 );
+    /** Costruttore ad 3 parametri con 2 parametri di default.
+     *
+     * @param SmartUtente  Utente del quale mostrare l'anteprima.
+     * @param QList<QString>  Lista delle informazioni visualizzabili in base dall'utente.
+     * @param QWidget  Puntatore al QWidget parent. Se nullo si riferisce a quello top-level.
+     */
+    explicit UserPreviewWidget( const SmartUtente&, QList<QString> = QList<QString>(),
+                                QWidget *parent = 0 );
 
-    /** */
+    /** Ritorna l'utente associato all'anteprima.
+     *
+     * @return SmartUtente  Utente dell'anteprima.
+     */
     SmartUtente getUser();
 
-    /** */
-    void hideRemoveUserButton();
+    /** Metodo di utilità. Nasconde il pulsante di rimozione contatto. */
+    void hideRemoveUserButton() const;
 signals:
-    /** */
+    /** Notifica il parent quale contatto è da rimuovere.
+     *
+     * @param SmartUtente  Contatto da riumuovere.
+     */
     void removeUserSignal( const SmartUtente& );
 
-    /** */
+    /** Notifica il parent di quale utente mostrare il profilo.
+     *
+     * @param SmartUtente  Utente del quale visualizzare il profilo.
+     */
     void showUserSignal( const SmartUtente& );
 public slots:
-    /** */
+    /** Emette il segnale removeUserSignal( SmartUtente ). */
     void removeUser();
 
-    /** */
+    /** Emette il sengale showUserSignal( SmartUtente ). */
     void showUser();
 };
 

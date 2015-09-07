@@ -29,10 +29,13 @@ public:
      * @param QString  Stringa da cercare.
      * @param QWidget  Puntatore al QWidget padre. Se nullo si riferisce a quello top-level.
      */
-    explicit SearchResultsWidget(
-            QVector<SmartUtente>, const SmartUtente&, const QString&, QWidget *parent = 0 );
+    explicit SearchResultsWidget( QVector<SmartUtente>, const SmartUtente&,
+                                  const QString&, QWidget *parent = 0 );
 signals:
-    /** */
+    /** Notifica il parent di quale utente visualizzare il profilo.
+     *
+     * @param SmartUtente  Utente del quale visualizzare il profilo.
+     */
     void showUserSignal( const SmartUtente& );
 public slots:
 

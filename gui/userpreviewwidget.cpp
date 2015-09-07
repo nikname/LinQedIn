@@ -18,7 +18,7 @@ UserPreviewWidget::UserPreviewWidget( const SmartUtente& su, QList<QString> i, Q
     setupUI();
 }
 
-// METODO UserPreviewWidget::initUI
+// METODO UserPreviewWidget::initUI( QList<QString> )
 void UserPreviewWidget::initUI( QList<QString> i ) {
     profilePicLabel = new QLabel( this );
 
@@ -81,7 +81,7 @@ void UserPreviewWidget::setupUI() {
     setStyleSheet( "background: white" );
 }
 
-// METODO UserPreviewWidget::setToolButtonProperties
+// METODO UserPreviewWidget::setToolButtonProperties( QPushButton * )
 void UserPreviewWidget::setToolButtonProperties( QPushButton *button ) {
     button->setFixedSize( 24, 24 );
     button->setStyleSheet(
@@ -90,7 +90,7 @@ void UserPreviewWidget::setToolButtonProperties( QPushButton *button ) {
     );
 }
 
-// METODO UserPreviewWidget::paintEvent
+// METODO UserPreviewWidget::paintEvent( QPaintEvent * )
 void UserPreviewWidget::paintEvent( QPaintEvent *) {
     QStyleOption opt;
     opt.init( this );
@@ -104,7 +104,7 @@ SmartUtente UserPreviewWidget::getUser() {
 }
 
 // METODO UserPreviewWidget::hideRemoveUserButton
-void UserPreviewWidget::hideRemoveUserButton() {
+void UserPreviewWidget::hideRemoveUserButton() const {
     removeUserButton->setVisible( false );
 }
 

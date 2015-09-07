@@ -12,7 +12,6 @@
 
 \begin{document}
 \maketitle
-%\afterpage{\null\thispagestyle{empty}\clearpage}
 \raggedbottom
 
 \section*{Introduzione}
@@ -115,8 +114,8 @@ Classe base astratta che estende QDialog, da utilizzare come classe base per tut
 \subsection*{LoginWindow}
 \begin{figure}[!ht]
 \centering
-\caption{Finestra di login}
 \includegraphics[width=0.6\textwidth]{LoginWindow.png}
+\caption{Finestra di login}
 \end{figure}
 
 L'accesso ad entrambi i client (per gli utenti o per l'amministratore) avviene tramite la stessa finestra di login.
@@ -125,12 +124,12 @@ Il pulsante per l'accesso utente risulta disabilitato e viene abilitato solo qua
 
 Al pulsante di log in è connesso lo slot \texttt{void loginUser()} che crea un'istanza di ClientWindow (passando l'username) con parent 0 (quindi top-level) e distrugge l'istanza di LoginWindow.
 
-L'accesso amministrativo avviene tramite l'apertura della finestra di dialogo di tipo AdminLoginDialog. Alla pressione del pulsante nell'angolo in basso a destra è connesso lo slot \texttt{void openAdminLoginDialog()} che crea un oggetto AdminLoginDialog.
+L'accesso amministrativo avviene tramite l'apertura della finestra di dialogo di tipo AdminLoginDialog. Alla pressione del pulsante nell'angolo in basso a destra è connesso lo slot \texttt{void openAdminLoginDialog()} che crea un oggetto \textbf{AdminLoginDialog}.
 
 \begin{figure}[!ht]
 \centering
-\caption{AdminLoginDialog}
 \includegraphics[width=0.4\textwidth]{AdminLoginDialog.png}
+\caption{AdminLoginDialog}
 \end{figure}
 
 Nella costruzione di quest'ultima viene passato come oggetto QWidget parent l'istanza della classe LoginWindow. In questo modo non risulta possibile chiudere il client senza prima aver chiuso la finestra di dialogo.
@@ -142,8 +141,8 @@ Nella realizzazione della GUI della classe ClientWindow mi sono ispirato ad un c
 
 \begin{figure}[!ht]
 \centering
-\caption{ClientWindow}
 \includegraphics[width=0.7\textwidth]{ClientWindow.png}
+\caption{ClientWindow}
 \end{figure}
 
 A parte i componenti grafici contiene un puntatore ad un oggetto LinQedInClient, necessario per il salvataggio delle informazioni su database. La presenza di questo richiede la ridefinizione del destruttore che si occuperà della distruzione effettiva dell'oggetto.
@@ -154,6 +153,8 @@ Il contenuto effettivo della finestra del client può essere di tipo ProfileWidg
 
 \subsubsection*{ProfileWidget}
 Classe base astratta per la realizzazione del profilo. Le classi derivate concrete sono \textbf{PersonalProfileWidget} (per il profilo dell'utente del client) e \textbf{OtherProfileWidget} (per il profilo di un contatto o di un risulatato della ricerca). Un'istanza della prima permette di visualizzare i pulsanti per la modifica, aggiunta o rimozione di contenuti, mentre un'istanza della seconda permette la visualizzazione del pulsante di aggiunta o rimozione tra i contatti. Il contenuto effettivo della seconda dipende dalla tipologia dell'account dell'utente del client. Le istanze delle due classi concrete avevano bisogno di SIGNAL e SLOT differenti. Anche per questo motivo è stata preferita una gerarchia.
+
+Nel caso di visione del profilo di un contatto o di un risultato della ricerca il menu utente mostra un pulsante per ritornare alla lista dei risultati o i pulsanti alle sezioni (solo profilo nel nostro caso).
 
 Il contenuto effettivo del profilo dell'utente si compone di un header nella quale sono contenuti nome e cognome, utilima esperienza lavorativa dell'utente ed ultimo titolo di studio conseguito. Inoltre viene fornito in numero di utenti nella rete. Nel caso di istanze di PersonalProfileWidget tutte queste informazioni sono aggiornate in caso di modifiche grazie a connessioni tra SIGNAL e SLOT che vengono omesse da questa relazione. Si rimanda al codice per il dettaglio. È disponibile la modifica di nome e cognome tramite l'apertura di una finestra di dialogo di tipo \texttt{EditProfileDialog}.
 
@@ -170,24 +171,36 @@ Utilizzate nella scheda della panoramica dell'utente, sono composte da puntatori
 
 In entrambi i widget è disponibie l'aggiunta di esperienze lavorative e titoli di studio tramite la creazione di oggetti di tipo \textbf{AddJobDialog} e \textbf{AddTitleDialog}. In caso di aggiunta vengono aggiornate le informazioni nell'header del profilo. I widget da aggiungere vengono aggiuti prima in un vettore di puntatori a widget di quel tipo e successivamente inseriti alla posizione 0 del layout che li contiene. Per fare questo è stato necessario aggiungere come campo dati un puntatore a Layout (indipendente dalla scelta del layout effettiva) e nel metodo di aggiunta eseguire \texttt{dynamic\_cast} al tipo del layout effettivamente utilizzato.
 
-Ogni widget di tipo JobWidget e TitleWidget offre la possibilità di modifica e rimozione. La modifica avviene tramite la creazione di oggetti di tipo \textbf{EditJobWidget} ed \textbf{EditTitleWidget} e in caso la modifica avvenga all'ultima esperienza lavorativa o titolo di studio allora viene aggiornato l'header del profilo. La rimozione si preoccupa di fare invocare \texttt{delete} sul widget da rimuovere.
+Ogni widget di tipo JobWidget e TitleWidget offre la possibilità di modifica e rimozione. La modifica avviene tramite la creazione di oggetti di tipo \textbf{EditJobDialog} ed \textbf{EditTitleDialog} e in caso la modifica avvenga all'ultima esperienza lavorativa o titolo di studio allora viene aggiornato l'header del profilo. La rimozione si preoccupa di fare invocare \texttt{delete} sul widget da rimuovere.
+
+\subsubsection*{UserPreviewWiget}
+Utilizzata per mostrare un'anteprima dell'utente. Viene utilizzata per vari scopi ed in modi diversi. 
+
+Può essere utilizzata per rappresentare la lista dei contatti di un utente e poichè un utente può rimuovere solo i propri contatti e non quelli di altri, è disponibile il metodo \texttt{void hideRemoveUserButton() const} che nasconde il pulsante per la rimozione. 
+
+Viene utilizzata anche per rappresentare i risultati della ricerca e, poichè in base alla tipologia di account solo alcune informazioni sono disponibili, allora al costruttore viene passata il risultato della chiamata del metodo virtuale puro \texttt{QVector<QString> Utente::getUserInfo() const}, in quanto nell'anteprima è presente l'informazione dell'utlima esperienza lavorativa e questa è visibile solo ad utenti di tipo Executive e Basic.
+
+In ogni caso è disponibile un pulsante per l'apertura del profilo dell'utente.
 
 \subsubsection*{ConnectionsWidget}
-Mostra gli utenti presenti nella rete dell'utente del quale si sta visualizzando il profilo. L'anteprima dei contatti viene creata con instanze di \textbf{UserPreviewWidget}. La disposizione è a griglia.
+Mostra gli utenti presenti nella rete dell'utente del quale si sta visualizzando il profilo. L'anteprima dei contatti viene creata con instanze di UserPreviewWidget. La disposizione è a griglia ed in caso di rimozione di un elemento viene aggiornata in modo che solo i contatti seguenti siano spostati. L'aggiunta di un contatto avviene sempre alla fine.
 
 \begin{figure}[!ht]
 \centering
-\caption{ConnectionsWidget}
 \includegraphics[width=0.7\textwidth]{ConnectionsWidget.png}
+\caption{ConnectionsWidget}
 \end{figure}
 
 \subsubsection*{OtherInfoWidget}
+Mostra tutte le altre informazioni dell'utente, riguardo profilo ed account. In caso sia la scheda del profilo di un contatto o di un risultato della ricerca allora il pulsante di modifica delle informazioni personali viene nascosto. Altrimenti viene creato un oggetto \textbf{EditPersonalInfoDialog} che notifica al parent le modifiche. Le informazioni sull'account (username e tipologia account) non sono modificabili dall'utente.
 
 \subsubsection*{SearchResultWidget}
+Alla pressione del pulsante della ricerca nel menu utente (quando il box di ricerca è già aperto) viene fatta la ricerca su tra tutti gli utenti del database (escluso l'utente utilizzatore del client) e viene restituita una lista di UserPreviewWidget con gli utenti il quale nome o cognome contiene (ricerca case insensitive) la stringa cercata. In caso di stringa vuota vengono visualizzati tutti gli utenti. Le anteprime sono costruite in base alle informazioni visualizzabili dalla tipologia di account e da tutti è rimosso il pulsante di rimozione dai contatti. La rimozione o l'aggiunta può essere fatta dalla visualizzazione del profilo.
 
-\subsubsection*{UserPreviewWidget}
+A differenza della scheda dei contatti, i risultati sono disposti in un elenco.
 
 \subsection*{AdminWindow}
+
 
 \subsubsection*{UserListWidget}
 
