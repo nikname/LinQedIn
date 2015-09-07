@@ -148,11 +148,17 @@ void LoginWindow::checkInput( const QString& input ) {
 
 // SLOT LoginWindow::loginUser
 void LoginWindow::loginUser() {
-    QString username = userUsername->text();
+    try {
+        QString username = userUsername->text();
 
-    // TODO: controllare username e password
-    new ClientWindow( username );
-    this->close();
+        // TODO: controllare username e password
+        new ClientWindow( username );
+        this->close();
+    } catch( QString message ) {
+        QMessageBox::warning( this, "Error", message );
+        userUsername->setText( "" );
+        userPassword->setText( "" );
+    }
 }
 
 // SLOT LoginWindows::loginAdmin
