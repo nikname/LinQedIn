@@ -1,121 +1,173 @@
 #include <QDebug>
 #include <QHeaderView>
 #include <QPushButton>
-#include <QSortFilterProxyModel>
 #include <QTableView>
 #include <QTableWidget>
 #include <QVBoxLayout>
-
 #include "changeusertypedialog.h"
-#include "gui/tablemodel.h"
-#include "gui/userlistwidget.h"
 #include "linqedin_admin.h"
+#include "mysortfilterproxymodel.h"
+#include "tablemodel.h"
+#include "userlistwidget.h"
 #include "utente.h"
+#include "utente_basic.h"
+#include "utente_business.h"
+#include "utente_executive.h"
 
 // COSTRUTTORE UserListWidget
 UserListWidget::UserListWidget( const QVector<SmartUtente> v, QWidget *parent ) :
     QWidget( parent )
 {
-    QVBoxLayout *layout = new QVBoxLayout( this );
-
-    table = new TableModel( v, this );
-
-    proxyModel = new QSortFilterProxyModel( this );
-    proxyModel->setSourceModel( table );
-    proxyModel->sort( 0, Qt::AscendingOrder );
-    proxyModel->setDynamicSortFilter( true );
-
+    model = new TableModel( v.toList(), this );
+    proxyModel = new MySortFilterProxyModel( this );
     tableView = new QTableView( this );
+
+    initUI();
+    setupUI();
+}
+
+// METODO UserListWidget::initUI
+void UserListWidget::initUI() {
+    proxyModel->setSourceModel( model );
+
     tableView->setModel( proxyModel );
+    connect( tableView->selectionModel(),
+             SIGNAL( selectionChanged( QItemSelection, QItemSelection ) ),
+             this, SIGNAL( selectionChanged( QItemSelection ) ) );
+}
+
+// METODO UserListWidget::setupUI
+void UserListWidget::setupUI() {
+    proxyModel->setDynamicSortFilter( true );
+    proxyModel->sort( 0, Qt::AscendingOrder );
+
+    tableView->setSelectionBehavior( QAbstractItemView::SelectRows );
+    tableView->setSelectionMode( QAbstractItemView::SingleSelection );
     tableView->setVerticalScrollBarPolicy( Qt::ScrollBarAlwaysOn );
     tableView->setAlternatingRowColors( true );
     tableView->horizontalHeader()->setSectionResizeMode( QHeaderView::Stretch );
     tableView->setStyleSheet( "background: white" );
 
-    connect( tableView, SIGNAL( clicked( const QModelIndex& ) ),
-             table, SLOT( tableClickedSlot( const QModelIndex& ) ) );
-    connect( table, SIGNAL( userToRemoveSignal( const QModelIndex& ) ),
-             this, SLOT( userToRemoveSlot( const QModelIndex& ) ) );
-    connect( table, SIGNAL( openChangeUserTypeSignal( const QModelIndex& ) ),
-             this, SLOT( openChangeUserTypeSlot( const QModelIndex& ) ) );
-    connect( table, SIGNAL( contactToRemoveSignal( const QModelIndex& ) ),
-             this, SLOT( contactToRemoveSlot( const QModelIndex& ) ) );
-    connect( this, SIGNAL( updateContactsListSignal(const SmartUtente&) ),
-             this, SLOT( updateContactsListSlot( const SmartUtente& ) ) );
-    connect( this, SIGNAL( updateTableRowSignal( const SmartUtente& ) ),
-             table, SLOT( updateTableRowSlot( const SmartUtente& ) ) );
-
-    loadUserList();
-
+    QVBoxLayout *layout = new QVBoxLayout( this );
     layout->addWidget( tableView );
 
-    setLayout( layout );
+    setStyleSheet(
+        "QScrollBar:vertical { padding-left: 2px; width: 6px; }"
+        "QScrollBar::handle:vertical { background: rgba(0,0,0,0.38); border-radius: 2px;"
+            "min-height: 10px; }"
+        "QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical { border: none; }"
+        "QScrollBar:horizontal { padding-top: 2px; height: 6px; }"
+        "QScrollBar::handle:horizontal { background: rgba(0,0,0,0.38); border-radius: 2px;"
+            "min-height: 10px; }"
+        "QScrollBar::add-line:horizontal, QScrollBar::sub-line:horizontal { border: none; }"
+    );
 }
 
-// METODO UserListWidget::addUser
-void UserListWidget::addItem( QString username, QString name, QString surname, QString type ) {
-    QModelIndex index = table->index( 0, 0 );
-    table->setData( index, username, Qt::EditRole );
-    index = table->index( 0, 1 );
-    table->setData( index, name, Qt::EditRole );
-    index = table->index( 0, 2 );
-    table->setData( index, surname, Qt::EditRole );
-    index = table->index( 0, 3 );
-    table->setData( index, type, Qt::EditRole );
+// SLOT UserListWidget::addUser( QString, QString, QString, QString )
+void UserListWidget::addUser( const QString& username, const QString& name,
+                              const QString& surname, const QString& type )
+{
+    model->insertRows( 0, 1, QModelIndex() );
+
+    QModelIndex index = model->index( 0, 0, QModelIndex() );
+    model->setData( index, username, Qt::EditRole );
+    index = model->index( 0, 1 );
+    model->setData( index, name, Qt::EditRole );
+    index = model->index( 0, 2 );
+    model->setData( index, surname, Qt::EditRole );
+    index = model->index( 0, 3 );
+    model->setData( index, type, Qt::EditRole );
 }
 
-// METODO UserListWidget::loadUserList
-void UserListWidget::loadUserList() {
-    QVector<SmartUtente> userList = table->getList();
+// SLOT UserListWidget::removeUser
+void UserListWidget::removeUser() {
+    QItemSelectionModel *selectionModel = tableView->selectionModel();
 
-    if( userList.isEmpty() )
-        qDebug() << "No user found!";
-    else {
-        QVectorIterator<SmartUtente> it( userList );
-        while( it.hasNext() ) {
-            SmartUtente aux = it.next();
-            addItem( aux->getUsername(), aux->getName(), aux->getSurname(), aux->getAccountType() );
-        }
+    QString username;
+
+    QModelIndexList indexes = selectionModel->selectedRows();
+    foreach( QModelIndex index, indexes ) {
+        int row = proxyModel->mapToSource( index ).row();
+
+        QModelIndex usernameIndex = model->index( row, 0, QModelIndex() );
+        QVariant un = model->data( usernameIndex, Qt::DisplayRole );
+        username = un.toString();
+
+        model->removeRows( row, 1, QModelIndex() );
     }
+
+    emit removeUserSignal( username );
+
+    tableView->clearSelection();
 }
 
-// METODO UserListWidget::hideColumn
-void UserListWidget::hideColumn( int i ) {
-    tableView->hideColumn( i );
+// SLOT UserListWidget::changeAccountType( QString, QString )
+void UserListWidget::changeAccountType( const QString& un, const QString& t ) {
+    Q_UNUSED( un )
+
+    QItemSelectionModel *selectionModel = tableView->selectionModel();
+
+    QModelIndexList indexes = selectionModel->selectedRows();
+    foreach( QModelIndex index, indexes ) {
+        int row = proxyModel->mapToSource( index ).row();
+
+        QModelIndex typeIndex = model->index( row, 3, QModelIndex() );
+        model->setData( typeIndex, t, Qt::EditRole );
+    }
+
+    tableView->clearSelection();
 }
 
-// SLOT UserListWidget::updateUserListSlot
-void UserListWidget::updateUserListSlot( LinQedInAdmin* admin, const QString& un ) {
-    emit updateTableRowSignal( admin->findUser( un ) );
+// SLOT UserListWidget::openChangeTypeDialog
+void UserListWidget::openChangeTypeDialog() {
+    QItemSelectionModel *selectionModel = tableView->selectionModel();
 
-    // table->setList( admin->getUsersList() );
-}
+    QString username;
+    QString type;
 
-// SLOT
-void UserListWidget::userToRemoveSlot( const QModelIndex& i ) {
-    emit updateListUserRemovedSignal( table->data( table->index( i.row(), 0 ), Qt::DisplayRole )
-                                      .toString() );
-}
+    QModelIndexList indexes = selectionModel->selectedRows();
+    foreach( QModelIndex index, indexes ) {
+        int row = proxyModel->mapToSource( index ).row();
 
-// SLOT
-void UserListWidget::openChangeUserTypeSlot( const QModelIndex& i ) {
-    QString username = table->data( table->index( i.row(), 0 ), Qt::DisplayRole ).toString();
-    QString type = table->data( table->index( i.row(), i.column() - 1 ), Qt::DisplayRole )
-            .toString();
+        QModelIndex usernameIndex = model->index( row, 0, QModelIndex() );
+        QVariant un = model->data( usernameIndex, Qt::DisplayRole );
+        username = un.toString();
+
+        QModelIndex typeIndex = model->index( row, 3, QModelIndex() );
+        QVariant t = model->data( typeIndex, Qt::DisplayRole );
+        type = t.toString();
+    }
 
     ChangeUserTypeDialog *changeUserTypeDialog = new ChangeUserTypeDialog( username, type, this );
-    connect( changeUserTypeDialog, SIGNAL( changeUserTypeSignal( const QString&, const QString& ) ),
-             this, SIGNAL( updateListUserTypeSignal( const QString&, const QString& ) ) );
+    connect( changeUserTypeDialog, SIGNAL( sendDetails( QString, QString ) ),
+             this, SLOT( changeAccountType( QString, QString ) ) );
+    connect( changeUserTypeDialog, SIGNAL( sendDetails( QString, QString ) ),
+             this, SIGNAL( changeAccountTypeSignal( QString, QString ) ) );
+
     changeUserTypeDialog->exec();
 }
 
-// SLOT
-void UserListWidget::contactToRemoveSlot( const QModelIndex& i ) {
-    emit updateListContactRemovedSignal( table->data( table->index( i.row(), 0 ), Qt::DisplayRole )
-                                         .toString() );
+// SLOT UserListWidget::clearSelections
+void UserListWidget::clearSelections() {
+    tableView->clearSelection();
 }
 
-// SLOT
-void UserListWidget::updateContactsListSlot( const SmartUtente& su ) {
-    //table->setList( su->getContactsList() );
+// SLOT UserListWidget::filterTable( QString, QList<QString>, QList<QString> )
+void UserListWidget::filterTable( const QString& q, QList<QString> t, QList<QString> f ) {
+    QList<int> columns;
+    if( f.contains( "Username" ) ) columns.append( 0 );
+    if( f.contains( "Name" ) ) columns.append( 1 );
+    if( f.contains( "Surname" ) ) columns.append( 2 );
+
+    proxyModel->setFilterKeyColumns( columns );
+    proxyModel->addFilterFixedString( 0, q );
+    proxyModel->addFilterFixedString( 1, q );
+    proxyModel->addFilterFixedString( 2, q );
+    proxyModel->invalidate();
+}
+
+// SLOT UserListWidget::restoreTableSlot
+void UserListWidget::restoreTableSlot() {
+    proxyModel->setFilterKeyColumns();
+    proxyModel->invalidate();
 }

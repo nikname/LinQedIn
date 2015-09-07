@@ -1,40 +1,36 @@
 #ifndef LAVORO_H
 #define LAVORO_H
+#include <QDate>
 #include <QDebug>
 #include <QString>
-#include <QDate>
-#include "smartlavoro.h"
 
 class Lavoro {
     friend class SmartLavoro;
 private:
     QString companyName;
     QString title;
-    QString location;
     QDate begin;
     QDate end;
     int references;
 public:
-    /** Costruttore a 5 parametri con parametri di default.
+    /** Costruttore a 4 parametri con 4 parametri di default.
      *  Inizializza il contatore di riferimenti ad 1.
      *
-     * @param QString azienda  Nome dell'azienda.
-     * @param QString ruolo  Ruolo o posizione all'interno dell'azienda.
-     * @param QString posizione  Luogo in cui si trova l'azienda.
-     * @param QDate inizio  Data di inizio di tale occupazione.
-     * @param QDate fine  Data di fine di tale occupazione.
+     * @param QString  Nome dell'azienda.
+     * @param QString  Ruolo o posizione all'interno dell'azienda.
+     * @param QDate  Data di inizio di tale occupazione.
+     * @param QDate  Data di fine di tale occupazione.
      */
-    Lavoro( const QString& azienda = "",
-            const QString& ruolo = "",
-            const QString& posizione = "",
-            const QDate& inizio = QDate(),
-            const QDate& fine = QDate() ) :
-        companyName( azienda ),
-        title( ruolo ),
-        location( posizione ),
-        begin( inizio ),
-        end( fine ),
-        references( 1 ) {}
+    Lavoro( const QString& c = "",
+            const QString& t = "",
+            const QDate& b = QDate(),
+            const QDate& e = QDate() ) :
+        companyName( c ),
+        title( t ),
+        begin( b ),
+        end( e ),
+        references( 1 )
+    {}
 
     /** Ritorna il nome dell'azienda.
      *
@@ -47,12 +43,6 @@ public:
      * @param QString  Ruolo o posizione all'interno dell'azienda.
      */
     QString getTitle() const;
-
-    /** Ritorna il luogo in cui si trova l'azienda.
-     *
-     * @return QString  Luogo in cui si trova l'azienda.
-     */
-    QString getLocation() const;
 
     /** Ritorna la data nella quale l'utente ha iniziato l'esperienza lavorativa.
      *
@@ -70,31 +60,25 @@ public:
      *
      * @param QString  Nome dell'azienda.
      */
-    void setCompanyName( QString );
+    void setCompanyName( const QString& );
 
     /** Imposta il ruolo o posizione all'interno dell'azienda.
      *
      * @param QString  Ruolo o posizione all'interno dell'azienda.
      */
-    void setTitle( QString );
-
-    /** Imposta il luogo nel quale si trova l'azienda.
-     *
-     * @param QString  Luogo nel quale si trova l'azienda.
-     */
-    void setLocation( QString );
+    void setTitle( const QString& );
 
     /** Imposta la data di inizio di tale occupazione.
      *
      * @param QDate  Data di inizio di tale occupazione.
      */
-    void setBegin( QDate );
+    void setBegin( const QDate& );
 
     /** Imposta la data di fine di tale occupazione.
      *
      * @param QDate  Data di fine di tale occupazione.
      */
-    void setEnd( QDate );
+    void setEnd( const QDate& );
 
     /** Overloading dell'operatore di uguaglianza di Lavoro.
      *  Confronta l'oggetto di invocazione con un oggetto della classe Lavoro.
@@ -104,7 +88,7 @@ public:
      */
     bool operator ==( const Lavoro& );
 
-    friend QDebug operator <<( QDebug(), const Lavoro& );
+    friend QDebug& operator <<( QDebug&, const Lavoro& );
 };
 
 /** Overloading dell'operatore di output di QDebug.
@@ -114,6 +98,6 @@ public:
  * @param Lavoro  Esperienza lavorativa.
  * @param QDebug  QDebug.
  */
-QDebug operator <<( QDebug, const Lavoro& );
+QDebug& operator <<( QDebug&, const Lavoro& );
 
 #endif // LAVORO_H

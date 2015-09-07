@@ -67,10 +67,10 @@ public:
 };
 
 /** Overloading dell'operatore di output di QDebug.
- *  Stampa su standard output nome e cognome dell'utente.
+ *  Stampa su standard output tutte le informazioni dell'utente.
  *
  * @param QDebug  QDebug.
- * @param SmartUtente  Elemento della lista utenti.
+ * @param SmartUtente  Utente del quale stampare le informazioni.
  * @return QDebug  QDebug.
  */
 QDebug operator <<( QDebug, const SmartUtente& );

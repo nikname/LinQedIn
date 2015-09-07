@@ -1,35 +1,54 @@
 #ifndef ADMINWINDOW_H
 #define ADMINWINDOW_H
 
-#include <QMainWindow>
+#include <QItemSelection>
+#include "linqedinwindow.h"
+#include "smartutente.h"
 
 class AdminSearchWidget;
 class LinQedInAdmin;
 class QAction;
+class QLabel;
 class QMenu;
 class QPushButton;
 class SmartUtente;
 class UserListWidget;
 
-class AdminWindow : public QMainWindow {
+class AdminWindow : public LinQedInWindow {
     Q_OBJECT
     friend class AddUserDialog;
 private:
-    bool stateChanged;
+    bool statusChanged;
+    bool filterActive;
+
     LinQedInAdmin *admin;
 
-    QMenu *menu;
     QAction *logoutAct;
-    QAction *exitAct;
-    QMenu *helpMenu;
-    QAction *aboutAct;
 
-    QWidget* mainWidget;
+    QWidget *menuWidget;
 
-    AdminSearchWidget *searchWidget;
-    UserListWidget *userListWidget;
+    QWidget *tableToolsWidget;
+    QPushButton *homeButton;
+    QPushButton *openSearchDialogButton;
     QPushButton *saveDatabaseButton;
     QPushButton *addUserButton;
+
+    QWidget *searchResultsWidget;
+    QPushButton *backButton;
+
+    QWidget *userToolsWidget;
+    QPushButton *closeUserToolsButton;
+    QPushButton *openChangeTypeDialogButton;
+    QPushButton *removeUserButton;
+
+    QLabel *linqedinLabel;
+
+    QPushButton *openSearchButton;
+
+    UserListWidget *userListWidget;
+
+    /** Inizializza la GUI. */
+    void initUI();
 
     /** Realizza la UI. Mostra la GUI. */
     void setupUI();
@@ -57,52 +76,69 @@ protected:
      */
     void closeEvent( QCloseEvent* );
 signals:
-    /** Notifica userListWidget che la lista degli utenti del database è stata aggiornata.
-     *  Si preoccupa di aggiornare la lista degli utenti sulla tabella del client.
+    /** Notifica UserListWidget dell'aggiunta di un nuovo utente nel database.
      *
-     * @param LinQedInAdmin*  Necessario per poter recuperare la nuova lista degli utenti.
+     * @param QString  Username dell'utente aggiunto.
+     * @param QString  Nome dell'utetne aggiunto.
+     * @param QString  Cognome dell'utente aggiunto.
+     * @param QString  Tipologia dell'account dell'utente aggiunto.
      */
-    void updateUsersListSignal( LinQedInAdmin*, const QString& );
+    void addUserSignal( const QString&, const QString&, const QString&, const QString& );
 
-    /** Notifica che lo stato del database è stato modificato e non ancora salvato. */
-    void databaseStatusChangedSignal();
+    /** Ripristina la tabella degli utenti alla lista di tutti gli utenti del client. */
+    void restoreTableSignal();
 private slots:
     /** Esegue il log out dall'applicazione. Mostra la finestra di log in. */
     void logout();
 
-    /** Mostra le informazioni dell'applicazione su di una finestra di dialogo. */
-    void about();
-
     /** Apre una nuova finestra per l'inserimento di un nuovo utente. */
     void openAddUserDialog();
+
+    /** Aggiunge un nuovo utente.
+     *
+     * @param Qstring  Username dell'utente.
+     * @param Qstring  Nome dell'utente.
+     * @param Qstring  Cognome dell'utente.
+     * @param Qstring  Tipologia account dell'utente.
+     */
+    void addUserSlot( const QString&, const QString&, const QString&, const QString& );
+
+    /** Rimuove un utente dal database.
+     *
+     * @param QString  Userneme dell'utente da rimuovere.
+     */
+    void removeUserSlot( const QString& );
+
+    /** Esegue l'effettivo cambio di tipologia di account dell'utente.
+     *  Imposta il flag stateChanged a true.
+     *
+     * @param QString  Username dell'utente interessato dal cambio di tipologia.
+     * @param QString  Nuova tipologia di account.
+     */
+    void changeAccountTypeSlot( const QString&, const QString& );
+
+    /** Eseguito quando viene selezionata una cella nella tabella degli utenti. Se la cella è
+     *  valida allora mostra il menu delle azioni sull'utente selezionato. Altrimenti, in base
+     *  al valore del flag filterActive mostra il menu generale o il menu dei risultati della
+     *  ricerca.
+     *
+     * @param QItemSelection  Indice della tabella selezionato.
+     */
+    void updateMenuToolsButtons( const QItemSelection& = QItemSelection() );
 
     /** Salva su file (XML) lo stato del database. */
     void saveDatabaseStatus();
 
-    /** Inserisce un nuovo utente nel database quando viene emesso il segnale AddUserDialog::
-     *  userToAddSignal( SmartUtente ). Mostra il nuovo utente inserito e salva il database.
-     *
-     * @param SmartUtente  Utente da inserire.
-     */
-    void userToAddSlot( const SmartUtente& );
+    /** Apre la finestra di dialogo per la ricerca degli utenti. */
+    void openSearchDialog();
 
-    /** Quando userListWidget notifica la rimozione di un utente dal database, rimuove un utente dal
-     *  database ed emette il segnale updateUserListSignal( LinQedInAdmin* ).
-     *
-     * @param QString  Username dell'utente da rimuovere dal database degli utenti.
-     */
-    void updateListUserRemovedSlot( const QString& );
+    /** Mostra il menu da visualizzare quando si effettua una ricerca. */
+    void showSearchResultsMenu();
 
-    /** Quando userListWidget notifica la modifica della tipologia di account di un utente, modifica
-     *  la tipologia dell'utente ed emette il segnale updateUserListSignal( LinQedInAdmin* )
-     *
-     * @param QString  Username dell'utente interessato dal cambio di tipologia.
-     * @param QString  Nuova tipologia dell'account dell'utente.
+    /** Ripristina il contenuto della tabella all'elenco di tutti gli utenti del database.
+     *  Ripristina il valore del flag filterActive a false.
      */
-    void updateListUserTypeSlot( const QString&, const QString& );
-
-    /** Quando avviene una modifica allo stato del database */
-    void databaseStatusChangedSlot();
+    void backToTable();
 };
 
 #endif // ADMINWINDOW_H

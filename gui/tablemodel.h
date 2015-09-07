@@ -3,24 +3,20 @@
 
 #include <QAbstractTableModel>
 #include <QPixmap>
-
 #include "smartutente.h"
 
 class TableModel : public QAbstractTableModel {
     Q_OBJECT
     friend class UserListWidget;
 private:
-    QVector<SmartUtente> userList;
-    QPixmap detailIcon;
-    QPixmap deleteIcon;
-    QPixmap removeContactIcon;
+    QList<QVector<QString> > usersList;
 public:
     /** Costruttore esplicito a 2 parametri con 1 parametro di default.
      *
      * @param QVector<SmartUtente>  Utenti da visualizzare sulla tabella.
      * @param QObject  QObject padre.
      */
-    explicit TableModel( const QVector<SmartUtente>, QObject* = 0 );
+    explicit TableModel( const QList<SmartUtente>, QObject* = 0 );
 
     /** Ritorna il numero di righe della tabella della lista degli utenti.
      *  Necessaria la ridefinizione per le sottoclassi di QAbstractTableModel.
@@ -60,8 +56,15 @@ public:
      */
     QVariant headerData( int, Qt::Orientation, int ) const Q_DECL_OVERRIDE;
 
-    /** Rimuove un numero di righe consecutive dalla tabella. Emette il segnale layoutChanged() per
-     *  notificare alla view il cambiamento del contenuto della tabella.
+    /** Inserisce un numero di righe consecutive alla tabella. Emette il segnale
+     *
+     * @param int  Indice della prima riga da inserire.
+     * @param int  Numero di righe consecutive da inserire.
+     * @param QModelIndex  Parent dal quale inserire le righe.
+     */
+    bool insertRows( int, int, const QModelIndex& parent ) Q_DECL_OVERRIDE;
+
+    /** Rimuove un numero di righe consecutive dalla tabella.
      *
      * @param int  Indice della prima riga da rimuovere.
      * @param int  Numero di righe consecutive da rimuovere.
@@ -69,50 +72,23 @@ public:
      */
     bool removeRows( int, int, const QModelIndex& parent ) Q_DECL_OVERRIDE;
 
+    /** */
+    bool setData( const QModelIndex&, const QVariant&, int ) Q_DECL_OVERRIDE;
+
     /** Ritorna un vettore contenente degli oggetti SmartUtente contenuti nella tabella.
      *
-     * @return QVector<SmartUtente>  Vettore degli oggetti SmartUtente contenuti nella tabella.
-     * @deprecated  Conviene utilizzare una combinazione signal/slot adeguata.
+     * @return QList<SmartUtente>  List degli oggetti SmartUtente contenuti nella tabella.
      */
-    QVector<SmartUtente> getList();
-
-    /** Imposta la lista degli oggetti di tipo SmartUtente della tabella.
-     *  Emette il segnale layoutChanged() per notificare la view della modifica.
-     *
-     * @param QVector<SmartUtente>  Nuovo vettore di oggetti SmartUtente da mostrare nella tabella.
-     */
-    void setList( const QVector<SmartUtente> );
+    QList<QVector<QString> > getList();
 signals:
-    /** Notifica il parent quale riga della tabella (utente) è da rimuovere.
-     *
-     * @param QModelIndex  Indice della tabella selezionato. La riga identifica l'utente.
-     */
-    void userToRemoveSignal( const QModelIndex& );
-
     /** Notifica il parent che è stata selezionata la cella corrispondente al cambio di tipologia
      *  dell'account di un'utente.
      *
      * @param QModelIndex  Indice della tabella selezionato. La riga identifica l'utente.
      */
     void openChangeUserTypeSignal( const QModelIndex& );
-
-    /** Notifica al parent quale riga della tabella (contatto) è da rimuovere.
-     *
-     * @param QModelIndex  Indice della tabella selezionato. La riga identifica il contatto.
-     */
-    void contactToRemoveSignal( const QModelIndex& );
 private slots:
-    /** In base all'indice della colonna selezionata, se a questo è associata un'azione, emette un
-     *  apposito segnale. Gli indici di colonna ai quali è associata un'azione sono:
-     *   - 4, emette openChangeUserTypeSignal( QModelIndex );
-     *   - 5, rimuove l'utente dalla tabella ed emette userToRemoveSignal( QModelIndex );
-     *   - 6, rimuove il contatto dalla tabella ed emette contactToRemoveSignal( QModelIndex ).
-     *
-     * @param QModelIndex  Indice della tabella selezionato.
-     */
-    void tableClickedSlot( const QModelIndex& );
 
-    void updateTableRowSlot( const SmartUtente& );
 };
 
 #endif // TABLEMODEL_H

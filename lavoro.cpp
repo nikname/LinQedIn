@@ -1,69 +1,57 @@
 #include "lavoro.h"
 
-// METODO getCompanyName Lavoro
+// METODO Lavoro::getCompanyName
 QString Lavoro::getCompanyName() const {
     return companyName;
 }
 
-// METODO getTitle Lavoro
+// METODO Lavoro::getTitle
 QString Lavoro::getTitle() const {
     return title;
 }
 
-// METODO getLocation Lavoro
-QString Lavoro::getLocation() const {
-    return location;
-}
-
-// METODO getBegin Lavoro
+// METODO Lavoro::getBegin
 QDate Lavoro::getBegin() const {
     return begin;
 }
 
-// METODO getEnd Lavoro
+// METODO Lavoro::getEnd
 QDate Lavoro::getEnd() const {
     return end;
 }
 
-// METODO setCompanyName Lavoro
-void Lavoro::setCompanyName( QString azienda ) {
-    companyName = azienda;
+// METODO Lavoro::setCompanyName( QString )
+void Lavoro::setCompanyName( const QString& cn ) {
+    companyName = cn;
 }
 
-// METODO setTitle Lavoro
-void Lavoro::setTitle( QString ruolo ) {
-    title = ruolo;
+// METODO Lavoro::setTitle( QString )
+void Lavoro::setTitle( const QString& t ) {
+    title = t;
 }
 
-// METODO setLocation Lavoro
-void Lavoro::setLocation( QString posizione ) {
-    location = posizione;
+// METODO Lavoro::setBegin( QDate )
+void Lavoro::setBegin( const QDate& b ) {
+    begin = b;
 }
 
-// METODO setBegin Lavoro
-void Lavoro::setBegin( QDate inizio ) {
-    begin = inizio;
+// METODO Lavoro::setEnd( QDate )
+void Lavoro::setEnd( const QDate& e ) {
+    end = e;
 }
 
-// METODO setEnd Lavoro
-void Lavoro::setEnd( QDate fine ) {
-    end = fine;
-}
-
-// OPERATOR == Lavoro
+// OPERATORE uguaglianza Lavoro
 bool Lavoro::operator ==( const Lavoro& l ) {
     return ( getCompanyName() == l.getCompanyName() ) &&
-        ( getLocation() == l.getLocation() ) &&
         ( getBegin() == l.getBegin() ) &&
         ( getEnd() == l.getEnd() ) &&
         ( getTitle() == l.getTitle() );
 }
 
-// OPERATOR << Lavoro
-QDebug operator <<( QDebug qdbg, const Lavoro& l ) {
+// OVERLOADING
+QDebug& operator <<( QDebug&qdbg, const Lavoro& l ) {
     qdbg << "Azienda: " << l.getCompanyName() << "\n"
          << "Ruolo: " << l.getTitle() << "\n"
-         << "Luogo: " << l.getLocation() << "\n"
          << "Inizio: " << l.getBegin() << "\n"
          << "Fine: " << l.getEnd() << "\n";
     return qdbg;

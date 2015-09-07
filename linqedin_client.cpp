@@ -1,6 +1,7 @@
 #include "linqedin_client.h"
 
-LinQedInClient::LinQedInClient( QString un ) : db( new Database ) {
+// COSTRUTTORE LinQedInClient
+LinQedInClient::LinQedInClient( const QString& un ) : db( new Database ) {
     db->loadUsersList();
     if( db->contains( un ) ) {
         user = db->find( un );
@@ -10,18 +11,27 @@ LinQedInClient::LinQedInClient( QString un ) : db( new Database ) {
     }
 }
 
-void LinQedInClient::showProfilo() {
-    // user->getUsername();
-    // user->getProfile();
-    // user->getNet();
-    // user->getExperiences();
-    // user->getEducations();
+// METODO LinQedInClient::saveUserInfo
+void LinQedInClient::saveUserInfo() {
+    db->saveUsersList();
 }
 
-void LinQedInClient::insertRete( QString un ) {
-    //user->getNet().addContact( un );
+// METODO LinQedInClient::saveProfile
+void LinQedInClient::saveProfile() {
+    db->saveUsersList();
 }
 
-void LinQedInClient::removeRete( QString un ) {
-    //user->getNet().removeContact( un );
+// METODO LinQedInClient::saveNet
+void LinQedInClient::saveNet() {
+    db->saveUsersList();
+}
+
+// METODO LinQedInClient::saveExperiences
+void LinQedInClient::saveExperiences() {
+    db->saveUsersList();
+}
+
+// METODO LinQedInClient::saveEducations
+void LinQedInClient::saveEducations() {
+    db->saveUsersList();
 }

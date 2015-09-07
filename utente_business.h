@@ -1,8 +1,8 @@
 #ifndef UTENTE_BUSINESS_H
 #define UTENTE_BUSINESS_H
-#include "utente_pagante.h"
+#include "utente.h"
 
-class UtenteBusiness : public UtentePagante {
+class UtenteBusiness : public Utente {
 public:
     /** Costruttore a 3 parametri con 3 parametri di default.
      *  Invoca il costruttore a 3 parametri della classe base diretta.
@@ -11,10 +11,8 @@ public:
      * @param QString name  Nome dell'utente da creare.
      * @param QString surname  Cognome dell'utente da creare.
      */
-    UtenteBusiness( const QString& un = "",
-                    const QString& name = "",
-                    const QString& surname = "" )
-          : UtentePagante( un, name, surname ) {}
+    UtenteBusiness( const QString& un = "", const QString& name = "", const QString& surname = "" )
+          : Utente( un, name, surname ) {}
 
     /** Costruttore di copia ridefinito.
      *  Invoca il costruttore di copia della classe base.
@@ -22,13 +20,6 @@ public:
      * @param Utente  Riferimento polimorfo all'oggetto utente da creare di copia.
      */
     UtenteBusiness( const Utente& );
-
-    /** Ricerca polimorfa virtuale.
-     *  Esegue la ricerca degli utenti nel database per utenti business.
-     *
-     * @param Database  Database nel quale verrà effettuata la ricerca.
-     */
-    virtual void userSearch( const Database& ) const;
 
     /** Distruttore virtuale.
      *  Invoca il distruttore della classe base diretta. */
@@ -41,6 +32,13 @@ public:
      * @return QString  Tipologia dell'account.
      */
     virtual QString getAccountType() const;
+
+    /** Ricerca polimorfa, virtuale pura.
+     *  Ritorna una lista di utenti con le informazioni accessibili da utenti di tipo UtenteBusiness.
+     *
+     * @param QList<QString>  Lista delle informazioni visualizzabili.
+     */
+    virtual QList<QString> getUserInfo() const;
 };
 
 #endif

@@ -1,18 +1,21 @@
-#include "esperienza.h"
-#include "lavoro.h"
 #include <QList>
 #include <QListIterator>
+#include "esperienza.h"
+#include "lavoro.h"
 
 // CLASSE Esperienza_rapp
 class Esperienza::Esperienza_rapp {
 public:
-    QList<Lavoro*> experiencesList; // Puntatore per permetterne la modifica
+    QList<SmartLavoro> experiencesList;
+    int references;
 
-    /** Costruttore di default ridefinito.
-     *  Inizializza il campo experiencesList con una QList di Lavoro* vuota.
+    /** Costruttore ad 1 parametro con 1 parametro di default.
+     *  Inizializza ad 1 il numero di riferimenti.
      */
-    Esperienza_rapp() :
-        experiencesList( QList<Lavoro*>() ) {}
+    Esperienza_rapp( QList<SmartLavoro> l = QList<SmartLavoro>() ) :
+        experiencesList( l ),
+        references( 1 ) // Gestito da Esperienza
+    {}
 
     /** Distruttore Esperienza_rapp.
      *  Invoca il metodo clear() sulla lista delle esperienze lavorative dell'utente.
@@ -22,74 +25,117 @@ public:
     void operator delete( void* p ) {
         if( p ) {
             Esperienza_rapp* p_aux = static_cast<Esperienza_rapp*>( p );
-            if( !p_aux->experiencesList.isEmpty() )
+            p_aux->references--;
+            if( !p_aux->references )
                 p_aux->experiencesList.clear();
         }
     }
+
+    /** Metodo di utilità necessario per creare copie profonde di oggetti di tipo Esperienza_rapp.
+     *
+     * @return Esperienza_rapp *  Copia implicita della lista delle esperienze lavorative.
+     */
+    Esperienza_rapp *clone() const {
+        return new Esperienza_rapp( experiencesList );
+    }
 };
+
+// COSTRUTTORE Esperienza
+Esperienza::Esperienza() :
+    experiences( new Esperienza_rapp ),
+    user_ref( 1 )
+{}
+
+// COSTRUTTORE di COPIA Esperienza
+Esperienza::Esperienza( const Esperienza& n ) :
+    experiences( n.experiences )
+{
+    user_ref++;
+    experiences->references++;
+}
+
+// DISTRUTTORE Esperienza
+Esperienza::~Esperienza() {
+    experiences->references--;
+    if( experiences->references == 0 )
+        delete experiences;
+}
 
 // CLASSE Iteratore_rapp
 class Esperienza::Iteratore::Iteratore_rapp {
 public:
-    QListIterator<Lavoro*> it;
+    QListIterator<SmartLavoro> it;
 
     /** Costruttore ad 1 parametro.
      *  Costruttore di default non disponibile.
      *
-     * @param QList<Lavoro*>  Lista di Lavoro* sulla quale iterare.
+     * @param QList<SmartLavoro>  Lista di SmartLavoro sulla quale iterare.
      */
-    Iteratore_rapp( QList<Lavoro*> list ) : it( list ) {}
+    Iteratore_rapp( QList<SmartLavoro> list ) : it( list ) {}
 };
 
-// METODO hasNext Iteratore
+// METODO Esperienza::Iteratore::hasNext
 bool Esperienza::Iteratore::hasNext() const {
     if( iterator )
         return iterator->it.hasNext();
     return false;
 }
 
-// METODO next Iteratore
-Lavoro* Esperienza::Iteratore::next() {
+// METODO Esperienza::Iteratore::next
+SmartLavoro Esperienza::Iteratore::next() {
     return iterator->it.next();
 }
 
-// METODO begin Iteratore
+// METODO Esperienza::Iteratore::begin
 Esperienza::Iteratore Esperienza::begin() const {
     Iteratore aux;
     aux.iterator = new Iteratore::Iteratore_rapp( experiences->experiencesList );
     return aux;
 }
 
-// COSTRUTTORE Esperienza
-Esperienza::Esperienza() :
-    experiences( new Esperienza_rapp ),
-    user_ref( 1 ) {}
-
-// METODO addExperience Esperienza
-void Esperienza::addExperience( Lavoro* l ) {
+// METODO Esperienza::addExperience( SmartLavoro )
+void Esperienza::addExperience( const SmartLavoro& l ) {
     experiences->experiencesList.append( l );
 }
 
-// METODO removeExperience Esperienza
-void Esperienza::removeExperience( Lavoro* l ) {
+// METODO Esperienza::removeExperience( SmartLavoro )
+void Esperienza::removeExperience( const SmartLavoro& l ) {
     experiences->experiencesList.removeAll( l );
 }
 
-// METODO getExperiencesList Esperienza
+// METODO Esperienza::getExperiencesList
 QVector<SmartLavoro> Esperienza::getExperiencesList() const {
     QVector<SmartLavoro> v;
-    QListIterator<Lavoro*> it( experiences->experiencesList ); // QMutableListIterator ?
+    QListIterator<SmartLavoro> it( experiences->experiencesList );
     while( it.hasNext() )
         v.push_back( SmartLavoro( it.next() ) );
     return v;
 }
 
-// OPERATOR delete Esperienza
-void Esperienza::operator delete( void* p ) {
-    if( p ) {
-        Esperienza* p_aux = static_cast<Esperienza*>( p );
-        p_aux->user_ref--;
-        if( p_aux->user_ref == 0 )
-            delete p_aux->experiences;
+// METODO Esperienza::setExperiencesList
+void Esperienza::setExperiencesList( QVector<SmartLavoro> v ) {
+    if( experiences ) {
+        delete experiences;
+        experiences = 0;
     }
+    experiences = new Esperienza_rapp();
+    for( int i = 0; i < v.size(); i ++ )
+        addExperience( v[i] );
+}
+
+// OVERLOADING
+QDebug& operator <<( QDebug& qdbg, const Esperienza& e ) {
+    qdbg << "ESPERIENZE: " << "\n";
+    QVector<SmartLavoro> ex = e.getExperiencesList();
+    if( ex.size() == 0 )
+        qdbg << " ** Nessuna esperienza lavorativa! **" << "\n";
+    else {
+        for( int i = 0; i < ex.size(); i++ ) {
+            qdbg << " Azienda: " << ex[i]->getCompanyName() << "\n";
+            qdbg << " Ruolo: " << ex[i]->getTitle() << "\n";
+            qdbg << " Inizio: " << ex[i]->getBegin().toString( "dd/MM/yyyy" ) << "\n";
+            qdbg << " Fine: " << ex[i]->getEnd().toString( "dd/MM/yyyy" ) << "\n";
+        }
+    }
+    return qdbg;
 }

@@ -14,25 +14,22 @@ public:
      *
      * @param QString  Username dell'utente che accede.
      */
-    LinQedInClient( QString );
+    LinQedInClient( const QString& );
 
-    /** Permette di aggiornare le informazioni del profilo. */
-    void aggiornaProfilo();
+    /** Salva tutte le informazioni dell'utente sul database. */
+    void saveUserInfo();
 
-    /** Visualizza le informazioni del profilo. */
-    void showProfilo();
+    /** Salva le informazioni del profilo dell'utente sul database. */
+    void saveProfile();
 
-    /** Aggiunge un contatto nella rete dell'utente.
-     *
-     * @param QString  Username dell'utente da aggiungere alla lista dei contatti.
-     */
-    void insertRete( QString );
+    /** Salva la lista dei contatti dell'utente sul database. */
+    void saveNet();
 
-    /** Rimuove un contatto dalla lista dei contatti.
-     *
-     * @param QString  Username dell'utente da rimuovere dalla lista dei contatti.
-     */
-    void removeRete( QString );
+    /** Salva la lista delle esperienze lavorative dell'utente sul database. */
+    void saveExperiences();
+
+    /** Salva la lista dei titoli di studio dell'utente sul database. */
+    void saveEducations();
 };
 
 #endif // LINQEDIN_CLIENT_H

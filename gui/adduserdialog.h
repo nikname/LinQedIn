@@ -2,26 +2,34 @@
 #define ADDUSERDIALOG_H
 
 #include <QDialog>
+#include "linqedindialog.h"
+#include "smartutente.h"
 
-class QLineEdit;
 class QGroupBox;
+class QLabel;
+class QLineEdit;
+class QPushButton;
 class QRadioButton;
-class QDialogButtonBox;
-class SmartUtente;
 
-class AddUserDialog : public QDialog {
+class AddUserDialog : public LinQedInDialog {
     Q_OBJECT
 private:
-    QLineEdit *username;
-    QLineEdit *name;
-    QLineEdit *surname;
+    QLabel *titleLabel;
+
+    QLineEdit *usernameEdit;
+    QLineEdit *nameEdit;
+    QLineEdit *surnameEdit;
 
     QGroupBox *buttonGroup;
     QRadioButton *basicRadioButton;
     QRadioButton *executiveRadioButton;
     QRadioButton *businessRadioButton;
 
-    QDialogButtonBox *buttonBox;
+    QPushButton *acceptButton;
+    QPushButton *rejectButton;
+
+    /** Inizializza la UI. */
+    void initUI();
 
     /** Realizza la UI. Mostra la GUI. */
     void setupUI();
@@ -35,11 +43,17 @@ public:
 signals:
     /** Notifica che un utente deve essere aggiunto alla lista degli utenti del database.
      *
-     * @param SmartUtente  Utente da aggiungere.
+     * @param QString  Username dell'utente da aggiungere.
+     * @param QString  Nome dell'utente da aggiungere.
+     * @param QString  Cognome dell'utente da aggiungere.
+     * @param QString  Tipologia dell'utente da aggiungere.
      */
-    void userToAddSignal( const SmartUtente& );
+    void sendUserDetails( const QString&, const QString&, const QString&, const QString& );
 private slots:
-    /** Emette il segnale userToAddSignal( SmartUtente ) con l'utente appena creato. */
+    /** */
+    void checkInput( const QString& );
+
+    /** */
     void addUser();
 };
 

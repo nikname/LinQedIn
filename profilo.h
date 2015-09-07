@@ -1,8 +1,8 @@
 #ifndef PROFILO_H
 #define PROFILO_H
+#include <QDate>
 #include <QDebug>
 #include <QString>
-#include <QDate>
 
 class Profilo {
 private:
@@ -13,7 +13,7 @@ public:
      *
      * @param QString  Nome dell'utente.
      * @param QString  Cognome dell'utente.
-     * @param QDate()  Data di nascita dell'utente.
+     * @param QDate  Data di nascita dell'utente.
      * @param QString  Stato civile dell'utente.
      */
     Profilo( const QString& = "",
@@ -61,25 +61,25 @@ public:
      *
      * @param QString  Nome dell'utente.
      */
-    void setName( QString );
+    void setName( const QString& );
 
     /** Modifica il cognome dell'utente.
      *
      * @param QString  Cognome dell'utente.
      */
-    void setSurname( QString );
+    void setSurname( const QString& );
 
     /** Modifica la data di nascita dell'utente.
      *
      * @param QDate  Data di nascita dell'utente.
      */
-    void setBirthday( QDate );
+    void setBirthday( const QDate& );
 
     /** Modifica lo stato civile dell'utente.
      *
      * @param QString  Stato civile dell'utente.
      */
-    void setMaritialStatus( QString );
+    void setMaritialStatus( const QString& );
 
     /** Ridefinizione dell'operatore di assegnazione tra oggetti Profilo.
      *  Effettua una copia profonda.
@@ -89,16 +89,16 @@ public:
      */
     Profilo& operator =( const Profilo& );
 
-    friend QDebug operator <<( QDebug, const Profilo& );
+    friend QDebug& operator <<( QDebug&, const Profilo& );
 };
 
 /** Overloading dell'operatore di output di QDebug.
- *  Stampa su standard output le informazioni associate al profilo.
+ *  Stampa su standard output le informazioni del profilo.
  *
  * @param QDebug  QDebug.
  * @param Profilo  Profilo dell'utente.
  * @return QDebug  QDebug.
  */
-QDebug operator <<( QDebug, const Profilo& );
+QDebug& operator <<( QDebug&, const Profilo& );
 
 #endif

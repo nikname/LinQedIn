@@ -1,70 +1,46 @@
 #include "titolo.h"
 
-// METODO getSchool Titolo
+// METODO Titolo::getSchool
 QString Titolo::getSchool() const {
     return school;
 }
 
-// METODO getDateAttended Titolo
+// METODO Titolo::getDateAttended
 QDate Titolo::getDateAttended() const {
     return dateAttended;
 }
 
-// METODO getDegree Titolo
-QString Titolo::getDegree() const {
-    return degree;
-}
-
-// METODO getFieldOfStudy Titolo
+// METODO Titolo::getFieldOfStudy
 QString Titolo::getFieldOfStudy() const {
     return fieldOfStudy;
 }
 
-// METODO getGrade Titolo
-QString Titolo::getGrade() const {
-    return grade;
+// METODO Titolo::setSchool( QString )
+void Titolo::setSchool( const QString& s ) {
+    school = s;
 }
 
-// METODO setSchool Titolo
-void Titolo::setSchool( QString scuola ) {
-    school = scuola;
+// METODO Titolo::setDateAttended( QString )
+void Titolo::setDateAttended( const QDate& da ) {
+    dateAttended = da;
 }
 
-// METODO setDateAttended Titolo
-void Titolo::setDateAttended( QDate dataDiploma ) {
-    dateAttended = dataDiploma;
-}
-
-// METODO setDegree Titolo
-void Titolo::setDegree( QString laurea ) {
-    degree = laurea;
-}
-
-// METODO setFieldOfStudy Titolo
-void Titolo::setFieldOfStudy( QString campoDiStudio ) {
-    fieldOfStudy = campoDiStudio;
-}
-
-// METODO setGrade Titolo
-void Titolo::setGrade( QString valutazione ) {
-    grade = valutazione;
+// METODO Titolo::setFieldOfStudy( QString )
+void Titolo::setFieldOfStudy( const QString& fos ) {
+    fieldOfStudy = fos;
 }
 
 // OPERATOR == Titolo
 bool Titolo::operator ==( const Titolo& t ) {
     return ( getSchool() == t.getSchool() ) &&
         ( getDateAttended() == t.getDateAttended() ) &&
-        ( getDegree() == t.getDegree() ) &&
-        ( getFieldOfStudy() == t.getFieldOfStudy() ) &&
-        ( getGrade() == t.getGrade() );
+        ( getFieldOfStudy() == t.getFieldOfStudy() );
 }
 
-// OPERATOR << Titolo
-QDebug operator <<( QDebug qdbg, const Titolo& t ) {
+// OVERLOADING
+QDebug& operator <<( QDebug& qdbg, const Titolo& t ) {
     qdbg << "Scuola: " << t.getSchool() << "\n"
          << "Data diploma: " << t.getDateAttended().toString( "yyyy" ) << "\n"
-         << "Laurea: " << t.getDegree() << "\n"
-         << "Campo di studio: " << t.getFieldOfStudy() << "\n"
-         << "Votazione: " << t.getGrade() << "\n";
+         << "Campo di studio: " << t.getFieldOfStudy() << "\n";
     return qdbg;
 }

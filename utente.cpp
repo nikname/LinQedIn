@@ -1,22 +1,17 @@
-#include "utente.h"
-#include "rete.h"
-#include "smartutente.h"
-#include "formazione.h"
-#include "titolo.h"
-#include "esperienza.h"
 #include "lavoro.h"
-#include "database.h"
+#include "rete.h"
+#include "titolo.h"
+#include "utente.h"
 
 // COSTRUTTORE Utente
-Utente::Utente( const QString& un,
-                const QString& name,
-                const QString& surname ) :
+Utente::Utente( const QString& un, const QString& name, const QString& surname ) :
     username( un ),
     profile( name, surname ),
-    net( new Rete ),
+    net( new Rete() ),
     educations( new Formazione ),
     experiences( new Esperienza ),
-    references( 1 ) {}
+    references( 1 )
+{}
 
 // COSTRUTTORE DI COPIA Utente
 Utente::Utente( const Utente& u ) :
@@ -33,108 +28,119 @@ Utente::Utente( const Utente& u ) :
 
 // DISTRUTTORE Utente
 Utente::~Utente() {
-    net->user_ref--;
-    if( net->user_ref == 0 )
-        delete net;
-    educations->user_ref--;
-    if( educations->user_ref == 0 )
-        delete educations;
-    experiences->user_ref--;
-    if( experiences->user_ref == 0 )
-        delete experiences;
+    if( net ) {
+        net->user_ref--;
+        if( net->user_ref == 0 )
+            delete net;
+    }
+    if( educations ) {
+        educations->user_ref--;
+        if( educations->user_ref == 0 )
+            delete educations;
+    }
+    if( experiences ) {
+        experiences->user_ref--;
+        if( experiences->user_ref == 0 )
+            delete experiences;
+    }
 }
 
-// METODO getUsername Utente
+// METODO Utente::getUsername
 QString Utente::getUsername() const {
     return username;
 }
 
-// METODO getName Utente
+// METODO Utente::getName
 QString Utente::getName() const {
     return profile.getName();
 }
 
-// METODO getSurname Utente
+// METODO Utente::getSurname
 QString Utente::getSurname() const {
     return profile.getSurname();
 }
 
-// METODO getBirthday Utente
+// METODO Utente::getBirthday
 QDate Utente::getBirthday() const {
     return profile.getBirthday();
 }
 
-// METODO getMaritialStatus Utente
+// METODO Utente::getMaritialStatus
 QString Utente::getMaritialStatus() const {
     return profile.getMaritialStatus();
 }
 
-// METODO setName Utente
+// METODO Utente::setName( QString )
 void Utente::setName( const QString& n ) {
     profile.setName( n );
 }
 
-// METODO setSurname Utente
+// METODO Utente::setSurname( QString )
 void Utente::setSurname( const QString& s ) {
     profile.setSurname( s );
 }
 
-// METODO setBirthday Utente
+// METODO Utente::setBirthday( QDate )
 void Utente::setBirthday( const QDate& b ) {
     profile.setBirthday( b );
 }
 
-// METODO setMaritialStatus Utente
+// METODO Utente::setMaritialStatus( QString )
 void Utente::setMaritialStatus( const QString& ms ) {
     profile.setMaritialStatus( ms );
 }
 
-// METODO addContact Utente
-void Utente::addContact( const QString& un ) {
-    net->addContact( un );
+// METODO Utente::addContact( SmartUtente )
+void Utente::addContact( const SmartUtente& su ) {
+    net->addContact( su );
 }
 
-// METODO removeContact Utente
-void Utente::removeContact( const QString& un ) {
-    net->removeContact( un );
+// METODO Utente::removeContact( SmartUtente )
+void Utente::removeContact( const SmartUtente& su ) {
+    net->removeContact( su );
 }
 
-// METODO getContactsList Utente
-QVector<QString> Utente::getContactsList() const {
+// METODO Utente::isContact( SmartUtente )
+bool Utente::isContact( const SmartUtente& su ) {
+    return net->isContact( su );
+}
+
+// METODO Utente::getContactsList
+QVector<SmartUtente> Utente::getContactsList() const {
     return net->getContactsList();
 }
 
-// METODO addEducation Utente
-void Utente::addEducation( Titolo* t ) {
+// METODO Utente::addEducation( SmartTitolo )
+void Utente::addEducation( const SmartTitolo& t ) {
     educations->addEducation( t );
 }
 
 // METODO removeEducation Utente
-void Utente::removeEducation( Titolo* t ) {
+void Utente::removeEducation( const SmartTitolo& t ) {
     educations->removeEducation( t );
 }
 
 // METODO getEducationsList Utente
-QVector<SmartTitolo> Utente::getTitlesList() const {
-    return educations->getTitlesList();
+QVector<SmartTitolo> Utente::getEducationsList() const {
+    return educations->getEducationsList();
 }
 
-// METODO getEducationsIterator
+// METODO Utente::getEducationsIterator
 Formazione::Iteratore Utente::getEducationsIterator() const {
     return educations->begin();
 }
 
-// METODO addExperience Utente
-void Utente::addExperience( Lavoro* l ) {
+// METODO Utente::addExperience( SmartLavoro )
+void Utente::addExperience( const SmartLavoro& l ) {
     experiences->addExperience( l );
 }
 
-// METODO removeExperience Utente
-void Utente::removeExperience( Lavoro* l ) {
+// METODO Utente::removeExperience( SmartLavoro )
+void Utente::removeExperience( const SmartLavoro& l ) {
     experiences->removeExperience( l );
 }
 
-// METODO getExperiencesList Utente
+// METODO Utente::getExperiencesList
 QVector<SmartLavoro> Utente::getExperiencesList() const {
     return experiences->getExperiencesList();
 }
@@ -144,11 +150,8 @@ Esperienza::Iteratore Utente::getExperiencesIterator() const {
     return experiences->begin();
 }
 
-// OPERATOR () Utente
-void Utente::FuntoreRicerca::operator ()( const SmartUtente& x ) const {}
-
 // OPERATOR << Utente
-QDebug operator <<( QDebug qdbg, const Utente& u ) {
+QDebug& operator <<( QDebug& qdbg, const Utente& u ) {
     qdbg << "*** PROFILO UTENTE ***" << "\n";
     qdbg << "USERNAME: " << u.getUsername() << "\n";
     qdbg << "PROFILO:" << "\n";
@@ -156,40 +159,8 @@ QDebug operator <<( QDebug qdbg, const Utente& u ) {
     qdbg << " Cognome: " << u.getSurname() << "\n";
     qdbg << " Data di nascita: " << u.getBirthday().toString( "dd/MM/yyyy" ) << "\n";
     qdbg << " Stato civile: " << u.getMaritialStatus() << "\n";
-    qdbg << "CONTATTI: " << "\n";
-    QVector<QString> c = u.getContactsList();
-    if( c.size() == 0 )
-        qdbg << " ** Nessun contatto! **" << "\n";
-    else {
-        for( int i = 0; i < c.size(); i++ )
-            qdbg << " " << c[i] << "\n";
-    }
-    qdbg << "FORMAZIONE: " << "\n";
-    QVector<SmartTitolo> ed = u.getTitlesList();
-    if( ed.size() == 0 )
-        qdbg << " ** Nessun titolo di studio! **" << "\n";
-    else {
-        for( int i = 0; i < ed.size(); i++ ) {
-            qdbg << " Scuola: " << ed[i]->getSchool() << "\n";
-            qdbg << " Data diploma: " <<
-                    ed[i]->getDateAttended().toString( "yyyy" ) << "\n";
-            qdbg << " Laurea: " << ed[i]->getDegree() << "\n";
-            qdbg << " Campo di studio: " << ed[i]->getFieldOfStudy() << "\n";
-            qdbg << " Votazione: " << ed[i]->getGrade() << "\n";
-        }
-    }
-    qdbg << "ESPERIENZE: " << "\n";
-    QVector<SmartLavoro> ex = u.getExperiencesList();
-    if( ex.size() == 0 )
-        qdbg << " ** Nessuna esperienza lavorativa! **" << "\n";
-    else {
-        for( int i = 0; i < ex.size(); i++ ) {
-            qdbg << " Azienda: " << ex[i]->getCompanyName() << "\n";
-            qdbg << " Ruolo: " << ex[i]->getTitle() << "\n";
-            qdbg << " Luogo: " << ex[i]->getLocation() << "\n";
-            qdbg << " Inizio: " << ex[i]->getBegin().toString( "dd/MM/yyyy" ) << "\n";
-            qdbg << " Fine: " << ex[i]->getEnd().toString( "dd/MM/yyyy" ) << "\n";
-        }
-    }
+    if( u.net ) qdbg << *( u.net );
+    if( u.educations ) qdbg << *( u.educations );
+    if( u.experiences ) qdbg << *( u.experiences );
     return qdbg;
 }

@@ -49,7 +49,7 @@ Lavoro* SmartLavoro::operator ->() const {
 
 // OPERATORE == SmartLavoro
 bool SmartLavoro::operator ==( const SmartLavoro& sj ) {
-    return job != sj.job;
+    return job == sj.job;
 }
 
 // OPERATORE != SmartLavoro

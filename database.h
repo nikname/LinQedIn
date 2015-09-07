@@ -2,21 +2,11 @@
 #define DATABASE_H
 #include <QDebug>
 #include <QXmlStreamReader>
-#include "utente.h"
+#include "smartutente.h"
 
 class LinQedInAdmin;
 
 class Database {
-
-    // NOTE:
-    // Il metodo Database::insert( SmartUtente ) è accessibile solo da oggetti di tipo
-    // LinQedInAdmin. In questo modo solo l'utente amministratore può aggiungere nuovi
-    // utenti al database. Oggetti di tipo LinQedInClient non possono aggiungere nuovi
-    // utenti al database.
-    // Da prendere il considerazione il fatto di rendere privato il costruttore di
-    // Database e rendere anche la classe LinQedInClient amica. In questo modo però anche
-    // quest'ultima potrebbe aggiungere nuovi utenti.
-
     friend class LinQedInAdmin; // Necessario per poter aggiungere utenti al database.
 private:
     class Database_rapp;
@@ -35,7 +25,7 @@ private:
      * @param QXmlStreamReader  Lettore di file xml passato per riferimento.
      * @param SmartUtente  Utente del quale si devono ricreare le informazioni.
      */
-    void parseProfile( QXmlStreamReader&, SmartUtente );
+    void parseProfile( QXmlStreamReader&, const SmartUtente& );
 
     /** Scorre un elemento net nel file xml.
      *  Ricrea la rete dei contatti dell'utente.
@@ -43,7 +33,7 @@ private:
      * @param QXmlStreamReader  Lettore di file xml passato per riferimento.
      * @param SmartUtente  Utente del quale si vuole ricreare la rete dei contatti.
      */
-    void parseNet( QXmlStreamReader&, SmartUtente );
+    void parseNet( QXmlStreamReader&, const SmartUtente& );
 
     /** Scorre un elemento education nel file xml.
      *  Crea ed aggiunge un oggetto Titolo nella lista dei titoli di studio dell'utente.
@@ -51,7 +41,7 @@ private:
      * @param QXmlStreamReader  Lettore di file xml passato per riferimento.
      * @param SmartUtente  Utente del quale si vogliono aggiungere i titoli di studio.
      */
-    void parseEducation( QXmlStreamReader&, SmartUtente );
+    void parseEducation( QXmlStreamReader&, const SmartUtente& );
 
     /** Scorre un oggetto experience nel file xml.
      *  Crea ed aggiunge un oggetto Lavoro nella lista delle esperienze lavorative
@@ -60,15 +50,15 @@ private:
      * @param QXmlStreamReader  Lettore di file xml passato per riferimento.
      * @param SmartUtente  Utente del quale si vogliono aggiungere le esperienze lavorative.
      */
-    void parseExperience( QXmlStreamReader&, SmartUtente );
+    void parseExperience( QXmlStreamReader&, const SmartUtente& );
 
     /** Scorre un elemento <date> nel file xml.
-     *  Crea un oggetto di tipo QDate e lo aggiunge in base all'oggetto adeguato.
+     *  Crea un oggetto di tipo QDate.
      *
      * @param QXmlStreamReader  Lettore di file xml passato per riferimento.
-     * @param SmartUtente  Utente del quale si vuole aggiungere una data.
+     * @return QDate  Oggetto QDate creato con i valori letti da file (XML)
      */
-    void parseDate( QXmlStreamReader&, SmartUtente );
+    QDate parseDate( QXmlStreamReader& );
 
     /** Ricrea la lista dei contatti per ogni utente da file (XML).
      *
@@ -82,7 +72,7 @@ private:
      * @param SmartUtente  Utende da inserire nella lista degli utenti del database.
      * @return bool  true se l'utente viene inserito correttamente; false altrimenti.
      */
-    bool insert( SmartUtente );
+    bool insert( const SmartUtente& );
 
     /** Rimuove un utente dalla lista degli utenti del database.
      *  Accessibile solo da oggetti di tipo LinQedInAdmin.
@@ -90,7 +80,7 @@ private:
      * @param QString  Username dell'utente da rimuovere dalla lista degli utenti del database.
      * @return bool  true se l'utente viene rimosso correttamente; false altrimenti.
      */
-    bool remove( QString );
+    bool remove( const QString& );
 public:
     /** Costruttore di default ridefinito.
      *  Carica la lista degli utenti da file (XML).
@@ -129,7 +119,7 @@ public:
      */
     QVector<SmartUtente> getUsersList() const;
 
-    friend QDebug operator <<( QDebug, const Database& ); // *** JUST FOR DEBUG ***
+    friend QDebug& operator <<( QDebug&, const Database& );
 };
 
 /** Overloading operatore di output di QDebug.
@@ -139,6 +129,6 @@ public:
  * @param Database  Database.
  * @param QDebug  QDebug.
  */
-QDebug operator <<( QDebug, const Database& );
+QDebug& operator <<( QDebug&, const Database& );
 
 #endif // DATABASE_H

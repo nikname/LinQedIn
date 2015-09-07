@@ -1,36 +1,41 @@
 #ifndef ESPERIENZA_H
 #define ESPERIENZA_H
+#include <QDate>
 #include <QDebug>
 #include <QString>
-#include <QDate>
-#include "lavoro.h"
+#include "smartlavoro.h"
 
 class Esperienza {
 
     // NOTE:
-    // Solo creando un oggetto Utente è possibile creare un oggetto Esperienza.
-    // Poichè un oggetto di tipo Esperienza può venire creato solo tramite una new da un oggetto di
-    // tipo Utente, allora non sono necessari costruttore di copia e distruttore (nemmeno ridefiniti).
-    // L'aumento del contatore user_ref è lasciato al costruttore di copia di Utente.
-    // Nelle classi innestate si può accedere solo a campi dati statici della classe contenitrice!
-    // La classe Iteratore non ha bisogno di un costruttore ridefinito. L'Iteratore viene construito
-    // con il metodo begin() sull'oggetto Esperienza di invocazione.
     // Nel metodo begin() non serve controllare se experiences è valido in quanto se creo un oggetto
     // Esperienza allora viene creato in automatico un oggetto Esperienza_rapp.
 
-    friend class Utente; // Necessario per costruire e distruggere oggetti Esperienza
+    friend class Utente;
 private:
     class Esperienza_rapp;
     Esperienza_rapp* experiences;
     int user_ref; // Numero di utenti che si riferiscono all'oggetto Esperienza.
-
+public:
     /** Costruttore di default ridefinito.
      *  Crea una lista vuota di esperienze lavorative.
      *  Inizializza ad 1 il contatore di riferimenti user_ref.
-     *  Viene invocato solo dal costruttore di Utente.
      */
     Esperienza();
-public:
+
+    /** Costruttore di copia di Esperienza.
+     *  Incrementa il contatore di riferimenti all'oggetto Esperienza di 1.
+     *  Utilizza la tecnica del references counting per il campo dati di tipo Esperienza_rapp.
+     *
+     * @param Esperienza  Oggetto Esperienza da copiare.
+     */
+    Esperienza( const Esperienza& );
+
+    /** Decrementa il campo references di Esperienza_rapp
+     *  In caso il valore diventi 0 invoca il distruttore dell'oggetto.
+     */
+    ~Esperienza();
+
     class Iteratore {
         friend class Esperienza;
     private:
@@ -45,9 +50,9 @@ public:
 
         /** Ritorna l'elemento puntato ed avanza l'Iteratore.
          *
-         * @return Lavoro*  Esperienza lavorativa puntata dall'Iteratore.
+         * @return SmartLavoro  Esperienza lavorativa puntata dall'Iteratore.
          */
-        Lavoro* next();
+        SmartLavoro next();
     };
 
     friend class Iteratore::Iteratore_rapp; // Necessaria per avanzare sulla lista.
@@ -60,15 +65,15 @@ public:
 
     /** Aggiunge un'esperienza alle esperienze lavorative.
      *
-     * @param Lavoro*  Esperienza da aggiungere alle esperienze lavorative.
+     * @param SmartLavoro  Esperienza da aggiungere alle esperienze lavorative.
      */
-    void addExperience( Lavoro* );
+    void addExperience( const SmartLavoro& );
 
     /** Rimuove un'esperienza dalle esperienze lavorative.
      *
-     * @param Lavoro*  Esperienza da riumuovere dalle esperienze lavorative.
+     * @param SmartLavoro  Esperienza da riumuovere dalle esperienze lavorative.
      */
-    void removeExperience( Lavoro* );
+    void removeExperience( const SmartLavoro& );
 
     /** Ritorna un vettore di puntatori ai titoli di studio dell'utente.
      *
@@ -76,10 +81,20 @@ public:
      */
     QVector<SmartLavoro> getExperiencesList() const;
 
-    /** Operatore delete ridefinito.
-     *  Decrementa user_ref di 1. Se user_ref vale 0 invoca il distuttore di Esperienza_rapp.
+    /** Crea una nuova lista delle esperienze lavorative. Rimuove un'eventuale lista preesistente.
+     *
+     * @param  QVector<SmartLavoro>  Lista delle nuove esperienze lavorative.
      */
-    void operator delete( void* );
+    void setExperiencesList( QVector<SmartLavoro> );
 };
+
+/** Overloading dell'operatore di output di QDebug.
+ *  Stampa su standard output la lista delle esperienze lavorative.
+ *
+ * @param QDebug  QDebug.
+ * @param Esperienza  Lista delle esperienze lavorative.
+ * @return QDebug  QDebug.
+ */
+QDebug& operator <<( QDebug&, const Esperienza& );
 
 #endif // ESPERIENZA_H
