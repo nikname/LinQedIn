@@ -6,8 +6,7 @@ LinQedInClient::LinQedInClient( const QString& un ) : db( new Database ) {
     if( db->contains( un ) ) {
         user = db->find( un );
     } else {
-        // throw ...
-        qDebug() << "[error] User not found!";
+        throw QString( "User not found!" );
     }
 }
 
